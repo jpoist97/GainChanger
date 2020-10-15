@@ -16,7 +16,7 @@ export default class App extends React.Component {
                </Text>
                <View style = {[{width:"85%", height: "45%", backgroundColor: "#5DB075", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", top: 75, alignSelf: "center"}]}>
                   <Button
-                     title = "Start <name of today's workout>"
+                     title = "Start Workout for Today's Cycle"
                      color = "#FFFFFF"
                      onPress = {() => alert("This should start the current workout in the cycle")}
                   />
@@ -46,14 +46,14 @@ export default class App extends React.Component {
                   <Button style = {[{width: "25%", height: "10%", margin: 10}]}
                      title = "Start"
                      color = "#FFFFFF"
-                     onPress = {() => alert("You have started your first workout")}
+                     onPress = {() => alert("This should start recording the first workout")}
                   />
                </View>
                <View style = {[{width:"25%", backgroundColor: "#5DB075", borderRadius: 15, position: "absolute", right: 10, top: 150}]}>
                   <Button style = {[{width: "25%", height: "10%", margin: 10}]}
                      title = "Start"
                      color = "#FFFFFF"
-                     onPress = {() => alert("You have started your second workout")}
+                     onPress = {() => alert("Thus should start recording the second workout")}
                   />
                </View>
                <View style = {[{width:"85%", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", bottom: 20, alignSelf: "center"}]}>
