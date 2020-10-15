@@ -14,7 +14,7 @@ export default class App extends React.Component {
 
 
             {/*Cycles Section*/}
-            <View style = {[styles.sectionComponent, {margin: 30}]}>
+            <View style = {{...styles.sectionComponent, margin: 30}}>
                <Text style = {styles.title}>
                   Cycles
                </Text>
@@ -36,7 +36,7 @@ export default class App extends React.Component {
 
 
             {/*Workouts Section*/}
-            <View style = {[styles.sectionComponent, {margin: 10}]}>
+            <View style = {{...styles.sectionComponent, margin: 10}}>
                <Text style = {styles.title}>
                   Workouts
                </Text>
@@ -46,14 +46,14 @@ export default class App extends React.Component {
                <Text style = {[{position: "absolute", top: 157, left: 10, fontSize: 18}]}>
                   Workout 2
                </Text>
-               <View style = {[styles.startButton, {right: 10, top: 75}]}>
+               <View style = {{...styles.startButton, right: 10, top: 75}}>
                   <Button
                      title = "Start"
                      color = "#FFFFFF"
                      onPress = {() => alert("This should start recording " + workout1)}
                   />
                </View>
-               <View style = {[styles.startButton, {right: 10, top: 150}]}>
+               <View style = {{...styles.startButton, right: 10, top: 150}}>
                   <Button
                      title = "Start"
                      color = "#FFFFFF"
