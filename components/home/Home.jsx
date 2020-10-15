@@ -2,6 +2,10 @@ import * as React from 'react';
 import { Text, View, Button, StyleSheet } from 'react-native';
 import { ScreenStackHeaderCenterView } from 'react-native-screens';
 
+{/* Temporary workout variables*/}
+let workout1 = "Workout 1"
+let workout2 = "Workout 2"
+
 export default class App extends React.Component {
 
    render() {
@@ -16,7 +20,7 @@ export default class App extends React.Component {
                </Text>
                <View style = {[{width:"85%", height: "45%", backgroundColor: "#5DB075", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", top: 75, alignSelf: "center"}]}>
                   <Button
-                     title = "Start Workout for Today's Cycle"
+                     title = "Start Workout for Today's Cyclei"
                      color = "#FFFFFF"
                      onPress = {() => alert("This should start the current workout in the cycle")}
                   />
@@ -46,14 +50,14 @@ export default class App extends React.Component {
                   <Button style = {[{width: "25%", height: "10%", margin: 10}]}
                      title = "Start"
                      color = "#FFFFFF"
-                     onPress = {() => alert("This should start recording the first workout")}
+                     onPress = {() => alert("This should start recording " + workout1)}
                   />
                </View>
                <View style = {[{width:"25%", backgroundColor: "#5DB075", borderRadius: 15, position: "absolute", right: 10, top: 150}]}>
                   <Button style = {[{width: "25%", height: "10%", margin: 10}]}
                      title = "Start"
                      color = "#FFFFFF"
-                     onPress = {() => alert("Thus should start recording the second workout")}
+                     onPress = {() => alert("Thus should start recording " + workout2)}
                   />
                </View>
                <View style = {[{width:"85%", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", bottom: 20, alignSelf: "center"}]}>
