@@ -14,18 +14,18 @@ export default class App extends React.Component {
 
 
             {/*Cycles Section*/}
-            <View style = {[{width: "95%", height: "40%", margin: 30, backgroundColor: "F6F6F6", borderWidth: 5, borderRadius: 15, borderColor: "#5DB075"}]}>
+            <View style = {[styles.sectionComponent, {margin: 30}]}>
                <Text style = {styles.title}>
                   Cycles
                </Text>
                <View style = {[{width:"85%", height: "45%", backgroundColor: "#5DB075", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", top: 75, alignSelf: "center"}]}>
                   <Button
-                     title = "Start Workout for Today's Cyclei"
+                     title = "Start Workout for Today's Cycle"
                      color = "#FFFFFF"
                      onPress = {() => alert("This should start the current workout in the cycle")}
                   />
                </View>
-               <View style = {[{width:"85%", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", bottom: 20, alignSelf: "center"}]}>
+               <View style = {styles.seeAllButton}>
                   <Button
                      title = "See all cycles"
                      color = "#000000"
@@ -36,7 +36,7 @@ export default class App extends React.Component {
 
 
             {/*Workouts Section*/}
-            <View style = {[{width: "95%", height: "40%", margin: 10, backgroundColor: "#F6F6F6", borderWidth: 5, borderRadius: 15, borderColor: "#5DB075"}]}>
+            <View style = {[styles.sectionComponent, {margin: 10}]}>
                <Text style = {styles.title}>
                   Workouts
                </Text>
@@ -46,21 +46,21 @@ export default class App extends React.Component {
                <Text style = {[{position: "absolute", top: 157, left: 10, fontSize: 18}]}>
                   Workout 2
                </Text>
-               <View style = {[{width:"25%", backgroundColor: "#5DB075", borderRadius: 15, position: "absolute", right: 10, top: 75}]}>
-                  <Button style = {[{width: "25%", height: "10%", margin: 10}]}
+               <View style = {[styles.startButton, {right: 10, top: 75}]}>
+                  <Button
                      title = "Start"
                      color = "#FFFFFF"
                      onPress = {() => alert("This should start recording " + workout1)}
                   />
                </View>
-               <View style = {[{width:"25%", backgroundColor: "#5DB075", borderRadius: 15, position: "absolute", right: 10, top: 150}]}>
-                  <Button style = {[{width: "25%", height: "10%", margin: 10}]}
+               <View style = {[styles.startButton, {right: 10, top: 150}]}>
+                  <Button
                      title = "Start"
                      color = "#FFFFFF"
                      onPress = {() => alert("Thus should start recording " + workout2)}
                   />
                </View>
-               <View style = {[{width:"85%", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", bottom: 20, alignSelf: "center"}]}>
+               <View style = {styles.seeAllButton}>
                   <Button
                      title = "See all workouts"
                      color = "#000000"
@@ -84,6 +84,31 @@ const styles = StyleSheet.create({
       textAlign: "center",
       marginVertical: 8,
       fontSize: 28
+   },
+   startButton: {
+      width: "25%",
+      height: "12%",
+      backgroundColor: "#5DB075",
+      borderRadius: 15,
+      position: "absolute",
+      fontSize: 18
+   },
+   seeAllButton: {
+      width:"85%", 
+      borderRadius: 15, 
+      borderWidth: 3, 
+      borderColor: "#5DB075", 
+      position: "absolute", 
+      bottom: 20, 
+      alignSelf: "center"
+   },
+   sectionComponent: {
+      width: "95%", 
+      height: "40%", 
+      backgroundColor: "#F6F6F6", 
+      borderWidth: 5, 
+      borderRadius: 15, 
+      borderColor: "#5DB075"
    }
 })
 
