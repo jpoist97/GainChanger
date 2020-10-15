@@ -10,7 +10,7 @@ export default class App extends React.Component {
 
 
             {/*Cycles Section*/}
-            <View style = {[{width: "95%", height: "40%", margin: 30, borderWidth: 5, borderRadius: 15, borderColor: "#5DB075"}]}>
+            <View style = {[{width: "95%", height: "40%", margin: 30, backgroundColor: "F6F6F6", borderWidth: 5, borderRadius: 15, borderColor: "#5DB075"}]}>
                <Text style = {styles.title}>
                   Cycles
                </Text>
@@ -33,7 +33,7 @@ export default class App extends React.Component {
 
 
             {/*Workouts Section*/}
-            <View style = {[{width: "95%", height: "40%", margin: 10, borderWidth: 5, borderRadius: 15, borderColor: "#5DB075"}]}>
+            <View style = {[{width: "95%", height: "40%", margin: 10, backgroundColor: "#F6F6F6", borderWidth: 5, borderRadius: 15, borderColor: "#5DB075"}]}>
                <Text style = {styles.title}>
                   Workouts
                </Text>
