@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, Button, StyleSheet, Alert } from 'react-native';
+import { Text, View, Button, StyleSheet } from 'react-native';
 import { ScreenStackHeaderCenterView } from 'react-native-screens';
 
 export default class App extends React.Component {
@@ -15,20 +15,19 @@ export default class App extends React.Component {
                   Cycles
                </Text>
                <View style = {[{width:"85%", height: "45%", backgroundColor: "#5DB075", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", top: 75, alignSelf: "center"}]}>
-                  <Button style = {[{width: "85%", height: "45%"}]}
+                  <Button
                      title = "Start <name of today's workout>"
                      color = "#FFFFFF"
                      onPress = {() => alert("This should start the current workout in the cycle")}
                   />
                </View>
                <View style = {[{width:"85%", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", bottom: 20, alignSelf: "center"}]}>
-                  <Button style = {[{width: "25%", height: "10%", margin: 10}]}
+                  <Button
                      title = "See all cycles"
                      color = "#000000"
                      onPress = {() => alert("This should take you to workouts tab")}
                   />
                </View>
-
             </View>
 
 
@@ -58,15 +57,12 @@ export default class App extends React.Component {
                   />
                </View>
                <View style = {[{width:"85%", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", bottom: 20, alignSelf: "center"}]}>
-                  <Button style = {[{width: "25%", height: "10%", margin: 10}]}
+                  <Button
                      title = "See all workouts"
                      color = "#000000"
                      onPress = {() => alert("This should take you to workouts tab")}
                   />
                </View>
-
-
-
             </View>
          </View>
       )
@@ -84,13 +80,6 @@ const styles = StyleSheet.create({
       textAlign: "center",
       marginVertical: 8,
       fontSize: 28
-   },
-   separator: {
-      marginVertical: 8
-   },
-   startButton: {
-      
    }
-
 })
 
