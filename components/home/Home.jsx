@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Text, View, Button, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { ScreenStackHeaderCenterView } from 'react-native-screens';
+import { Button } from 'react-native-paper';
 
 {/* Temporary workout variables*/}
 let workout1 = "Workout 1"
@@ -18,20 +19,12 @@ export default class App extends React.Component {
                <Text style = {styles.title}>
                   Cycles
                </Text>
-               <View style = {[{width:"85%", height: "45%", backgroundColor: "#5DB075", borderRadius: 15, borderWidth: 3, borderColor: "#5DB075", position: "absolute", top: 75, alignSelf: "center"}]}>
-                  <Button
-                     title = "Start Workout for Today's Cycle"
-                     color = "#FFFFFF"
-                     onPress = {() => alert("This should start the current workout in the cycle")}
-                  />
-               </View>
-               <View style = {styles.seeAllButton}>
-                  <Button
-                     title = "See all cycles"
-                     color = "#000000"
-                     onPress = {() => alert("This should take you to workouts tab")}
-                  />
-               </View>
+               <Button contentStyle={{width: 331, height: 170}} style = {[{backgroundColor: "#5DB075", borderRadius: 20, borderColor: "#5DB075", position: "absolute", top: 60, alignSelf: "center"}]} color = "#FFFFFF" onPress = {() => alert("This should start the current workout in the cycle")}>
+                  Start Cycle Workout
+               </Button>
+               <Button contentStyle = {{width: 325, height: 35}} style = {styles.seeAllButton} color = "#000000" onPress = {() => alert("This should take you to workouts tab")}>
+                  See all cycles
+               </Button>
             </View>
 
 
@@ -40,33 +33,28 @@ export default class App extends React.Component {
                <Text style = {styles.title}>
                   Workouts
                </Text>
+
                <Text style = {[{position: "absolute", top: 82, left: 10, fontSize: 18}]}>
-                  Workout 1 
+                  Workout 1
                </Text>
+
                <Text style = {[{position: "absolute", top: 157, left: 10, fontSize: 18}]}>
                   Workout 2
                </Text>
-               <View style = {{...styles.startButton, right: 10, top: 75}}>
-                  <Button
-                     title = "Start"
-                     color = "#FFFFFF"
-                     onPress = {() => alert("This should start recording " + workout1)}
-                  />
-               </View>
-               <View style = {{...styles.startButton, right: 10, top: 150}}>
-                  <Button
-                     title = "Start"
-                     color = "#FFFFFF"
-                     onPress = {() => alert("Thus should start recording " + workout2)}
-                  />
-               </View>
-               <View style = {styles.seeAllButton}>
-                  <Button
-                     title = "See all workouts"
-                     color = "#000000"
-                     onPress = {() => alert("This should take you to workouts tab")}
-                  />
-               </View>
+
+               <Button contentStyle = {{width: 100, height: 35}} style = {{...styles.startButton, right: 10, top: 75}} color = "#FFFFFF" onPress = {() => alert("This should start recording " + workout1)}>
+                  Start
+               </Button>
+
+               <Button contentStyle = {{width: 100, height: 35}} style = {{...styles.startButton, right: 10, top: 150}} color = "#FFFFFF" onPress = {() => alert("This should start recording " + workout2)}>
+                  Start
+               </Button>
+                  
+               <Button contentStyle = {{width: 325, height: 35}} style = {styles.seeAllButton} color = "#000000" onPress = {() => alert("This should take you to workouts tab")}>
+                  See all workouts
+               </Button>
+
+                 
             </View>
          </View>
       )
@@ -83,19 +71,15 @@ const styles = StyleSheet.create({
    title: {
       textAlign: "center",
       marginVertical: 8,
-      fontSize: 28
+      fontSize: 28,
    },
    startButton: {
-      width: "25%",
-      height: "12%",
       backgroundColor: "#5DB075",
-      borderRadius: 15,
-      position: "absolute",
-      fontSize: 18
+      borderRadius: 20,
+      position: "absolute"
    },
    seeAllButton: {
-      width:"85%", 
-      borderRadius: 15, 
+      borderRadius: 20, 
       borderWidth: 3, 
       borderColor: "#5DB075", 
       position: "absolute", 
@@ -107,7 +91,7 @@ const styles = StyleSheet.create({
       height: "40%", 
       backgroundColor: "#F6F6F6", 
       borderWidth: 5, 
-      borderRadius: 15, 
+      borderRadius: 20, 
       borderColor: "#5DB075"
    }
 })
