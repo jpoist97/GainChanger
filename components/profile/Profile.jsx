@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, Alert, SafeAreaView} from 'react-native';
+import { Text, View, Alert, SafeAreaView, StyleSheet} from 'react-native';
 import { Button, Avatar, List, TextInput} from 'react-native-paper';
 
 export default (props) => {
@@ -21,7 +21,7 @@ export default (props) => {
             </Button>
           </View>
           <View style={{width: '50%'}}>
-            <Text style={{fontSize: 30, color: 'black', fontWeight: "bold", textAlign: 'center' }}>Profile</Text>
+            <Text style={styles.HeaderText}>Profile</Text>
           </View>
           <View style={{width: '25%', height: 50}}>
             <Button 
@@ -39,8 +39,7 @@ export default (props) => {
           <Avatar.Image size={170} source={require('../../assets/Baby_Cole.jpg')} />
         </View>
         {/* Start of Card View  */}
-        <View style={{margin: '8%', height: '62%', paddingLeft: 20, paddingRight: 20,backgroundColor: '#F6F6F6', borderWidth: 3,
-          borderColor: '#5DB075', borderRadius: 10}}>
+        <View style={styles.cardView}>
           <List.Section>
             <List.Subheader style={{textAlign: 'center', fontSize: 24}}> Update Profile</List.Subheader>
             <TextInput style={{backgroundColor: '#F6F6F6'}} type="flat" isFocused={false} label="Name" value={name} onChangeText={name => setName(name)}/>
@@ -49,17 +48,17 @@ export default (props) => {
             <List.Subheader style={{marginLeft: -10, paddingBottom: -10, fontSize: 12}}> Goals</List.Subheader>
               <List.Item 
                 title="Goal 1"
-                style={{borderBottomWidth: 1, borderBottomColor: '#B7B7B7', padding: 2}}
+                style={styles.bottomBorder}
                 description="Lose 20 pounds by March 1st"
               />
               <List.Item 
                 title="Goal 2"
-                style={{borderBottomWidth: 1, borderBottomColor: '#B7B7B7', padding: 2}}
+                style={styles.bottomBorder}
                 description="This is what a really long goal looks like, It can span multiple lines if needed."
               />
               <List.Item 
                 title="Goal 3"
-                style={{borderBottomWidth: 1, borderBottomColor: '#B7B7B7', padding: 2}}
+                style={styles.bottomBorder}
                 description="User can have a max of 3 Goals"
               />
 
@@ -71,3 +70,29 @@ export default (props) => {
     </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({ 
+  bottomBorder: {
+    borderBottomWidth: 1, 
+    borderBottomColor: '#B7B7B7', 
+    padding: 2,
+  },
+  cardView: {
+    margin: '8%', 
+    height: '62%', 
+    paddingLeft: 20, 
+    paddingRight: 20,
+    backgroundColor: '#F6F6F6', 
+    borderWidth: 3,
+    borderColor: '#5DB075', 
+    borderRadius: 10
+  },
+  HeaderText: {
+    fontSize: 30, 
+    color: 'black', 
+    fontWeight: "bold", 
+    textAlign: 'center' 
+  },
+
+});
+
