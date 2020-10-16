@@ -40,7 +40,7 @@ export default () => {
           </View>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'center', height: '22%' }}>
-          <Avatar.Image size={170} source="../../assets/Baby_Cole.jpg" />
+          <Avatar.Image size={170} source={require('../../assets/Baby_Cole.jpg')} />
         </View>
         <View style={styles.cardView}>
           <List.Section>
