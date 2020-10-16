@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { ScreenStackHeaderCenterView } from 'react-native-screens';
-import { Button } from 'react-native-paper';
+import { View, Text, StyleSheet } from 'react-native';
+import { Button, Title, Subheading} from 'react-native-paper';
 
 {/* Temporary workout variables*/}
 let workout1 = "Workout 1"
@@ -16,31 +15,35 @@ export default class App extends React.Component {
 
             {/*Cycles Section*/}
             <View style = {{...styles.sectionComponent, margin: 30}}>
-               <Text style = {styles.title}>
+
+               <Title style = {styles.title}>
                   Cycles
-               </Text>
+               </Title>
+
                <Button contentStyle={{width: 331, height: 170}} style = {[{backgroundColor: "#5DB075", borderRadius: 20, borderColor: "#5DB075", position: "absolute", top: 60, alignSelf: "center"}]} color = "#FFFFFF" onPress = {() => alert("This should start the current workout in the cycle")}>
                   Start Cycle Workout
                </Button>
+
                <Button contentStyle = {{width: 325, height: 35}} style = {styles.seeAllButton} color = "#000000" onPress = {() => alert("This should take you to workouts tab")}>
                   See all cycles
                </Button>
+               
             </View>
 
 
             {/*Workouts Section*/}
             <View style = {{...styles.sectionComponent, margin: 10}}>
-               <Text style = {styles.title}>
+               <Title style = {styles.title}>
                   Workouts
-               </Text>
+               </Title>
 
-               <Text style = {[{position: "absolute", top: 82, left: 10, fontSize: 18}]}>
+               <Subheading style = {[{position: "absolute", top: 82, left: 10, fontSize: 18}]}>
                   Workout 1
-               </Text>
+               </Subheading>
 
-               <Text style = {[{position: "absolute", top: 157, left: 10, fontSize: 18}]}>
+               <Subheading style = {[{position: "absolute", top: 157, left: 10, fontSize: 18}]}>
                   Workout 2
-               </Text>
+               </Subheading>
 
                <Button contentStyle = {{width: 100, height: 35}} style = {{...styles.startButton, right: 10, top: 75}} color = "#FFFFFF" onPress = {() => alert("This should start recording " + workout1)}>
                   Start
