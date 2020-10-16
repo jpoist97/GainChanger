@@ -5,6 +5,9 @@ import { Button, Title, Subheading} from 'react-native-paper';
 {/* Temporary workout variables*/}
 let workout1 = "Workout 1"
 let workout2 = "Workout 2"
+const workoutList = [{name: 'workout name'}, {name: 'workout name'}]
+
+
 
 export default class App extends React.Component {
 
@@ -20,7 +23,7 @@ export default class App extends React.Component {
                   Cycles
                </Title>
 
-               <Button contentStyle={{width: 331, height: 170}} style = {[{backgroundColor: "#5DB075", borderRadius: 20, borderColor: "#5DB075", position: "absolute", top: 60, alignSelf: "center"}]} color = "#FFFFFF" onPress = {() => alert("This should start the current workout in the cycle")}>
+               <Button contentStyle={{width: 331, height: 170}} style = {styles.startCycle} color = "#FFFFFF" onPress = {() => alert("This should start the current workout in the cycle")}>
                   Start Cycle Workout
                </Button>
 
@@ -96,6 +99,14 @@ const styles = StyleSheet.create({
       borderWidth: 5, 
       borderRadius: 20, 
       borderColor: "#5DB075"
+   },
+   startCycle: {
+      backgroundColor: "#5DB075", 
+      borderRadius: 20, 
+      borderColor: "#5DB075", 
+      position: "absolute", 
+      top: 60, 
+      alignSelf: "center"
    }
 })
 
