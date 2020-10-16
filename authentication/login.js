@@ -23,6 +23,7 @@ export default class login extends React.Component {
 
     showPasswordPress = () => {
         this.setState({
+            ...this.state,
             showPassword: !(this.state.showPassword)
         });
     }
@@ -37,14 +38,20 @@ export default class login extends React.Component {
                 textContentType="emailAddress" 
                 placeholder="Email" 
                 value={this.state.email}
-                onChangeText={(value) => this.setState({email:value})}
+                onChangeText={(value) => this.setState({
+                                                ...this.state,
+                                                email:value
+                                            })}
             />
             <View style={styles.passwordContainer}>
                 <TextInput style={styles.password}
                     textContentType="password" 
                     placeholder="Password" 
                     value={this.state.password}
-                    onChangeText={(value) => this.setState({password:value})}
+                    onChangeText={(value) => this.setState({
+                                                    ...this.state,
+                                                    password:value
+                                                })}
                     secureTextEntry={this.state.showPassword}
                 />
                 <TouchableOpacity onPress={this.showPasswordPress} style={styles.showContainer}>
