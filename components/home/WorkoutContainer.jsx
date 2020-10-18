@@ -8,18 +8,19 @@ const textStartLocation = 30;
 export default (props) => (
   <View>
     {props.items.map((item, index) => (
-      <Button contentStyle={{ width: 100, height: 35 }} style={{ ...styles.startButton, top: buttonStartLocation + index * 70 }} color="#FFFFFF" onPress={() => alert(`This should start recording ${item.name}`)}>
-        Start
-      </Button>
-    ))}
+      <View>
+        <Button contentStyle={{ width: 100, height: 35 }} style={{ ...styles.startButton, top: buttonStartLocation + index * 70 }} color="#FFFFFF" onPress={() => alert(`This should start recording ${item.name}`)}>
+          Start
+        </Button>
 
-    {props.items.map((item, index) => (
-      <Subheading style={[{
-        position: 'absolute', top: textStartLocation + index * 70, left: 15, fontSize: 18,
-      }]}
-      >
-        {item.name}
-      </Subheading>
+        <Subheading style={[{
+          position: 'absolute', top: textStartLocation + index * 70, left: 15, fontSize: 18,
+        }]}
+        >
+          {item.name}
+        </Subheading>
+
+      </View>
     ))}
   </View>
 
