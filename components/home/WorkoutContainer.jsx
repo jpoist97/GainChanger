@@ -9,12 +9,12 @@ export default (props) => (
   <View>
     {props.items.map((item, index) => (
       <View>
-        <Button contentStyle={{ width: 100, height: 35 }} style={{ ...styles.startButton, top: buttonStartLocation + index * 70 }} color="#FFFFFF" onPress={() => alert(`This should start recording ${item.name}`)}>
+        <Button contentStyle={{ width: 100, height: 35 }} style={{ ...styles.startButton, top: buttonStartLocation + index * 80 }} color="#FFFFFF" onPress={() => alert(`This should start recording ${item.name}`)}>
           Start
         </Button>
 
         <Subheading style={[{
-          position: 'absolute', top: textStartLocation + index * 70, left: 15, fontSize: 18,
+          position: 'absolute', top: textStartLocation + index * 80, left: 15, fontSize: 18,
         }]}
         >
           {item.name}
