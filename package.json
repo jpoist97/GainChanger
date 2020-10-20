@@ -3,7 +3,7 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
-    "ios": "expo start --ios",
+    "ios": "expo start --ios --simulator=\"iPhone 11 Pro Max\"",
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint --ext .js,.jsx ./components --quiet",
@@ -19,8 +19,10 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-gesture-handler": "~1.7.0",
+    "react-native-paper": "^4.2.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-screens": "~2.10.1",
+    "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
