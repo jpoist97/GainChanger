@@ -1,6 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button } from 'react-native';
-import { event } from 'react-native-reanimated';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import {Button, configureFonts, DefaultTheme, Provider } from 'react-native-paper'
+  
+const fontConfig = {
+    default: {
+      regular: {
+        //Decide on main font
+      },
+      medium: {
+        //Decdie on medium font
+      },
+      light: {
+        //Decide on light font
+      },
+  
+    },
+  };
+
+const theme = {
+    ...DefaultTheme,
+    fonts:configureFonts(fontConfig),
+    colors: {
+        ...DefaultTheme.colors,
+        primary:'#5DB075',
+        accent: '#F6F6F6',
+    }
+}
 
 export default class login extends React.Component {
     state={
@@ -30,9 +55,10 @@ export default class login extends React.Component {
 
     render(){
         return (
-        <View style={styles.container}>
+        <Provider theme={theme}>
+            <View style={styles.container}>
             <Image style={styles.icon} 
-                source={require('./assets/icon.png')}
+                source={require('./../assets/icon.png')}
             />
             <TextInput style={styles.email} 
                 textContentType="emailAddress" 
@@ -54,20 +80,33 @@ export default class login extends React.Component {
                                                 })}
                     secureTextEntry={this.state.showPassword}
                 />
-                <TouchableOpacity onPress={this.showPasswordPress} style={styles.showContainer}>
-                    <Text style={styles.show}>Show</Text>
-                </TouchableOpacity>
+                <Button style={styles.showContainer} 
+                        onPress={this.showPasswordPress}
+                        uppercase={false}
+                        >
+                    Show
+                </Button>
             </View>
-            <TouchableOpacity onPress={this.forgotPressed}>
-                <Text style={styles.forgot}>Forgot Password?</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.loginPressed} style={styles.loginBtn}>
+            <Button onPress={this.forgotPressed}
+                    style={styles.forgot}
+                    uppercase={false}
+                    >
+                Forgot Password?
+            </Button>
+            <Button onPress={this.loginPressed} 
+                    style={styles.loginBtn}
+                    uppercase={false}
+                    >
                 <Text style={styles.loginTxt}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.signUpPressed}>
+            </Button>
+            <Button onPress={this.signUpPressed}
+                    uppercase={false}
+                    >
                 <Text style={styles.signup}>Don't have an account? Sign up</Text>
-            </TouchableOpacity>
+            </Button>
         </View>
+        </Provider>
+
         )
     }
 }
@@ -82,10 +121,9 @@ const styles = StyleSheet.create({
     },
     showContainer:{
         position:'absolute',
-        right:'11%',
-        padding:3,
-        marginTop:8,
-        paddingRight:8,
+        marginTop:3,
+        padding:5,
+        right:'9%'
     },
     container: {
         flex:1,
@@ -108,26 +146,26 @@ const styles = StyleSheet.create({
     email: {
         alignSelf:"center",
         width:"80%",
-        padding:10,
+        padding:14,
         borderRadius:10,
         backgroundColor:"#f6f6f6",
         borderColor:"#E8E8E8",
-        borderWidth:1,
+        borderWidth:2,
         marginBottom:25,
     },
     password: {
         alignSelf:"center",
         width:"80%",
-        padding:10,
+        padding:14,
         borderRadius:10,
         backgroundColor:"#f6f6f6",
         borderColor:"#E8E8E8",
-        borderWidth:1,
-        marginBottom:25,
+        borderWidth:2,
     },
     forgot: {
         color: "#5DB075",
         fontWeight:'bold',
+        marginLeft:'50%',
     },
     loginBtn: {
         width:"80%",
@@ -147,4 +185,4 @@ const styles = StyleSheet.create({
         color: "#5DB075",
         width: '100%',
     }
-    });
+});
