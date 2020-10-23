@@ -17,7 +17,6 @@ export default (props) => {
       data={props.items}
       renderItem={renderCard}
       keyExtractor={(item) => item.name}
-      numColumns={2}
     />
   );
 };
