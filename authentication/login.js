@@ -1,31 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import {Button, configureFonts, DefaultTheme, Provider } from 'react-native-paper'
-  
-const fontConfig = {
-    default: {
-      regular: {
-        //Decide on main font
-      },
-      medium: {
-        //Decdie on medium font
-      },
-      light: {
-        //Decide on light font
-      },
-  
-    },
-  };
-
-const theme = {
-    ...DefaultTheme,
-    fonts:configureFonts(fontConfig),
-    colors: {
-        ...DefaultTheme.colors,
-        primary:'#5DB075',
-        accent: '#F6F6F6',
-    }
-}
 
 export default class login extends React.Component {
     state={
