@@ -32,14 +32,22 @@ export default class signup extends React.Component {
         email:"",
         name:"",
         password:"",
-        showPassword:false,
+        showPassword:true,
     }
 
     showPasswordPress = () => {
         this.setState({
             ...this.state,
             showPassword: !(this.state.showPassword)
-        })
+        }) 
+    }
+
+    signupPress = () => {
+        alert("sign up button pressed")
+    }
+
+    loginPress = () => {
+        alert("go to login")
     }
 
     render(){
@@ -89,9 +97,11 @@ export default class signup extends React.Component {
                         </Button>
                     </View>
                     <Button style={styles.signup}
+                            contentStyle={styles.signupContent}
                             uppercase={false}
                             mode={'contained'} 
                             dark={true}   
+                            onPress={this.signupPress}
                             >
                         Sign Up
                     </Button>
@@ -99,6 +109,7 @@ export default class signup extends React.Component {
                             uppercase={false}
                             mode={'text'}
                             color={"#5DB075"}
+                            onPress={this.loginPress}
                             >
                         Already have an account? Login
                     </Button>
@@ -129,7 +140,7 @@ const styles = StyleSheet.create({
         width:"80%",
         backgroundColor:"#f6f6f6",
         borderColor:"#E8E8E8",
-        borderWidth:2,
+        borderWidth:1,
         marginBottom:25,
         borderTopLeftRadius:12,
         borderTopRightRadius:12,
@@ -142,7 +153,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius:12,
         backgroundColor:"#f6f6f6",
         borderColor:"#E8E8E8",
-        borderWidth:2,
+        borderWidth:1,
         marginBottom:25,
         borderRadius:12,
     },
@@ -160,25 +171,23 @@ const styles = StyleSheet.create({
         borderTopRightRadius:12,
         backgroundColor:"#f6f6f6",
         borderColor:"#E8E8E8",
-        borderWidth:2,
+        borderWidth:1,
         marginBottom:25,
         borderRadius:12,
     },
     passwordShow: {
         position:'absolute',
         marginTop:12,
+        marginRight:10,
         padding:5,
         right:'9%',
     },
     signup: {
-        width:"80%",
+        width:'80%',
         borderRadius:25,
-        height:50,
-        alignItems:"center",
-        justifyContent: "center",
-        marginTop:40,
-        marginBottom: 10,
-        backgroundColor: "#5DB075",
+    },
+    signupContent: {
+        padding:7
     },
     login: {
     },
