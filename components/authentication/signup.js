@@ -1,31 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, StyleSheet,Image } from 'react-native'
-import {DefaultTheme,configureFonts,Provider,Button, TextInput,Text} from 'react-native-paper'
-
-const fontConfig = {
-    default: {
-      regular: {
-        //Decide on main font
-      },
-      medium: {
-        //Decdie on medium font
-      },
-      light: {
-        //Decide on light font
-      },
-  
-    },
-  };
-  
-  const theme = {
-    ...DefaultTheme,
-    fonts: configureFonts(fontConfig),
-    colors: {
-      ...DefaultTheme.colors,
-      primary: '#5DB075',
-      accent: '#F6F6F6',
-    },
-  };
+import {Provider, Button, TextInput} from 'react-native-paper'
 
 export default class signup extends React.Component {
     state= {
