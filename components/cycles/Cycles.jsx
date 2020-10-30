@@ -1,21 +1,13 @@
 import * as React from 'react';
-import { SafeAreaView, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView, } from 'react-native';
 import styled from 'styled-components/native';
-import { Entypo } from '@expo/vector-icons';
 import AllCycles from './AllCycles';
+import PlusButton from '../utils/PlusButton';
 
-const PlusButton = styled(TouchableOpacity)`
+const AddCycleButton = styled(PlusButton)`
    position: absolute;
    bottom: 20px;
    right: 25px;
-   background-color: #EDEDF0;
-   border-radius: 20px;
-   padding: 10px;
-`;
-
-const Buttontext = styled.Text`
-   font-family: 'Montserrat_500Medium';
-   font-size: 18px;
 `;
 
 export default () => {
@@ -42,12 +34,7 @@ export default () => {
   return (
     <SafeAreaView>
       <AllCycles items={items} />
-      <PlusButton onPress={() => alert('Add new Cycle')}>
-        <Text>
-          <Buttontext>Cycle</Buttontext>
-          <Entypo name="plus" size={18} color="black" />
-        </Text>
-      </PlusButton>
+      <AddCycleButton title="Cycle" size={18} onPress={() => alert('Add Cycle')} />
     </SafeAreaView>
   );
 };
