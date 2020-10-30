@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SafeAreaView, } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import AllCycles from './AllCycles';
 import PlusButton from '../utils/PlusButton';
@@ -29,10 +29,13 @@ export default () => {
     },
     {
       name: 'Upper Lower Split B', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+    },
+    {
+      name: 'Push, Pull, Legs A', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), onIconPress: () => alert('Edit Push, Pull, Legs'),
     }];
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ height: '100%' }}>
       <AllCycles items={items} />
       <AddCycleButton title="Cycle" size={18} onPress={() => alert('Add Cycle')} />
     </SafeAreaView>
