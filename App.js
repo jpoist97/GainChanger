@@ -34,6 +34,7 @@ import {
   Montserrat_900Black,
   Montserrat_900Black_Italic,
 } from '@expo-google-fonts/montserrat';
+import firebase from 'firebase';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,6 +51,17 @@ const fontConfig = {
     },
 
   },
+};
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAeNLJ0oGnsIZu_fCwqT5iby0QPMzjO_AY",
+  authDomain: "gainchanger-fc6e1.firebaseapp.com",
+  databaseURL: "https://gainchanger-fc6e1.firebaseio.com",
+  projectId: "gainchanger-fc6e1",
+  storageBucket: "gainchanger-fc6e1.appspot.com",
+  messagingSenderId: "680655144263",
+  appId: "1:680655144263:web:33752c8e87187691f6f862",
+  measurementId: "G-47BCMB04L9"
 };
 
 const theme = {
@@ -86,6 +98,13 @@ export default function App() {
  
   if (!fontsLoaded) {
     return <AppLoading />;
+  }
+
+  if(!firebase.apps.length){
+    firebase.initializeApp(firebaseConfig);
+    console.log("Firebase initiated successfully.")
+  } else {
+    console.log("Firebase setup already complete.")
   }
 
   return (
