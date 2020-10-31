@@ -99,6 +99,13 @@ export default function App() {
     return <AppLoading />;
   }
 
+  if(!firebase.apps.length){
+    firebase.initializeApp(firebaseConfig);
+    console.log("Firebase initiated successfully.")
+  } else {
+    console.log("Firebase setup already complete.")
+  }
+
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
