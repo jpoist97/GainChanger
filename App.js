@@ -34,6 +34,7 @@ import {
   Montserrat_900Black,
   Montserrat_900Black_Italic,
 } from '@expo-google-fonts/montserrat';
+import firebase from 'firebase';
 
 const Tab = createBottomTabNavigator();
 
