@@ -1,61 +1,75 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {
+  TouchableOpacity, View
+} from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
 const NameText = styled.Text`
    color: #EFEFEF;
-   font-size: 24px;
+   font-size: 32px;
    font-family: 'Montserrat_500Medium';
+`;
+
+const Title = styled.Text`
+  font-family: 'Montserrat_600SemiBold';
+  font-size: 24px;
+  margin: 0px 6%;
+  paddingBottom: 15px;
 `;
 
 const Subtext = styled.Text`
    color: #EFEFEF;
    font-size: 20px;
    position: absolute;
-   bottom: 15px;
-   left: 10px;
+   bottom: 25px;
+   left: 25px;
    font-family: 'Montserrat_500Medium';
 `;
 
-const WorkoutContainer = (props) => {
+
+const CurrentCycle = (props) => {
   const {
     color, subtext, name, onPress
   } = props;
 
   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
-      width: 135px
-      height: 165px;
+      width: 90%;
+      height: 210px;
       border-radius: 20px;
       padding: 15px 0px;
       padding-right: 15px;
-      padding-left: 15px;
-      margin: 10px
-      marginLeft: 20px
+      padding-left: 25px;
+      margin: 10px;
+      marginLeft: 20px;
       box-shadow: 3px 5px 2px #00000050;
    `;
 
   return (
-    <StyledView onPress={onPress}>
-      <NameText>{name}</NameText>
-      <Subtext> {subtext} </Subtext>
-    </StyledView>
+    <View style={{ height: '100%' }}>
+        <Title>Today</Title>
+        <StyledView onPress={onPress}>
+            <NameText>{name}</NameText>
+            <Subtext>{subtext}</Subtext>
+        </StyledView>
+    </View>
   );
 };
 
-WorkoutContainer.propTypes = {
+CurrentCycle.propTypes = {
   color: PropTypes.string,
+  subtext: PropTypes.string,
   name: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   onIconPress: PropTypes.func,
 };
 
-WorkoutContainer.defaultProps = {
+CurrentCycle.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
   onPress: () => {},
   onIconPress: () => {},
 };
 
-export default WorkoutContainer;
+export default CurrentCycle;
