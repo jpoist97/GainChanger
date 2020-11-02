@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Button } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import WorkoutContainer from './WorkoutContainer';

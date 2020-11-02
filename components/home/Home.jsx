@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SafeAreaView, Image, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView, Image, Button} from 'react-native';
 import styled from 'styled-components/native';
 import CurrentCycle from './CurrentCycle';
 import WorkoutList from './WorkoutList';
@@ -54,7 +54,7 @@ export default () => {
         />
         <WorkoutList items={items} style = {{marginLeft: '10%'}}/>
       </SafeAreaView>
-
     </SafeAreaView>
+    
   );
 };
