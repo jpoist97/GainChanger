@@ -11,17 +11,17 @@ export default () => {
   const [showPassword, setShowPassword] = React.useState(true);
 
   function loginPress() {
-    firebase.auth().signInWithEmailAndPassword(email,password)
-      .catch(function(error) {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .catch((error) => {
         const errorCode = error.code;
         const errorMsg = error.message;
-        switch(errorCode){
+        switch (errorCode) {
           case 'auth/wrong-password':
-            console.log("wrong password entered.");
+            console.log('wrong password entered.');
             break;
-          
+
           default:
-            console.log("error logging in:" + errorMsg);
+            console.log(`error logging in:${errorMsg}`);
         }
       });
   }
@@ -66,7 +66,7 @@ export default () => {
           contentStyle={styles.signupContent}
           uppercase={false}
           mode="contained"
-          onPress={() => alert("Sign up pressed")}
+          onPress={() => alert('Sign up pressed')}
         >
           Login
         </Button>

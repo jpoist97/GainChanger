@@ -75,6 +75,38 @@ const theme = {
   },
 };
 
+let startupScreen = <Tab.Navigator
+  screenOptions={({ route }) => ({
+    tabBarIcon: ({ color, size }) => {
+      // Returns the icon for each tab
+      let icon;
+
+      if (route.name === 'Home') {
+        icon = <Ionicons name='ios-home' size={size} color={color} />;
+      } else if (route.name === 'Workouts') {
+        icon = <FontAwesome5 name="dumbbell" size={size} color={color} />;
+      } else if (route.name === 'Calendar') {
+        icon = <Ionicons name='ios-calendar' size={size} color={color} />;
+      } else if (route.name === 'Profile') {
+        icon = <FontAwesome5 name="user-circle" size={size} color={color} />;
+      } else if (route.name === 'Cycles') {
+        icon = <Entypo name="cycle" size={size} color={color} />;
+      }
+
+      return icon;
+    },
+  })}
+  tabBarOptions={{
+    activeTintColor: '#8643FF',
+    inactiveTintColor: 'gray',
+  }}>
+  <Tab.Screen name="Home" component={Home} />
+  <Tab.Screen name="Workouts" component={Workouts} />
+  <Tab.Screen name="Cycles" component={Cycles} />
+  <Tab.Screen name="Calendar" component={Calendar} />
+  <Tab.Screen name="Profile" component={Profile} />
+</Tab.Navigator>
+
 export default function App() {
   let [fontsLoaded] = useFonts({
     Montserrat_100Thin,
@@ -108,48 +140,18 @@ export default function App() {
     console.log("Firebase setup already complete.")
   }
 
-  const user = firebase.auth().currentUser;
-  if(user) {
+  firebase.auth().onAuthStateChanged((user) => {
+    if(!(user)){
+      //user is signed in already
+      startupScreen = <Signup/>;
+    } 
+  });
+
     return (
       <PaperProvider theme={theme}>
         <NavigationContainer>
-          <Tab.Navigator
-            screenOptions={({ route }) => ({
-              tabBarIcon: ({ color, size }) => {
-                // Returns the icon for each tab
-                let icon;
-
-                if (route.name === 'Home') {
-                  icon = <Ionicons name='ios-home' size={size} color={color} />;
-                } else if (route.name === 'Workouts') {
-                  icon = <FontAwesome5 name="dumbbell" size={size} color={color} />;
-                } else if (route.name === 'Calendar') {
-                  icon = <Ionicons name='ios-calendar' size={size} color={color} />;
-                } else if (route.name === 'Profile') {
-                  icon = <FontAwesome5 name="user-circle" size={size} color={color} />;
-                } else if (route.name === 'Cycles') {
-                  icon = <Entypo name="cycle" size={size} color={color} />;
-                }
-
-                return icon;
-              },
-            })}
-            tabBarOptions={{
-              activeTintColor: '#8643FF',
-              inactiveTintColor: 'gray',
-            }}>
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Workouts" component={Workouts} />
-            <Tab.Screen name="Cycles" component={Cycles} />
-            <Tab.Screen name="Calendar" component={Calendar} />
-            <Tab.Screen name="Profile" component={Profile} />
-          </Tab.Navigator>
+          {startupScreen}
         </NavigationContainer>
-        </PaperProvider>
+      </PaperProvider>
       );
-  } else {
-    return (
-      <Signup/>
-    )
-  }
 }
