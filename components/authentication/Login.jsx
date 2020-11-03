@@ -6,35 +6,22 @@ import { Button } from 'react-native-paper';
 import firebase from 'firebase';
 
 export default () => {
-  const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(true);
 
-  function signupPress() {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((user) => {
-        const additionalInfo = user.additionalUserInfo;
-        const loggedInUser = user.user;
-      })
-      .catch((error) => {
+  function loginPress() {
+    firebase.auth().signInWithEmailAndPassword(email,password)
+      .catch(function(error) {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        switch (errorCode) {
-          case 'auth/weak-password':
-            console.log('Weak password');
+        const errorMsg = error.message;
+        switch(errorCode){
+          case 'auth/wrong-password':
+            console.log("wrong password entered.");
             break;
-
-          case 'auth/invalid-email':
-            console.log('Invalid email.');
-            break;
-
-          case 'auth/email-already-in-use':
-            console.log('email already in use');
-            break;
-
+          
           default:
-            console.log(errorMessage);
+            console.log("error logging in:" + errorMsg);
         }
       });
   }
@@ -45,13 +32,6 @@ export default () => {
         <Image
           style={styles.icon}
           source={require('../../assets/icon.png')}
-        />
-        <TextInput
-          style={styles.input}
-          selectionColor="#A192FF"
-          placeholder="Name"
-          value={name}
-          onChangeText={(name) => setName(name)}
         />
         <TextInput
           style={styles.input}
@@ -86,18 +66,18 @@ export default () => {
           contentStyle={styles.signupContent}
           uppercase={false}
           mode="contained"
-          onPress={signupPress}
+          onPress={() => alert("Sign up pressed")}
         >
-          Sign Up
+          Login
         </Button>
         <Button
           style={styles.login}
           uppercase={false}
           mode="text"
           color="#8643FF"
-          onPress={() => alert('login pressed')}
+          onPress={loginPress}
         >
-          Already have an account? Login
+          Don't have an account? Sign up
         </Button>
       </View>
     </SafeAreaView>
@@ -147,8 +127,5 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     backgroundColor: '#A192FF',
-  },
-
-  login: {
   },
 });

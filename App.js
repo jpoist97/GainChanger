@@ -36,7 +36,6 @@ import {
 } from '@expo-google-fonts/montserrat';
 import firebase from 'firebase';
 import Signup from './components/authentication/Signup'
-import signup from './components/authentication/Signup';
 
 const Tab = createBottomTabNavigator();
 
@@ -150,7 +149,7 @@ export default function App() {
       );
   } else {
     return (
-      <Signup></Signup>
+      <Signup/>
     )
   }
 }
