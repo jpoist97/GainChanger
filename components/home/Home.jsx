@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Title } from 'react-native-paper';
