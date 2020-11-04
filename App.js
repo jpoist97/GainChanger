@@ -143,7 +143,8 @@ export default function App() {
   firebase.auth().onAuthStateChanged((user) => {
     if(!(user)){
       //user is signed in already
-      startupScreen = <Signup/>;
+      startupScreen = 
+        <Signup/>;
     } 
   });
 

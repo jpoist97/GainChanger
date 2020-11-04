@@ -13,10 +13,6 @@ export default () => {
 
   function signupPress() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((user) => {
-        const additionalInfo = user.additionalUserInfo;
-        const loggedInUser = user.user;
-      })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -147,8 +143,5 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     backgroundColor: '#A192FF',
-  },
-
-  login: {
   },
 });

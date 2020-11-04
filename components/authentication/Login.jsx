@@ -17,11 +17,12 @@ export default () => {
         const errorMsg = error.message;
         switch (errorCode) {
           case 'auth/wrong-password':
-            console.log('wrong password entered.');
+            alert("Incorrect password.")
+            console.log('Incorrect password.');
             break;
 
           default:
-            console.log(`error logging in:${errorMsg}`);
+            console.log(`error logging in: ${errorMsg}`);
         }
       });
   }
