@@ -12,15 +12,14 @@ const ButtonContainer = styled(TouchableOpacity)`
    padding-right: 15px;
 `;
 
+const Buttontext = styled.Text`
+  font-family: 'Montserrat_500Medium';
+  font-size: 18px;
+`;
 const FinishButton = (props) => {
   const {
     onPress, style,
   } = props;
-
-  const Buttontext = styled.Text`
-      font-family: 'Montserrat_500Medium';
-      font-size: 18px;
-   `;
 
   return (
     <ButtonContainer style={style} onPress={onPress}>
