@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  TouchableOpacity, View
+  TouchableOpacity, View,
 } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
@@ -27,10 +27,9 @@ const Subtext = styled.Text`
    font-family: 'Montserrat_500Medium';
 `;
 
-
 const CurrentCycle = (props) => {
   const {
-    color, subtext, name, onPress
+    color, subtext, name, onPress,
   } = props;
 
   const StyledView = styled(TouchableOpacity)`
@@ -48,11 +47,11 @@ const CurrentCycle = (props) => {
 
   return (
     <View style={{ height: '100%' }}>
-        <Title>Today</Title>
-        <StyledView onPress={onPress}>
-            <NameText>{name}</NameText>
-            <Subtext>{subtext}</Subtext>
-        </StyledView>
+      <Title>Today</Title>
+      <StyledView onPress={onPress}>
+        <NameText>{name}</NameText>
+        <Subtext>{subtext}</Subtext>
+      </StyledView>
     </View>
   );
 };
@@ -62,14 +61,12 @@ CurrentCycle.propTypes = {
   subtext: PropTypes.string,
   name: PropTypes.string.isRequired,
   onPress: PropTypes.func,
-  onIconPress: PropTypes.func,
 };
 
 CurrentCycle.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
   onPress: () => {},
-  onIconPress: () => {},
 };
 
 export default CurrentCycle;

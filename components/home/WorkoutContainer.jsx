@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
@@ -20,7 +20,7 @@ const Subtext = styled.Text`
 
 const WorkoutContainer = (props) => {
   const {
-    color, subtext, name, onPress
+    color, subtext, name, onPress,
   } = props;
 
   const StyledView = styled(TouchableOpacity)`
@@ -32,14 +32,18 @@ const WorkoutContainer = (props) => {
       padding-right: 15px;
       padding-left: 15px;
       margin: 10px
-      marginLeft: 20px
+      marginLeft: 19px
       box-shadow: 3px 5px 2px #00000050;
    `;
 
   return (
     <StyledView onPress={onPress}>
       <NameText>{name}</NameText>
-      <Subtext> {subtext} </Subtext>
+      <Subtext>
+        {' '}
+        {subtext}
+        {' '}
+      </Subtext>
     </StyledView>
   );
 };
@@ -47,15 +51,14 @@ const WorkoutContainer = (props) => {
 WorkoutContainer.propTypes = {
   color: PropTypes.string,
   name: PropTypes.string.isRequired,
+  subtext: PropTypes.string,
   onPress: PropTypes.func,
-  onIconPress: PropTypes.func,
 };
 
 WorkoutContainer.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
   onPress: () => {},
-  onIconPress: () => {},
 };
 
 export default WorkoutContainer;

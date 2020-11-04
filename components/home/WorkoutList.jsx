@@ -1,6 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
-import { FlatList, View, Button } from 'react-native';
+import {
+  FlatList, View, TouchableOpacity, Text,
+} from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import WorkoutContainer from './WorkoutContainer';
@@ -26,10 +28,13 @@ const WorkoutList = (props) => {
   );
 
   return (
-    <View style = {{height: '100%'}}>
+    <View style={{ height: '100%' }}>
       <Title>Workouts</Title>
+      <TouchableOpacity style={{ position: 'absolute', right: 15, top: 8 }} onPress={() => alert('This should take you to the workouts page')}>
+        <Text style={{ fontSize: 16, fontFamily: 'Montserrat_600SemiBold' }}>See All</Text>
+      </TouchableOpacity>
       <FlatList
-        horizontal={true}
+        horizontal
         data={items}
         renderItem={renderCard}
         keyExtractor={(item, index) => item.name + index}
