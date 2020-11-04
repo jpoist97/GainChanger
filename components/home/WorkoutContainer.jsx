@@ -11,7 +11,7 @@ const NameText = styled.Text`
 
 const Subtext = styled.Text`
    color: #EFEFEF;
-   font-size: 20px;
+   font-size: 16px;
    position: absolute;
    bottom: 15px;
    left: 10px;
