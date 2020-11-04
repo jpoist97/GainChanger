@@ -1,9 +1,19 @@
+/* eslint-disable */
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Subheading } from 'react-native-paper';
 
 const buttonStartLocation = 28;
 const textStartLocation = 30;
+
+const styles = StyleSheet.create({
+  startButton: {
+    backgroundColor: '#5DB075',
+    borderRadius: 20,
+    position: 'absolute',
+    right: 15,
+  },
+});
 
 export default (props) => (
   <View>
@@ -25,12 +35,3 @@ export default (props) => (
   </View>
 
 );
-
-const styles = StyleSheet.create({
-  startButton: {
-    backgroundColor: '#5DB075',
-    borderRadius: 20,
-    position: 'absolute',
-    right: 15,
-  },
-});
