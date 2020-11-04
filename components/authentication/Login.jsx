@@ -5,7 +5,7 @@ import {
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
 
-export default () => {
+export default ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(true);
@@ -26,6 +26,17 @@ export default () => {
         }
       });
   }
+
+  function signupPress() {
+    navigation.navigate('Signup')
+  }
+
+  firebase.auth().onAuthStateChanged((user) => {
+    if(firebase.auth().currentUser){
+      navigation.navigate('Root')
+    }
+    }
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -67,7 +78,8 @@ export default () => {
           contentStyle={styles.signupContent}
           uppercase={false}
           mode="contained"
-          onPress={() => alert('Sign up pressed')}
+          dark={true}
+          onPress={loginPress}
         >
           Login
         </Button>
@@ -76,7 +88,7 @@ export default () => {
           uppercase={false}
           mode="text"
           color="#8643FF"
-          onPress={loginPress}
+          onPress={signupPress}
         >
           Don't have an account? Sign up
         </Button>

@@ -36,8 +36,9 @@ import {
 } from '@expo-google-fonts/montserrat';
 import firebase from 'firebase';
 import Signup from './components/authentication/Signup'
-
-const Tab = createBottomTabNavigator();
+import Login from './components/authentication/Login'
+import Root from './Root'
+import { createStackNavigator } from '@react-navigation/stack'
 
 const fontConfig = {
   default: {
@@ -75,37 +76,7 @@ const theme = {
   },
 };
 
-let startupScreen = <Tab.Navigator
-  screenOptions={({ route }) => ({
-    tabBarIcon: ({ color, size }) => {
-      // Returns the icon for each tab
-      let icon;
-
-      if (route.name === 'Home') {
-        icon = <Ionicons name='ios-home' size={size} color={color} />;
-      } else if (route.name === 'Workouts') {
-        icon = <FontAwesome5 name="dumbbell" size={size} color={color} />;
-      } else if (route.name === 'Calendar') {
-        icon = <Ionicons name='ios-calendar' size={size} color={color} />;
-      } else if (route.name === 'Profile') {
-        icon = <FontAwesome5 name="user-circle" size={size} color={color} />;
-      } else if (route.name === 'Cycles') {
-        icon = <Entypo name="cycle" size={size} color={color} />;
-      }
-
-      return icon;
-    },
-  })}
-  tabBarOptions={{
-    activeTintColor: '#8643FF',
-    inactiveTintColor: 'gray',
-  }}>
-  <Tab.Screen name="Home" component={Home} />
-  <Tab.Screen name="Workouts" component={Workouts} />
-  <Tab.Screen name="Cycles" component={Cycles} />
-  <Tab.Screen name="Calendar" component={Calendar} />
-  <Tab.Screen name="Profile" component={Profile} />
-</Tab.Navigator>
+const Stack = createStackNavigator();
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -140,18 +111,20 @@ export default function App() {
     console.log("Firebase setup already complete.")
   }
 
-  firebase.auth().onAuthStateChanged((user) => {
-    if(!(user)){
-      //user is signed in already
-      startupScreen = 
-        <Signup/>;
-    } 
-  });
-
+  const user = firebase.auth().currentUser; 
+  var startupScreen = 'Login'
+  if(user) {
+    startupScreen = 'Root'
+  }
+  
     return (
       <PaperProvider theme={theme}>
         <NavigationContainer>
-          {startupScreen}
+          <Stack.Navigator initialRouteName={startupScreen}>
+            <Stack.Screen name='Login' component={Login} options={{ headerShown: false }}/>
+            <Stack.Screen name='Signup' component={Signup} options={{ headerShown: false }}/>
+            <Stack.Screen name='Root' component={Root} options={{headerShown: false}} />
+          </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
       );

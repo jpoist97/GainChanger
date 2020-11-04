@@ -5,7 +5,7 @@ import {
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
 
-export default () => {
+export default ({ navigation }) => {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -33,6 +33,11 @@ export default () => {
             console.log(errorMessage);
         }
       });
+  }
+
+  function loginPress() {
+    console.log("Navigating to login...")
+    navigation.navigate('Login')
   }
 
   return (
@@ -82,6 +87,7 @@ export default () => {
           contentStyle={styles.signupContent}
           uppercase={false}
           mode="contained"
+          dark={true}
           onPress={signupPress}
         >
           Sign Up
@@ -91,7 +97,7 @@ export default () => {
           uppercase={false}
           mode="text"
           color="#8643FF"
-          onPress={() => alert('login pressed')}
+          onPress={loginPress}
         >
           Already have an account? Login
         </Button>
@@ -143,5 +149,6 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     backgroundColor: '#A192FF',
+    
   },
 });
