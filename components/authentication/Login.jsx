@@ -17,7 +17,7 @@ export default ({ navigation }) => {
         const errorMsg = error.message;
         switch (errorCode) {
           case 'auth/wrong-password':
-            alert("Incorrect password.")
+            alert('Incorrect password.');
             console.log('Incorrect password.');
             break;
 
@@ -28,15 +28,14 @@ export default ({ navigation }) => {
   }
 
   function signupPress() {
-    navigation.navigate('Signup')
+    navigation.navigate('Signup');
   }
 
-  firebase.auth().onAuthStateChanged((user) => {
-    if(firebase.auth().currentUser){
-      navigation.navigate('Root')
+  firebase.auth().onAuthStateChanged(() => {
+    if (firebase.auth().currentUser) {
+      navigation.navigate('Root');
     }
-    }
-  );
+  });
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -78,7 +77,7 @@ export default ({ navigation }) => {
           contentStyle={styles.signupContent}
           uppercase={false}
           mode="contained"
-          dark={true}
+          dark
           onPress={loginPress}
         >
           Login

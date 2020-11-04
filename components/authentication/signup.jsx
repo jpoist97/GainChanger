@@ -36,8 +36,8 @@ export default ({ navigation }) => {
   }
 
   function loginPress() {
-    console.log("Navigating to login...")
-    navigation.navigate('Login')
+    console.log('Navigating to login...');
+    navigation.navigate('Login');
   }
 
   return (
@@ -87,7 +87,7 @@ export default ({ navigation }) => {
           contentStyle={styles.signupContent}
           uppercase={false}
           mode="contained"
-          dark={true}
+          dark
           onPress={signupPress}
         >
           Sign Up
@@ -149,6 +149,6 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     backgroundColor: '#A192FF',
-    
+
   },
 });
