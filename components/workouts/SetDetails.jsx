@@ -1,13 +1,22 @@
 /* eslint-disable no-use-before-define */
-import React from 'react';
+import React, {useRef} from 'react';
 import {
-  View, Text, StyleSheet, TextInput, TouchableOpacity,
+  View, Text, StyleSheet, TextInput, TouchableOpacity, Animated, Button
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import PropTypes from 'prop-types';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { MaterialIcons } from '@expo/vector-icons';
+import { RectButton } from 'react-native-gesture-handler';
+
+const AnimatedIcon = Animated.createAnimatedComponent(MaterialIcons);
+
+
 
 const SetDetails = (props) => {
+  const swipeRef = useRef();
+
   const {
     completed,
     prevWeight,
@@ -20,10 +29,42 @@ const SetDetails = (props) => {
     onSetDelete,
   } = props;
 
+
+  const renderRight = (progress, dragX) => {
+    const scale = dragX.interpolate({
+      inputRange: [-30, 0],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+    });
+  
+    return (
+      <TouchableOpacity style={{
+        alignItems: 'flex-end',
+        backgroundColor: '#dd2c00',
+        justifyContent: 'center',
+        width: 30,
+      }} onPress={() => {
+        swipeRef.current.close();
+        onSetDelete();
+      }}>
+        <AnimatedIcon 
+          name='delete-forever'
+          size={30}
+          color='#FFF'
+          style={{width: 30, transform: [{scale}]}}
+          />
+      </TouchableOpacity>
+    );
+  }
+
+
   return (
-    <GestureRecognizer
-      onSwipeLeft={onSetDelete}
-      style={completed ? { ...styles.container, ...styles.completed } : styles.container}
+    <Swipeable 
+    ref={swipeRef}
+    friction={2}
+    containerStyle={{width: '100%'}} 
+    childrenContainerStyle={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly',height: 50, width: '100%', }}
+    renderRightActions={renderRight}
     >
 
       <View style={completed ? { ...styles.setNumber, ...styles.noBackground } : styles.setNumber}>
@@ -58,7 +99,7 @@ const SetDetails = (props) => {
           {completed ? <Feather name="check" size={24} color="white" /> : <Feather name="check" size={24} color="black" />}
         </TouchableOpacity>
       </View>
-    </GestureRecognizer>
+    </Swipeable>
 
   );
 };
