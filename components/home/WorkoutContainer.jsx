@@ -28,11 +28,8 @@ const WorkoutContainer = (props) => {
       width: 135px
       height: 165px;
       border-radius: 20px;
-      padding: 15px 0px;
-      padding-right: 15px;
-      padding-left: 15px;
-      margin: 10px
-      marginLeft: 19px
+      padding: 15px 15px 15px 15px;
+      margin: 10px 0px 0px 19px;
       box-shadow: 3px 5px 2px #00000050;
    `;
 
