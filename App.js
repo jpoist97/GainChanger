@@ -1,17 +1,6 @@
 import * as React from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { RotationGestureHandler } from 'react-native-gesture-handler';
-import Calendar from './components/calendar/Calendar';
-import Home from './components/home/Home';
-import Profile from './components/profile/Profile';
-import Workouts from './components/workouts/Workouts';
-import Cycles from './components/cycles/Cycles';
 import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import { Entypo } from '@expo/vector-icons';
 import { AppLoading } from 'expo';
 import {
   useFonts,
@@ -112,12 +101,15 @@ export default function App() {
   }
 
   const user = firebase.auth().currentUser; 
-  var startupScreen = 'Login'
+  var startupScreen = ''
   if(user) {
     startupScreen = 'Root'
+    console.log(user.email + ' currently logged in.')
+  } else {
+    startupScreen = 'Login'
   }
   
-    return (
+    return ( 
       <PaperProvider theme={theme}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={startupScreen}>
