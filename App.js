@@ -101,13 +101,13 @@ export default function App() {
   }
 
   const user = firebase.auth().currentUser; 
-  var startupScreen = ''
-  if(user) {
-    startupScreen = 'Root'
-    console.log(user.email + ' currently logged in.')
-  } else {
-    startupScreen = 'Login'
-  }
+  var startupScreen = 'Login'
+  // if(user) {
+  //   startupScreen = 'Root'
+  //   console.log(user.email + ' currently logged in.')
+  // } else {
+  //   startupScreen = 'Login'
+  // }
   
     return ( 
       <PaperProvider theme={theme}>

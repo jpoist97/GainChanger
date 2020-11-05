@@ -31,11 +31,11 @@ export default ({ navigation }) => {
     navigation.navigate('Signup');
   }
 
-  firebase.auth().onAuthStateChanged(() => {
-    if (firebase.auth().currentUser) {
-      navigation.navigate('Root');
-    }
-  });
+  // firebase.auth().onAuthStateChanged(() => {
+  //   if (firebase.auth().currentUser) {
+  //     navigation.navigate('Root');
+  //   }
+  // });
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
