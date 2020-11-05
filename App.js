@@ -24,7 +24,7 @@ import {
   Montserrat_900Black_Italic,
 } from '@expo-google-fonts/montserrat';
 import firebase from 'firebase';
-import Signup from './components/authentication/Signup'
+import signup from './components/authentication/signup'
 import Login from './components/authentication/Login'
 import Root from './Root'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -114,7 +114,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName={startupScreen}>
             <Stack.Screen name='Login' component={Login} options={{ headerShown: false }}/>
-            <Stack.Screen name='Signup' component={Signup} options={{ headerShown: false }}/>
+            <Stack.Screen name='Signup' component={signup} options={{ headerShown: false }}/>
             <Stack.Screen name='Root' component={Root} options={{headerShown: false}} />
           </Stack.Navigator>
         </NavigationContainer>
