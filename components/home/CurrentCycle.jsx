@@ -29,19 +29,17 @@ const Subtext = styled.Text`
 
 const CurrentCycle = (props) => {
   const {
-    color, subtext, name, onPress,
+    color, subtext,name, onPress,
   } = props;
+    
 
   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
       width: 90%;
       height: 210px;
       border-radius: 20px;
-      padding: 15px 0px;
-      padding-right: 15px;
-      padding-left: 25px;
-      margin: 10px;
-      marginLeft: 20px;
+      padding: 25px 25px 15px 25px;
+      margin: 10px 10px 10px 20px;
       box-shadow: 3px 5px 2px #00000050;
    `;
 

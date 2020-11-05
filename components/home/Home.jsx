@@ -17,7 +17,7 @@ const welcomeName = 'Justin';
 export default () => {
   const items = [
     {
-      name: 'Lateral Pulldo ...', subtext: '1 day ago', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'),
+      name: 'Lateral Pulldown ABC', subtext: '1 day ago', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'),
     },
     {
       name: 'Upper A RP', subtext: '7 days ago', color: '#9D8DFF', onPress: () => alert('Bro Split A'),
