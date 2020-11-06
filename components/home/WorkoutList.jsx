@@ -4,6 +4,7 @@ import {
   FlatList, View, TouchableOpacity, Text,
 } from 'react-native';
 import styled from 'styled-components/native';
+import {useNavigation} from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import WorkoutContainer from './WorkoutContainer';
 
@@ -16,6 +17,7 @@ const Title = styled.Text`
 
 const WorkoutList = (props) => {
   const { items } = props;
+  const navigation = useNavigation();
 
   const renderCard = ({ item }) => (
     <WorkoutContainer
@@ -30,7 +32,7 @@ const WorkoutList = (props) => {
   return (
     <View style={{ height: '100%' }}>
       <Title>Workouts</Title>
-      <TouchableOpacity style={{ position: 'absolute', right: 15, top: 8 }} onPress={() => alert('This should take you to the workouts page')}>
+      <TouchableOpacity style={{ position: 'absolute', right: 15, top: 8 }} onPress={() => navigation.navigate('Workouts')}>
         <Text style={{ fontSize: 16, fontFamily: 'Montserrat_600SemiBold' }}>See All</Text>
       </TouchableOpacity>
       <FlatList
