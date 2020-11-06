@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types, no-shadow */
+/* eslint-disable react/prop-types */
 import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
 import { View } from 'react-native';
@@ -43,7 +43,7 @@ export default ({ navigation }) => {
         </BackButton>
         <TitleTextInput
           style={{ borderColor: name ? 'transparent' : 'black' }}
-          onChangeText={(name) => setName(name)}
+          onChangeText={(newName) => setName(newName)}
           value={name}
           placeholder="Workout Name"
         />
