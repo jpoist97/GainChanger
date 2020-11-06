@@ -1,9 +1,10 @@
 /* eslint-disable react/forbid-prop-types, react/no-array-index-key */
 import React, { useState } from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import styled from 'styled-components';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 
@@ -110,11 +111,14 @@ const LogWorkout = (props) => {
     <SafeAreaView style={{ height: '100%' }}>
       <TitleText>{name}</TitleText>
       <StyledFinishButton onPress={() => alert(`Top set has ${exerciseState[0].sets[0].weight} lbs by ${exerciseState[0].sets[0].reps} reps`)} />
-      <FlatList
+      <KeyboardAwareFlatList
         style={{ height: '100%' }}
         data={exerciseState}
         renderItem={renderExerciseDetail}
         keyExtractor={(item, index) => item.name + index}
+        keyboardOpeningTime={100}
+        // this is for a react navigation bug making it not smooth scroll
+        extraHeight={-64}
       />
     </SafeAreaView>
   );
