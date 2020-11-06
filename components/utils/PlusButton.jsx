@@ -6,7 +6,7 @@ import { Entypo } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 
 const ButtonContainer = styled(TouchableOpacity)`
-   background-color: #EDEDF0;
+   background-color: #E2E2E2;
    border-radius: 20px;
    padding: 10px;
 `;

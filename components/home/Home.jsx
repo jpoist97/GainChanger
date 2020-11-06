@@ -4,44 +4,6 @@ import { View, StyleSheet } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 import WorkoutContainer from './WorkoutContainer';
 
-export default () => (
-  <View style={styles.container}>
-
-    {/* Cycles Section */}
-    <View style={{ ...styles.sectionComponent, margin: 30 }}>
-
-      <Title style={styles.title}>
-        Cycles
-      </Title>
-
-      <Button contentStyle={{ width: 331, height: 170 }} style={styles.startCycle} color="#FFFFFF" onPress={() => alert('This should start the current workout in the cycle')}>
-        Start Cycle Workout
-      </Button>
-
-      <Button contentStyle={{ width: 325, height: 35 }} style={styles.seeAllButton} color="#000000" onPress={() => alert('This should take you to workouts tab')}>
-        See All Cycles
-      </Button>
-
-    </View>
-
-    {/* Workouts Section */}
-    <View style={{ ...styles.sectionComponent, margin: 10 }}>
-      <Title style={styles.title}>
-        Workouts
-      </Title>
-
-      <WorkoutContainer
-        items={[{ name: 'Push Workout A' }, { name: 'Pull Workout A' }]}
-      />
-
-      <Button contentStyle={{ width: 325, height: 35 }} style={styles.seeAllButton} color="#000000" onPress={() => alert('This should take you to workouts tab')}>
-        See All Workouts
-      </Button>
-
-    </View>
-  </View>
-);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -84,3 +46,41 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+export default () => (
+  <View style={styles.container}>
+
+    {/* Cycles Section */}
+    <View style={{ ...styles.sectionComponent, margin: 30 }}>
+
+      <Title style={styles.title}>
+        Cycles
+      </Title>
+
+      <Button contentStyle={{ width: 331, height: 170 }} style={styles.startCycle} color="#FFFFFF" onPress={() => alert('This should start the current workout in the cycle')}>
+        Start Cycle Workout
+      </Button>
+
+      <Button contentStyle={{ width: 325, height: 35 }} style={styles.seeAllButton} color="#000000" onPress={() => alert('This should take you to workouts tab')}>
+        See All Cycles
+      </Button>
+
+    </View>
+
+    {/* Workouts Section */}
+    <View style={{ ...styles.sectionComponent, margin: 10 }}>
+      <Title style={styles.title}>
+        Workouts
+      </Title>
+
+      <WorkoutContainer
+        items={[{ name: 'Push Workout A' }, { name: 'Pull Workout A' }]}
+      />
+
+      <Button contentStyle={{ width: 325, height: 35 }} style={styles.seeAllButton} color="#000000" onPress={() => alert('This should take you to workouts tab')}>
+        See All Workouts
+      </Button>
+
+    </View>
+  </View>
+);
