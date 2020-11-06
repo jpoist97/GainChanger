@@ -1,40 +1,57 @@
 /* eslint-disable react/forbid-prop-types, react/no-array-index-key */
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { SafeAreaView, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from 'react-native-paper';
-import lodash from 'lodash';
+import _ from 'lodash';
+import styled from 'styled-components';
 import ExerciseDetails from './ExerciseDetails';
+import FinishButton from '../utils/FinishButton';
+
+const StyledFinishButton = styled(FinishButton)`
+  position: absolute;
+  top: 65px;
+  right: 20px;
+`;
+
+const TitleText = styled.Text`
+  font-family: 'Montserrat_600SemiBold';
+  font-size: 24px;
+  margin: 15px 15px;
+`;
+
+const parseExercises = (exercises) => exercises.map((exercise) => ({
+  name: exercise.name,
+  color: exercise.color,
+  sets: exercise.sets.map((set) => ({
+    prevWeight: set.weight,
+    weight: '',
+    prevReps: set.reps,
+    reps: '',
+    completed: false,
+  })),
+}));
 
 /**
- * Required Props are exercises, a 2D array representing exercises and sets.
- * Each index in the 2D array represents and exercise and each index inside of
- * that array represents a set.
- *
- * Each exercise must be an object with the following format:
+ * The exercises prop expect and object with the following formatting.
+ * The weight and reps of each set it the previous weight/rep count.
  * {
  *    name: String,
- *    sets: (Array of Set objects),
+ *    color: String,
+ *    sets: [{ weight: String, reps: String }]
  * }
  *
- * Each set must be an object with the following format:
- * {
- *    prevWeight: String/Number,
- *    weight: String/Number,
- *    reps: String/Number,
- *    completed: boolean,
- * }
  */
 const LogWorkout = (props) => {
-  const { exercises } = props;
+  const { exercises, name } = props;
 
-  const [exerciseState, setExerciseState] = useState(exercises);
+  const initialExerciseState = parseExercises(exercises);
+
+  const [exerciseState, setExerciseState] = useState(initialExerciseState);
 
   const curryUpdateReps = (exerciseIndex) => (setIndex) => (reps) => {
     const newExercise = [...exerciseState];
 
     newExercise[exerciseIndex].sets[setIndex].reps = reps;
-
     setExerciseState(newExercise);
   };
 
@@ -42,57 +59,70 @@ const LogWorkout = (props) => {
     const newExercise = [...exerciseState];
 
     newExercise[exerciseIndex].sets[setIndex].weight = weight;
-
     setExerciseState(newExercise);
   };
 
   const curryUpdateCompleted = (exerciseIndex) => (setIndex) => () => {
     const newExercise = [...exerciseState];
-
     const { completed } = newExercise[exerciseIndex].sets[setIndex];
 
     newExercise[exerciseIndex].sets[setIndex].completed = !completed;
-
     setExerciseState(newExercise);
   };
 
   const curryAddSet = (exerciseIndex) => () => {
     const newExercise = [...exerciseState];
+    const { sets } = newExercise[exerciseIndex];
 
-    newExercise[exerciseIndex].sets.push({ weight: '', reps: '', completed: false });
-
+    // Grab the last set for this exercise and mimic it
+    const lastSet = _.last(sets);
+    newExercise[exerciseIndex].sets.push({
+      weight: lastSet.weight,
+      prevWeight: lastSet.prevWeight,
+      reps: lastSet.reps,
+      prevReps: lastSet.prevReps,
+      completed: false,
+    });
     setExerciseState(newExercise);
   };
 
   const curryDeleteSet = (exerciseIndex) => (setIndex) => () => {
     const newExercise = [...exerciseState];
-    lodash.remove(newExercise[exerciseIndex].sets, (val, index) => index === setIndex);
+
+    _.remove(newExercise[exerciseIndex].sets, (val, index) => index === setIndex);
     setExerciseState(newExercise);
   };
 
+  const renderExerciseDetail = ({ item, index }) => (
+    <ExerciseDetails
+      name={item.name}
+      items={item.sets}
+      color={item.color}
+      updateReps={curryUpdateReps(index)}
+      updateWeight={curryUpdateWeight(index)}
+      updateCompleted={curryUpdateCompleted(index)}
+      onSetAdd={curryAddSet(index)}
+      onSetDelete={curryDeleteSet(index)}
+    />
+  );
+
   return (
-    <View>
-      <Button onPress={() => alert(exerciseState[0].sets[0].reps)}>save</Button>
-      {exerciseState.map((exercise, index) => (
-        <View>
-          <Text>{exercise.name}</Text>
-          <ExerciseDetails
-            items={exercise.sets}
-            key={index}
-            updateReps={curryUpdateReps(index)}
-            updateWeight={curryUpdateWeight(index)}
-            updateCompleted={curryUpdateCompleted(index)}
-            onSetAdd={curryAddSet(index)}
-            onSetDelete={curryDeleteSet(index)}
-          />
-        </View>
-      ))}
-    </View>
+    <SafeAreaView style={{ height: '100%' }}>
+      <TitleText>{name}</TitleText>
+      <StyledFinishButton onPress={() => alert(`Top set has ${exerciseState[0].sets[0].weight} lbs by ${exerciseState[0].sets[0].reps} reps`)} />
+      <FlatList
+        style={{ height: '100%' }}
+        data={exerciseState}
+        renderItem={renderExerciseDetail}
+        keyExtractor={(item, index) => item.name + index}
+      />
+    </SafeAreaView>
   );
 };
 
 LogWorkout.propTypes = {
   exercises: PropTypes.array.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default LogWorkout;

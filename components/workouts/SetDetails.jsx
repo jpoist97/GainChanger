@@ -1,18 +1,66 @@
 /* eslint-disable no-use-before-define */
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import {
-  View, Text, StyleSheet, TextInput, TouchableOpacity, Animated, Button
+  View, Text, TouchableOpacity, Animated,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import GestureRecognizer from 'react-native-swipe-gestures';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { MaterialIcons } from '@expo/vector-icons';
-import { RectButton } from 'react-native-gesture-handler';
+import styled from 'styled-components/native';
 
-const AnimatedIcon = Animated.createAnimatedComponent(MaterialIcons);
+const AnimatedIcon = Animated.createAnimatedComponent(FontAwesome);
 
+const StyledText = styled(Text)`
+  font-family: 'Roboto_400Regular';
+  font-size: 16px;
+  color: #FFF;
+`;
 
+const SetNumber = styled.View`
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PrevWeight = styled.View`
+  height: 25px;
+  width: 70px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledInput = styled.TextInput`
+  width: 70px;
+  height: 25px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  text-align: center;
+  font-family: 'Roboto_400Regular';
+  font-size: 16px;
+`;
+
+const CompletedText = styled.Text`
+  padding-top: 4px;
+  width: 70px;
+  height: 25px;
+  text-align: center;
+  font-family: 'Roboto_400Regular';
+  color: #FFF;
+  font-size: 16px;
+`;
+
+const CompleteButton = styled(TouchableOpacity)`
+  backgroundColor: #FFFFFF;
+  borderRadius: 5px;
+  width: 25px;
+  height: 25px;
+`;
+
+const PulloutButton = styled(TouchableOpacity)`
+  justify-content: center;
+  width: 25px;
+`;
 
 const SetDetails = (props) => {
   const swipeRef = useRef();
@@ -20,6 +68,7 @@ const SetDetails = (props) => {
   const {
     completed,
     prevWeight,
+    prevReps,
     reps,
     setNumber,
     weight,
@@ -29,147 +78,70 @@ const SetDetails = (props) => {
     onSetDelete,
   } = props;
 
-
   const renderRight = (progress, dragX) => {
     const scale = dragX.interpolate({
-      inputRange: [-30, 0],
+      inputRange: [-25, 0],
       outputRange: [1, 0],
       extrapolate: 'clamp',
     });
-  
-    return (
-      <TouchableOpacity style={{
-        alignItems: 'flex-end',
-        backgroundColor: '#dd2c00',
-        justifyContent: 'center',
-        width: 30,
-      }} onPress={() => {
-        swipeRef.current.close();
-        onSetDelete();
-      }}>
-        <AnimatedIcon 
-          name='delete-forever'
-          size={30}
-          color='#FFF'
-          style={{width: 30, transform: [{scale}]}}
-          />
-      </TouchableOpacity>
-    );
-  }
 
+    return (
+      <PulloutButton
+        onPress={() => {
+          swipeRef.current.close();
+          onSetDelete();
+        }}
+      >
+        <AnimatedIcon
+          name="trash"
+          size={25}
+          color="#dd2c00"
+          style={{ width: 30, transform: [{ scale }] }}
+        />
+      </PulloutButton>
+    );
+  };
 
   return (
-    <Swipeable 
-    ref={swipeRef}
-    friction={2}
-    containerStyle={{width: '100%'}} 
-    childrenContainerStyle={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly',height: 50, width: '100%', }}
-    renderRightActions={renderRight}
+    <Swipeable
+      ref={swipeRef}
+      friction={2}
+      containerStyle={{ width: '100%' }}
+      childrenContainerStyle={{
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', height: 50, width: '100%',
+      }}
+      renderRightActions={renderRight}
     >
 
-      <View style={completed ? { ...styles.setNumber, ...styles.noBackground } : styles.setNumber}>
-        <Text>{setNumber}</Text>
+      <SetNumber>
+        <StyledText>{setNumber}</StyledText>
+      </SetNumber>
+
+      <PrevWeight>
+        <StyledText>{prevWeight !== 'n/a' ? `${prevWeight} lbs.` : prevWeight}</StyledText>
+      </PrevWeight>
+
+      {completed ? <CompletedText>{weight || prevWeight}</CompletedText> : <StyledInput value={weight} placeholder={prevWeight} keyboardType="numeric" onChangeText={onWeightChange} />}
+
+      {completed ? <CompletedText>{reps || prevReps}</CompletedText> : <StyledInput value={reps} placeholder={prevReps} keyboardType="numeric" onChangeText={onRepChange} />}
+
+      <View style={{ width: 40, alignItems: 'center' }}>
+        <CompleteButton onPress={onCompletedPress}>
+          {completed ? <Feather name="check" size={25} color="black" /> : <View />}
+        </CompleteButton>
       </View>
 
-      <View style={styles.prevWeight}>
-        {prevWeight ? (
-          <Text>
-            {prevWeight}
-            {' '}
-            lbs.
-          </Text>
-        ) : <View style={styles.noPrevWeight} />}
-      </View>
-
-      <View style={completed ? { ...styles.weight, ...styles.noBackground } : styles.weight}>
-        <TextInput defaultValue={weight} keyboardType="numeric" onChangeText={onWeightChange} />
-      </View>
-
-      <View style={completed ? { ...styles.reps, ...styles.noBackground } : styles.reps}>
-        <TextInput defaultValue={reps} keyboardType="numeric" onChangeText={onRepChange} />
-      </View>
-
-      <View>
-        <TouchableOpacity
-          style={completed
-            ? { ...styles.completeButton, ...styles.completedCompleteButton }
-            : styles.completeButton}
-          onPress={onCompletedPress}
-        >
-          {completed ? <Feather name="check" size={24} color="white" /> : <Feather name="check" size={24} color="black" />}
-        </TouchableOpacity>
-      </View>
     </Swipeable>
 
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    width: '100%',
-    height: 50,
-  },
-  completed: {
-    backgroundColor: '#5DB07580',
-  },
-  noBackground: {
-    backgroundColor: '#00000000',
-  },
-  setNumber: {
-    backgroundColor: '#c4c4c4',
-    borderRadius: 5,
-    width: 30,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  prevWeight: {
-    height: 25,
-    width: 65,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  noPrevWeight: {
-    height: 25,
-    width: 65,
-    backgroundColor: '#c4c4c4',
-    borderRadius: 5,
-  },
-  weight: {
-    width: 50,
-    height: 30,
-    backgroundColor: '#c4c4c4',
-    borderRadius: 5,
-    padding: 5,
-  },
-  reps: {
-    width: 50,
-    height: 30,
-    backgroundColor: '#c4c4c4',
-    borderRadius: 5,
-    paddingTop: 7,
-    paddingLeft: 5,
-  },
-  completeButton: {
-    backgroundColor: '#c4c4c4',
-    borderRadius: 5,
-    width: 30,
-    height: 30,
-    padding: 3,
-  },
-  completedCompleteButton: {
-    backgroundColor: '#5DB075',
-  },
-});
-
 SetDetails.propTypes = {
   completed: PropTypes.bool,
-  prevWeight: PropTypes.number,
-  weight: PropTypes.number,
-  reps: PropTypes.number,
+  prevWeight: PropTypes.string,
+  prevReps: PropTypes.string,
+  weight: PropTypes.string,
+  reps: PropTypes.string,
   setNumber: PropTypes.number.isRequired,
   onWeightChange: PropTypes.func.isRequired,
   onRepChange: PropTypes.func.isRequired,
@@ -179,7 +151,8 @@ SetDetails.propTypes = {
 
 SetDetails.defaultProps = {
   completed: false,
-  prevWeight: undefined,
+  prevWeight: 'n/a',
+  prevReps: 'n/a',
   weight: '',
   reps: '',
 };
