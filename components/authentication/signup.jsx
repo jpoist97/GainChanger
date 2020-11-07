@@ -37,7 +37,7 @@ export default ({ navigation }) => {
 
   function loginPress() {
     console.log('Navigating to login...');
-    navigation.navigate('Login');
+    // navigation.navigate('Login');
   }
 
   return (

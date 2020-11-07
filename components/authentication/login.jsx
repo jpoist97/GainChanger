@@ -28,7 +28,8 @@ export default ({ navigation }) => {
   }
 
   function signupPress() {
-    navigation.navigate('Signup');
+    // navigation.navigate('Signup');
+    alert("signup press")
   }
 
   // firebase.auth().onAuthStateChanged(() => {
