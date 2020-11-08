@@ -35,7 +35,7 @@ const WorkoutContainer = (props) => {
 
   return (
     <StyledView onPress={onPress}>
-      <NameText numberOfLines = {2}>{name}</NameText>
+      <NameText numberOfLines={2}>{name}</NameText>
       <Subtext>
         {' '}
         {subtext}

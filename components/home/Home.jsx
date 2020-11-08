@@ -37,7 +37,7 @@ export default () => {
   ];
   const cycleDetails = [
     {
-      workoutName: 'Pull A', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull A')
+      workoutName: 'Pull A', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull A'),
     },
     {
       workoutName: 'Upper A RP', subtext: 'Shoulders, Triceps', color: '#9D8DFF', onPress: () => alert('Start Upper A RP'),
@@ -71,14 +71,14 @@ export default () => {
           !
         </Title>
       </View>
-      <View style={{ height: '50%', marginBottom: '25%'}}>
+      <View style={{ height: '50%', marginBottom: '25%' }}>
         <CurrentCycle
           name={cycleDetails[currentWorkout].workoutName}
           subtext={cycleDetails[currentWorkout].subtext}
           onPress={cycleDetails[currentWorkout].onPress}
           color={cycleDetails[currentWorkout].color}
-          leftPress = {()=> setCurrentWorkout(currentWorkout == 0 ? cycleDetails.length-1 : currentWorkout - 1)}
-          rightPress = {()=> setCurrentWorkout((currentWorkout+1)%cycleDetails.length)}
+          leftPress={() => setCurrentWorkout(currentWorkout === 0 ? cycleDetails.length - 1 : currentWorkout - 1)}
+          rightPress={() => setCurrentWorkout((currentWorkout + 1) % cycleDetails.length)}
         />
         <WorkoutList items={workoutList} style={{ marginLeft: '10%' }} />
       </View>

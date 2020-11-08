@@ -4,7 +4,7 @@ import {
   FlatList, View, TouchableOpacity, Text,
 } from 'react-native';
 import styled from 'styled-components/native';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import WorkoutContainer from './WorkoutContainer';
 

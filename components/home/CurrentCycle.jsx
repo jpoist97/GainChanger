@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  TouchableOpacity, View, Text
+  TouchableOpacity, View,
 } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
@@ -32,12 +32,10 @@ const Caret = styled.Text`
   font-family: 'Montserrat_600SemiBold';
 `;
 
-
 const CurrentCycle = (props) => {
   const {
-    color, subtext, name, onPress, leftPress, rightPress
+    color, subtext, name, onPress, leftPress, rightPress,
   } = props;
-    
 
   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
@@ -50,21 +48,21 @@ const CurrentCycle = (props) => {
    `;
 
   return (
-    <View style={{ height: '100%'}}>
+    <View style={{ height: '100%' }}>
       <Title>Today</Title>
-      <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
-        <TouchableOpacity onPress = {leftPress}>
-            <Caret> 
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
+        <TouchableOpacity onPress={leftPress}>
+          <Caret>
             {'<'}
-            </Caret>
+          </Caret>
         </TouchableOpacity>
         <StyledView onPress={onPress}>
           <NameText>{name}</NameText>
           <Subtext>{subtext}</Subtext>
         </StyledView>
-        <TouchableOpacity onPress = {rightPress}>
-          <Caret> 
-            {'>'} 
+        <TouchableOpacity onPress={rightPress}>
+          <Caret>
+            {'>'}
           </Caret>
         </TouchableOpacity>
       </View>
