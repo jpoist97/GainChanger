@@ -37,22 +37,22 @@ export default () => {
   ];
   const cycleDetails = [
     {
-      name: 'Pull A', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull A')
+      workoutName: 'Pull A', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull A')
     },
     {
-      name: 'Upper A RP', subtext: 'Shoulders, Triceps', color: '#9D8DFF', onPress: () => alert('Start Upper A RP'),
+      workoutName: 'Upper A RP', subtext: 'Shoulders, Triceps', color: '#9D8DFF', onPress: () => alert('Start Upper A RP'),
     },
     {
-      name: 'Legs A', subtext: 'Glutes, Quads', color: '#6D8DFF', onPress: () => alert('Start Legs A'),
+      workoutName: 'Legs A', subtext: 'Glutes, Quads', color: '#6D8DFF', onPress: () => alert('Start Legs A'),
     },
     {
-      name: 'Pull B', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull B'),
+      workoutName: 'Pull B', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull B'),
     },
     {
-      name: 'Push B', subtext: 'Chest, Triceps', color: '#9D8DFF', onPress: () => alert('Start Push B'),
+      workoutName: 'Push B', subtext: 'Chest, Triceps', color: '#9D8DFF', onPress: () => alert('Start Push B'),
     },
     {
-      name: 'Legs B', subtext: 'Hamstrings, Glutes', color: '#6D8DFF', onPress: () => alert('Start Legs B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+      workoutName: 'Legs B', subtext: 'Hamstrings, Glutes', color: '#6D8DFF', onPress: () => alert('Start Legs B'), onIconPress: () => alert('Edit Upper Lower Split B'),
     },
   ];
   const [currentWorkout, setCurrentWorkout] = React.useState(0);
@@ -73,7 +73,7 @@ export default () => {
       </View>
       <View style={{ height: '50%', marginBottom: '25%'}}>
         <CurrentCycle
-          name={cycleDetails[currentWorkout].name}
+          name={cycleDetails[currentWorkout].workoutName}
           subtext={cycleDetails[currentWorkout].subtext}
           onPress={cycleDetails[currentWorkout].onPress}
           color={cycleDetails[currentWorkout].color}
