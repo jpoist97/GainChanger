@@ -15,29 +15,47 @@ const Title = styled.Text`
 const welcomeName = 'Justin';
 
 export default () => {
-  const items = [
+  const workoutList = [
     {
-      name: 'Lateral Pulldown ABC', subtext: '1 day ago', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'),
+      name: 'Lateral Pulldown ABC', subtext: '1 day ago', color: '#CAB0FF', onPress: () => alert('Start Lateral Pulldown ABC'),
     },
     {
-      name: 'Upper A RP', subtext: '7 days ago', color: '#9D8DFF', onPress: () => alert('Bro Split A'),
+      name: 'Upper A RP', subtext: '7 days ago', color: '#9D8DFF', onPress: () => alert('Start Upper A RP'),
     },
     {
-      name: 'Legs A', subtext: '1 day', color: '#6D8DFF', onPress: () => alert('Upper Lower Split A'),
+      name: 'Legs A', subtext: '1 day', color: '#6D8DFF', onPress: () => alert('Start Legs A'),
     },
     {
-      name: 'Pull B', subtext: '2 days', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs B'),
+      name: 'Pull B', subtext: '2 days', color: '#CAB0FF', onPress: () => alert('Start Pull B'),
     },
     {
-      name: 'Push B', subtext: '1 day', color: '#9D8DFF', onPress: () => alert('Bro Split B'),
+      name: 'Push B', subtext: '1 day', color: '#9D8DFF', onPress: () => alert('Start Push B'),
     },
     {
-      name: 'Legs B', subtext: '22 days ago', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+      name: 'Legs B', subtext: '22 days ago', color: '#6D8DFF', onPress: () => alert('Start Legs B'), onIconPress: () => alert('Edit Upper Lower Split B'),
     },
   ];
-  const cycleDetails = {
-    name: 'Pull A', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull A'),
-  };
+  const cycleDetails = [
+    {
+      name: 'Pull A', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull A')
+    },
+    {
+      name: 'Upper A RP', subtext: 'Shoulders, Triceps', color: '#9D8DFF', onPress: () => alert('Start Upper A RP'),
+    },
+    {
+      name: 'Legs A', subtext: 'Glutes, Quads', color: '#6D8DFF', onPress: () => alert('Start Legs A'),
+    },
+    {
+      name: 'Pull B', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull B'),
+    },
+    {
+      name: 'Push B', subtext: 'Chest, Triceps', color: '#9D8DFF', onPress: () => alert('Start Push B'),
+    },
+    {
+      name: 'Legs B', subtext: 'Hamstrings, Glutes', color: '#6D8DFF', onPress: () => alert('Start Legs B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+    },
+  ];
+  const [currentWorkout, setCurrentWorkout] = React.useState(0);
   return (
     <SafeAreaView>
       <Image
@@ -55,12 +73,14 @@ export default () => {
       </View>
       <View style={{ height: '50%', marginBottom: '25%'}}>
         <CurrentCycle
-          name={cycleDetails.name}
-          subtext={cycleDetails.subtext}
-          onPress={cycleDetails.onPress}
-          color={cycleDetails.color}
+          name={cycleDetails[currentWorkout].name}
+          subtext={cycleDetails[currentWorkout].subtext}
+          onPress={cycleDetails[currentWorkout].onPress}
+          color={cycleDetails[currentWorkout].color}
+          leftPress = {()=> setCurrentWorkout(currentWorkout == 0 ? cycleDetails.length-1 : currentWorkout - 1)}
+          rightPress = {()=> setCurrentWorkout((currentWorkout+1)%cycleDetails.length)}
         />
-        <WorkoutList items={items} style={{ marginLeft: '10%' }} />
+        <WorkoutList items={workoutList} style={{ marginLeft: '10%' }} />
       </View>
     </SafeAreaView>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  TouchableOpacity, View,
+  TouchableOpacity, View, Text
 } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
@@ -26,30 +26,48 @@ const Subtext = styled.Text`
    left: 25px;
    font-family: 'Montserrat_500Medium';
 `;
+const Caret = styled.Text`
+  color: #6D8DFF;
+  font-size: 32px;
+  font-family: 'Montserrat_600SemiBold';
+`;
+
 
 const CurrentCycle = (props) => {
   const {
-    color, subtext,name, onPress,
+    color, subtext, name, onPress, leftPress, rightPress
   } = props;
     
 
   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
-      width: 90%;
+      width: 85%;
       height: 210px;
       border-radius: 20px;
       padding: 25px 25px 15px 25px;
-      margin: 10px 10px 10px 20px;
+      margin: 10px 0px 0px 0px;
       box-shadow: 3px 5px 2px #00000050;
    `;
 
   return (
-    <View style={{ height: '100%' }}>
+    <View style={{ height: '100%'}}>
       <Title>Today</Title>
-      <StyledView onPress={onPress}>
-        <NameText>{name}</NameText>
-        <Subtext>{subtext}</Subtext>
-      </StyledView>
+      <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
+        <TouchableOpacity onPress = {leftPress}>
+            <Caret> 
+            {'<'}
+            </Caret>
+        </TouchableOpacity>
+        <StyledView onPress={onPress}>
+          <NameText>{name}</NameText>
+          <Subtext>{subtext}</Subtext>
+        </StyledView>
+        <TouchableOpacity onPress = {rightPress}>
+          <Caret> 
+            {'>'} 
+          </Caret>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -59,12 +77,16 @@ CurrentCycle.propTypes = {
   subtext: PropTypes.string,
   name: PropTypes.string.isRequired,
   onPress: PropTypes.func,
+  leftPress: PropTypes.func,
+  rightPress: PropTypes.func,
 };
 
 CurrentCycle.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
   onPress: () => {},
+  leftPress: () => {},
+  rightPress: () => {},
 };
 
 export default CurrentCycle;
