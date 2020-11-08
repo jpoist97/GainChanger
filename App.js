@@ -37,11 +37,11 @@ import {
 import firebase from 'firebase';
 import login from './components/authentication/login'
 import signup from './components/authentication/signup'
-// import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import Root from './Root';
 
 const Tab = createBottomTabNavigator();
-// const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 
 const fontConfig = {
   default: {
@@ -118,12 +118,11 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        {/* <Stack.Navigator initialRouteName={startupScreen}>
+        <Stack.Navigator initialRouteName={startupScreen}>
           <Stack.Screen name="Login" component={login} options={{headerShown:false}}/>
           <Stack.Screen name="Signup" component={signup} options={{headerShown:false}}/>
           <Stack.Screen name="Root" component={Root} options={{headerShown:false}} />
-        </Stack.Navigator> */}
-        <Text>Fuck off lol</Text>
+        </Stack.Navigator>
       </NavigationContainer>
       </PaperProvider>
   );

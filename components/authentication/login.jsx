@@ -28,15 +28,15 @@ export default ({ navigation }) => {
   }
 
   function signupPress() {
-    // navigation.navigate('Signup');
-    alert("signup press")
+    navigation.navigate('Signup');
+    console.log("Navigating to signup...")
   }
 
-  // firebase.auth().onAuthStateChanged(() => {
-  //   if (firebase.auth().currentUser) {
-  //     navigation.navigate('Root');
-  //   }
-  // });
+  firebase.auth().onAuthStateChanged(() => {
+    if (firebase.auth().currentUser) {
+      navigation.navigate('Root');
+    }
+  });
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
