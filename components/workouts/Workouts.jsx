@@ -1,8 +1,11 @@
+/* eslint-disable no-use-before-define, react/prop-types */
 import * as React from 'react';
 import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import AllWorkouts from './AllWorkouts';
 import PlusButton from '../utils/PlusButton';
+import CreateWorkout from './CreateWorkout';
 
 const AddCycleButton = styled(PlusButton)`
    position: absolute;
@@ -10,7 +13,7 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default () => {
+export default ({ navigation }) => {
   const items = [
     {
       name: 'Back & Biceps', subtext: 'Back Biceps', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), onIconPress: () => alert('Edit Push, Pull, Legs'),
@@ -46,10 +49,21 @@ export default () => {
     items.push({ color: '#00000000', name: '', displayEllipses: false });
   }
 
-  return (
+  const Stack = createStackNavigator();
+  return ( // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
     <SafeAreaView style={{ height: '100%' }}>
-      <AllWorkouts items={items} />
-      <AddCycleButton title="Workout" size={18} onPress={() => alert('Add Workout')} />
+      <Stack.Navigator initialRouteName="Workouts">
+        <Stack.Screen name="Workouts" component={Workouts} options={{ headerShown: false }} />
+        <Stack.Screen name="Create Workout" component={CreateWorkout} options={{ headerShown: false }} />
+      </Stack.Navigator>
     </SafeAreaView>
   );
+  function Workouts() {
+    return (
+      <SafeAreaView style={{ height: '100%' }}>
+        <AllWorkouts items={items} />
+        <AddCycleButton title="Workout" size={18} onPress={() => navigation.navigate('Create Workout')} />
+      </SafeAreaView>
+    );
+  }
 };
