@@ -1,85 +1,88 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, Title } from 'react-native-paper';
-import WorkoutContainer from './WorkoutContainer';
+import {
+  SafeAreaView, Image, View,
+} from 'react-native';
+import styled from 'styled-components/native';
+import CurrentCycle from './CurrentCycle';
+import WorkoutList from './WorkoutList';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  title: {
-    textAlign: 'center',
-    marginVertical: 8,
-    fontSize: 28,
-  },
-  startButton: {
-    backgroundColor: '#5DB075',
-    borderRadius: 20,
-    position: 'absolute',
-  },
-  seeAllButton: {
-    borderRadius: 20,
-    borderWidth: 3,
-    borderColor: '#5DB075',
-    position: 'absolute',
-    bottom: 20,
-    alignSelf: 'center',
-  },
-  sectionComponent: {
-    width: '95%',
-    height: '40%',
-    backgroundColor: '#F6F6F6',
-    borderWidth: 5,
-    borderRadius: 20,
-    borderColor: '#5DB075',
-  },
-  startCycle: {
-    backgroundColor: '#5DB075',
-    borderRadius: 20,
-    borderColor: '#5DB075',
-    position: 'absolute',
-    top: 60,
-    alignSelf: 'center',
-  },
-});
+const Title = styled.Text`
+  font-family: 'Montserrat_700Bold';
+  font-size: 40px;
+  margin: 0px 6%;
+`;
 
-export default () => (
-  <View style={styles.container}>
+const welcomeName = 'Justin';
 
-    {/* Cycles Section */}
-    <View style={{ ...styles.sectionComponent, margin: 30 }}>
-
-      <Title style={styles.title}>
-        Cycles
-      </Title>
-
-      <Button contentStyle={{ width: 331, height: 170 }} style={styles.startCycle} color="#FFFFFF" onPress={() => alert('This should start the current workout in the cycle')}>
-        Start Cycle Workout
-      </Button>
-
-      <Button contentStyle={{ width: 325, height: 35 }} style={styles.seeAllButton} color="#000000" onPress={() => alert('This should take you to workouts tab')}>
-        See All Cycles
-      </Button>
-
-    </View>
-
-    {/* Workouts Section */}
-    <View style={{ ...styles.sectionComponent, margin: 10 }}>
-      <Title style={styles.title}>
-        Workouts
-      </Title>
-
-      <WorkoutContainer
-        items={[{ name: 'Push Workout A' }, { name: 'Pull Workout A' }]}
+export default () => {
+  const workoutList = [
+    {
+      name: 'Lateral Pulldown ABC', subtext: '1 day ago', color: '#CAB0FF', onPress: () => alert('Start Lateral Pulldown ABC'),
+    },
+    {
+      name: 'Upper A RP', subtext: '7 days ago', color: '#9D8DFF', onPress: () => alert('Start Upper A RP'),
+    },
+    {
+      name: 'Legs A', subtext: '1 day', color: '#6D8DFF', onPress: () => alert('Start Legs A'),
+    },
+    {
+      name: 'Pull B', subtext: '2 days', color: '#CAB0FF', onPress: () => alert('Start Pull B'),
+    },
+    {
+      name: 'Push B', subtext: '1 day', color: '#9D8DFF', onPress: () => alert('Start Push B'),
+    },
+    {
+      name: 'Legs B', subtext: '22 days ago', color: '#6D8DFF', onPress: () => alert('Start Legs B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+    },
+  ];
+  const cycleDetails = [
+    {
+      workoutName: 'Pull A', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull A'),
+    },
+    {
+      workoutName: 'Upper A RP', subtext: 'Shoulders, Triceps', color: '#9D8DFF', onPress: () => alert('Start Upper A RP'),
+    },
+    {
+      workoutName: 'Legs A', subtext: 'Glutes, Quads', color: '#6D8DFF', onPress: () => alert('Start Legs A'),
+    },
+    {
+      workoutName: 'Pull B', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull B'),
+    },
+    {
+      workoutName: 'Push B', subtext: 'Chest, Triceps', color: '#9D8DFF', onPress: () => alert('Start Push B'),
+    },
+    {
+      workoutName: 'Legs B', subtext: 'Hamstrings, Glutes', color: '#6D8DFF', onPress: () => alert('Start Legs B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+    },
+  ];
+  const [currentWorkout, setCurrentWorkout] = React.useState(0);
+  return (
+    <SafeAreaView>
+      <Image
+        source={require('../../assets/logo.png')}
+        style={{
+          width: 215, height: 215, position: 'absolute', right: 10, top: 20,
+        }}
       />
+      <View style={{ marginBottom: '10%', marginTop: '5%' }}>
+        <Title>Hello</Title>
+        <Title>
+          {welcomeName}
+          !
+        </Title>
+      </View>
+      <View style={{ height: '50%', marginBottom: '25%' }}>
+        <CurrentCycle
+          name={cycleDetails[currentWorkout].workoutName}
+          subtext={cycleDetails[currentWorkout].subtext}
+          onPress={cycleDetails[currentWorkout].onPress}
+          color={cycleDetails[currentWorkout].color}
+          leftPress={() => setCurrentWorkout(currentWorkout === 0 ? cycleDetails.length - 1 : currentWorkout - 1)}
+          rightPress={() => setCurrentWorkout((currentWorkout + 1) % cycleDetails.length)}
+        />
+        <WorkoutList items={workoutList} style={{ marginLeft: '10%' }} />
+      </View>
+    </SafeAreaView>
 
-      <Button contentStyle={{ width: 325, height: 35 }} style={styles.seeAllButton} color="#000000" onPress={() => alert('This should take you to workouts tab')}>
-        See All Workouts
-      </Button>
-
-    </View>
-  </View>
-);
+  );
+};
