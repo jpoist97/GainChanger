@@ -113,7 +113,10 @@ export default function App() {
   }
 
   const user = firebase.auth().currentUser;
-  var startupScreen = 'login'
+  var startupScreen = 'Login'
+  if(user){
+    startupScreen = 'Root'
+  } 
 
   return (
     <PaperProvider theme={theme}>
