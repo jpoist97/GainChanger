@@ -25,7 +25,7 @@ const WorkoutContainer = (props) => {
 
   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
-      width: 135px
+      width: 135px;
       height: 165px;
       border-radius: 20px;
       padding: 15px 15px 15px 15px;
