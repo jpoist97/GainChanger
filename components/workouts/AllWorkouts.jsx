@@ -28,8 +28,10 @@ const WorkoutCardPair = styled.View`
 `;
 
 const parseItems = (items) => {
+  // Sort names alphabetically
   items.sort((a, b) => a.name.localeCompare(b.name));
 
+  // Group by first letter of each name
   const bucketData = items.reduce((accumulator, item) => {
     const bucket = item.name[0].toUpperCase();
 
@@ -43,8 +45,11 @@ const parseItems = (items) => {
     return accumulator;
   }, {});
 
+  // Pair up each bucket of data
   const pairedBucketData = _.mapValues(bucketData, (data) => {
     const pairData = [];
+
+    // If we go "out of bounds" here it will just make right undefined
     for (let i = 0; i < data.length; i += 2) {
       pairData.push({ left: data[i], right: data[i + 1] });
     }
