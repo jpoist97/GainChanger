@@ -27,6 +27,10 @@ const IconWrapper = styled.View`
    margin-right: 5px;
 `;
 
+/*
+ * Requires props containing the options field formatted as follows:
+ * [{ icon: 'TYPE', text: String, onPress: function }]
+ */
 const EllipsisPopup = (props) => {
   const { style, options, triggerSize } = props;
 
