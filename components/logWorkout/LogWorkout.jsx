@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types, react/no-array-index-key */
 import React, { useState } from 'react';
-import { SafeAreaView, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import styled from 'styled-components';
@@ -92,10 +92,9 @@ const LogWorkout = (props) => {
     const selectedExercise = exerciseState[exerciseIndex];
 
     // Check if this is the last set left
-    if(selectedExercise.sets.length === 1) {
+    if (selectedExercise.sets.length === 1) {
       alert('You cannot delete the last set of a workout');
-    }
-    else {
+    } else {
       _.remove(newExercise[exerciseIndex].sets, (val, index) => index === setIndex);
       setExerciseState(newExercise);
     }

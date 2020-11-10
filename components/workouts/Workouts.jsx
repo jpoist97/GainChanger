@@ -34,20 +34,8 @@ export default ({ navigation }) => {
       name: 'Legs B', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), onIconPress: () => alert('Edit Upper Lower Split B'),
     },
     {
-      name: 'Pull B', subtext: 'Back Biceps', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs B'), onIconPress: () => alert('Edit Push, Pull, Legs B'),
-    },
-    {
-      name: 'Push B', subtext: 'Chest Triceps', color: '#9D8DFF', onPress: () => alert('Bro Split B'), onIconPress: () => alert('Edit Bro Split B'),
-    },
-    {
-      name: 'Legs B', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+      name: 'Legs C', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), onIconPress: () => alert('Edit Upper Lower Split B'),
     }];
-
-  // Add an invisible WorkoutCard if there is an odd number of cards
-  // Need this otherwise last element will render in middle, not left
-  if (items.length % 2 !== 0) {
-    items.push({ color: '#00000000', name: '', displayEllipses: false });
-  }
 
   const Stack = createStackNavigator();
   return ( // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
