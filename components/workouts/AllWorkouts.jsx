@@ -65,7 +65,7 @@ const renderCard = ({ item: { left, right } }) => (
       name={left.name}
       subtext={left.subtext}
       displayEllipses={left.displayEllipses}
-      onIconPress={left.onIconPress}
+      deleteWorkout={left.deleteWorkout}
       onPress={left.onPress}
       color={left.color}
       key={left.name + left.subtext}
@@ -75,7 +75,7 @@ const renderCard = ({ item: { left, right } }) => (
         name={right.name}
         subtext={right.subtext}
         displayEllipses={right.displayEllipses}
-        onIconPress={right.onIconPress}
+        deleteWorkout={right.deleteWorkout}
         onPress={right.onPress}
         color={right.color}
         key={right.name + right.subtext}
