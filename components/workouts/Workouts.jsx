@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AllWorkouts from './AllWorkouts';
 import PlusButton from '../utils/PlusButton';
 import CreateWorkout from './CreateWorkout';
+import AddExercises from './AddExercises'
 
 const AddCycleButton = styled(PlusButton)`
    position: absolute;
@@ -55,6 +56,7 @@ export default ({ navigation }) => {
       <Stack.Navigator initialRouteName="Workouts">
         <Stack.Screen name="Workouts" component={Workouts} options={{ headerShown: false }} />
         <Stack.Screen name="Create Workout" component={CreateWorkout} options={{ headerShown: false }} />
+        <Stack.Screen name= "Add Exercises" component = {AddExercises} options = {{headerShown: false}}/>
       </Stack.Navigator>
     </SafeAreaView>
   );

@@ -52,7 +52,7 @@ export default ({ navigation }) => {
       <AddFinishButton onPress={() => alert('Workout Created')} />
       {/* Finish Button will take u back to workouts and add workout to list */}
       {/* This is where a list of set workout details components will go */}
-      <AddCycleButton title="Exercise" size={18} onPress={() => alert('Add Exercies')} />
+      <AddCycleButton title="Exercise" size={18} onPress={() => navigation.navigate('Add Exercises')} />
     </View>
   );
 };
