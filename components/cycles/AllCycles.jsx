@@ -34,11 +34,10 @@ const renderCard = ({ item }) => (
   />
 );
 
-const parseItems = (items) => {
+const parseItems = (items, selectedCycle) => {
   // Sort names alphabetically
   items.sort((a, b) => a.name.localeCompare(b.name));
 
-  // Group by first letter of each name
   const bucketData = items.reduce((accumulator, item) => {
     const bucket = item.name[0].toUpperCase();
 
@@ -50,15 +49,15 @@ const parseItems = (items) => {
     }
 
     return accumulator;
-  }, {});
+  }, (selectedCycle ? { 'Selected Cycle': [selectedCycle] } : {}));
 
   return bucketData;
 };
 
 const AllCycles = (props) => {
-  const { items } = props;
+  const { items, selectedCycle } = props;
 
-  const parsedItems = parseItems(items);
+  const parsedItems = parseItems(items, selectedCycle);
 
   return (
     <View style={{ height: '100%' }}>
@@ -67,6 +66,7 @@ const AllCycles = (props) => {
         data={parsedItems}
         renderItem={renderCard}
         renderSectionHeader={renderHeader}
+        getRightSectionListTitle={(title) => (title === 'Selected Cycle' ? '' : title)}
       />
     </View>
   );
@@ -74,6 +74,11 @@ const AllCycles = (props) => {
 
 AllCycles.propTypes = {
   items: PropTypes.array.isRequired,
+  selectedCycle: PropTypes.object,
+};
+
+AllCycles.defaultProps = {
+  selectedCycle: undefined,
 };
 
 export default AllCycles;

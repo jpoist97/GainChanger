@@ -36,6 +36,10 @@ export default ({ navigation }) => {
       name: 'Push, Pull, Legs A', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), deleteCycle: () => alert('Delete Push, Pull, Legs'),
     }];
 
+  const selectedCycle = {
+    name: 'Upper Lower Split B', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), deleteCycle: () => alert('Delete Upper Lower Split B'),
+  };
+
   const Stack = createStackNavigator();
   return ( // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
     <SafeAreaView style={{ height: '100%' }}>
@@ -48,7 +52,7 @@ export default ({ navigation }) => {
   function Cycles() {
     return (
       <SafeAreaView style={{ height: '100%' }}>
-        <AllCycles items={items} />
+        <AllCycles items={items} selectedCycle={selectedCycle} />
         <AddCycleButton title="Cycle" size={18} onPress={() => navigation.navigate('Create Cycle')} />
       </SafeAreaView>
     );
