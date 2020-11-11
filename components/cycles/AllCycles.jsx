@@ -38,6 +38,9 @@ const parseItems = (items, selectedCycle) => {
   // Sort names alphabetically
   items.sort((a, b) => a.name.localeCompare(b.name));
 
+  // The second argument here is the initial accumulator, if there is a
+  // selected cycle we want that to be in the initial accumulator, if not 
+  // we want an empty object as the initial accumulator
   const bucketData = items.reduce((accumulator, item) => {
     const bucket = item.name[0].toUpperCase();
 
