@@ -142,12 +142,7 @@ export default function App() {
   const user = firebase.auth().currentUser;
   var startupScreen = 'Login'
   if(user){
-    //startupScreen = 'Root'
-    firebase.auth().signOut().then(function() {
-      console.log("signed out.")
-    }).catch(function() {
-      console.log("error signing out.")
-    });
+    startupScreen = 'Root'
   } 
 
   return (
