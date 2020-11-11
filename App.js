@@ -136,41 +136,41 @@ export default function App() {
 
   return (
     <MenuProvider>
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-              // Returns the icon for each tab
-              let icon;
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ color, size }) => {
+                // Returns the icon for each tab
+                let icon;
 
-              if (route.name === 'Home') {
-                icon = <Ionicons name='ios-home' size={size} color={color} />;
-              } else if (route.name === 'Workouts') {
-                icon = <FontAwesome5 name="dumbbell" size={size} color={color} />;
-              } else if (route.name === 'Calendar') {
-                icon = <Ionicons name='ios-calendar' size={size} color={color} />;
-              } else if (route.name === 'Profile') {
-                icon = <FontAwesome5 name="user-circle" size={size} color={color} />;
-              } else if (route.name === 'Cycles') {
-                icon = <Entypo name="cycle" size={size} color={color} />;
-              }
+                if (route.name === 'Home') {
+                  icon = <Ionicons name='ios-home' size={size} color={color} />;
+                } else if (route.name === 'Workouts') {
+                  icon = <FontAwesome5 name="dumbbell" size={size} color={color} />;
+                } else if (route.name === 'Calendar') {
+                  icon = <Ionicons name='ios-calendar' size={size} color={color} />;
+                } else if (route.name === 'Profile') {
+                  icon = <FontAwesome5 name="user-circle" size={size} color={color} />;
+                } else if (route.name === 'Cycles') {
+                  icon = <Entypo name="cycle" size={size} color={color} />;
+                }
 
-              return icon;
-            },
-          })}
-          tabBarOptions={{
-            activeTintColor: '#8643FF',
-            inactiveTintColor: 'gray',
-          }}>
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Workouts" component={Workouts} />
-          <Tab.Screen name="Cycles" component={Cycles} />
-          <Tab.Screen name="Calendar" component={Calendar} />
-          <Tab.Screen name="Profile" component={Profile} />
-        </Tab.Navigator>
-      </NavigationContainer>
-      </PaperProvider>
+                return icon;
+              },
+            })}
+            tabBarOptions={{
+              activeTintColor: '#8643FF',
+              inactiveTintColor: 'gray',
+            }}>
+            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Workouts" component={Workouts} />
+            <Tab.Screen name="Cycles" component={Cycles} />
+            <Tab.Screen name="Calendar" component={Calendar} />
+            <Tab.Screen name="Profile" component={Profile} />
+          </Tab.Navigator>
+        </NavigationContainer>
+        </PaperProvider>
       </MenuProvider>
   );
 }
