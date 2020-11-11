@@ -13,11 +13,11 @@ const ButtonContainer = styled(TouchableOpacity)`
 
 const PlusButton = (props) => {
   const {
-    onPress, title, size, style,
+    onPress, title, size, style, font,
   } = props;
 
   const Buttontext = styled.Text`
-      font-family: 'Montserrat_500Medium';
+      font-family: ${font};
       font-size: ${size}px;
    `;
 
@@ -34,6 +34,7 @@ const PlusButton = (props) => {
 PlusButton.propTypes = {
   title: PropTypes.string,
   size: PropTypes.number,
+  font: PropTypes.string,
   onPress: PropTypes.func,
   style: PropTypes.array,
 };
@@ -41,6 +42,7 @@ PlusButton.propTypes = {
 PlusButton.defaultProps = {
   title: '',
   size: 18,
+  font: 'Montserrat_500Medium',
   onPress: () => alert('Unimplemented Plus Button'),
   style: [],
 };

@@ -1,36 +1,61 @@
-import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, Subheading } from 'react-native-paper';
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
+import styled from 'styled-components/native';
+import PropTypes from 'prop-types';
 
-const buttonStartLocation = 28;
-const textStartLocation = 30;
+const NameText = styled.Text`
+   color: #EFEFEF;
+   font-size: 24px;
+   font-family: 'Montserrat_500Medium';
+`;
 
-export default (props) => (
-  <View>
-    {props.items.map((item, index) => (
-      <View>
-        <Button contentStyle={{ width: 100, height: 35 }} style={{ ...styles.startButton, top: buttonStartLocation + index * 80 }} color="#FFFFFF" onPress={() => alert(`This should start recording ${item.name}`)}>
-          Start
-        </Button>
+const Subtext = styled.Text`
+   color: #EFEFEF;
+   font-size: 16px;
+   position: absolute;
+   bottom: 15px;
+   left: 10px;
+   font-family: 'Montserrat_500Medium';
+`;
 
-        <Subheading style={[{
-          position: 'absolute', top: textStartLocation + index * 80, left: 15, fontSize: 18,
-        }]}
-        >
-          {item.name}
-        </Subheading>
+const WorkoutContainer = (props) => {
+  const {
+    color, subtext, name, onPress,
+  } = props;
 
-      </View>
-    ))}
-  </View>
+  const StyledView = styled(TouchableOpacity)`
+      background-color: ${color};
+      width: 135px;
+      height: 165px;
+      border-radius: 20px;
+      padding: 15px 15px 15px 15px;
+      margin: 10px 0px 0px 19px;
+      box-shadow: 3px 5px 2px #00000050;
+   `;
 
-);
+  return (
+    <StyledView onPress={onPress}>
+      <NameText numberOfLines={2}>{name}</NameText>
+      <Subtext>
+        {' '}
+        {subtext}
+        {' '}
+      </Subtext>
+    </StyledView>
+  );
+};
 
-const styles = StyleSheet.create({
-  startButton: {
-    backgroundColor: '#5DB075',
-    borderRadius: 20,
-    position: 'absolute',
-    right: 15,
-  },
-});
+WorkoutContainer.propTypes = {
+  color: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  subtext: PropTypes.string,
+  onPress: PropTypes.func,
+};
+
+WorkoutContainer.defaultProps = {
+  color: '#CAB0FF',
+  subtext: '',
+  onPress: () => {},
+};
+
+export default WorkoutContainer;

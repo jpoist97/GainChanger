@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
@@ -23,9 +23,7 @@ const FinishButton = (props) => {
 
   return (
     <ButtonContainer style={style} onPress={onPress}>
-      <Text>
-        <Buttontext>Finish</Buttontext>
-      </Text>
+      <Buttontext>Finish</Buttontext>
     </ButtonContainer>
   );
 };
