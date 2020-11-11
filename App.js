@@ -39,6 +39,7 @@ import login from './components/authentication/login'
 import signup from './components/authentication/signup'
 import { createStackNavigator } from '@react-navigation/stack';
 import Root from './Root';
+import { func } from 'prop-types';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -115,7 +116,12 @@ export default function App() {
   const user = firebase.auth().currentUser;
   var startupScreen = 'Login'
   if(user){
-    startupScreen = 'Root'
+    //startupScreen = 'Root'
+    firebase.auth().signOut().then(function() {
+      console.log("signed out.")
+    }).catch(function() {
+      console.log("error signing out.")
+    });
   } 
 
   return (

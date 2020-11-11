@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  SafeAreaView, View, StyleSheet, Image, TextInput,
+  SafeAreaView, View, StyleSheet, Image, TextInput, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -8,7 +8,7 @@ import firebase from 'firebase';
 export default ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [showPassword, setShowPassword] = React.useState(true);
+  const [hidePassword, setHidePassword] = React.useState(true);
 
   function loginPress() {
     firebase.auth().signInWithEmailAndPassword(email, password)
@@ -22,6 +22,7 @@ export default ({ navigation }) => {
             break;
 
           default:
+            alert("Error: " + errorMsg)
             console.log(`error logging in: ${errorMsg}`);
         }
       });
@@ -34,65 +35,71 @@ export default ({ navigation }) => {
 
   firebase.auth().onAuthStateChanged(() => {
     if (firebase.auth().currentUser) {
+      console.log("sign in successful. Navigating to home...")
       navigation.navigate('Root');
     }
   });
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Image
-          style={styles.icon}
-          source={require('../../assets/icon.png')}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          selectionColor="#A192FF"
-          textContentType="emailAddress"
-          value={email}
-          onChangeText={(email) => setEmail(email)}
-        />
-        <View style={styles.passwordContainer}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <View style={styles.container}>
+          <Image
+            style={styles.icon}
+            source={require('../../assets/icon.png')}
+          />
           <TextInput
             style={styles.input}
-            placeholder="Password"
+            placeholder="Email"
             selectionColor="#A192FF"
-            textContentType="password"
-            secureTextEntry={showPassword}
-            value={password}
-            onChangeText={(password) => setPassword(password)}
+            textContentType="emailAddress"
+            value={email}
+            onChangeText={(email) => setEmail(email)}
           />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              selectionColor="#A192FF"
+              textContentType="password"
+              secureTextEntry={hidePassword}
+              value={password}
+              onChangeText={(password) => setPassword(password)}
+            />
+            <Button
+              style={styles.passwordShow}
+              uppercase={false}
+              mode="text"
+              color="#8643FF"
+              onPress={() => setHidePassword(!hidePassword)}
+            >
+              Show
+            </Button>
+          </View>
           <Button
-            style={styles.passwordShow}
+            style={styles.signup}
+            contentStyle={styles.signupContent}
+            uppercase={false}
+            mode="contained"
+            dark
+            onPress={loginPress}
+          >
+            Login
+          </Button>
+          <Button
+            style={styles.login}
             uppercase={false}
             mode="text"
             color="#8643FF"
-            onPress={() => setShowPassword(!showPassword)}
+            onPress={signupPress}
           >
-            Show
+            Don't have an account? Sign up
           </Button>
         </View>
-        <Button
-          style={styles.signup}
-          contentStyle={styles.signupContent}
-          uppercase={false}
-          mode="contained"
-          dark
-          onPress={loginPress}
-        >
-          Login
-        </Button>
-        <Button
-          style={styles.login}
-          uppercase={false}
-          mode="text"
-          color="#8643FF"
-          onPress={signupPress}
-        >
-          Don't have an account? Sign up
-        </Button>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
