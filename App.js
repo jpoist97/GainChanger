@@ -49,8 +49,14 @@ import {
   Roboto_900Black_Italic,
 } from '@expo-google-fonts/roboto';
 import firebase from 'firebase';
+import login from './components/authentication/login'
+import signup from './components/authentication/signup'
+import { createStackNavigator } from '@react-navigation/stack';
+import Root from './Root';
+import { func } from 'prop-types';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 const fontConfig = {
   default: {
@@ -133,40 +139,20 @@ export default function App() {
     console.log("Firebase setup already complete.")
   }
 
+  const user = firebase.auth().currentUser;
+  var startupScreen = 'Login'
+  if(user){
+    startupScreen = 'Root'
+  } 
+
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-              // Returns the icon for each tab
-              let icon;
-
-              if (route.name === 'Home') {
-                icon = <Ionicons name='ios-home' size={size} color={color} />;
-              } else if (route.name === 'Workouts') {
-                icon = <FontAwesome5 name="dumbbell" size={size} color={color} />;
-              } else if (route.name === 'Calendar') {
-                icon = <Ionicons name='ios-calendar' size={size} color={color} />;
-              } else if (route.name === 'Profile') {
-                icon = <FontAwesome5 name="user-circle" size={size} color={color} />;
-              } else if (route.name === 'Cycles') {
-                icon = <Entypo name="cycle" size={size} color={color} />;
-              }
-
-              return icon;
-            },
-          })}
-          tabBarOptions={{
-            activeTintColor: '#8643FF',
-            inactiveTintColor: 'gray',
-          }}>
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Workouts" component={Workouts} />
-          <Tab.Screen name="Cycles" component={Cycles} />
-          <Tab.Screen name="Calendar" component={Calendar} />
-          <Tab.Screen name="Profile" component={Profile} />
-        </Tab.Navigator>
+        <Stack.Navigator initialRouteName={startupScreen}>
+          <Stack.Screen name="Login" component={login} options={{headerShown:false}}/>
+          <Stack.Screen name="Signup" component={signup} options={{headerShown:false}}/>
+          <Stack.Screen name="Root" component={Root} options={{headerShown:false}} />
+        </Stack.Navigator>
       </NavigationContainer>
       </PaperProvider>
   );
