@@ -92,10 +92,9 @@ const LogWorkout = (props) => {
     const selectedExercise = exerciseState[exerciseIndex];
 
     // Check if this is the last set left
-    if(selectedExercise.sets.length === 1) {
+    if (selectedExercise.sets.length === 1) {
       alert('You cannot delete the last set of a workout');
-    }
-    else {
+    } else {
       _.remove(newExercise[exerciseIndex].sets, (val, index) => index === setIndex);
       setExerciseState(newExercise);
     }

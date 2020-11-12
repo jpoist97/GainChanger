@@ -1,13 +1,10 @@
 /* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
-import { View, Text} from 'react-native';
+import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
-import _ from 'lodash';
-import { ToggleButton } from 'react-native-paper';
-import { FontAwesome5 } from '@expo/vector-icons';
-import ExerciseItem from './ExerciseItem'
+import { SearchBar } from 'react-native-elements';
+import ExerciseItem from './ExerciseItem';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -24,6 +21,21 @@ const SectionHeader = styled.Text`
 
 `;
 
+const ButtonContainer = styled(TouchableOpacity)`
+   background-color: #E2E2E2;
+   border-radius: 20px;
+   padding: 5px;
+   padding-left: 15px;
+   padding-right: 15px;
+   position: absolute;
+   top: 14px;
+   right: 20px;
+`;
+
+const Buttontext = styled.Text`
+  font-family: 'Montserrat_500Medium';
+  font-size: 18px;
+`;
 
 const parseItems = (items) => {
   // Sort names alphabetically
@@ -45,42 +57,98 @@ const parseItems = (items) => {
   return bucketData;
 };
 
-const renderCard = ({ item }) => (
-    <ExerciseItem
-        name = {item.name}
-        subtext = {item.subtext}
-    ></ExerciseItem>
-);
-
-
 const renderHeader = ({ section }) => (
-    <SectionHeader>{section.title}</SectionHeader>
-)
+  <SectionHeader>{section.title}</SectionHeader>
+);
 
 const ExerciseList = (props) => {
   const { items } = props;
 
   const parsedItems = parseItems(items);
-
-  const [status, setStatus] = React.useState('checked')
-  const onButtonToggle = value => {
-      setStatus(status=='checked' ? 'unchecked': 'checked');
-  }
-
-  return (
-    <View style={{ height: '100%' }}>
-      <Title>Exercises</Title>
-      <AlphabetSectionList
-        data={parsedItems}
-        renderItem={renderCard}
-        renderSectionHeader={renderHeader}
-      />
-    </View>
+  const [search, setSearch] = React.useState('');
+  const [filteredDataSource, setFilteredDataSource] = React.useState([]);
+  const [masterDataSource, setMasterDataSource] = React.useState([]);
+  React.useEffect(() => {
+    setFilteredDataSource(parsedItems);
+    setMasterDataSource(parsedItems);
+  }, []);
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const firstLetter = text[0];
+      if (masterDataSource[firstLetter]) {
+        const newData = masterDataSource[firstLetter].filter((item) => {
+          const itemData = item.name
+            ? item.name.toUpperCase()
+            : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+        });
+        const finished = {};
+        finished[firstLetter] = newData;
+        setFilteredDataSource(finished);
+        setSearch(text);
+      } else {
+        setFilteredDataSource(masterDataSource);
+        setSearch(text);
+      }
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
+  const [exerciseCount, setExerciseCount] = React.useState(0);
+  const [addedExercises] = React.useState([]);
+  const renderCard = ({ item, index }) => (
+    <ExerciseItem
+      name={item.name}
+      subtext={item.subtext}
+      selected={item.selected}
+      onPress={() => {
+        const temp = { ...masterDataSource };
+        const { selected } = temp[item.name[0]][index];
+        temp[item.name[0]][index].selected = !selected;
+        setMasterDataSource(temp);
+        (temp[item.name[0]][index].selected === true) ? setExerciseCount(exerciseCount + 1)
+          : setExerciseCount(exerciseCount - 1);
+        (temp[item.name[0]][index].selected === true) ? addedExercises.push(item)
+          : addedExercises.splice(addedExercises.indexOf(item), 1);
+      }}
+    />
   );
-};
-
-ExerciseList.propTypes = {
-  items: PropTypes.array.isRequired,
+  return (
+    <SafeAreaView style={{ height: '100%' }}>
+      <Title>Exercises</Title>
+      <ButtonContainer onPress={() => alert('Add Exercises to Workout')}>
+        <Buttontext>
+          Add (
+          {exerciseCount}
+          )
+          {' '}
+        </Buttontext>
+      </ButtonContainer>
+      <View style={{ height: '84%' }}>
+        <SearchBar
+          placeholder="Type Here..."
+          onChangeText={(text) => searchFilterFunction(text)}
+          onClear={() => searchFilterFunction('')}
+          value={search}
+          platform="ios"
+          containerStyle={{ backgroundColor: '#f2f2f2' }}
+        />
+        <AlphabetSectionList
+          data={filteredDataSource}
+          renderItem={renderCard}
+          renderSectionHeader={renderHeader}
+        />
+      </View>
+    </SafeAreaView>
+  );
 };
 
 export default ExerciseList;
