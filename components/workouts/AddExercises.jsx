@@ -19,36 +19,37 @@ const AddFinishButton = styled(FinishButton)`
   top: 15px;
   right: 20px;
 `;
-   
+
+
 
 export default ({ navigation }) => {  
     const items = [
         {
-          name: 'Back & Biceps', subtext: 'Back Biceps', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), onIconPress: () => alert('Edit Push, Pull, Legs'),
+          name: 'Bicep Curls', subtext: 'Biceps',
         },
         {
-          name: 'Upper A RP', subtext: 'Chest Triceps', color: '#9D8DFF', onPress: () => alert('Bro Split A'), onIconPress: () => alert('Edit Bro Split A'),
+          name: 'Barbell Curls', subtext: 'Biceps',
         },
         {
-          name: 'Legs A', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split A'), onIconPress: () => alert('Edit Upper Lower Split'),
+          name: 'Deadlifts', subtext: 'Back',
         },
         {
-          name: 'Pull B', subtext: 'Back Biceps', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs B'), onIconPress: () => alert('Edit Push, Pull, Legs B'),
+          name: 'Bench Press', subtext: 'Chest',
         },
         {
-          name: 'Push B', subtext: 'Chest Triceps', color: '#9D8DFF', onPress: () => alert('Bro Split B'), onIconPress: () => alert('Edit Bro Split B'),
+          name: 'Lateral Pulldowns', subtext: 'Back Biceps',
         },
         {
-          name: 'Legs B', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+          name: 'Row Machine', subtext: 'Full Body',
         },
         {
-          name: 'Pull B', subtext: 'Back Biceps', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs B'), onIconPress: () => alert('Edit Push, Pull, Legs B'),
+          name: 'Pull Ups', subtext: 'Back',
         },
         {
-          name: 'Push B', subtext: 'Chest Triceps', color: '#9D8DFF', onPress: () => alert('Bro Split B'), onIconPress: () => alert('Edit Bro Split B'),
+          name: 'Low Rows', subtext: 'Back',
         },
         {
-          name: 'Legs B', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+          name: 'Squats', subtext: 'Quads Glutes',
         }
     ];
     return (
@@ -62,15 +63,6 @@ export default ({ navigation }) => {
         <AddFinishButton onPress={() => alert('Workout Created')} />
 
       </SafeAreaView>
-      // <View style={{ height: '100%' }}>
-      //   <View>
-      //     <BackButton onPress={() => navigation.navigate('Create Workout')}>
-      //       <AntDesign name="left" size={30} color="black" />
-      //     </BackButton>
-      //   </View>
-      //   <ExerciseList>items = {items}</ExerciseList>
-      //   <AddFinishButton onPress={() => alert('Workout Created')} />
-      // </View>
     );
   };
 

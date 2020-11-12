@@ -1,11 +1,13 @@
 /* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Text} from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
-import WorkoutCard from './WorkoutCard';
+import { ToggleButton } from 'react-native-paper';
+import { FontAwesome5 } from '@expo/vector-icons';
+import ExerciseItem from './ExerciseItem'
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -16,16 +18,12 @@ const Title = styled.Text`
 const SectionHeader = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 20px;
-  margin-bottom: 15px;
-  padding-left: 5%;
-  background-color: rgb(242, 242, 242);
+  padding-left: 2%;
+  background-color: #CAB0FF;
+  color: #EFEFEF;
+
 `;
 
-const WorkoutCardPair = styled.View`
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin-bottom: 10px;
-`;
 
 const parseItems = (items) => {
   // Sort names alphabetically
@@ -44,65 +42,34 @@ const parseItems = (items) => {
 
     return accumulator;
   }, {});
-
-  // Pair up each bucket of data
-  const pairedBucketData = _.mapValues(bucketData, (data) => {
-    const pairData = [];
-
-    // If we go "out of bounds" here it will just make right undefined
-    for (let i = 0; i < data.length; i += 2) {
-      pairData.push({ left: data[i], right: data[i + 1] });
-    }
-    return pairData;
-  });
-
-  return pairedBucketData;
+  return bucketData;
 };
 
-const renderCard = ({ item: { left, right } }) => (
-  <WorkoutCardPair>
-    <WorkoutCard
-      name={left.name}
-      subtext={left.subtext}
-      displayEllipses={left.displayEllipses}
-      deleteWorkout={left.deleteWorkout}
-      onPress={left.onPress}
-      color={left.color}
-      key={left.name + left.subtext}
-    />
-    {right ? (
-      <WorkoutCard
-        name={right.name}
-        subtext={right.subtext}
-        displayEllipses={right.displayEllipses}
-        deleteWorkout={right.deleteWorkout}
-        onPress={right.onPress}
-        color={right.color}
-        key={right.name + right.subtext}
-      />
-    ) : (
-      <WorkoutCard
-        color="#00000000"
-        name=""
-        displayEllipses={false}
-      />
-    )}
-  </WorkoutCardPair>
-
+const renderCard = ({ item }) => (
+    <ExerciseItem
+        name = {item.name}
+        subtext = {item.subtext}
+    ></ExerciseItem>
 );
+
 
 const renderHeader = ({ section }) => (
-  <SectionHeader>{section.title}</SectionHeader>
-);
+    <SectionHeader>{section.title}</SectionHeader>
+)
 
 const ExerciseList = (props) => {
   const { items } = props;
 
   const parsedItems = parseItems(items);
 
+  const [status, setStatus] = React.useState('checked')
+  const onButtonToggle = value => {
+      setStatus(status=='checked' ? 'unchecked': 'checked');
+  }
+
   return (
     <View style={{ height: '100%' }}>
-      <Title>Workouts</Title>
+      <Title>Exercises</Title>
       <AlphabetSectionList
         data={parsedItems}
         renderItem={renderCard}
