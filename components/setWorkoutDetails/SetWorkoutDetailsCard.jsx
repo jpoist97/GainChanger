@@ -49,6 +49,15 @@ const StyledText = styled.Text`
   padding: 2px 15px; 0px 0px;
 `;
 
+const StyledView = styled.View`
+  width: 90%;
+  height: 120px;
+  border-radius: 20px;
+  padding: 15px;
+  margin: 10px 5%;
+  box-shadow: 3px 5px 2px #00000050;
+`;
+
 const SetWorkoutDetailsCard = (props) => {
   const {
     color, name, onIconPress, displayEllipses,
@@ -56,17 +65,8 @@ const SetWorkoutDetailsCard = (props) => {
   const [sets, setSets] = React.useState(0);
   const [reps, setReps] = React.useState(0);
 
-  const StyledView = styled.View`
-      background-color: ${color};
-      width: 90%;
-      height: 120px;
-      border-radius: 20px;
-      padding: 15px;
-      margin: 10px 5%;
-      box-shadow: 3px 5px 2px #00000050;
-   `;
   return (
-    <StyledView>
+    <StyledView style={{backgroundColor: color}}>
       <NameText>{name}</NameText>
       {displayEllipses ? (
         <Ellipsis
@@ -81,13 +81,34 @@ const SetWorkoutDetailsCard = (props) => {
         <StyledText style={{marginLeft: '32%'}}>Reps</StyledText>
       </ContentWrapper>
       <ContentWrapper>
-        <StyledIcon name="minus" size={26} color="white" style={{marginLeft: '0%'}} onPress={() => console.log(parseInt(sets) - 1)}/>
-        <StyledInput value={sets} placeholder="3" keyboardType="numeric" />
-        <StyledIcon name="plus" size={26} color="white" onPress={() => setSets(sets + 1)}/>
+        <StyledIcon 
+          name="minus" 
+          size={26} 
+          color="white" 
+          style={{marginLeft: '0%'}} 
+          onPress={() => parseInt(sets) <= 0 || setSets(parseInt(sets) - 1)}
+           />
+        <StyledInput value={sets.toString()} type="number" placeholder="3" keyboardType="numeric" onChangeText={setSets}/>
+        <StyledIcon 
+          name="plus" 
+          size={26} 
+          color="white" 
+          onPress={() => setSets(parseInt(sets) + 1)}
+        />
 
-        <StyledIcon name="minus" size={26} color="white" style={{marginLeft: '5%'}} onPress={() => setReps(reps + 1)}/>
-        <StyledInput value={reps} placeholder="10" keyboardType="numeric" />
-        <StyledIcon name="plus" size={26} color="white" onPress={() => setReps(reps + 1)}/>
+        <StyledIcon 
+          name="minus" 
+          size={26} 
+          color="white" 
+          style={{marginLeft: '5%'}} 
+          onPress={() => parseInt(reps) <= 0 || setReps(parseInt(reps) - 1)}
+        />
+        <StyledInput value={reps.toString()} type="number" placeholder="10" keyboardType="numeric" onChangeText={setReps}/>
+        <StyledIcon 
+          name="plus" 
+          size={26} 
+          color="white" 
+          onPress={() => setReps(parseInt(reps) + 1)}/>
       </ContentWrapper>
     </StyledView>
   );

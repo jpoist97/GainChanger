@@ -1,6 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
 import { FlatList, View } from 'react-native';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
+
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import SetWorkoutDetailsCard from './SetWorkoutDetailsCard';
@@ -24,12 +26,13 @@ const SetAllWorkoutDetails = (props) => {
   );
 
   return (
-    <View style={{ height: '100%' }}>
+    <View style={{ height: '92%' }}>
       <Title>Workouts</Title>
-      <FlatList
+      <KeyboardAwareFlatList
         data={items}
         renderItem={renderCard}
         keyExtractor={(item, index) => item.name + index}
+        keyboardOpeningTime={300}
       />
     </View>
   );
