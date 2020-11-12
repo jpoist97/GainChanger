@@ -18,22 +18,22 @@ export default ({ navigation }) => {
         const errorMessage = error.message;
         switch (errorCode) {
           case 'auth/weak-password':
-            alert("Password too weak.")
+            alert('Password too weak.');
             console.log('Weak password');
             break;
 
           case 'auth/invalid-email':
-            alert("Invalid email.")
+            alert('Invalid email.');
             console.log('Invalid email.');
             break;
 
           case 'auth/email-already-in-use':
-            alert("That email is already being used.")
+            alert('That email is already being used.');
             console.log('email already in use');
             break;
 
           default:
-            alert("Error: " + errorMessage)
+            alert(`Error: ${errorMessage}`);
             console.log(errorMessage);
         }
       });
@@ -47,7 +47,7 @@ export default ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
         <View style={styles.container}>
