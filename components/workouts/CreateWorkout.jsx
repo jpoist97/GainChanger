@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import styled from 'styled-components/native';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
+import SetAllWorkoutDetails from '../setWorkoutDetails/SetAllWorkoutDetails';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -35,6 +36,26 @@ const AddCycleButton = styled(PlusButton)`
 export default ({ navigation }) => {
   const [name, setName] = React.useState('');
 
+  const items = [
+    {
+      name: 'Deadlifts', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'),
+    },
+    {
+      name: 'Low Row', color: '#9D8DFF', onIconPress: () => alert('EllipsesPress'),
+    },
+    {
+      name: 'Lat Pulldown', color: '#6D8DFF', onIconPress: () => alert('EllipsesPress'),
+    },
+    {
+      name: 'Bicep Curls', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'),
+    },
+    {
+      name: 'Bench Press', color: '#9D8DFF', onIconPress: () => alert('EllipsesPress'),
+    },
+    {
+      name: 'Pull Ups', color: '#6D8DFF', onIconPress: () => alert('EllipsesPress'),
+    }];
+
   return (
     <View style={{ height: '100%' }}>
       <View>
@@ -51,7 +72,7 @@ export default ({ navigation }) => {
       </View>
       <AddFinishButton onPress={() => alert('Workout Created')} />
       {/* Finish Button will take u back to workouts and add workout to list */}
-      {/* This is where a list of set workout details components will go */}
+      <SetAllWorkoutDetails items={items}/>
       <AddCycleButton title="Exercise" size={18} onPress={() => alert('Add Exercies')} />
     </View>
   );
