@@ -2,10 +2,11 @@ import React from 'react';
 import {
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import { FontAwesome5 } from '@expo/vector-icons';
+import EllipsePopup from '../utils/EllipsisPopup';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -22,7 +23,7 @@ const Subtext = styled.Text`
    font-family: 'Montserrat_500Medium';
 `;
 
-const Ellipsis = styled(FontAwesome5)`
+const StyledEllipsisPopup = styled(EllipsePopup)`
    position: absolute;
    right: 10px;
    top: 18px;
@@ -32,7 +33,7 @@ const Ellipsis = styled(FontAwesome5)`
 
 const WorkoutCard = (props) => {
   const {
-    color, subtext, name, onPress, onIconPress, displayEllipses,
+    color, subtext, name, onPress, deleteWorkout, displayEllipses,
   } = props;
 
   const StyledView = styled(TouchableOpacity)`
@@ -51,11 +52,21 @@ const WorkoutCard = (props) => {
     <StyledView onPress={onPress}>
       <NameText>{name}</NameText>
       {displayEllipses ? (
-        <Ellipsis
-          name="ellipsis-h"
-          size={18}
-          color="black"
-          onPress={onIconPress}
+        <StyledEllipsisPopup
+          options={[{ icon: 'EDIT', text: 'Edit Workout', onPress: () => alert('Navigate to Edit Workout Screen') },
+            {
+              icon: 'DELETE',
+              text: 'Delete Workout',
+              onPress: () => Alert.alert('Delete Confirmation', `Are you sure you want to delete ${name}?`, [{
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              {
+                text: 'Delete',
+                style: 'destructive',
+                onPress: deleteWorkout,
+              }]),
+            }]}
         />
       ) : <View />}
       <Subtext>{subtext}</Subtext>
@@ -69,7 +80,7 @@ WorkoutCard.propTypes = {
   name: PropTypes.string.isRequired,
   displayEllipses: PropTypes.bool,
   onPress: PropTypes.func,
-  onIconPress: PropTypes.func,
+  deleteWorkout: PropTypes.func,
 };
 
 WorkoutCard.defaultProps = {
@@ -77,7 +88,7 @@ WorkoutCard.defaultProps = {
   subtext: '',
   displayEllipses: true,
   onPress: () => {},
-  onIconPress: () => {},
+  deleteWorkout: () => {},
 };
 
 export default WorkoutCard;

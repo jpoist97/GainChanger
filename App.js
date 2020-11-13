@@ -13,6 +13,7 @@ import Cycles from './components/cycles/Cycles';
 import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Entypo } from '@expo/vector-icons';
 import { AppLoading } from 'expo';
+import { MenuProvider } from 'react-native-popup-menu';
 import {
   useFonts,
   Montserrat_100Thin,
@@ -146,6 +147,7 @@ export default function App() {
   } 
 
   return (
+    <MenuProvider>
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName={startupScreen}>
@@ -155,5 +157,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
       </PaperProvider>
+      </MenuProvider>
   );
 }
