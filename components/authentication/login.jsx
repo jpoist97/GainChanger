@@ -1,163 +1,151 @@
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
-import {Button, Provider } from 'react-native-paper'
+import * as React from 'react';
+import {
+  SafeAreaView, View, StyleSheet, Image, TextInput, KeyboardAvoidingView, Platform,
+} from 'react-native';
+import { Button } from 'react-native-paper';
+import firebase from 'firebase';
 
-export default class login extends React.Component {
-    state={
-        email:"",
-        password:"",
-        showPassword:true,
+export default ({ navigation }) => {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [hidePassword, setHidePassword] = React.useState(true);
+
+  function loginPress() {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMsg = error.message;
+        switch (errorCode) {
+          case 'auth/wrong-password':
+            alert('Incorrect password.');
+            console.log('Incorrect password.');
+            break;
+
+          default:
+            alert("Error: " + errorMsg)
+            console.log(`error logging in: ${errorMsg}`);
+        }
+      });
+  }
+
+  function signupPress() {
+    navigation.navigate('Signup');
+    console.log("Navigating to signup...")
+  }
+
+  firebase.auth().onAuthStateChanged(() => {
+    if (firebase.auth().currentUser) {
+      console.log("sign in successful. Navigating to home...")
+      navigation.navigate('Root');
     }
+  });
 
-    loginPressed = () => {
-        alert("Login button pressed")
-    }
-
-    forgotPressed = () => {
-        alert("forgot password pressed")
-    }
-
-    signUpPressed = () => {
-        alert("sign up pressed")
-    }
-
-    showPasswordPress = () => {
-        this.setState({
-            ...this.state,
-            showPassword: !(this.state.showPassword)
-        });
-    }
-
-    render(){
-        return (
-        <Provider theme={theme}>
-            <View style={styles.container}>
-            <Image style={styles.icon} 
-                source={require('./../assets/icon.png')}
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <View style={styles.container}>
+          <Image
+            style={styles.icon}
+            source={require('../../assets/icon.png')}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            selectionColor="#A192FF"
+            textContentType="emailAddress"
+            value={email}
+            onChangeText={(email) => setEmail(email)}
+          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              selectionColor="#A192FF"
+              textContentType="password"
+              secureTextEntry={hidePassword}
+              value={password}
+              onChangeText={(password) => setPassword(password)}
             />
-            <TextInput style={styles.email} 
-                textContentType="emailAddress" 
-                placeholder="Email" 
-                value={this.state.email}
-                onChangeText={(value) => this.setState({
-                                                ...this.state,
-                                                email:value
-                                            })}
-            />
-            <View style={styles.passwordContainer}>
-                <TextInput style={styles.password}
-                    textContentType="password" 
-                    placeholder="Password" 
-                    value={this.state.password}
-                    onChangeText={(value) => this.setState({
-                                                    ...this.state,
-                                                    password:value
-                                                })}
-                    secureTextEntry={this.state.showPassword}
-                />
-                <Button style={styles.showContainer} 
-                        onPress={this.showPasswordPress}
-                        uppercase={false}
-                        >
-                    Show
-                </Button>
-            </View>
-            <Button onPress={this.forgotPressed}
-                    style={styles.forgot}
-                    uppercase={false}
-                    >
-                Forgot Password?
+            <Button
+              style={styles.passwordShow}
+              uppercase={false}
+              mode="text"
+              color="#8643FF"
+              onPress={() => setHidePassword(!hidePassword)}
+            >
+              Show
             </Button>
-            <Button onPress={this.loginPressed} 
-                    style={styles.loginBtn}
-                    uppercase={false}
-                    >
-                <Text style={styles.loginTxt}>Login</Text>
-            </Button>
-            <Button onPress={this.signUpPressed}
-                    uppercase={false}
-                    >
-                <Text style={styles.signup}>Don't have an account? Sign up</Text>
-            </Button>
+          </View>
+          <Button
+            style={styles.signup}
+            contentStyle={styles.signupContent}
+            uppercase={false}
+            mode="contained"
+            dark
+            onPress={loginPress}
+          >
+            Login
+          </Button>
+          <Button
+            style={styles.login}
+            uppercase={false}
+            mode="text"
+            color="#8643FF"
+            onPress={signupPress}
+          >
+            Don't have an account? Sign up
+          </Button>
         </View>
-        </Provider>
-
-        )
-    }
-}
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-    passwordContainer:{
-        position:'relative',
-        alignSelf:'stretch',
-        justifyContent:'center',
-        flexDirection:'row',
-        
-    },
-    showContainer:{
-        position:'absolute',
-        marginTop:3,
-        padding:5,
-        right:'9%'
-    },
-    container: {
-        flex:1,
-        alignItems:'center',
-        justifyContent:'center',
-        backgroundColor:"white",
-        height:"100%",
-    },
-    icon: {
-        width:225,
-        height:225,
-        marginTop:50,
-        marginBottom:150,
-    },
-    show: {
-        color:"#5DB075",
-        fontSize:16,
-        fontWeight:'bold',
-    },
-    email: {
-        alignSelf:"center",
-        width:"80%",
-        padding:14,
-        borderRadius:10,
-        backgroundColor:"#f6f6f6",
-        borderColor:"#E8E8E8",
-        borderWidth:2,
-        marginBottom:25,
-    },
-    password: {
-        alignSelf:"center",
-        width:"80%",
-        padding:14,
-        borderRadius:10,
-        backgroundColor:"#f6f6f6",
-        borderColor:"#E8E8E8",
-        borderWidth:2,
-    },
-    forgot: {
-        color: "#5DB075",
-        fontWeight:'bold',
-        marginLeft:'50%',
-    },
-    loginBtn: {
-        width:"80%",
-        borderRadius:25,
-        height:50,
-        alignItems:"center",
-        justifyContent: "center",
-        marginTop:40,
-        marginBottom: 10,
-        backgroundColor: "#5DB075",
-    },
-    loginTxt:{
-        color:"white",
-        fontSize:16,
-    },
-    signup: {
-        color: "#5DB075",
-        width: '100%',
-    }
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    height: '100%',
+  },
+  icon: {
+    width: 225,
+    height: 225,
+    marginTop: 50,
+    marginBottom: 50,
+  },
+  input: {
+    alignSelf: 'center',
+    width: '80%',
+    backgroundColor: '#f6f6f6',
+    borderColor: '#E8E8E8',
+    borderWidth: 1,
+    marginBottom: 25,
+    borderRadius: 7,
+    padding: 10,
+  },
+
+  passwordContainer: {
+    width: '100%',
+    position: 'relative',
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  passwordShow: {
+    position: 'absolute',
+    padding: 5,
+    right: 35,
+  },
+  signup: {
+    width: '80%',
+    borderRadius: 25,
+    height: 50,
+    justifyContent: 'center',
+    backgroundColor: '#A192FF',
+  },
 });
