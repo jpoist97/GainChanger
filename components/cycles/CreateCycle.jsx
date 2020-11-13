@@ -51,7 +51,7 @@ export default ({ navigation }) => {
       </View>
       <AddFinishButton onPress={() => alert('Cycle Created')} />
       {/* Finish Button will take u back to Cycles and add cycle to list */}
-      {/* This is where a list of workouts in the cycle will go. Should be 
+      {/* This is where a list of workouts in the cycle will go. Should be
       able to drag to change order */}
       <AddCycleButton title="Workout" size={18} onPress={() => alert('Add Workout to Cycle')} />
     </View>

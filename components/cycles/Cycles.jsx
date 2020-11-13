@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import AllCycles from './AllCycles';
 import PlusButton from '../utils/PlusButton';
-import { createStackNavigator } from '@react-navigation/stack';
 import CreateCycle from './CreateCycle';
-
-
 
 const AddCycleButton = styled(PlusButton)`
    position: absolute;
@@ -14,7 +12,7 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default ({navigation}) => {
+export default ({ navigation }) => {
   const items = [
     {
       name: 'Push, Pull, Legs A', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), onIconPress: () => alert('Edit Push, Pull, Legs'),
