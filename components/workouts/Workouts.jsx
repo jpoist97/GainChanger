@@ -43,6 +43,7 @@ export default ({ navigation }) => {
       <Stack.Navigator initialRouteName="Workouts">
         <Stack.Screen name="Workouts" component={Workouts} options={{ headerShown: false }} />
         <Stack.Screen name="Create Workout" component={CreateWorkout} options={{ headerShown: false }} />
+        {/*<Stack.Screen name="Add Exercise" component={AddExercise} options={{ headerShown: false }} />*/}
       </Stack.Navigator>
     </SafeAreaView>
   );

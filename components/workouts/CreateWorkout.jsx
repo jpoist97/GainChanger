@@ -34,8 +34,9 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 export default ({ navigation }) => {
-  const [name, setName] = React.useState('');
 
+
+  const [name, setName] = React.useState('');
   const items = [
     {
       name: 'Deadlifts', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'),
@@ -55,6 +56,14 @@ export default ({ navigation }) => {
     {
       name: 'Pull Ups', color: '#6D8DFF', onIconPress: () => alert('EllipsesPress'),
     }];
+    const [itemState, setItemState] = React.useState(items);
+
+    const onExercisesAdd = (selectedExercsies) => {
+      const newItems = [...itemState];
+      newitems.push(...selectedExercises)
+      setItemState(newItems)
+    }
+
 
   return (
     <View style={{ height: '100%' }}>
@@ -72,8 +81,8 @@ export default ({ navigation }) => {
       </View>
       <AddFinishButton onPress={() => (name ? navigation.navigate('Workouts') : Alert.alert('Oops', "Don't Forget to name your workout"))} />
       {/* TODO: Finish Button Needs to create new workout, and add it to Workout Page */}
-      <SetAllWorkoutDetails items={items} />
-      <AddCycleButton title="Exercise" size={18} onPress={() => alert('Add Exercies')} />
+      <SetAllWorkoutDetails items={itemState} />
+      <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', {onExerciseAdd})}} />
     </View>
   );
 };
