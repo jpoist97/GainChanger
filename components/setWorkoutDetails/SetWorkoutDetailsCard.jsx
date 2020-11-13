@@ -1,12 +1,10 @@
+/* eslint-disable radix, max-len */
 import React from 'react';
-import {
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
+
 import EllipsisPopup from '../utils/EllipsisPopup';
 
 const NameText = styled.Text`
@@ -29,7 +27,6 @@ const StyledIcon = styled(AntDesign)`
 
 const ContentWrapper = styled.View`
   flexDirection: row;
-  padding: 3px 0px;
 `;
 const StyledInput = styled.TextInput`
   width: 70px;
@@ -61,58 +58,84 @@ const StyledView = styled.View`
 
 const SetWorkoutDetailsCard = (props) => {
   const {
-    color, name, onIconPress, displayEllipses,
+    color, name, displayEllipses,
   } = props;
-  const [sets, setSets] = React.useState("");
-  const [reps, setReps] = React.useState("");
+  const [sets, setSets] = React.useState('');
+  const [reps, setReps] = React.useState('');
+  const [seconds, setSeconds] = React.useState('');
+  const [isReps, setIsReps] = React.useState(true);
 
   return (
-    <StyledView style={{backgroundColor: color}}>
+    <StyledView style={{ backgroundColor: color }}>
       <NameText>{name}</NameText>
       {displayEllipses ? (
         <StyledEllipsesPopup
-        options={[
-          { 
-            icon: 'SWAP', text: 'Switch Reps/Time', onPress: () => alert('Switch Reps <---> Time') 
-          },
-          {
-            icon: 'DELETE', text: 'Delete Workout', onPress: () => alert('DeleteWorkout')
-          }]}
+          options={[
+            {
+              icon: 'SWAP', text: 'Switch Reps/Time', onPress: () => (isReps ? setIsReps(false) : setIsReps(true)),
+            },
+            {
+              icon: 'DELETE', text: 'Remove Exercise', onPress: () => alert('Remove Exercise From Workout'),
+            }]}
         />
       ) : <View />}
-      <ContentWrapper>
-        <StyledText style={{marginLeft: '14%'}}>Sets</StyledText>
-        <StyledText style={{marginLeft: '32%'}}>Reps</StyledText>
+      {/* TODO: Delete should remove exercise from workout */}
+      <ContentWrapper style={{ paddingTop: 3, paddingBottom: 3 }}>
+        <StyledText style={{ marginLeft: '14%' }}>Sets</StyledText>
+        { isReps
+          ? <StyledText style={{ marginLeft: '30%' }}>Reps</StyledText>
+          : <StyledText style={{ marginLeft: '26%' }}>Seconds</StyledText>}
       </ContentWrapper>
       <ContentWrapper>
-        <StyledIcon 
-          name="minus" 
-          size={26} 
-          color="white" 
-          style={{marginLeft: '0%'}} 
-          onPress={() => sets ? parseInt(sets) <= 0 || setSets((parseInt(sets) - 1).toString()): sets}
-           />
-        <StyledInput value={sets} placeholder="3" keyboardType="numeric" onChangeText={setSets}/>
-        <StyledIcon 
-          name="plus" 
-          size={26} 
-          color="white" 
-          onPress={() => sets ? setSets((parseInt(sets) + 1).toString()) : setSets("1") }
+        <StyledIcon
+          name="minus"
+          size={26}
+          color="white"
+          style={{ marginLeft: '0%' }}
+          onPress={() => (sets ? parseInt(sets) <= 0 || setSets((parseInt(sets) - 1).toString()) : sets)}
         />
-
-        <StyledIcon 
-          name="minus" 
-          size={26} 
-          color="white" 
-          style={{marginLeft: '5%'}} 
-          onPress={() => reps ? parseInt(reps) <= 0 || setReps((parseInt(reps) - 1).toString()): reps }
+        <StyledInput value={sets} placeholder="3" keyboardType="numeric" onChangeText={setSets} />
+        <StyledIcon
+          name="plus"
+          size={26}
+          color="white"
+          onPress={() => (sets ? setSets((parseInt(sets) + 1).toString()) : setSets('1'))}
         />
-        <StyledInput value={reps} type="number" placeholder="10" keyboardType="numeric" onChangeText={setReps}/>
-        <StyledIcon 
-          name="plus" 
-          size={26} 
-          color="white" 
-          onPress={() => reps ? setReps((parseInt(reps) + 1).toString()) : setReps("1")}/>
+        {isReps ? (
+          <ContentWrapper>
+            <StyledIcon
+              name="minus"
+              size={26}
+              color="white"
+              style={{ marginLeft: '5%' }}
+              onPress={() => (reps ? parseInt(reps) <= 0 || setReps((parseInt(reps) - 1).toString()) : reps)}
+            />
+            <StyledInput value={reps} type="number" placeholder="10" keyboardType="numeric" onChangeText={setReps} />
+            <StyledIcon
+              name="plus"
+              size={26}
+              color="white"
+              onPress={() => (reps ? setReps((parseInt(reps) + 1).toString()) : setReps('1'))}
+            />
+          </ContentWrapper>
+        ) : (
+          <ContentWrapper>
+            <StyledIcon
+              name="minus"
+              size={26}
+              color="white"
+              style={{ marginLeft: '5%' }}
+              onPress={() => (seconds ? parseInt(seconds) < 5 || setSeconds((parseInt(seconds) - 5).toString()) : seconds)}
+            />
+            <StyledInput value={seconds} type="number" placeholder="60" keyboardType="numeric" onChangeText={setSeconds} />
+            <StyledIcon
+              name="plus"
+              size={26}
+              color="white"
+              onPress={() => (seconds ? setSeconds((parseInt(seconds) + 5).toString()) : setSeconds('5'))}
+            />
+          </ContentWrapper>
+        )}
       </ContentWrapper>
     </StyledView>
   );
@@ -122,13 +145,11 @@ SetWorkoutDetailsCard.propTypes = {
   color: PropTypes.string,
   name: PropTypes.string.isRequired,
   displayEllipses: PropTypes.bool,
-  onIconPress: PropTypes.func,
 };
 
 SetWorkoutDetailsCard.defaultProps = {
   color: '#CAB0FF',
   displayEllipses: true,
-  onIconPress: () => {},
 };
 
 export default SetWorkoutDetailsCard;

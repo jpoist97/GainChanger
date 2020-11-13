@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import styled from 'styled-components/native';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
@@ -47,7 +47,7 @@ export default ({ navigation }) => {
       name: 'Lat Pulldown', color: '#6D8DFF', onIconPress: () => alert('EllipsesPress'),
     },
     {
-      name: 'Bicep Curls', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'),
+      name: 'Plank', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'),
     },
     {
       name: 'Bench Press', color: '#9D8DFF', onIconPress: () => alert('EllipsesPress'),
@@ -70,9 +70,9 @@ export default ({ navigation }) => {
         />
 
       </View>
-      <AddFinishButton onPress={() => alert('Workout Created')} />
-      {/* Finish Button will take u back to workouts and add workout to list */}
-      <SetAllWorkoutDetails items={items}/>
+      <AddFinishButton onPress={() => (name ? navigation.navigate('Workouts') : Alert.alert('Oops', "Don't Forget to name your workout"))} />
+      {/* TODO: Finish Button Needs to create new workout, and add it to Workout Page */}
+      <SetAllWorkoutDetails items={items} />
       <AddCycleButton title="Exercise" size={18} onPress={() => alert('Add Exercies')} />
     </View>
   );

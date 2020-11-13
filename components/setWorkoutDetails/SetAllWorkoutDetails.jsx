@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
-import { FlatList, View } from 'react-native';
+import { View } from 'react-native';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 
 import styled from 'styled-components/native';
@@ -10,7 +10,7 @@ import SetWorkoutDetailsCard from './SetWorkoutDetailsCard';
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 24px;
-  margin: 15px 5%;
+  margin: 0px 5% 5px 5%;
 `;
 
 const SetAllWorkoutDetails = (props) => {
@@ -20,14 +20,13 @@ const SetAllWorkoutDetails = (props) => {
     <SetWorkoutDetailsCard
       name={item.name}
       displayEllipses={item.displayEllipses}
-      onIconPress={item.onIconPress}
       color={item.color}
     />
   );
 
   return (
     <View style={{ height: '92%' }}>
-      <Title>Workouts</Title>
+      <Title>Exercises</Title>
       <KeyboardAwareFlatList
         data={items}
         renderItem={renderCard}
