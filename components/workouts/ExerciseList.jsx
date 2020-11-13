@@ -91,7 +91,7 @@ const ExerciseList = (props) => {
         setFilteredDataSource(filteredData);
         setSearch(text);
       } else {
-        setFilteredDataSource(masterDataSource);
+        setFilteredDataSource({});
         setSearch(text);
       }
     } else {
