@@ -66,30 +66,29 @@ const ExerciseList = (props) => {
 
   const parsedItems = parseItems(items);
   const [search, setSearch] = React.useState('');
-  const [filteredDataSource, setFilteredDataSource] = React.useState([]);
-  const [masterDataSource, setMasterDataSource] = React.useState([]);
-  React.useEffect(() => {
-    setFilteredDataSource(parsedItems);
-    setMasterDataSource(parsedItems);
-  }, []);
+  const [filteredDataSource, setFilteredDataSource] = React.useState(parsedItems);
+  const [masterDataSource, setMasterDataSource] = React.useState(parsedItems);
+  const [exerciseCount, setExerciseCount] = React.useState(0);
+  const [addedExercises] = React.useState([]);
+  
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
     if (text) {
       // Inserted text is not blank
       // Filter the masterDataSource
       // Update FilteredDataSource
-      const firstLetter = text[0];
+      const firstLetter = text[0].toUpperCase();
       if (masterDataSource[firstLetter]) {
         const newData = masterDataSource[firstLetter].filter((item) => {
           const itemData = item.name
             ? item.name.toUpperCase()
-            : ''.toUpperCase();
+            : '';
           const textData = text.toUpperCase();
           return itemData.indexOf(textData) > -1;
         });
-        const finished = {};
-        finished[firstLetter] = newData;
-        setFilteredDataSource(finished);
+        const filteredData = {};
+        filteredData[firstLetter] = newData;
+        setFilteredDataSource(filteredData);
         setSearch(text);
       } else {
         setFilteredDataSource(masterDataSource);
@@ -102,8 +101,7 @@ const ExerciseList = (props) => {
       setSearch(text);
     }
   };
-  const [exerciseCount, setExerciseCount] = React.useState(0);
-  const [addedExercises] = React.useState([]);
+
   const renderCard = ({ item, index }) => (
     <ExerciseItem
       name={item.name}

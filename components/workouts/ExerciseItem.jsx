@@ -26,6 +26,7 @@ const AddButton = styled(AntDesign)`
     margin: 0px 25px 0px 0px;
 `;
 
+
 const ExerciseItem = (props) => {
   const {
     name, subtext, selected, onPress,
@@ -42,23 +43,12 @@ const ExerciseItem = (props) => {
     >
       <Exercise>{name}</Exercise>
       <BodyPart>{subtext}</BodyPart>
-      {selected
-        ? (
-          <AddButton
-            name="pluscircle"
-            color="#CAB0FF"
-            size={22}
-            onPress={onPress}
-          />
-        )
-        : (
-          <AddButton
-            name="pluscircleo"
-            size={22}
-            color="#CAB0FF"
-            onPress={onPress}
-          />
-        )}
+      <AddButton
+        name = {selected ? "pluscircle" : "pluscircleo"}
+        size = {22}
+        color = "#CAB0FF"
+        onPress = {onPress}
+      />
 
     </View>
   );
