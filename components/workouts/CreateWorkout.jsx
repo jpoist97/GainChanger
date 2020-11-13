@@ -82,7 +82,7 @@ export default ({ navigation }) => {
       <AddFinishButton onPress={() => (name ? navigation.navigate('Workouts') : Alert.alert('Oops', "Don't Forget to name your workout"))} />
       {/* TODO: Finish Button Needs to create new workout, and add it to Workout Page */}
       <SetAllWorkoutDetails items={itemState} />
-      <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', {onExerciseAdd})}} />
+      <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', {onExercisesAdd})}} />
     </View>
   );
 };
