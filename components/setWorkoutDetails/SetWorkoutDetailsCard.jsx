@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
+import EllipsisPopup from '../utils/EllipsisPopup';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -14,7 +15,7 @@ const NameText = styled.Text`
    font-family: 'Montserrat_500Medium';
 `;
 
-const Ellipsis = styled(FontAwesome5)`
+const StyledEllipsesPopup = styled(EllipsisPopup)`
    position: absolute;
    right: 10px;
    top: 18px;
@@ -69,11 +70,14 @@ const SetWorkoutDetailsCard = (props) => {
     <StyledView style={{backgroundColor: color}}>
       <NameText>{name}</NameText>
       {displayEllipses ? (
-        <Ellipsis
-          name="ellipsis-h"
-          size={18}
-          color="black"
-          onPress={onIconPress}
+        <StyledEllipsesPopup
+        options={[
+          { 
+            icon: 'SWAP', text: 'Switch Reps/Time', onPress: () => alert('Switch Reps <---> Time') 
+          },
+          {
+            icon: 'DELETE', text: 'Delete Workout', onPress: () => alert('DeleteWorkout')
+          }]}
         />
       ) : <View />}
       <ContentWrapper>
@@ -86,7 +90,7 @@ const SetWorkoutDetailsCard = (props) => {
           size={26} 
           color="white" 
           style={{marginLeft: '0%'}} 
-          onPress={() => parseInt(sets) <= 0 || setSets((parseInt(sets) - 1).toString())}
+          onPress={() => sets ? parseInt(sets) <= 0 || setSets((parseInt(sets) - 1).toString()): sets}
            />
         <StyledInput value={sets} placeholder="3" keyboardType="numeric" onChangeText={setSets}/>
         <StyledIcon 
@@ -101,7 +105,7 @@ const SetWorkoutDetailsCard = (props) => {
           size={26} 
           color="white" 
           style={{marginLeft: '5%'}} 
-          onPress={() => parseInt(reps) <= 0 || setReps((parseInt(reps) - 1).toString())}
+          onPress={() => reps ? parseInt(reps) <= 0 || setReps((parseInt(reps) - 1).toString()): reps }
         />
         <StyledInput value={reps} type="number" placeholder="10" keyboardType="numeric" onChangeText={setReps}/>
         <StyledIcon 
