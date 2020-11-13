@@ -62,8 +62,8 @@ const SetWorkoutDetailsCard = (props) => {
   const {
     color, name, onIconPress, displayEllipses,
   } = props;
-  const [sets, setSets] = React.useState(0);
-  const [reps, setReps] = React.useState(0);
+  const [sets, setSets] = React.useState("");
+  const [reps, setReps] = React.useState("");
 
   return (
     <StyledView style={{backgroundColor: color}}>
@@ -86,14 +86,14 @@ const SetWorkoutDetailsCard = (props) => {
           size={26} 
           color="white" 
           style={{marginLeft: '0%'}} 
-          onPress={() => parseInt(sets) <= 0 || setSets(parseInt(sets) - 1)}
+          onPress={() => parseInt(sets) <= 0 || setSets((parseInt(sets) - 1).toString())}
            />
-        <StyledInput value={sets.toString()} type="number" placeholder="3" keyboardType="numeric" onChangeText={setSets}/>
+        <StyledInput value={sets} placeholder="3" keyboardType="numeric" onChangeText={setSets}/>
         <StyledIcon 
           name="plus" 
           size={26} 
           color="white" 
-          onPress={() => setSets(parseInt(sets) + 1)}
+          onPress={() => sets ? setSets((parseInt(sets) + 1).toString()) : setSets("1") }
         />
 
         <StyledIcon 
@@ -101,14 +101,14 @@ const SetWorkoutDetailsCard = (props) => {
           size={26} 
           color="white" 
           style={{marginLeft: '5%'}} 
-          onPress={() => parseInt(reps) <= 0 || setReps(parseInt(reps) - 1)}
+          onPress={() => parseInt(reps) <= 0 || setReps((parseInt(reps) - 1).toString())}
         />
-        <StyledInput value={reps.toString()} type="number" placeholder="10" keyboardType="numeric" onChangeText={setReps}/>
+        <StyledInput value={reps} type="number" placeholder="10" keyboardType="numeric" onChangeText={setReps}/>
         <StyledIcon 
           name="plus" 
           size={26} 
           color="white" 
-          onPress={() => setReps(parseInt(reps) + 1)}/>
+          onPress={() => reps ? setReps((parseInt(reps) + 1).toString()) : setReps("1")}/>
       </ContentWrapper>
     </StyledView>
   );
