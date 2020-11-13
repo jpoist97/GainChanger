@@ -128,7 +128,7 @@ export default function App() {
     Roboto_900Black,
     Roboto_900Black_Italic,
   });
- 
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -144,19 +144,19 @@ export default function App() {
   var startupScreen = 'Login'
   if(user){
     startupScreen = 'Root'
-  } 
+  }
 
   return (
     <MenuProvider>
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={startupScreen}>
-          <Stack.Screen name="Login" component={login} options={{headerShown:false}}/>
-          <Stack.Screen name="Signup" component={signup} options={{headerShown:false}}/>
-          <Stack.Screen name="Root" component={Root} options={{headerShown:false}} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      </PaperProvider>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName={startupScreen}>
+            <Stack.Screen name="Login" component={login} options={{headerShown:false}}/>
+            <Stack.Screen name="Signup" component={signup} options={{headerShown:false}}/>
+            <Stack.Screen name="Root" component={Root} options={{headerShown:false}} />
+          </Stack.Navigator>
+        </NavigationContainer>
+        </PaperProvider>
       </MenuProvider>
   );
 }
