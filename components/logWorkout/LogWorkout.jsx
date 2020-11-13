@@ -1,16 +1,17 @@
 /* eslint-disable react/forbid-prop-types, react/no-array-index-key */
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import styled from 'styled-components';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
+import { useNavigation } from '@react-navigation/native';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
+import ModalWapper from '../utils/ModalScreenWrapper';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
-  top: 65px;
+  top: 85px;
   right: 20px;
 `;
 
@@ -43,8 +44,49 @@ const parseExercises = (exercises) => exercises.map((exercise) => ({
  *
  */
 const LogWorkout = (props) => {
-  const { exercises, name } = props;
+  const { route: { params: { workoutId } } } = props;
 
+  // get the workout details from redux based on workoutid
+  console.log(`Opening Log Workout for workout id ${workoutId}`);
+  const name = 'Workout Name';
+  const exercises = [{
+    name: 'Bicep Curls',
+    sets: [{
+      weight: '30', reps: '8',
+    }, {
+      weight: '30', reps: '8',
+    }, {
+      weight: '30', reps: '8',
+    }, {
+      weight: '30', reps: '8',
+    }],
+  }, {
+    name: 'Rows',
+    color: '#6D8DFF',
+    sets: [{
+      weight: '150', reps: '12',
+    }, {
+      weight: '150', reps: '12',
+    }, {
+      weight: '150', reps: '12',
+    }, {
+      weight: '150', reps: '12',
+    }],
+  }, {
+    name: 'Reverse Fly',
+    color: '#9D8DFF',
+    sets: [{
+      weight: '25', reps: '20',
+    }, {
+      weight: '25', reps: '20',
+    }, {
+      weight: '25', reps: '20',
+    }, {
+      weight: '25', reps: '20',
+    }],
+  }];
+
+  const navigation = useNavigation();
   const initialExerciseState = parseExercises(exercises);
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
@@ -114,9 +156,13 @@ const LogWorkout = (props) => {
   );
 
   return (
-    <SafeAreaView style={{ height: '100%' }}>
+    <ModalWapper>
       <TitleText>{name}</TitleText>
-      <StyledFinishButton onPress={() => alert(`Top set has ${exerciseState[0].sets[0].weight} lbs by ${exerciseState[0].sets[0].reps} reps`)} />
+      <StyledFinishButton onPress={() => {
+        // Update Redux and database
+        navigation.goBack();
+      }}
+      />
       <KeyboardAwareFlatList
         style={{ height: '100%' }}
         data={exerciseState}
@@ -126,13 +172,16 @@ const LogWorkout = (props) => {
         // this is for a react navigation bug making it not smooth scroll
         extraHeight={-64}
       />
-    </SafeAreaView>
+    </ModalWapper>
   );
 };
 
 LogWorkout.propTypes = {
-  exercises: PropTypes.array.isRequired,
-  name: PropTypes.string.isRequired,
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      workoutId: PropTypes.number.isRequired,
+    }),
+  }).isRequired,
 };
 
 export default LogWorkout;

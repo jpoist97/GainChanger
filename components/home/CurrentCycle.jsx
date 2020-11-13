@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import { useNavigation } from '@react-navigation/native';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -34,8 +35,10 @@ const Caret = styled.Text`
 
 const CurrentCycle = (props) => {
   const {
-    color, subtext, name, onPress, leftPress, rightPress,
+    color, subtext, name, leftPress, rightPress, id,
   } = props;
+
+  const navigation = useNavigation();
 
   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
@@ -56,7 +59,7 @@ const CurrentCycle = (props) => {
             {'<'}
           </Caret>
         </TouchableOpacity>
-        <StyledView onPress={onPress}>
+        <StyledView onPress={() => navigation.navigate('Log Workout', { workoutId: id })}>
           <NameText>{name}</NameText>
           <Subtext>{subtext}</Subtext>
         </StyledView>
@@ -74,15 +77,14 @@ CurrentCycle.propTypes = {
   color: PropTypes.string,
   subtext: PropTypes.string,
   name: PropTypes.string.isRequired,
-  onPress: PropTypes.func,
   leftPress: PropTypes.func,
   rightPress: PropTypes.func,
+  id: PropTypes.number.isRequired,
 };
 
 CurrentCycle.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
-  onPress: () => {},
   leftPress: () => {},
   rightPress: () => {},
 };
