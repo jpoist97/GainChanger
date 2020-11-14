@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
 import WorkoutCard from './WorkoutCard';
+import { useDispatch } from 'react-redux'
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';

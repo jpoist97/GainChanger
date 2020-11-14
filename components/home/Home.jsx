@@ -1,11 +1,13 @@
 /* eslint-disable no-use-before-define */
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView, Image, View,
 } from 'react-native';
 import styled from 'styled-components/native';
 import CurrentCycle from './CurrentCycle';
 import WorkoutList from './WorkoutList';
+import { useDispatch, useSelector } from 'react-redux';
+import { INITIALIZE_WORKOUTS, INITIALIZE_CYCLES, INITIALIZE_EXERCISES } from '../../constants/index';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -16,6 +18,22 @@ const Title = styled.Text`
 const welcomeName = 'Justin';
 
 export default () => {
+
+  const workouts = useSelector((state) => state.workouts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // This is where we would hit our database, but for now we'll have fake data
+
+    console.log("Home: Initializing Workout store");
+    dispatch({ type: INITIALIZE_WORKOUTS, workouts: [{name: 'Legs A', id: 0, lastPerformed: 7, muscleGroups: ['Quads', 'Glutes']}] });
+
+    console.log("Home: Initializing Cycles store");
+    dispatch({ type: INITIALIZE_CYCLES, cycles: [], seletedCycle: 0, selectedCycleIndex: 3 });
+
+    console.log("Home: Initialize Exercise store");
+    dispatch({ type: INITIALIZE_EXERCISES, exercises: [] });
+  }, []);
   const workoutList = [
     {
       name: 'Lateral Pulldown ABC', subtext: '1 day ago', color: '#CAB0FF', onPress: () => alert('Start Lateral Pulldown ABC'),

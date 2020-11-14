@@ -1,1 +1,9 @@
+// Workouts
 export const ADD_WORKOUT = 'ADD_WORKOUT';
+export const INITIALIZE_WORKOUTS = 'INITIALIZE_WORKOUTS';
+
+// Cycles
+export const INITIALIZE_CYCLES = 'INITIALIZE_CYCLES';
+
+// Exercises
+export const INITIALIZE_EXERCISES = 'INITIALIZE_EXERCISES';
