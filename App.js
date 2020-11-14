@@ -14,6 +14,8 @@ import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-n
 import { Entypo } from '@expo/vector-icons';
 import { AppLoading } from 'expo';
 import { MenuProvider } from 'react-native-popup-menu';
+import { createStore } from 'redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import {
   useFonts,
   Montserrat_100Thin,
@@ -55,6 +57,10 @@ import signup from './components/authentication/signup'
 import { createStackNavigator } from '@react-navigation/stack';
 import Root from './Root';
 import { func } from 'prop-types';
+import configureStore from './store/configureStore'
+import { connect } from 'react-redux';
+import { addWorkout } from './actions/workouts';
+import { bindActionCreators } from 'redux';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -95,7 +101,7 @@ const theme = {
   },
 };
 
-export default function App() {
+const App = () => {
   let [fontsLoaded] = useFonts({
     Montserrat_100Thin,
     Montserrat_100Thin_Italic,
@@ -147,16 +153,32 @@ export default function App() {
   }
 
   return (
-    <MenuProvider>
-      <PaperProvider theme={theme}>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName={startupScreen}>
-            <Stack.Screen name="Login" component={login} options={{headerShown:false}}/>
-            <Stack.Screen name="Signup" component={signup} options={{headerShown:false}}/>
-            <Stack.Screen name="Root" component={Root} options={{headerShown:false}} />
-          </Stack.Navigator>
-        </NavigationContainer>
-        </PaperProvider>
-      </MenuProvider>
+      <MenuProvider>
+        <PaperProvider theme={theme}>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName={startupScreen}>
+              <Stack.Screen name="Login" component={login} options={{headerShown:false}}/>
+              <Stack.Screen name="Signup" component={signup} options={{headerShown:false}}/>
+              <Stack.Screen name="Root" component={Root} options={{headerShown:false}} />
+            </Stack.Navigator>
+          </NavigationContainer>
+          
+          </PaperProvider>
+        </MenuProvider>
   );
 }
+
+const mapStateToProps = (state) => ({
+  workouts: state.workoouts,
+})
+
+const ActionCreators = Object.assign(
+  {}, 
+  addWorkout,
+);
+
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
