@@ -136,7 +136,7 @@ const ExerciseList = (props) => {
           {' '}
         </Buttontext>
       </ButtonContainer>
-      <View style={{ height: '84%' }}>
+      <View style={{ height: '92%' }}>
         <SearchBar
           placeholder="Type Here..."
           onChangeText={(text) => searchFilterFunction(text)}

@@ -5,6 +5,7 @@ import {
 import styled from 'styled-components/native';
 import { AntDesign } from '@expo/vector-icons';
 import ExerciseList from './ExerciseList';
+import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 
 const BackButton = styled.TouchableOpacity`
   font-size: 24px;
@@ -66,13 +67,8 @@ export default ({ navigation, route }) => {
     },
   ];
   return (
-    <SafeAreaView style={{ height: '100%' }}>
-      <View>
-        <BackButton onPress={() => navigation.navigate('Create Workout')}>
-          <AntDesign name="left" size={30} color="black" />
-        </BackButton>
-      </View>
+    <ModalScreenWrapper>
       <ExerciseList items={items} onExercisesAdd={route.params.onExercisesAdd} />
-    </SafeAreaView>
+    </ModalScreenWrapper>
   );
 };
