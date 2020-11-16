@@ -69,8 +69,8 @@ export default ({ navigation }) => {
     const onExercisesAdd = (selectedExercises) => {
       const newItems = [...itemState];
       newItems.push(...selectedExercises)
-      const newExercise = newItems.map((item) => {
-          item.color = colors[(newItems.indexOf(item) + 3) % 3];
+      const newExercise = newItems.map((item, index) => {
+          item.color = colors[index % 3];
           return item;
       })
       setItemState(newItems)

@@ -60,9 +60,6 @@ const SetWorkoutDetailsCard = (props) => {
   const {
     color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise
   } = props;
-  //const [sets, setSets] = React.useState('');
-  //const [reps, setReps] = React.useState('');
-  //const [seconds, setSeconds] = React.useState('');
   const [isReps, setIsReps] = React.useState(true);
 
   return (
