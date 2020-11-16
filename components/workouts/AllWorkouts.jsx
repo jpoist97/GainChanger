@@ -88,7 +88,6 @@ const renderCard = ({ item: { left, right } }) => (
       />
     )}
   </WorkoutCardPair>
-
 );
 
 const renderHeader = ({ section }) => (

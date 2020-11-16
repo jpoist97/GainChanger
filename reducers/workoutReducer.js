@@ -8,7 +8,6 @@ const workoutReducer = (state = initialState, action) => {
    switch(action.type) {
       case INITIALIZE_WORKOUTS:
          console.log('Initializing workouts store');
-         console.log(action.workouts);
          return {
             workouts: [...action.workouts]
          };

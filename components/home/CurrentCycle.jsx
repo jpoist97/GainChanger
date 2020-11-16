@@ -73,7 +73,7 @@ const CurrentCycle = (props) => {
 CurrentCycle.propTypes = {
   color: PropTypes.string,
   subtext: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   onPress: PropTypes.func,
   leftPress: PropTypes.func,
   rightPress: PropTypes.func,
@@ -81,6 +81,7 @@ CurrentCycle.propTypes = {
 
 CurrentCycle.defaultProps = {
   color: '#CAB0FF',
+  name: 'Set a cycle',
   subtext: '',
   onPress: () => {},
   leftPress: () => {},
