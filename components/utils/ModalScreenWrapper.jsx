@@ -19,7 +19,7 @@ export default (props) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={{ height: '100%', paddingTop: insets.top + 20, paddingBottom: insets.bottom - 35 }}>
+    <View style={{ height: '100%', paddingTop: insets.top + 20, paddingBottom: insets.bottom }}>
       <TopBar style={{ position: 'absolute', top: insets.top + 5 }} />
       {children}
     </View>
