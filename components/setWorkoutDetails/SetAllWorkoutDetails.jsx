@@ -14,13 +14,20 @@ const Title = styled.Text`
 `;
 
 const SetAllWorkoutDetails = (props) => {
-  const { items } = props;
+  const { items, setReps, setSets, setSeconds } = props;
 
-  const renderCard = ({ item }) => (
+  const renderCard = ({ item, index }) => (
+
     <SetWorkoutDetailsCard
       name={item.name}
       displayEllipses={item.displayEllipses}
       color={item.color}
+      sets={item.sets}
+      reps={item.reps}
+      seconds={item.seconds}
+      setReps={setReps(index)}
+      setSets={setSets(index)}
+      setSeconds={setSeconds(index)}
     />
   );
 

@@ -39,12 +39,12 @@ export default ({ navigation }) => {
   const [name, setName] = React.useState('');
   const items = [
     {
-      name: 'Deadlifts', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'),
+      name: 'Deadlifts', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'), reps: '', sets: '', seconds: '',
     },
     {
-      name: 'Low Row', color: '#9D8DFF', onIconPress: () => alert('EllipsesPress'),
+      name: 'Low Row', color: '#9D8DFF', onIconPress: () => alert('EllipsesPress'), reps: '', sets: '', seconds: ''
     },
-    {
+    /*{
       name: 'Lat Pulldown', color: '#6D8DFF', onIconPress: () => alert('EllipsesPress'),
     },
     {
@@ -55,8 +55,26 @@ export default ({ navigation }) => {
     },
     {
       name: 'Pull Ups', color: '#6D8DFF', onIconPress: () => alert('EllipsesPress'),
-    }];
+    }*/];
     const [itemState, setItemState] = React.useState(items);
+
+    const setReps = (index) => (reps) => {
+      const newItemState = [...itemState];
+        newItemState[index].reps = reps;
+        setItemState(newItemState);
+    }
+
+    const setSets=(index) => (sets) => {
+      const newItemState = [...itemState];
+        newItemState[index].sets = sets;
+        setItemState(newItemState);
+    }
+
+    const setSeconds=(index) => (seconds) => {
+      const newItemState = [...itemState];
+        newItemState[index].seconds = seconds;
+        setItemState(newItemState);
+    }
 
     const onExercisesAdd = (selectedExercsies) => {
       const newItems = [...itemState];
@@ -81,7 +99,7 @@ export default ({ navigation }) => {
       </View>
       <AddFinishButton onPress={() => (name ? navigation.navigate('Workouts') : Alert.alert('Oops', "Don't Forget to name your workout"))} />
       {/* TODO: Finish Button Needs to create new workout, and add it to Workout Page */}
-      <SetAllWorkoutDetails items={itemState} />
+      <SetAllWorkoutDetails items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} />
       <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', {onExercisesAdd})}} />
     </View>
   );
