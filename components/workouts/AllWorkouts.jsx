@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
+import { useNavigation } from '@react-navigation/native';
 import WorkoutCard from './WorkoutCard';
 
 const Title = styled.Text`
@@ -59,37 +60,6 @@ const parseItems = (items) => {
   return pairedBucketData;
 };
 
-const renderCard = ({ item: { left, right } }) => (
-  <WorkoutCardPair>
-    <WorkoutCard
-      name={left.name}
-      subtext={left.subtext}
-      displayEllipses={left.displayEllipses}
-      deleteWorkout={left.deleteWorkout}
-      onPress={left.onPress}
-      color={left.color}
-      key={left.name + left.subtext}
-    />
-    {right ? (
-      <WorkoutCard
-        name={right.name}
-        subtext={right.subtext}
-        displayEllipses={right.displayEllipses}
-        deleteWorkout={right.deleteWorkout}
-        onPress={right.onPress}
-        color={right.color}
-        key={right.name + right.subtext}
-      />
-    ) : (
-      <WorkoutCard
-        color="#00000000"
-        name=""
-        displayEllipses={false}
-      />
-    )}
-  </WorkoutCardPair>
-);
-
 const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
@@ -97,7 +67,41 @@ const renderHeader = ({ section }) => (
 const AllWorkouts = (props) => {
   const { items } = props;
 
+  const navigation = useNavigation();
   const parsedItems = parseItems(items);
+
+  const renderCard = ({ item: { left, right } }) => (
+    <WorkoutCardPair>
+      <WorkoutCard
+        name={left.name}
+        subtext={left.subtext}
+        displayEllipses={left.displayEllipses}
+        deleteWorkout={left.deleteWorkout}
+        id={left.id}
+        color={left.color}
+        key={left.name + left.subtext}
+        onPress={() => { navigation.navigate('Log Workout', { workoutId: left.id }); }}
+      />
+      {right ? (
+        <WorkoutCard
+          name={right.name}
+          subtext={right.subtext}
+          displayEllipses={right.displayEllipses}
+          deleteWorkout={right.deleteWorkout}
+          id={right.id}
+          color={right.color}
+          key={right.name + right.subtext}
+          onPress={() => { navigation.navigate('Log Workout', { workoutId: right.id }); }}
+        />
+      ) : (
+        <WorkoutCard
+          color="#00000000"
+          name=""
+          displayEllipses={false}
+        />
+      )}
+    </WorkoutCardPair>
+  );
 
   return (
     <View style={{ height: '100%' }}>

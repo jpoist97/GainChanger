@@ -8,6 +8,7 @@ import AllWorkouts from './AllWorkouts';
 import PlusButton from '../utils/PlusButton';
 import CreateWorkout from './CreateWorkout';
 import { COLORS } from '../../constants/index';
+import AddExercises from './AddExercises';
 
 const AddCycleButton = styled(PlusButton)`
    position: absolute;
@@ -50,6 +51,7 @@ export default ({ navigation }) => {
   //   }];
 
   const Stack = createStackNavigator();
+
   return ( // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
     <SafeAreaView style={{ height: '100%' }}>
       <Stack.Navigator initialRouteName="Workouts">

@@ -118,10 +118,10 @@ export default () => {
         <CurrentCycle
           name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
           subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
-          onPress={() => alert(`navigate to workout ${selectedCycle.workouts[cycles.selectedCycleIndex]}`)}
           color={cycleDetails && cycleDetails[cycles.selectedCycleIndex].color}
           leftPress={() => { dispatch({ type: DECREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
           rightPress={() => { dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
+          id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
         />
         <WorkoutList items={workoutList} style={{ marginLeft: '10%' }} />
       </View>
