@@ -24,7 +24,8 @@ const WorkoutList = (props) => {
       name={item.name}
       subtext={item.subtext}
       onIconPress={item.onIconPress}
-      onPress={item.onPress}
+      onPress={() => navigation.navigate('Log Workout', { workoutId: item.id })}
+      key={item.id}
       color={item.color}
     />
   );
