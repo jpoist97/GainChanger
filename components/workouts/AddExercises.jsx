@@ -11,7 +11,7 @@ const BackButton = styled.TouchableOpacity`
   margin: 17px 2%;
 `;
 
-export default ({ navigation }) => {
+export default ({ navigation, route }) => {
   const items = [
     {
       name: 'Bicep Curls', subtext: 'Biceps',
@@ -72,7 +72,7 @@ export default ({ navigation }) => {
           <AntDesign name="left" size={30} color="black" />
         </BackButton>
       </View>
-      <ExerciseList items={items} />
+      <ExerciseList items={items} onExercisesAdd={route.params.onExercisesAdd} />
     </SafeAreaView>
   );
 };

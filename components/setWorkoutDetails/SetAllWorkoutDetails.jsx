@@ -14,7 +14,7 @@ const Title = styled.Text`
 `;
 
 const SetAllWorkoutDetails = (props) => {
-  const { items, setReps, setSets, setSeconds } = props;
+  const { items, setReps, setSets, setSeconds, removeExercise } = props;
 
   const renderCard = ({ item, index }) => (
 
@@ -28,6 +28,7 @@ const SetAllWorkoutDetails = (props) => {
       setReps={setReps(index)}
       setSets={setSets(index)}
       setSeconds={setSeconds(index)}
+      removeExercise={removeExercise(index)}
     />
   );
 
@@ -41,6 +42,7 @@ const SetAllWorkoutDetails = (props) => {
         keyboardOpeningTime={300}
       />
     </View>
+    
   );
 };
 

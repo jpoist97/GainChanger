@@ -58,7 +58,7 @@ const StyledView = styled.View`
 
 const SetWorkoutDetailsCard = (props) => {
   const {
-    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, 
+    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise
   } = props;
   //const [sets, setSets] = React.useState('');
   //const [reps, setReps] = React.useState('');
@@ -75,7 +75,7 @@ const SetWorkoutDetailsCard = (props) => {
               icon: 'SWAP', text: 'Switch Reps/Time', onPress: () => (isReps ? setIsReps(false) : setIsReps(true)),
             },
             {
-              icon: 'DELETE', text: 'Remove Exercise', onPress: () => alert('Remove Exercise From Workout'),
+              icon: 'DELETE', text: 'Remove Exercise', onPress: () => {removeExercise()},
             }]}
         />
       ) : <View />}

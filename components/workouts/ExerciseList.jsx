@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
 import ExerciseItem from './ExerciseItem';
+import { useNavigation } from '@react-navigation/native';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -63,6 +64,7 @@ const renderHeader = ({ section }) => (
 
 const ExerciseList = (props) => {
   const { items } = props;
+  const { onExercisesAdd } = props;
 
   const parsedItems = parseItems(items);
   const [search, setSearch] = React.useState('');
@@ -70,6 +72,7 @@ const ExerciseList = (props) => {
   const [masterDataSource, setMasterDataSource] = React.useState(parsedItems);
   const [exerciseCount, setExerciseCount] = React.useState(0);
   const [addedExercises] = React.useState([]);
+  const navigation = useNavigation();
   
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -122,7 +125,10 @@ const ExerciseList = (props) => {
   return (
     <SafeAreaView style={{ height: '100%' }}>
       <Title>Exercises</Title>
-      <ButtonContainer onPress={() => alert('Add Exercises to Workout')}>
+      <ButtonContainer onPress={() => { 
+        onExercisesAdd(addedExercises);
+        navigation.goBack()
+        }}>
         <Buttontext>
           Add (
           {exerciseCount}

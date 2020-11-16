@@ -34,28 +34,12 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 export default ({ navigation }) => {
-
-
   const [name, setName] = React.useState('');
   const items = [
-    {
-      name: 'Deadlifts', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'), reps: '', sets: '', seconds: '',
-    },
-    {
-      name: 'Low Row', color: '#9D8DFF', onIconPress: () => alert('EllipsesPress'), reps: '', sets: '', seconds: ''
-    },
     /*{
-      name: 'Lat Pulldown', color: '#6D8DFF', onIconPress: () => alert('EllipsesPress'),
-    },
-    {
-      name: 'Plank', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'),
-    },
-    {
-      name: 'Bench Press', color: '#9D8DFF', onIconPress: () => alert('EllipsesPress'),
-    },
-    {
-      name: 'Pull Ups', color: '#6D8DFF', onIconPress: () => alert('EllipsesPress'),
-    }*/];
+      name: 'Deadlifts', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'), reps: '', sets: '', seconds: '',
+    },*/
+    ];
     const [itemState, setItemState] = React.useState(items);
 
     const setReps = (index) => (reps) => {
@@ -76,9 +60,19 @@ export default ({ navigation }) => {
         setItemState(newItemState);
     }
 
-    const onExercisesAdd = (selectedExercsies) => {
+    const removeExercise = (index) => () => {
+      const newItemState = [...itemState];
+        newItemState.splice(index, 1);
+        setItemState(newItemState);
+    }
+    const colors = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];
+    const onExercisesAdd = (selectedExercises) => {
       const newItems = [...itemState];
-      newitems.push(...selectedExercises)
+      newItems.push(...selectedExercises)
+      const newExercise = newItems.map((item) => {
+          item.color = colors[(newItems.indexOf(item) + 3) % 3];
+          return item;
+      })
       setItemState(newItems)
     }
 
@@ -99,7 +93,7 @@ export default ({ navigation }) => {
       </View>
       <AddFinishButton onPress={() => (name ? navigation.navigate('Workouts') : Alert.alert('Oops', "Don't Forget to name your workout"))} />
       {/* TODO: Finish Button Needs to create new workout, and add it to Workout Page */}
-      <SetAllWorkoutDetails items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} />
+      <SetAllWorkoutDetails items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} removeExercise={removeExercise}/>
       <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', {onExercisesAdd})}} />
     </View>
   );
