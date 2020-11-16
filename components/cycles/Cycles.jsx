@@ -15,30 +15,8 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default (props) => {
+export default () => {
   const navigation = useNavigation();
-  // const items = [
-  //   {
-  //     name: 'Push, Pull, Legs A', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), deleteCycle: () => alert('Delete Push, Pull, Legs'),
-  //   },
-  //   {
-  //     name: 'Bro Split A', subtext: '4 Workouts', color: '#9D8DFF', onPress: () => alert('Bro Split A'), deleteCycle: () => alert('Delete Bro Split A'),
-  //   },
-  //   {
-  //     name: 'Upper Lower Split A', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split A'), deleteCycle: () => alert('Delete Upper Lower Split'),
-  //   },
-  //   {
-  //     name: 'Push, Pull, Legs B', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs B'), deleteCycle: () => alert('Delete Push, Pull, Legs B'),
-  //   },
-  //   {
-  //     name: 'Bro Split B', subtext: '4 Workouts', color: '#9D8DFF', onPress: () => alert('Bro Split B'), deleteCycle: () => alert('Delete Bro Split B'),
-  //   },
-  //   {
-  //     name: 'Upper Lower Split B', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), deleteCycle: () => alert('Delete Upper Lower Split B'),
-  //   },
-  //   {
-  //     name: 'Push, Pull, Legs A', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), deleteCycle: () => alert('Delete Push, Pull, Legs'),
-  //   }];
 
   const cycles = useSelector((state) => state.cycles);
   const allCycles = cycles.cycles.map((cycle) => ({

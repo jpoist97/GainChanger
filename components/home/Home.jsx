@@ -48,50 +48,9 @@ export default () => {
   const workoutList = workouts.map((workout) => ({
     name: workout.name,
     subtext: `${workout.lastPerformed} days ago`,
+    id: workout.id,
     color: workout.color,
-    onPress: () => alert(`Navigate to workout ${workout.id}`),
   }));
-
-  // const workoutList = [
-  //   {
-  //     name: 'Lateral Pulldown ABC', subtext: '1 day ago', color: '#CAB0FF', onPress: () => alert('Start Lateral Pulldown ABC'),
-  //   },
-  //   {
-  //     name: 'Upper A RP', subtext: '7 days ago', color: '#9D8DFF', onPress: () => alert('Start Upper A RP'),
-  //   },
-  //   {
-  //     name: 'Legs A', subtext: '1 day', color: '#6D8DFF', onPress: () => alert('Start Legs A'),
-  //   },
-  //   {
-  //     name: 'Pull B', subtext: '2 days', color: '#CAB0FF', onPress: () => alert('Start Pull B'),
-  //   },
-  //   {
-  //     name: 'Push B', subtext: '1 day', color: '#9D8DFF', onPress: () => alert('Start Push B'),
-  //   },
-  //   {
-  //     name: 'Legs B', subtext: '22 days ago', color: '#6D8DFF', onPress: () => alert('Start Legs B'), onIconPress: () => alert('Edit Upper Lower Split B'),
-  //   },
-  // ];
-  // const cycleDetails = [
-  //   {
-  //     workoutName: 'Pull A', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull A'),
-  //   },
-  //   {
-  //     workoutName: 'Upper A RP', subtext: 'Shoulders, Triceps', color: '#9D8DFF', onPress: () => alert('Start Upper A RP'),
-  //   },
-  //   {
-  //     workoutName: 'Legs A', subtext: 'Glutes, Quads', color: '#6D8DFF', onPress: () => alert('Start Legs A'),
-  //   },
-  //   {
-  //     workoutName: 'Pull B', subtext: 'Back, Biceps', color: '#CAB0FF', onPress: () => alert('Start Pull B'),
-  //   },
-  //   {
-  //     workoutName: 'Push B', subtext: 'Chest, Triceps', color: '#9D8DFF', onPress: () => alert('Start Push B'),
-  //   },
-  //   {
-  //     workoutName: 'Legs B', subtext: 'Hamstrings, Glutes', color: '#6D8DFF', onPress: () => alert('Start Legs B'), onIconPress: () => alert('Edit Upper Lower Split B'),
-  //   },
-  // ];
 
   const selectedCycle = cycles.selectedCycleId && _.find(cycles.cycles, (cycle) => cycle.id === cycles.selectedCycleId);
   let cycleDetails;

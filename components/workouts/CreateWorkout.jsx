@@ -35,12 +35,7 @@ const AddCycleButton = styled(PlusButton)`
 `;
 export default ({ navigation }) => {
   const [name, setName] = React.useState('');
-  const items = [
-    /* {
-      name: 'Deadlifts', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'), reps: '', sets: '', seconds: '',
-    }, */
-  ];
-  const [itemState, setItemState] = React.useState(items);
+  const [itemState, setItemState] = React.useState([]);
 
   const setReps = (index) => (reps) => {
     const newItemState = [...itemState];
@@ -73,7 +68,7 @@ export default ({ navigation }) => {
       item.color = colors[index % 3];
       return item;
     });
-    setItemState(newItems);
+    setItemState(newExercise);
   };
 
   return (
