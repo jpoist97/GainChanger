@@ -26,7 +26,7 @@ const LogHeader = ({ type }) => (
 
     <StyledText style={{ width: 70 }}>lbs</StyledText>
 
-    <StyledText style={{ width: 70 }}>{type === 'REPS' ? 'Reps' : 'Secs'}</StyledText>}
+    <StyledText style={{ width: 70 }}>{type === 'REPS' ? 'Reps' : 'Secs'}</StyledText>
 
     <StyledText style={{ width: 40 }}>Done</StyledText>
   </Container>
