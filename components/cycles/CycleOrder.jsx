@@ -41,6 +41,7 @@ const RowHeader = styled.View`
 const RowContent = styled.View`
     flexDirection: row;
     alignContent: center;
+    alignItems: center;
     justifyContent: space-evenly;
 `;
 
@@ -73,6 +74,7 @@ const ExpandableCycleCard = (props) => {
         </RowHeader>
         <FlatList
           data={exercises}
+          //TODO: rename to exercise name
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <RowContent>
