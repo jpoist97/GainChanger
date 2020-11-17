@@ -80,7 +80,7 @@ const CycleOrderCard = (props) => {
                         <RowContent>
                         <WorkoutViewText style={{marginLeft:10 }}>{item.id}</WorkoutViewText>
                         <WorkoutViewText>{item.sets.length + 'x' + item.sets[0].reps}</WorkoutViewText>
-                        <WorkoutViewText>{item.sets[0].weight}</WorkoutViewText>
+                        <WorkoutViewText>{item.sets[0].weight + ' lbs.'}</WorkoutViewText>
                         </RowContent>
                     )
                 }}
