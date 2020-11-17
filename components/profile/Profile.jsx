@@ -6,8 +6,9 @@ import {
 import {
   Button, Avatar, List, TextInput,
 } from 'react-native-paper';
+import firebase from 'firebase';
 
-export default () => {
+export default ({ navigation }) => {
   const [name, setName] = React.useState('John Doe');
   const [state, setState] = React.useState('6x a week');
   return (
@@ -29,11 +30,16 @@ export default () => {
             <Text style={styles.HeaderText}>Profile</Text>
           </View>
           <View style={{ width: '25%', height: 50 }}>
-            <Button
+          <Button
               compact
               uppercase={false}
               mode="text"
-              onPress={() => Alert.alert('Logout Pressed')}
+              onPress={() => firebase.auth().signOut().then(function() {
+                console.log("sign out successful. Navigating to login...")
+                navigation.navigate('Login');
+              }).catch(function(error) {
+                Alert.alert("Could not be signed out", error)
+              })}
             >
               Logout
             </Button>
