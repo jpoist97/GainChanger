@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import styled from 'styled-components/native';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
+import SetAllWorkoutDetails from '../setWorkoutDetails/SetAllWorkoutDetails';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -34,6 +35,46 @@ const AddCycleButton = styled(PlusButton)`
 `;
 export default ({ navigation }) => {
   const [name, setName] = React.useState('');
+  const items = [
+    /* {
+      name: 'Deadlifts', color: '#CAB0FF', onIconPress: () => alert('EllipsesPress'), reps: '', sets: '', seconds: '',
+    }, */
+  ];
+  const [itemState, setItemState] = React.useState(items);
+
+  const setReps = (index) => (reps) => {
+    const newItemState = [...itemState];
+    newItemState[index].reps = reps;
+    setItemState(newItemState);
+  };
+
+  const setSets = (index) => (sets) => {
+    const newItemState = [...itemState];
+    newItemState[index].sets = sets;
+    setItemState(newItemState);
+  };
+
+  const setSeconds = (index) => (seconds) => {
+    const newItemState = [...itemState];
+    newItemState[index].seconds = seconds;
+    setItemState(newItemState);
+  };
+
+  const removeExercise = (index) => () => {
+    const newItemState = [...itemState];
+    newItemState.splice(index, 1);
+    setItemState(newItemState);
+  };
+  const colors = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];
+  const onExercisesAdd = (selectedExercises) => {
+    const newItems = [...itemState];
+    newItems.push(...selectedExercises);
+    const newExercise = newItems.map((item, index) => {
+      item.color = colors[index % 3];
+      return item;
+    });
+    setItemState(newItems);
+  };
 
   return (
     <View style={{ height: '100%' }}>
@@ -49,10 +90,10 @@ export default ({ navigation }) => {
         />
 
       </View>
-      <AddFinishButton onPress={() => alert('Workout Created')} />
-      {/* Finish Button will take u back to workouts and add workout to list */}
-      {/* This is where a list of set workout details components will go */}
-      <AddCycleButton title="Exercise" size={18} onPress={() => alert('Add Exercies')} />
+      <AddFinishButton onPress={() => (name ? navigation.navigate('Workouts') : Alert.alert('Oops', "Don't Forget to name your workout"))} />
+      {/* TODO: Finish Button Needs to create new workout, and add it to Workout Page */}
+      <SetAllWorkoutDetails items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} removeExercise={removeExercise} />
+      <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', { onExercisesAdd }); }} />
     </View>
   );
 };

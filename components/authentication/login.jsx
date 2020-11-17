@@ -22,7 +22,7 @@ export default ({ navigation }) => {
             break;
 
           default:
-            alert("Error: " + errorMsg)
+            alert(`Error: ${errorMsg}`);
             console.log(`error logging in: ${errorMsg}`);
         }
       });
@@ -30,12 +30,12 @@ export default ({ navigation }) => {
 
   function signupPress() {
     navigation.navigate('Signup');
-    console.log("Navigating to signup...")
+    console.log('Navigating to signup...');
   }
 
   firebase.auth().onAuthStateChanged(() => {
     if (firebase.auth().currentUser) {
-      console.log("sign in successful. Navigating to home...")
+      console.log('sign in successful. Navigating to home...');
       navigation.navigate('Root');
     }
   });
@@ -43,7 +43,7 @@ export default ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
         <View style={styles.container}>

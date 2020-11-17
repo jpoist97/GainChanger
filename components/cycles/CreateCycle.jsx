@@ -1,14 +1,12 @@
 /* eslint-disable react/prop-types */
 import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AddWorkouts from './AddWorkouts/AddWorkouts';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -45,15 +43,15 @@ export default ({ navigation }) => {
     <SafeAreaView style={{ height: '100%' }}>
 
       <BackButton onPress={() => navigation.navigate('Cycles')}>
-          <AntDesign name="left" size={30} color="black" />
+        <AntDesign name="left" size={30} color="black" />
       </BackButton>
 
       <TitleTextInput
-          style={{ borderColor: name ? 'transparent' : 'black' }}
-          onChangeText={(newName) => setName(newName)}
-          value={name}
-          placeholder="Cycle Name"
-        />
+        style={{ borderColor: name ? 'transparent' : 'black' }}
+        onChangeText={(newName) => setName(newName)}
+        value={name}
+        placeholder="Cycle Name"
+      />
 
       <AddFinishButton onPress={() => alert('Cycle Created')} />
 
@@ -65,7 +63,6 @@ export default ({ navigation }) => {
     </SafeAreaView>
   );
 
-
   function CreateCycle() {
     return (
       <SafeAreaView style={{ height: '100%' }}>
@@ -73,5 +70,4 @@ export default ({ navigation }) => {
       </SafeAreaView>
     );
   }
-
 };

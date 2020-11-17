@@ -7,8 +7,8 @@ import {
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 // import EllipsePopup from '../utils/EllipsisPopup';
-import PlusButton from '../../utils/PlusButton';
 import { AntDesign } from '@expo/vector-icons';
+import PlusButton from '../../utils/PlusButton';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -51,16 +51,16 @@ const WorkoutCard = (props) => {
       box-shadow: 3px 5px 2px #00000050;
    `;
 
-
   return (
-    <StyledView onPress = {onPress}>
+    <StyledView onPress={onPress}>
       <NameText>{name}</NameText>
       {displayEllipses ? (
         <AddButton
-          name = {selected ? "pluscircle" : "pluscircleo"}
-          size = {28}
-          color = "#CAB0FF"
-       /> ) : <View />}
+          name={selected ? 'pluscircle' : 'pluscircleo'}
+          size={28}
+          color="#CAB0FF"
+        />
+      ) : <View />}
       <Subtext>{subtext}</Subtext>
     </StyledView>
   );

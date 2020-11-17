@@ -28,12 +28,6 @@ const WorkoutCardPair = styled.View`
   margin-bottom: 10px;
 `;
 
-const AddCycleButton = styled(PlusButton)`
-   position: absolute;
-   bottom: 20px;
-   right: 25px;
-`;
-
 const ButtonContainer = styled(TouchableOpacity)`
     background-color: #E2E2E2;
     border-radius: 20px;
@@ -45,7 +39,7 @@ const ButtonContainer = styled(TouchableOpacity)`
     right: 20px;
  `;
 
- const Buttontext = styled.Text`
+const Buttontext = styled.Text`
    font-family: 'Montserrat_500Medium';
    font-size: 18px;
  `;
@@ -82,7 +76,6 @@ const parseItems = (items) => {
   return pairedBucketData;
 };
 
-
 const AllWorkouts = (props) => {
   const { items } = props;
 
@@ -94,47 +87,43 @@ const AllWorkouts = (props) => {
   const renderHeader = ({ section }) => (
     <SectionHeader>{section.title}</SectionHeader>
   );
-  
-  
+
   const renderCard = ({ item: { left, right }, index }) => (
     <WorkoutCardPair>
       <WorkoutCard
         name={left.name}
         subtext={left.subtext}
         selected={left.selected}
-        onPress={ () => {
-          const temp = {...workoutsList};
-          const {selected} = temp[left.name[0]][index].left;
+        onPress={() => {
+          const temp = { ...workoutsList };
+          const { selected } = temp[left.name[0]][index].left;
           temp[left.name[0]][index].left.selected = !selected;
           setWorkoutsList(temp);
           (temp[left.name[0]][index].left.selected === true) ? setWorkoutCount(workoutCount + 1)
-            : setWorkoutCount(workoutCount - 1);  
+            : setWorkoutCount(workoutCount - 1);
           (temp[left.name[0]][index].left.selected === true) ? addedWorkouts.push(left)
             : addedWorkouts.splice(addedWorkouts.indexOf(left), 1);
-          }
-        }
+        }}
         displayEllipses={left.displayEllipses}
         color={left.color}
         key={left.name + left.subtext}
       />
-
 
       {right ? (
         <WorkoutCard
           name={right.name}
           subtext={right.subtext}
           selected={right.selected}
-          onPress={ () => {
-            const temp = {...workoutsList};
-            const {selected} = temp[right.name[0]][index].right;
+          onPress={() => {
+            const temp = { ...workoutsList };
+            const { selected } = temp[right.name[0]][index].right;
             temp[right.name[0]][index].right.selected = !selected;
             setWorkoutsList(temp);
             (temp[right.name[0]][index].right.selected === true) ? setWorkoutCount(workoutCount + 1)
-              : setWorkoutCount(workoutCount - 1);  
+              : setWorkoutCount(workoutCount - 1);
             (temp[right.name[0]][index].right.selected === true) ? addedWorkouts.push(right)
               : addedWorkouts.splice(addedWorkouts.indexOf(right), 1);
-            }
-          }
+          }}
           displayEllipses={right.displayEllipses}
           color={right.color}
           key={right.name + right.subtext}
@@ -147,24 +136,24 @@ const AllWorkouts = (props) => {
         />
       )}
     </WorkoutCardPair>
-  
-  ); 
+
+  );
 
   return (
 
-    
     <View style={{ height: '100%' }}>
       <Title>Workouts</Title>
-      <ButtonContainer onPress={() => { 
+      <ButtonContainer onPress={() => {
         onWorkoutsAdd(addedWorkouts);
-        navigation.goBack()
-        }}>
-         <Buttontext>
-           Add (
-            {addedWorkouts.length}
-           )
-         </Buttontext>
-       </ButtonContainer>
+        navigation.goBack();
+      }}
+      >
+        <Buttontext>
+          Add (
+          {addedWorkouts.length}
+          )
+        </Buttontext>
+      </ButtonContainer>
       <AlphabetSectionList
         data={parsedItems}
         renderItem={renderCard}

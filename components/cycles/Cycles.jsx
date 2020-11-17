@@ -2,6 +2,7 @@ import * as React from 'react';
 import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import AllCycles from './AllCycles';
 import PlusButton from '../utils/PlusButton';
 import CreateCycle from './CreateCycle';
@@ -12,29 +13,44 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default ({ navigation }) => {
+export default () => {
+  const navigation = useNavigation();
+
   const items = [
     {
-      name: 'Push, Pull, Legs A', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), onIconPress: () => alert('Edit Push, Pull, Legs'),
+      name: 'Push, Pull, Legs A', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), deleteCycle: () => alert('Delete Push, Pull, Legs'),
     },
     {
-      name: 'Bro Split A', subtext: '4 Workouts', color: '#9D8DFF', onPress: () => alert('Bro Split A'), onIconPress: () => alert('Edit Bro Split A'),
+      name: 'Bro Split A', subtext: '4 Workouts', color: '#9D8DFF', onPress: () => alert('Bro Split A'), deleteCycle: () => alert('Delete Bro Split A'),
     },
     {
-      name: 'Upper Lower Split A', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split A'), onIconPress: () => alert('Edit Upper Lower Split'),
+      name: 'Upper Lower Split A', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split A'), deleteCycle: () => alert('Delete Upper Lower Split'),
     },
     {
-      name: 'Push, Pull, Legs B', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs B'), onIconPress: () => alert('Edit Push, Pull, Legs B'),
+      name: 'Push, Pull, Legs B', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs B'), deleteCycle: () => alert('Delete Push, Pull, Legs B'),
     },
     {
-      name: 'Bro Split B', subtext: '4 Workouts', color: '#9D8DFF', onPress: () => alert('Bro Split B'), onIconPress: () => alert('Edit Bro Split B'),
+      name: 'Bro Split B', subtext: '4 Workouts', color: '#9D8DFF', onPress: () => alert('Bro Split B'), deleteCycle: () => alert('Delete Bro Split B'),
     },
     {
-      name: 'Upper Lower Split B', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), onIconPress: () => alert('Edit Upper Lower Split B'),
+      name: 'Upper Lower Split B', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), deleteCycle: () => alert('Delete Upper Lower Split B'),
     },
     {
-      name: 'Push, Pull, Legs A', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), onIconPress: () => alert('Edit Push, Pull, Legs'),
+      name: 'Push, Pull, Legs A', subtext: '7 Workouts', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), deleteCycle: () => alert('Delete Push, Pull, Legs'),
     }];
+
+  const selectedCycle = {
+    name: 'Upper Lower Split B', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), deleteCycle: () => alert('Delete Upper Lower Split B'),
+  };
+
+  function Cycles() {
+    return (
+      <SafeAreaView style={{ height: '100%' }}>
+        <AllCycles items={items} selectedCycle={selectedCycle} />
+        <AddCycleButton title="Cycle" size={18} onPress={() => navigation.navigate('Create Cycle')} />
+      </SafeAreaView>
+    );
+  }
 
   const Stack = createStackNavigator();
   return ( // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
@@ -45,12 +61,4 @@ export default ({ navigation }) => {
       </Stack.Navigator>
     </SafeAreaView>
   );
-  function Cycles() {
-    return (
-      <SafeAreaView style={{ height: '100%' }}>
-        <AllCycles items={items} />
-        <AddCycleButton title="Cycle" size={18} onPress={() => navigation.navigate('Create Cycle')} />
-      </SafeAreaView>
-    );
-  }
 };

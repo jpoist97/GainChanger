@@ -1,10 +1,11 @@
 import React from 'react';
 import {
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import { FontAwesome5 } from '@expo/vector-icons';
+import EllipsisPopup from '../utils/EllipsisPopup';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -21,7 +22,7 @@ const Subtext = styled.Text`
    font-family: 'Montserrat_500Medium';
 `;
 
-const Ellipsis = styled(FontAwesome5)`
+const StyledEllipsisPopup = styled(EllipsisPopup)`
    position: absolute;
    right: 15px;
    top: 15px;
@@ -31,7 +32,7 @@ const Ellipsis = styled(FontAwesome5)`
 
 const WorkoutCard = (props) => {
   const {
-    color, subtext, name, onPress, onIconPress,
+    color, subtext, name, onPress, deleteCycle,
   } = props;
 
   const StyledView = styled(TouchableOpacity)`
@@ -47,11 +48,22 @@ const WorkoutCard = (props) => {
   return (
     <StyledView onPress={onPress}>
       <NameText>{name}</NameText>
-      <Ellipsis
-        name="ellipsis-h"
-        size={18}
-        color="black"
-        onPress={onIconPress}
+      <StyledEllipsisPopup
+        options={[{ icon: 'SELECT', text: 'Select Cycle', onPress: () => alert('Update store to select cycle') },
+          { icon: 'EDIT', text: 'Edit Cycle', onPress: () => alert('Navigate to edit cycle screen') },
+          {
+            icon: 'DELETE',
+            text: 'Delete Cycle',
+            onPress: () => Alert.alert('Delete Confirmation', `Are you sure you want to delete ${name}?`, [{
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'Delete',
+              style: 'destructive',
+              onPress: deleteCycle,
+            }]),
+          }]}
       />
       <Subtext>{subtext}</Subtext>
     </StyledView>
@@ -63,14 +75,14 @@ WorkoutCard.propTypes = {
   subtext: PropTypes.string,
   name: PropTypes.string.isRequired,
   onPress: PropTypes.func,
-  onIconPress: PropTypes.func,
+  deleteCycle: PropTypes.func,
 };
 
 WorkoutCard.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
   onPress: () => {},
-  onIconPress: () => {},
+  deleteCycle: () => {},
 };
 
 export default WorkoutCard;
