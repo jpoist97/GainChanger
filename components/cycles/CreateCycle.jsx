@@ -3,7 +3,7 @@ import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
-import FullCycleOrder from '../FullCycleOrder';
+import FullCycleOrder from './FullCycleOrder';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 
