@@ -68,12 +68,12 @@ const SetDetails = (props) => {
   const {
     completed,
     prevWeight,
-    prevReps,
-    reps,
+    prevDuration,
+    duration,
     setNumber,
     weight,
     onWeightChange,
-    onRepChange,
+    onDurationChange,
     onCompletedPress,
     onSetDelete,
   } = props;
@@ -123,7 +123,7 @@ const SetDetails = (props) => {
 
       {completed ? <CompletedText>{weight || prevWeight}</CompletedText> : <StyledInput value={weight} placeholder={prevWeight} keyboardType="numeric" onChangeText={onWeightChange} />}
 
-      {completed ? <CompletedText>{reps || prevReps}</CompletedText> : <StyledInput value={reps} placeholder={prevReps} keyboardType="numeric" onChangeText={onRepChange} />}
+      {completed ? <CompletedText>{duration || prevDuration}</CompletedText> : <StyledInput value={duration} placeholder={prevDuration} keyboardType="numeric" onChangeText={onDurationChange} />}
 
       <View style={{ width: 40, alignItems: 'center' }}>
         <CompleteButton onPress={onCompletedPress}>
@@ -139,12 +139,12 @@ const SetDetails = (props) => {
 SetDetails.propTypes = {
   completed: PropTypes.bool,
   prevWeight: PropTypes.string,
-  prevReps: PropTypes.string,
+  prevDuration: PropTypes.string,
   weight: PropTypes.string,
-  reps: PropTypes.string,
+  duration: PropTypes.string,
   setNumber: PropTypes.number.isRequired,
   onWeightChange: PropTypes.func.isRequired,
-  onRepChange: PropTypes.func.isRequired,
+  onDurationChange: PropTypes.func.isRequired,
   onCompletedPress: PropTypes.func.isRequired,
   onSetDelete: PropTypes.func.isRequired,
 };
@@ -152,9 +152,9 @@ SetDetails.propTypes = {
 SetDetails.defaultProps = {
   completed: false,
   prevWeight: 'n/a',
-  prevReps: 'n/a',
+  prevDuration: 'n/a',
   weight: '',
-  reps: '',
+  duration: '',
 };
 
 export default SetDetails;

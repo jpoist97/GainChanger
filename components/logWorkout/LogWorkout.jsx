@@ -24,11 +24,12 @@ const TitleText = styled.Text`
 const parseExercises = (exercises) => exercises.map((exercise) => ({
   name: exercise.name,
   color: exercise.color,
+  type: exercise.type,
   sets: exercise.sets.map((set) => ({
     prevWeight: set.weight,
     weight: '',
-    prevReps: set.reps,
-    reps: '',
+    prevDuration: set.duration,
+    duration: '',
     completed: false,
   })),
 }));
@@ -51,38 +52,48 @@ const LogWorkout = (props) => {
   const name = 'Workout Name';
   const exercises = [{
     name: 'Bicep Curls',
+    type: 'REPS',
     sets: [{
-      weight: '30', reps: '8',
+      weight: '30', duration: '8',
     }, {
-      weight: '30', reps: '8',
+      weight: '30', duration: '8',
     }, {
-      weight: '30', reps: '8',
+      weight: '30', duration: '8',
     }, {
-      weight: '30', reps: '8',
+      weight: '30', duration: '8',
     }],
   }, {
     name: 'Rows',
     color: '#6D8DFF',
+    type: 'REPS',
     sets: [{
-      weight: '150', reps: '12',
+      weight: '150', duration: '12',
     }, {
-      weight: '150', reps: '12',
+      weight: '150', duration: '12',
     }, {
-      weight: '150', reps: '12',
+      weight: '150', duration: '12',
     }, {
-      weight: '150', reps: '12',
+      weight: '150', duration: '12',
     }],
   }, {
     name: 'Reverse Fly',
     color: '#9D8DFF',
+    type: 'REPS',
     sets: [{
-      weight: '25', reps: '20',
+      weight: '25', duration: '20',
     }, {
-      weight: '25', reps: '20',
+      weight: '25', duration: '20',
     }, {
-      weight: '25', reps: '20',
+      weight: '25', duration: '20',
     }, {
-      weight: '25', reps: '20',
+      weight: '25', duration: '20',
+    }],
+  },
+  {
+    name: 'Plank',
+    type: 'TIME',
+    sets: [{
+      weight: '0', duration: '60',
     }],
   }];
 
@@ -91,10 +102,10 @@ const LogWorkout = (props) => {
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
 
-  const curryUpdateReps = (exerciseIndex) => (setIndex) => (reps) => {
+  const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {
     const newExercise = [...exerciseState];
 
-    newExercise[exerciseIndex].sets[setIndex].reps = reps;
+    newExercise[exerciseIndex].sets[setIndex].duration = duration;
     setExerciseState(newExercise);
   };
 
@@ -122,8 +133,8 @@ const LogWorkout = (props) => {
     newExercise[exerciseIndex].sets.push({
       weight: lastSet.weight,
       prevWeight: lastSet.prevWeight,
-      reps: lastSet.reps,
-      prevReps: lastSet.prevReps,
+      duration: lastSet.duration,
+      prevDuration: lastSet.prevDuration,
       completed: false,
     });
     setExerciseState(newExercise);
@@ -147,7 +158,8 @@ const LogWorkout = (props) => {
       name={item.name}
       items={item.sets}
       color={item.color}
-      updateReps={curryUpdateReps(index)}
+      type={item.type}
+      updateDuration={curryUpdateDuration(index)}
       updateWeight={curryUpdateWeight(index)}
       updateCompleted={curryUpdateCompleted(index)}
       onSetAdd={curryAddSet(index)}
