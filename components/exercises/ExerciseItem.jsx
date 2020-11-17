@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
@@ -32,24 +32,25 @@ const ExerciseItem = (props) => {
   } = props;
 
   return (
-    <View style={{
-      marginLeft: 10,
-      paddingVertical: 10,
-      borderBottomColor: 'lightgray',
-      borderBottomWidth: 0.5,
-      background: '#FFFFFF',
-    }}
+    <TouchableOpacity
+      style={{
+        marginLeft: 10,
+        paddingVertical: 10,
+        borderBottomColor: 'lightgray',
+        borderBottomWidth: 0.5,
+        background: '#FFFFFF',
+      }}
+      onPress={onPress}
     >
       <Exercise>{name}</Exercise>
       <BodyPart>{subtext}</BodyPart>
       <AddButton
-        name={selected ? 'pluscircle' : 'pluscircleo'}
+        name={selected ? 'checkcircle' : 'checkcircleo'}
         size={22}
         color="#CAB0FF"
-        onPress={onPress}
       />
 
-    </View>
+    </TouchableOpacity>
   );
 };
 

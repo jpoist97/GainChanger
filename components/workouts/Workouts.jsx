@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AllWorkouts from './AllWorkouts';
 import PlusButton from '../utils/PlusButton';
 import CreateWorkout from './CreateWorkout';
-import AddExercises from './AddExercises';
 
 const AddCycleButton = styled(PlusButton)`
    position: absolute;
