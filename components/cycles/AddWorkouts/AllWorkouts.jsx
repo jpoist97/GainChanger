@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
 import WorkoutCard from './WorkoutCard';
-import PlusButton from '../utils/PlusButton';
+import PlusButton from '../../utils/PlusButton';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -111,7 +111,6 @@ const AllWorkouts = (props) => {
             : setWorkoutCount(workoutCount - 1);  
           (temp[left.name[0]][index].left.selected === true) ? addedWorkouts.push(left)
             : addedWorkouts.splice(addedWorkouts.indexOf(left), 1);
-            console.log(addedWorkouts);
           }
         }
         displayEllipses={left.displayEllipses}
@@ -156,7 +155,10 @@ const AllWorkouts = (props) => {
     
     <View style={{ height: '100%' }}>
       <Title>Workouts</Title>
-      <ButtonContainer onPress={() => alert('Add Exercises to Workout')}>
+      <ButtonContainer onPress={() => { 
+        onWorkoutsAdd(addedWorkouts);
+        navigation.goBack()
+        }}>
          <Buttontext>
            Add (
             {addedWorkouts.length}

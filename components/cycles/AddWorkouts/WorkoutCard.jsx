@@ -7,7 +7,7 @@ import {
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 // import EllipsePopup from '../utils/EllipsisPopup';
-import PlusButton from '../utils/PlusButton';
+import PlusButton from '../../utils/PlusButton';
 import { AntDesign } from '@expo/vector-icons';
 
 const NameText = styled.Text`

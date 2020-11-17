@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import styled from 'styled-components/native';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
-import AddWorkouts from './AddWorkouts';
+import AddWorkouts from './AddWorkouts/AddWorkouts';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native';

@@ -3,8 +3,8 @@ import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
-import FinishButton from '../utils/FinishButton';
-import PlusButton from '../utils/PlusButton';
+import FinishButton from '../../utils/FinishButton';
+import PlusButton from '../../utils/PlusButton';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
