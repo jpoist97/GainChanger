@@ -7,7 +7,7 @@ import FullCycleOrder from './FullCycleOrder';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 
-const workouts = [
+const workoutsSampleData = [
   {
     name: 'Push',
     lastPerformed: 4,
@@ -98,8 +98,10 @@ const AddCycleButton = styled(PlusButton)`
    bottom: 20px;
    right: 25px;
 `;
+
 export default ({ navigation }) => {
   const [name, setName] = React.useState('');
+  const [workouts, setWorkouts] = React.useState(workoutsSampleData);
 
   return (
     <View style={{ height: '100%' }}>
