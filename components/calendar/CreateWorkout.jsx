@@ -5,10 +5,6 @@ import { View } from 'react-native';
 import styled from 'styled-components/native';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
-import AddWorkouts from './AddWorkouts';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -39,39 +35,24 @@ const AddCycleButton = styled(PlusButton)`
 export default ({ navigation }) => {
   const [name, setName] = React.useState('');
 
-  const Stack = createStackNavigator();
   return (
-
-    <SafeAreaView style={{ height: '100%' }}>
-
-      <BackButton onPress={() => navigation.navigate('Cycles')}>
+    <View style={{ height: '100%' }}>
+      <View>
+        <BackButton onPress={() => navigation.navigate('Workouts')}>
           <AntDesign name="left" size={30} color="black" />
-      </BackButton>
-
-      <TitleTextInput
+        </BackButton>
+        <TitleTextInput
           style={{ borderColor: name ? 'transparent' : 'black' }}
           onChangeText={(newName) => setName(newName)}
           value={name}
-          placeholder="Cycle Name"
+          placeholder="Workout Name"
         />
 
-      <AddFinishButton onPress={() => alert('Cycle Created')} />
-
-      <Stack.Navigator initialRouteName="CreateCycle">
-        <Stack.Screen name="CreateCycle" component={CreateCycle} options={{ headerShown: false }} />
-        <Stack.Screen name="Add Workouts" component={AddWorkouts} options={{ headerShown: false }} />
-      </Stack.Navigator>
-
-    </SafeAreaView>
+      </View>
+      <AddFinishButton onPress={() => alert('Workout Created')} />
+      {/* Finish Button will take u back to workouts and add workout to list */}
+      {/* This is where a list of set workout details components will go */}
+      <AddCycleButton title="Exercise" size={18} onPress={() => alert('Add Exercies')} />
+    </View>
   );
-
-
-  function CreateCycle() {
-    return (
-      <SafeAreaView style={{ height: '100%' }}>
-        <AddCycleButton title=" Add Workouts " size={18} onPress={() => navigation.navigate('Add Workouts')} />
-      </SafeAreaView>
-    );
-  }
-
 };
