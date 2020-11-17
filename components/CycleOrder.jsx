@@ -17,20 +17,32 @@ const CycleTitle = styled.Text`
 const SubTitle = styled(CycleTitle)`
     font-size: 16px;
     paddingBottom: 5px;
+    font-family: 'Montserrat_600SemiBold';
 `;
 
 const WorkoutViewText = styled.Text`
     color: #FFFFFF;
+    font-family: 'Montserrat_500Medium';
     font-size: 12px;
-    alignSelf: center;
     paddingTop: 2px;
     paddingBottom: 4px;
+    width: 33%;
+    textAlign: center;
 `;
 
-const ExerciseColumn = styled.View`
-    flexDirection: column;
+
+const RowHeader = styled.View`
+    flexDirection: row;
     alignContent: center;
     font-family: 'Montserrat_500Medium';
+    justifyContent: space-evenly;
+    width:100%;
+`;
+
+const RowContent = styled.View`
+    flexDirection: row;
+    alignContent: center;
+    justifyContent: space-evenly;
 `;
 
 const CycleOrderCard = (props) => {
@@ -38,47 +50,42 @@ const CycleOrderCard = (props) => {
     const [icon, setIcon] = React.useState('chevron-down')
 
     const {
-        title, type, color, exercises
+        name, muscleGroups, color, exercises
     } = props;
-    
     const FullBody = styled.View`
         width: 90%;
         margin: auto;
         background-color: ${color};
         borderRadius: 10px;
         box-shadow: 1px 5px 2px gray;
+        marginBottom: 10px;
+        marginTop: 10px;
+        padding: 10px;
     `;
 
     const ExercisesView = (items) => {
-        const workoutItems = items.items
-        console.log(workoutItems[0].workoutName);
+        const workoutItems = items.items;
         return (
-        <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
-            <ExerciseColumn>
+        <View style={{flexDirection:'column', justifyContent:'space-evenly'}}>
+            <RowHeader>
                 <SubTitle>Exercise</SubTitle>
-                <FlatList 
-                    data={workoutItems}
-                    renderItem={({item}) => <WorkoutViewText>{item.workoutName}</WorkoutViewText>}
-                />
-            </ExerciseColumn>
-            <ExerciseColumn>
                 <SubTitle>Sets x Reps</SubTitle>
-                <FlatList 
-                    data={workoutItems}
-                    renderItem={({item}) => {
-                        console.log(item);
-                    <WorkoutViewText>{item.sets + 'x' + item.reps}</WorkoutViewText>}
-                    }
-                />
-            </ExerciseColumn>
-            <ExerciseColumn>
                 <SubTitle>Previous</SubTitle>
-                <FlatList 
-                    data={workoutItems}
-                    renderItem={({item}) => <WorkoutViewText>{item.previous + 'lbs.'}</WorkoutViewText>}
-                />
-            </ExerciseColumn>
-        </View>
+            </RowHeader>
+            <FlatList 
+                data={workoutItems}
+                keyExtractor={(item) => item.id}
+                renderItem={({item}) => {
+                    return (
+                        <RowContent>
+                        <WorkoutViewText style={{marginLeft:10 }}>{item.id}</WorkoutViewText>
+                        <WorkoutViewText>{item.sets.length + 'x' + item.sets[0].reps}</WorkoutViewText>
+                        <WorkoutViewText>{item.sets[0].weight}</WorkoutViewText>
+                        </RowContent>
+                    )
+                }}
+            />
+         </View> 
         )
     };
 
@@ -93,7 +100,7 @@ const CycleOrderCard = (props) => {
 
     return (
             <FullBody>
-                <CycleTitle>{title}</CycleTitle>
+                <CycleTitle>{name}</CycleTitle>
                 <IconButton 
                     icon={icon}
                     color="white"
@@ -101,22 +108,22 @@ const CycleOrderCard = (props) => {
                     onPress={showDetail}
                     style={{position: 'absolute',alignSelf:"flex-end", marginTop:0}}
                 />
-                {!showDetailed && <SubTitle>{type}</SubTitle>}
+                {!showDetailed && <SubTitle>{muscleGroups}</SubTitle>}
                 {showDetailed && <ExercisesView items={exercises}/>}
             </FullBody>
     )
 };
 
 CycleOrderCard.propTypes={
-    title: PropTypes.string,
-    type: PropTypes.string,
+    name: PropTypes.string,
+    muscleGroups: PropTypes.string,
     color: PropTypes.string,
     exercises: PropTypes.array
 };
 
 CycleOrderCard.defaultProps={
-    title: 'Cycle Title',
-    type: '',
+    name: 'Cycle Name',
+    muscleGroups: '',
     color:'#CAB0FF',
     exercises: []
 };
