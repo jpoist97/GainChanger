@@ -1,8 +1,8 @@
-import { View, LayoutAnimation } from 'react-native';
-import { FlatList, TouchableHighlight } from 'react-native-gesture-handler';
-import { IconButton,Text } from 'react-native-paper';
-import styled from 'styled-components/native'
-import PropTypes from 'prop-types'
+import { View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import { IconButton } from 'react-native-paper';
+import styled from 'styled-components/native';
+import PropTypes from 'prop-types';
 import * as React from 'react';
 
 const CycleTitle = styled.Text`
@@ -30,7 +30,6 @@ const WorkoutViewText = styled.Text`
     textAlign: center;
 `;
 
-
 const RowHeader = styled.View`
     flexDirection: row;
     alignContent: center;
@@ -46,13 +45,13 @@ const RowContent = styled.View`
 `;
 
 const CycleOrderCard = (props) => {
-    const [showDetailed, setshowDetailed] = React.useState(false)
-    const [icon, setIcon] = React.useState('chevron-down')
+  const [showDetailed, setshowDetailed] = React.useState(false);
+  const [icon, setIcon] = React.useState('chevron-down');
 
-    const {
-        name, muscleGroups, color, exercises
-    } = props;
-    const FullBody = styled.View`
+  const {
+    name, muscleGroups, color, exercises,
+  } = props;
+  const FullBody = styled.View`
         width: 90%;
         margin: auto;
         background-color: ${color};
@@ -63,69 +62,67 @@ const CycleOrderCard = (props) => {
         padding: 10px;
     `;
 
-    const ExercisesView = (items) => {
-        const workoutItems = items.items;
-        return (
-        <View style={{flexDirection:'column', justifyContent:'space-evenly'}}>
-            <RowHeader>
-                <SubTitle>Exercise</SubTitle>
-                <SubTitle>Sets x Reps</SubTitle>
-                <SubTitle>Previous</SubTitle>
-            </RowHeader>
-            <FlatList 
-                data={workoutItems}
-                keyExtractor={(item) => item.id}
-                renderItem={({item}) => {
-                    return (
-                        <RowContent>
-                        <WorkoutViewText style={{marginLeft:10 }}>{item.id}</WorkoutViewText>
-                        <WorkoutViewText>{item.sets.length + 'x' + item.sets[0].reps}</WorkoutViewText>
-                        <WorkoutViewText>{item.sets[0].weight + ' lbs.'}</WorkoutViewText>
-                        </RowContent>
-                    )
-                }}
-            />
-         </View> 
-        )
-    };
-
-    function showDetail() {
-        if(icon == 'chevron-down'){
-            setIcon('chevron-up')
-        } else {
-            setIcon('chevron-down')
-        }
-        setshowDetailed(!showDetailed)
-    } 
-
+  const ExercisesView = (items) => {
+    const workoutItems = items.items;
     return (
-            <FullBody>
-                <CycleTitle>{name}</CycleTitle>
-                <IconButton 
-                    icon={icon}
-                    color="white"
-                    size={25}
-                    onPress={showDetail}
-                    style={{position: 'absolute',alignSelf:"flex-end", marginTop:0}}
-                />
-                {!showDetailed && <SubTitle>{muscleGroups}</SubTitle>}
-                {showDetailed && <ExercisesView items={exercises}/>}
-            </FullBody>
-    )
+      <View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>
+        <RowHeader>
+          <SubTitle>Exercise</SubTitle>
+          <SubTitle>Sets x Reps</SubTitle>
+          <SubTitle>Previous</SubTitle>
+        </RowHeader>
+        <FlatList
+          data={workoutItems}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <RowContent>
+              <WorkoutViewText style={{ marginLeft: 10 }}>{item.id}</WorkoutViewText>
+              <WorkoutViewText>{`${item.sets.length}x${item.sets[0].reps}`}</WorkoutViewText>
+              <WorkoutViewText>{`${item.sets[0].weight} lbs.`}</WorkoutViewText>
+            </RowContent>
+          )}
+        />
+      </View>
+    );
+  };
+
+  function showDetail() {
+    if (icon == 'chevron-down') {
+      setIcon('chevron-up');
+    } else {
+      setIcon('chevron-down');
+    }
+    setshowDetailed(!showDetailed);
+  }
+
+  return (
+    <FullBody>
+      <CycleTitle>{name}</CycleTitle>
+      <IconButton
+        icon={icon}
+        color="white"
+        size={25}
+        onPress={showDetail}
+        style={{ position: 'absolute', alignSelf: 'flex-end', marginTop: 0 }}
+      />
+      {!showDetailed && <SubTitle>{muscleGroups}</SubTitle>}
+      {showDetailed && <ExercisesView items={exercises} />}
+    </FullBody>
+  );
 };
 
-CycleOrderCard.propTypes={
-    name: PropTypes.string,
-    muscleGroups: PropTypes.string,
-    color: PropTypes.string,
-    exercises: PropTypes.array
+CycleOrderCard.propTypes = {
+  name: PropTypes.string,
+  muscleGroups: PropTypes.string,
+  color: PropTypes.string,
+  exercises: PropTypes.array,
 };
 
-CycleOrderCard.defaultProps={
-    name: 'Cycle Name',
-    muscleGroups: '',
-    color:'#CAB0FF',
-    exercises: []
+CycleOrderCard.defaultProps = {
+  name: 'Cycle Name',
+  muscleGroups: '',
+  color: '#CAB0FF',
+  exercises: [],
 };
 
 export default CycleOrderCard;

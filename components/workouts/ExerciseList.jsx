@@ -4,8 +4,8 @@ import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
-import ExerciseItem from './ExerciseItem';
 import { useNavigation } from '@react-navigation/native';
+import ExerciseItem from './ExerciseItem';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -73,7 +73,7 @@ const ExerciseList = (props) => {
   const [exerciseCount, setExerciseCount] = React.useState(0);
   const [addedExercises] = React.useState([]);
   const navigation = useNavigation();
-  
+
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
     if (text) {
@@ -125,10 +125,11 @@ const ExerciseList = (props) => {
   return (
     <SafeAreaView style={{ height: '100%' }}>
       <Title>Exercises</Title>
-      <ButtonContainer onPress={() => { 
+      <ButtonContainer onPress={() => {
         onExercisesAdd(addedExercises);
-        navigation.goBack()
-        }}>
+        navigation.goBack();
+      }}
+      >
         <Buttontext>
           Add (
           {exerciseCount}
