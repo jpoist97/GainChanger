@@ -67,12 +67,12 @@ const SetDetails = (props) => {
 
   const {
     completed,
-    prevWeight,
+    prevPerRep,
     prevReps,
     reps,
     setNumber,
-    weight,
-    onWeightChange,
+    perRep,
+    onPerRepChange,
     onRepChange,
     onCompletedPress,
     onSetDelete,
@@ -118,10 +118,10 @@ const SetDetails = (props) => {
       </SetNumber>
 
       <PrevWeight>
-        <StyledText>{prevWeight !== 'n/a' ? `${prevWeight} lbs.` : prevWeight}</StyledText>
+        <StyledText>{prevPerRep !== 'n/a' ? `${prevPerRep} lbs.` : prevPerRep}</StyledText>
       </PrevWeight>
 
-      {completed ? <CompletedText>{weight || prevWeight}</CompletedText> : <StyledInput value={weight} placeholder={prevWeight} keyboardType="numeric" onChangeText={onWeightChange} />}
+      {completed ? <CompletedText>{perRep || prevPerRep}</CompletedText> : <StyledInput value={perRep} placeholder={prevPerRep} keyboardType="numeric" onChangeText={onPerRepChange} />}
 
       {completed ? <CompletedText>{reps || prevReps}</CompletedText> : <StyledInput value={reps} placeholder={prevReps} keyboardType="numeric" onChangeText={onRepChange} />}
 
@@ -138,12 +138,12 @@ const SetDetails = (props) => {
 
 SetDetails.propTypes = {
   completed: PropTypes.bool,
-  prevWeight: PropTypes.string,
+  prevPerRep: PropTypes.string,
   prevReps: PropTypes.string,
-  weight: PropTypes.string,
+  perRep: PropTypes.string,
   reps: PropTypes.string,
   setNumber: PropTypes.number.isRequired,
-  onWeightChange: PropTypes.func.isRequired,
+  onPerRepChange: PropTypes.func.isRequired,
   onRepChange: PropTypes.func.isRequired,
   onCompletedPress: PropTypes.func.isRequired,
   onSetDelete: PropTypes.func.isRequired,
@@ -151,9 +151,9 @@ SetDetails.propTypes = {
 
 SetDetails.defaultProps = {
   completed: false,
-  prevWeight: 'n/a',
+  prevPerRep: 'n/a',
   prevReps: 'n/a',
-  weight: '',
+  perRep: '',
   reps: '',
 };
 

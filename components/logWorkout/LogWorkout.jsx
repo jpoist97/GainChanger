@@ -24,9 +24,10 @@ const TitleText = styled.Text`
 const parseExercises = (exercises) => exercises.map((exercise) => ({
   name: exercise.name,
   color: exercise.color,
+  type: exercise.type,
   sets: exercise.sets.map((set) => ({
-    prevWeight: set.weight,
-    weight: '',
+    prevPerRep: set.perRep,
+    perRep: '',
     prevReps: set.reps,
     reps: '',
     completed: false,
@@ -51,40 +52,51 @@ const LogWorkout = (props) => {
   const name = 'Workout Name';
   const exercises = [{
     name: 'Bicep Curls',
+    type: 'WEIGHT',
     sets: [{
-      weight: '30', reps: '8',
+      perRep: '30', reps: '8',
     }, {
-      weight: '30', reps: '8',
+      perRep: '30', reps: '8',
     }, {
-      weight: '30', reps: '8',
+      perRep: '30', reps: '8',
     }, {
-      weight: '30', reps: '8',
+      perRep: '30', reps: '8',
     }],
   }, {
     name: 'Rows',
     color: '#6D8DFF',
+    type: 'WEIGHT',
     sets: [{
-      weight: '150', reps: '12',
+      perRep: '150', reps: '12',
     }, {
-      weight: '150', reps: '12',
+      perRep: '150', reps: '12',
     }, {
-      weight: '150', reps: '12',
+      perRep: '150', reps: '12',
     }, {
-      weight: '150', reps: '12',
+      perRep: '150', reps: '12',
     }],
   }, {
     name: 'Reverse Fly',
     color: '#9D8DFF',
+    type: 'WEIGHT',
     sets: [{
-      weight: '25', reps: '20',
+      perRep: '25', reps: '20',
     }, {
-      weight: '25', reps: '20',
+      perRep: '25', reps: '20',
     }, {
-      weight: '25', reps: '20',
+      perRep: '25', reps: '20',
     }, {
-      weight: '25', reps: '20',
+      perRep: '25', reps: '20',
     }],
-  }];
+  },
+  {
+    name: 'Plank',
+    type: 'TIME',
+    sets: [{
+      perRep: '60', reps: '1',
+    }],
+  },
+  ];
 
   const navigation = useNavigation();
   const initialExerciseState = parseExercises(exercises);
@@ -98,10 +110,10 @@ const LogWorkout = (props) => {
     setExerciseState(newExercise);
   };
 
-  const curryUpdateWeight = (exerciseIndex) => (setIndex) => (weight) => {
+  const curryUpdatePerRep = (exerciseIndex) => (setIndex) => (perRep) => {
     const newExercise = [...exerciseState];
 
-    newExercise[exerciseIndex].sets[setIndex].weight = weight;
+    newExercise[exerciseIndex].sets[setIndex].perRep = perRep;
     setExerciseState(newExercise);
   };
 
@@ -120,8 +132,8 @@ const LogWorkout = (props) => {
     // Grab the last set for this exercise and mimic it
     const lastSet = _.last(sets);
     newExercise[exerciseIndex].sets.push({
-      weight: lastSet.weight,
-      prevWeight: lastSet.prevWeight,
+      perRep: lastSet.perRep,
+      prevPerRep: lastSet.prevPerRep,
       reps: lastSet.reps,
       prevReps: lastSet.prevReps,
       completed: false,
@@ -147,8 +159,9 @@ const LogWorkout = (props) => {
       name={item.name}
       items={item.sets}
       color={item.color}
+      type={item.type}
       updateReps={curryUpdateReps(index)}
-      updateWeight={curryUpdateWeight(index)}
+      updatePerRep={curryUpdatePerRep(index)}
       updateCompleted={curryUpdateCompleted(index)}
       onSetAdd={curryAddSet(index)}
       onSetDelete={curryDeleteSet(index)}
