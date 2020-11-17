@@ -47,7 +47,7 @@ import signup from './components/authentication/signup';
 import Root from './Root';
 import LogWorkout from './components/logWorkout/LogWorkout';
 import login from './components/authentication/login';
-import AddExercises from './components/workouts/AddExercises';
+import AddExercises from './components/exercises/AddExercises';
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
