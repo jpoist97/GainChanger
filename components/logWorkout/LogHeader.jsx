@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import PropTypes from 'prop-types';
 
 const Container = styled.View`
   flex-direction: row;
@@ -17,7 +18,7 @@ const StyledText = styled.Text`
   text-align: center;
 `;
 
-export default () => (
+const LogHeader = ({ type }) => (
   <Container>
     <StyledText style={{ width: 30 }}>Set</StyledText>
 
@@ -25,8 +26,18 @@ export default () => (
 
     <StyledText style={{ width: 70 }}>lbs</StyledText>
 
-    <StyledText style={{ width: 70 }}>Reps</StyledText>
+    {type === 'REPS' ? <StyledText style={{ width: 70 }}>Reps</StyledText> : <StyledText style={{ width: 70 }}>Secs</StyledText>}
 
     <StyledText style={{ width: 40 }}>Done</StyledText>
   </Container>
 );
+
+LogHeader.propTypes = {
+  type: PropTypes.string,
+};
+
+LogHeader.defaultProps = {
+  type: 'REPS',
+};
+
+export default LogHeader;
