@@ -44,7 +44,7 @@ const RowContent = styled.View`
     justifyContent: space-evenly;
 `;
 
-const CycleOrderCard = (props) => {
+const ExpandableCycleCard = (props) => {
   const [showDetailed, setshowDetailed] = React.useState(false);
   const [icon, setIcon] = React.useState('chevron-down');
 
@@ -62,8 +62,8 @@ const CycleOrderCard = (props) => {
         padding: 10px;
     `;
 
-  const ExercisesView = (items) => {
-    const workoutItems = items.items;
+  const ExercisesView = (props) => {
+    const {exercises} = props;
     return (
       <View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>
         <RowHeader>
@@ -72,7 +72,7 @@ const CycleOrderCard = (props) => {
           <SubTitle>Previous</SubTitle>
         </RowHeader>
         <FlatList
-          data={workoutItems}
+          data={exercises}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <RowContent>
@@ -106,23 +106,23 @@ const CycleOrderCard = (props) => {
         style={{ position: 'absolute', alignSelf: 'flex-end', marginTop: 0 }}
       />
       {!showDetailed && <SubTitle>{muscleGroups}</SubTitle>}
-      {showDetailed && <ExercisesView items={exercises} />}
+      {showDetailed && <ExercisesView exercises={exercises} />}
     </FullBody>
   );
 };
 
-CycleOrderCard.propTypes = {
+ExpandableCycleCard.propTypes = {
   name: PropTypes.string,
   muscleGroups: PropTypes.string,
   color: PropTypes.string,
   exercises: PropTypes.array,
 };
 
-CycleOrderCard.defaultProps = {
+ExpandableCycleCard.defaultProps = {
   name: 'Cycle Name',
   muscleGroups: '',
   color: '#CAB0FF',
   exercises: [],
 };
 
-export default CycleOrderCard;
+export default ExpandableCycleCard;

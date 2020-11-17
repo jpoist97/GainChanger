@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
-import CycleOrderCard from './CycleOrder';
+import ExpandableCycleCard from './CycleOrder';
 
 const FullCycleOrder = (props) => {
   const { workouts } = props;
@@ -11,7 +11,7 @@ const FullCycleOrder = (props) => {
       data={workouts}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <CycleOrderCard
+        <ExpandableCycleCard
           name={item.name}
           muscleGroups={item.muscleGroups}
           color={item.color}
