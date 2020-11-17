@@ -1,18 +1,8 @@
 import * as React from 'react';
-import {
-  SafeAreaView, View,
-} from 'react-native';
-import styled from 'styled-components/native';
-import { AntDesign } from '@expo/vector-icons';
 import ExerciseList from './ExerciseList';
 import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 
-const BackButton = styled.TouchableOpacity`
-  font-size: 24px;
-  margin: 17px 2%;
-`;
-
-export default ({ navigation, route }) => {
+export default ({ route }) => {
   const items = [
     {
       name: 'Bicep Curls', subtext: 'Biceps',
