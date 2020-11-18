@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   TouchableOpacity,
   View,
-  Alert,
 } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-// import EllipsePopup from '../utils/EllipsisPopup';
 import { AntDesign } from '@expo/vector-icons';
 import PlusButton from '../../utils/PlusButton';
 
@@ -34,9 +32,9 @@ const AddButton = styled(AntDesign)`
    color: white;
 `;
 
-const WorkoutCard = (props) => {
+const SelectableWorkoutCard = (props) => {
   const {
-    color, subtext, name, onPress, selected, displayEllipses,
+    color, subtext, name, onPress, selected, displayAddButton,
   } = props;
 
   const StyledView = styled(TouchableOpacity)`
@@ -54,9 +52,9 @@ const WorkoutCard = (props) => {
   return (
     <StyledView onPress={onPress}>
       <NameText>{name}</NameText>
-      {displayEllipses ? (
+      {displayAddButton ? (
         <AddButton
-          name={selected ? 'pluscircle' : 'pluscircleo'}
+          name={selected ? 'checkcircle' : 'checkcircleo'}
           size={28}
           color="#CAB0FF"
         />
@@ -66,22 +64,22 @@ const WorkoutCard = (props) => {
   );
 };
 
-WorkoutCard.propTypes = {
+SelectableWorkoutCard.propTypes = {
   color: PropTypes.string,
   subtext: PropTypes.string,
   name: PropTypes.string.isRequired,
-  displayEllipses: PropTypes.bool,
+  displayAddButton: PropTypes.bool,
   selected: PropTypes.bool,
   onPress: PropTypes.func,
 
 };
 
-WorkoutCard.defaultProps = {
+SelectableWorkoutCard.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
   selected: false,
-  displayEllipses: true,
+  displayAddButton: true,
   onPress: () => {},
 };
 
-export default WorkoutCard;
+export default SelectableWorkoutCard;

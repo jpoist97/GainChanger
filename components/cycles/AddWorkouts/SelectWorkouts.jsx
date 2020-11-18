@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
-import WorkoutCard from './WorkoutCard';
+import WorkoutCard from './SelectableWorkoutCard';
 import PlusButton from '../../utils/PlusButton';
 
 const Title = styled.Text`
@@ -44,6 +44,7 @@ const Buttontext = styled.Text`
    font-size: 18px;
  `;
 
+
 const parseItems = (items) => {
   // Sort names alphabetically
   items.sort((a, b) => a.name.localeCompare(b.name));
@@ -76,6 +77,10 @@ const parseItems = (items) => {
   return pairedBucketData;
 };
 
+const renderHeader = ({ section }) => (
+  <SectionHeader>{section.title}</SectionHeader>
+);
+
 const AllWorkouts = (props) => {
   const { items } = props;
 
@@ -84,9 +89,7 @@ const AllWorkouts = (props) => {
   const [workoutsList, setWorkoutsList] = React.useState(parsedItems);
   const [addedWorkouts] = React.useState([]);
 
-  const renderHeader = ({ section }) => (
-    <SectionHeader>{section.title}</SectionHeader>
-  );
+
 
   const renderCard = ({ item: { left, right }, index }) => (
     <WorkoutCardPair>
@@ -96,15 +99,15 @@ const AllWorkouts = (props) => {
         selected={left.selected}
         onPress={() => {
           const temp = { ...workoutsList };
-          const { selected } = temp[left.name[0]][index].left;
-          temp[left.name[0]][index].left.selected = !selected;
+          const { selected } = temp[left.name[0].toUpperCase()][index].left;
+          temp[left.name[0].toUpperCase()][index].left.selected = !selected;
           setWorkoutsList(temp);
-          (temp[left.name[0]][index].left.selected === true) ? setWorkoutCount(workoutCount + 1)
+          (temp[left.name[0].toUpperCase()][index].left.selected === true) ? setWorkoutCount(workoutCount + 1)
             : setWorkoutCount(workoutCount - 1);
-          (temp[left.name[0]][index].left.selected === true) ? addedWorkouts.push(left)
+          (temp[left.name[0].toUpperCase()][index].left.selected === true) ? addedWorkouts.push(left)
             : addedWorkouts.splice(addedWorkouts.indexOf(left), 1);
         }}
-        displayEllipses={left.displayEllipses}
+        displayAddButton={left.displayAddButton}
         color={left.color}
         key={left.name + left.subtext}
       />
@@ -116,15 +119,15 @@ const AllWorkouts = (props) => {
           selected={right.selected}
           onPress={() => {
             const temp = { ...workoutsList };
-            const { selected } = temp[right.name[0]][index].right;
-            temp[right.name[0]][index].right.selected = !selected;
+            const { selected } = temp[right.name[0].toUpperCase()][index].right;
+            temp[right.name[0].toUpperCase()][index].right.selected = !selected;
             setWorkoutsList(temp);
-            (temp[right.name[0]][index].right.selected === true) ? setWorkoutCount(workoutCount + 1)
+            (temp[right.name[0].toUpperCase()][index].right.selected === true) ? setWorkoutCount(workoutCount + 1)
               : setWorkoutCount(workoutCount - 1);
-            (temp[right.name[0]][index].right.selected === true) ? addedWorkouts.push(right)
+            (temp[right.name[0].toUpperCase()][index].right.selected === true) ? addedWorkouts.push(right)
               : addedWorkouts.splice(addedWorkouts.indexOf(right), 1);
           }}
-          displayEllipses={right.displayEllipses}
+          displayAddButton={right.displayAddButton}
           color={right.color}
           key={right.name + right.subtext}
         />
@@ -132,7 +135,7 @@ const AllWorkouts = (props) => {
         <WorkoutCard
           color="#00000000"
           name=""
-          displayEllipses={false}
+          displayAddButton={false}
         />
       )}
     </WorkoutCardPair>
@@ -144,7 +147,7 @@ const AllWorkouts = (props) => {
     <View style={{ height: '100%' }}>
       <Title>Workouts</Title>
       <ButtonContainer onPress={() => {
-        onWorkoutsAdd(addedWorkouts);
+        props.route.params.onWorkoutsAdd(addedWorkouts);
         navigation.goBack();
       }}
       >

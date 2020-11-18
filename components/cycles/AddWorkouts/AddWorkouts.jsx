@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { SafeAreaView } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AllWorkouts from './AllWorkouts';
-import CreateWorkout from './CreateWorkout';
+import AllWorkouts from './SelectWorkouts';
 import ModalScreenWrapper from '../../utils/ModalScreenWrapper';
 
 // this page is the same thing as workouts, except the workout cards are selectable (replace ellipses with circles)
@@ -31,20 +29,12 @@ export default ({ navigation }) => {
       name: 'Legs C', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), deleteWorkout: () => alert('Deleted Upper Lower Split B'),
     }];
 
-  const Stack = createStackNavigator();
   return ( // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
     <ModalScreenWrapper>
-      <Stack.Navigator initialRouteName="Workouts">
-        <Stack.Screen name="Workouts" component={Workouts} options={{ headerShown: false }} />
-        <Stack.Screen name="Create Workout" component={CreateWorkout} options={{ headerShown: false }} />
-      </Stack.Navigator>
+        <SafeAreaView style={{ height: '100%' }}>
+          <AllWorkouts items={items} />
+        </SafeAreaView>
     </ModalScreenWrapper>
   );
-  function Workouts() {
-    return (
-      <SafeAreaView style={{ height: '100%' }}>
-        <AllWorkouts items={items} />
-      </SafeAreaView>
-    );
-  }
+
 };
