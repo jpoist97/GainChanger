@@ -24,11 +24,7 @@ export default () => {
     subtext: `${cycle.workouts.length} Workouts`,
     onPress: () => alert(`Navigate to cycle ${cycle.id}`),
   }));
-  const selectedCycle = cycles.selectedCycleId && _.find(allCycles, (cycle) => cycle.id === cycles.selectedCycleId);
-
-  // const selectedCycle = {
-  //   name: 'Upper Lower Split B', subtext: '3 Workouts', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), deleteCycle: () => alert('Delete Upper Lower Split B'),
-  // };
+  const selectedCycle = (cycles.selectedCycleId !== undefined) && _.find(allCycles, (cycle) => cycle.id === cycles.selectedCycleId);
 
   function Cycles() {
     return (
