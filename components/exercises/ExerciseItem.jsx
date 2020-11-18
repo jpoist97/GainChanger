@@ -45,9 +45,10 @@ const ExerciseItem = (props) => {
       <Exercise>{name}</Exercise>
       <BodyPart>{subtext}</BodyPart>
       <AddButton
-        name={selected ? 'checkcircle' : 'checkcircleo'}
+        name={selected ? 'pluscircle' : 'pluscircleo'}
         size={22}
         color="#CAB0FF"
+        onPress={onPress}
       />
 
     </TouchableOpacity>
