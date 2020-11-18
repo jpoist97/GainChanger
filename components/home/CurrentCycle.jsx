@@ -68,7 +68,7 @@ const CurrentCycle = (props) => {
           <Subtext>{subtext}</Subtext>
         </StyledView>
         <TouchableOpacity onPress={rightPress}>
-        <ArrowButton
+          <ArrowButton
             name="right"
             size={28}
             color="#CAB0FF"

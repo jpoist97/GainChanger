@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
-import WorkoutCard from './SelectableWorkoutCard';
+import SelectableWorkoutCard from './SelectableWorkoutCard';
 import ModalScreenWrapper from '../../utils/ModalScreenWrapper';
 
 const Title = styled.Text`
@@ -43,7 +43,6 @@ const Buttontext = styled.Text`
    font-size: 18px;
  `;
 
-
 const parseItems = (items) => {
   // Sort names alphabetically
   items.sort((a, b) => a.name.localeCompare(b.name));
@@ -51,12 +50,12 @@ const parseItems = (items) => {
   // Group by first letter of each name
   const bucketData = items.reduce((accumulator, item) => {
     const bucket = item.name[0].toUpperCase();
-    const parsedItem = {...item, selected: false}
+
     // If this is the first time we've seen this letter, create a bucket
     if (!accumulator[bucket]) {
-      accumulator[bucket] = [parsedItem];
+      accumulator[bucket] = [item];
     } else {
-      accumulator[bucket].push(parsedItem);
+      accumulator[bucket].push(item);
     }
     return accumulator;
   }, {});
@@ -101,34 +100,29 @@ const AddWorkouts = (props) => {
     },
     {
       name: 'Legs C', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), deleteWorkout: () => alert('Deleted Upper Lower Split B'),
-    }];
+    },
+  ];
 
   const parsedItems = parseItems(items);
   const [workoutCount, setWorkoutCount] = React.useState(0);
   const [workoutsList, setWorkoutsList] = React.useState(parsedItems);
   const [addedWorkouts] = React.useState([]);
 
-
-
   const renderCard = ({ item: { left, right }, index }) => (
     <WorkoutCardPair>
-      <WorkoutCard
+      <SelectableWorkoutCard
         name={left.name}
         subtext={left.subtext}
-        
         onPress={() => {
           const temp = { ...workoutsList };
-          // console.log("************");
-          // console.log(temp[left.name[0]]);
           const { selected } = temp[left.name[0].toUpperCase()][index].left;
           temp[left.name[0].toUpperCase()][index].left.selected = !selected;
-          console.log(temp[left.name[0]]);
           setWorkoutsList(temp);
+
           (temp[left.name[0].toUpperCase()][index].left.selected === true) ? setWorkoutCount(workoutCount + 1)
             : setWorkoutCount(workoutCount - 1);
           (temp[left.name[0].toUpperCase()][index].left.selected === true) ? addedWorkouts.push(left)
             : addedWorkouts.splice(addedWorkouts.indexOf(left), 1);
-
         }}
         selected={left.selected}
         displayAddButton={left.displayAddButton}
@@ -137,7 +131,7 @@ const AddWorkouts = (props) => {
       />
 
       {right ? (
-        <WorkoutCard
+        <SelectableWorkoutCard
           name={right.name}
           subtext={right.subtext}
           selected={right.selected}
@@ -156,7 +150,7 @@ const AddWorkouts = (props) => {
           key={right.name + right.subtext}
         />
       ) : (
-        <WorkoutCard
+        <SelectableWorkoutCard
           color="#00000000"
           name=""
           displayAddButton={false}
@@ -181,14 +175,12 @@ const AddWorkouts = (props) => {
         </Buttontext>
       </ButtonContainer>
       <AlphabetSectionList
-        data={parsedItems}
+        data={workoutsList}
         renderItem={renderCard}
         renderSectionHeader={renderHeader}
       />
     </ModalScreenWrapper>
   );
 };
-
-
 
 export default AddWorkouts;
