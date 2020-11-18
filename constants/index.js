@@ -1,5 +1,6 @@
 // Workouts
 export const ADD_WORKOUT = 'ADD_WORKOUT';
+export const DELETE_WORKOUT = 'DELETE_WORKOUT';
 export const INITIALIZE_WORKOUTS = 'INITIALIZE_WORKOUTS';
 
 // Cycles
