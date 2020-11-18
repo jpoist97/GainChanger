@@ -30,20 +30,20 @@ const AddSetButton = styled(PlusButton)`
 
 const ExerciseDetails = (props) => {
   const {
-    items, updateReps, updateWeight, updateCompleted, onSetAdd, onSetDelete, name, color,
+    items, updateDuration, updateWeight, updateCompleted, onSetAdd, onSetDelete, name, color, type,
   } = props;
 
   return (
     <Container style={{ backgroundColor: color }}>
       <ExerciseName>{name}</ExerciseName>
-      <LogHeader />
+      <LogHeader type={type} />
       {items.map((set, index) => (
         <SetDetails
           prevWeight={set.prevWeight}
-          prevReps={set.prevReps}
+          prevDuration={set.prevDuration}
           weight={set.weight}
-          reps={set.reps}
-          onRepChange={updateReps(index)}
+          duration={set.duration}
+          onDurationChange={updateDuration(index)}
           onWeightChange={updateWeight(index)}
           onCompletedPress={updateCompleted(index)}
           onSetDelete={onSetDelete(index)}
@@ -62,17 +62,19 @@ const ExerciseDetails = (props) => {
 
 ExerciseDetails.propTypes = {
   items: PropTypes.array.isRequired,
-  updateReps: PropTypes.func.isRequired,
+  updateDuration: PropTypes.func.isRequired,
   updateCompleted: PropTypes.func.isRequired,
   updateWeight: PropTypes.func.isRequired,
   onSetAdd: PropTypes.func.isRequired,
   onSetDelete: PropTypes.func.isRequired,
   color: PropTypes.string,
   name: PropTypes.string.isRequired,
+  type: PropTypes.string,
 };
 
 ExerciseDetails.defaultProps = {
   color: '#CAB0FF',
+  type: 'REPS',
 };
 
 export default ExerciseDetails;

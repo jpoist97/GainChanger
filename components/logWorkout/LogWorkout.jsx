@@ -26,11 +26,12 @@ const TitleText = styled.Text`
 const parseExercises = (exercises) => exercises.map((exercise) => ({
   name: exercise.name,
   color: exercise.color,
+  type: exercise.type,
   sets: exercise.sets.map((set) => ({
     prevWeight: set.weight,
     weight: '',
-    prevReps: set.reps,
-    reps: '',
+    prevDuration: set.duration,
+    duration: '',
     completed: false,
   })),
 }));
@@ -70,10 +71,10 @@ const LogWorkout = (props) => {
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
 
-  const curryUpdateReps = (exerciseIndex) => (setIndex) => (reps) => {
+  const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {
     const newExercise = [...exerciseState];
 
-    newExercise[exerciseIndex].sets[setIndex].reps = reps;
+    newExercise[exerciseIndex].sets[setIndex].duration = duration;
     setExerciseState(newExercise);
   };
 
@@ -101,8 +102,8 @@ const LogWorkout = (props) => {
     newExercise[exerciseIndex].sets.push({
       weight: lastSet.weight,
       prevWeight: lastSet.prevWeight,
-      reps: lastSet.reps,
-      prevReps: lastSet.prevReps,
+      duration: lastSet.duration,
+      prevDuration: lastSet.prevDuration,
       completed: false,
     });
     setExerciseState(newExercise);
@@ -126,7 +127,8 @@ const LogWorkout = (props) => {
       name={item.name}
       items={item.sets}
       color={item.color}
-      updateReps={curryUpdateReps(index)}
+      type={item.type}
+      updateDuration={curryUpdateDuration(index)}
       updateWeight={curryUpdateWeight(index)}
       updateCompleted={curryUpdateCompleted(index)}
       onSetAdd={curryAddSet(index)}

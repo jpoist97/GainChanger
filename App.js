@@ -46,7 +46,8 @@ import signup from './components/authentication/signup';
 import Root from './Root';
 import LogWorkout from './components/logWorkout/LogWorkout';
 import login from './components/authentication/login';
-import AddExercises from './components/workouts/AddExercises';
+import AddExercises from './components/exercises/AddExercises';
+import AddWorkouts from './components/cycles/AddWorkouts/AddWorkouts';
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -153,9 +154,10 @@ const App = () => {
           <NavigationContainer>
             <RootStack.Navigator mode="modal" initialRouteName="Tab Stack Screen">
               {/* If you want to add any modal paths add them here */}
-              <RootStack.Screen name = "Add Exercises" component = {AddExercises} options = {{headerShown: false }} />
               <RootStack.Screen name="Tab Stack Screen" component={TabStackScreen} options={{ headerShown: false }} />
               <RootStack.Screen name="Log Workout" component={LogWorkout} options={{ headerShown: false }} />
+              <RootStack.Screen name = "Add Exercises" component = {AddExercises} options = {{headerShown: false }} />
+              <RootStack.Screen name = "Add Workouts" component = {AddWorkouts} options = {{headerShown: false }} />
             </RootStack.Navigator>
           </NavigationContainer>
         </PaperProvider>
