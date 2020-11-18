@@ -9,7 +9,7 @@ const FullCycleOrder = (props) => {
   return (
     <FlatList
       data={workouts}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item, index) => item.id.toString() + index}
       renderItem={({ item }) => (
         <ExpandableCycleCard
           name={item.name}

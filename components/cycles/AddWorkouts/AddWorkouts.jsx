@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
+import { useNavigation } from '@react-navigation/core';
 import SelectableWorkoutCard from './SelectableWorkoutCard';
 import ModalScreenWrapper from '../../utils/ModalScreenWrapper';
 
@@ -79,27 +80,70 @@ const renderHeader = ({ section }) => (
 );
 
 const AddWorkouts = (props) => {
+  const navigation = useNavigation();
+
   const items = [
     {
-      name: 'Back & Biceps', subtext: 'Back Biceps', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs A'), deleteWorkout: () => alert('Deleted Push, Pull, Legs'),
+      name: 'Push',
+      lastPerformed: 4,
+      id: 0,
+      muscleGroups: 'Chest Triceps',
+      color: '#CAB0FF',
+      exercises: [
+        { id: 'BENCH PRESS', sets: [{ weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }] },
+        { id: 'TRICEP DIPS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
+        { id: 'SHOULDER PRESS', sets: [{ weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }] },
+      ],
     },
     {
-      name: 'Upper A RP', subtext: 'Chest Triceps', color: '#9D8DFF', onPress: () => alert('Bro Split A'), deleteWorkout: () => alert('Deleted Bro Split A'),
+      name: 'Pull',
+      lastPerformed: 3,
+      id: 1,
+      muscleGroups: 'Back Biceps',
+      color: '#9D8DFF',
+      exercises: [
+        { id: 'BARBELL ROWS', sets: [{ weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }] },
+        { id: 'BICEP CURLS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
+        { id: 'SHOULDER SHRUGS', sets: [{ weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }] },
+      ],
     },
     {
-      name: 'Legs A', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split A'), deleteWorkout: () => alert('Deleted Upper Lower Split'),
+      name: 'Legs',
+      lastPerformed: 2,
+      id: 2,
+      muscleGroups: 'Quads Glutes',
+      color: '#6D8DFF',
+      exercises: [
+        { id: 'SQUATS', sets: [{ weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }] },
+        { id: 'ROMANIAN DEADLIFTS', sets: [{ weight: '225', reps: '4' }, { weight: '225', reps: '4' }, { weight: '225', reps: '4' }, { weight: '225', reps: '4' }] },
+        { id: 'CALF RAISES', sets: [{ weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }] },
+      ],
     },
     {
-      name: 'Pull B', subtext: 'Back Biceps', color: '#CAB0FF', onPress: () => alert('Push, Pull, Legs B'), deleteWorkout: () => alert('Deleted Push, Pull, Legs B'),
+      name: 'Upper Body',
+      lastPerformed: 1,
+      id: 3,
+      muscleGroups: 'Chest Shoulder',
+      color: '#CAB0FF',
+      exercises: [
+        { id: 'BENCH PRESS', sets: [{ weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }] },
+        { id: 'SHOULDER PRESS', sets: [{ weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }] },
+        { id: 'BICEP CURLS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
+        { id: 'TRICEP DIPS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
+      ],
     },
     {
-      name: 'Push B', subtext: 'Chest Triceps', color: '#9D8DFF', onPress: () => alert('Bro Split B'), deleteWorkout: () => alert('Deleted Bro Split B'),
-    },
-    {
-      name: 'Legs B', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), deleteWorkout: () => alert('Deleted Upper Lower Split B'),
-    },
-    {
-      name: 'Legs C', subtext: 'Quads Glutes', color: '#6D8DFF', onPress: () => alert('Upper Lower Split B'), deleteWorkout: () => alert('Deleted Upper Lower Split B'),
+      name: 'Arms',
+      lastPerformed: 7,
+      id: 4,
+      muscleGroups: 'Biceps Triceps',
+      color: '#9D8DFF',
+      exercises: [
+        { id: 'BICEP CURLS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
+        { id: 'TRICEP DIPS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
+        { id: 'HAMMER CURLS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
+        { id: 'SKULL CRUSHERS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
+      ],
     },
   ];
 
