@@ -80,7 +80,7 @@ const ExpandableCycleCard = (props) => {
             <RowContent>
               <WorkoutViewText style={{ marginLeft: 10 }}>{item.id}</WorkoutViewText>
               {/* TODO: center the sets x reps around the x so double digit numbers dont look bad */}
-              <WorkoutViewText>{`${item.sets.length}x${item.sets[0].reps}`}</WorkoutViewText>
+              <WorkoutViewText>{`${item.sets.length}x${item.sets[0].duration}`}</WorkoutViewText>
               <WorkoutViewText>{`${item.sets[0].weight} lbs.`}</WorkoutViewText>
             </RowContent>
           )}

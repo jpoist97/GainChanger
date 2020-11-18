@@ -1,4 +1,4 @@
-import { INITIALIZE_CYCLES, INCREMENT_SELECTED_CYCLE_INDEX, DECREMENT_SELECTED_CYCLE_INDEX, SET_SELECTED_CYCLE_DETAILS } from '../constants/index';
+import { INITIALIZE_CYCLES, INCREMENT_SELECTED_CYCLE_INDEX, DECREMENT_SELECTED_CYCLE_INDEX, SET_SELECTED_CYCLE_DETAILS, ADD_CYCLE } from '../constants/index';
 import _ from 'lodash';
 
 const initialState = {
@@ -27,6 +27,14 @@ const cycleReducer = (state = initialState, action) => {
          return {
             ...state,
             selectedCycleIndex: state.selectedCycleIndex === 0 ? action.cycleLength - 1 : state.selectedCycleIndex - 1,
+         };
+      case ADD_CYCLE:
+         console.log(`Adding new cycle ${action.cycle}`);
+         const newCycle = [...state.cycles];
+         newCycle.push(action.cycle);
+         return {
+            ...state,
+            cycles: newCycle,
          };
       default:
          return state;
