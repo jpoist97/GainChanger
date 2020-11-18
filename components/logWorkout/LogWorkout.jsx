@@ -58,6 +58,7 @@ const LogWorkout = (props) => {
 
   const { name } = selectedWorkout;
   const exercises = selectedWorkout.exercises.map((exerciseObj, index) => {
+    console.log(exercises);
     const matchingExercise = _.find(exerciseStore, (exercise) => exerciseObj.id === exercise.id);
     return {
       ...exerciseObj,

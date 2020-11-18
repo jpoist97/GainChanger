@@ -6,6 +6,8 @@ import styled from 'styled-components/native';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import SetAllWorkoutDetails from '../setWorkoutDetails/SetAllWorkoutDetails';
+import { useDispatch,useSelector } from 'react-redux';
+import { ADD_WORKOUT } from '../../constants';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -36,6 +38,9 @@ const AddCycleButton = styled(PlusButton)`
 export default ({ navigation }) => {
   const [name, setName] = React.useState('');
   const [itemState, setItemState] = React.useState([]);
+  const dispatch = useDispatch();
+  const workouts = useSelector((state) => state.workouts.workouts);
+  const nextWorkoutId = workouts[workouts.length - 1].id + 1;
 
   const setReps = (index) => (reps) => {
     const newItemState = [...itemState];
@@ -85,8 +90,36 @@ export default ({ navigation }) => {
         />
 
       </View>
-      <AddFinishButton onPress={() => (name ? navigation.navigate('Workouts') : Alert.alert('Oops', "Don't Forget to name your workout"))} />
-      {/* TODO: Finish Button Needs to create new workout, and add it to Workout Page */}
+      <AddFinishButton onPress={() => {
+        if(!name) {
+          alert('Please enter a workout name');
+        } 
+        else if(itemState.length === 0) {
+          alert('Please add at least one exercise');
+        }
+        else {
+          const newWorkout = {
+            name: name,
+            lastPerformed: 'n/a',
+            id: nextWorkoutId,
+            muscleGroups: itemState[0].muscleGroups,
+            color: itemState[0].color,
+            exercises: itemState.map((item) => {
+              const setArr = [];
+              for(let i = 0; i < item.sets; i++) {
+                setArr.push({ weight: undefined, duration: (item.reps ? item.reps : item.seconds) });
+              }
+              return {
+                ...item,
+                sets: setArr
+              };
+            })
+          }
+
+          dispatch({ type: ADD_WORKOUT, workout: newWorkout});
+          navigation.goBack();
+        }
+      }} />
       <SetAllWorkoutDetails items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} removeExercise={removeExercise} />
       <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', { onExercisesAdd }); }} />
     </View>
