@@ -1,10 +1,16 @@
 /* eslint-disable react/prop-types */
 import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import FullCycleOrder from './FullCycleOrder';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
+
+const workoutsSampleData = [
+
+];
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -32,28 +38,53 @@ const AddCycleButton = styled(PlusButton)`
    bottom: 20px;
    right: 25px;
 `;
+
 export default ({ navigation }) => {
   const [name, setName] = React.useState('');
+  const [workouts, setWorkouts] = React.useState(workoutsSampleData);
 
+  const Stack = createStackNavigator();
   return (
-    <View style={{ height: '100%' }}>
-      <View>
-        <BackButton onPress={() => navigation.navigate('Cycles')}>
-          <AntDesign name="left" size={30} color="black" />
-        </BackButton>
-        <TitleTextInput
-          style={{ borderColor: name ? 'transparent' : 'black' }}
-          onChangeText={(newName) => setName(newName)}
-          value={name}
-          placeholder="Cycle Name"
-        />
 
-      </View>
+    <SafeAreaView style={{ height: '100%' }}>
+
+      <BackButton onPress={() => navigation.navigate('Cycles')}>
+        <AntDesign name="left" size={30} color="black" />
+      </BackButton>
+
+      <TitleTextInput
+        style={{ borderColor: name ? 'transparent' : 'black' }}
+        onChangeText={(newName) => setName(newName)}
+        value={name}
+        placeholder="Cycle Name"
+      />
+
       <AddFinishButton onPress={() => alert('Cycle Created')} />
-      {/* Finish Button will take u back to Cycles and add cycle to list */}
-      {/* This is where a list of workouts in the cycle will go. Should be
-      able to drag to change order */}
-      <AddCycleButton title="Workout" size={18} onPress={() => alert('Add Workout to Cycle')} />
-    </View>
+
+      {/* TODO: remove this stack navigator */}
+      <Stack.Navigator initialRouteName="CreateCycle">
+        <Stack.Screen name="CreateCycle" component={CreateCycle} options={{ headerShown: false }} />
+      </Stack.Navigator>
+
+    </SafeAreaView>
   );
+
+  function CreateCycle() {
+    return (
+      <SafeAreaView style={{ height: '100%' }}>
+        <FullCycleOrder workouts={workouts} />
+        <AddCycleButton
+          title=" Add Workouts "
+          size={18}
+          onPress={() => navigation.navigate('Add Workouts', {
+            onWorkoutsAdd: (selectedWorkouts) => {
+              const newWorkouts = [...workouts];
+              newWorkouts.push(...selectedWorkouts);
+              setWorkouts(newWorkouts);
+            },
+          })}
+        />
+      </SafeAreaView>
+    );
+  }
 };

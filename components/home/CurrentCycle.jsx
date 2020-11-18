@@ -5,6 +5,7 @@ import {
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -27,10 +28,11 @@ const Subtext = styled.Text`
    left: 25px;
    font-family: 'Montserrat_500Medium';
 `;
-const Caret = styled.Text`
-  color: #6D8DFF;
-  font-size: 32px;
-  font-family: 'Montserrat_600SemiBold';
+
+const ArrowButton = styled(AntDesign)`
+   height: 30px;
+   width: 28px;
+   color: #6D8DFF;
 `;
 
 const CurrentCycle = (props) => {
@@ -55,18 +57,22 @@ const CurrentCycle = (props) => {
       <Title>Today</Title>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
         <TouchableOpacity onPress={leftPress}>
-          <Caret>
-            {'<'}
-          </Caret>
+          <ArrowButton
+            name="left"
+            size={28}
+            color="#CAB0FF"
+          />
         </TouchableOpacity>
         <StyledView onPress={() => navigation.navigate('Log Workout', { workoutId: id })}>
           <NameText>{name}</NameText>
           <Subtext>{subtext}</Subtext>
         </StyledView>
         <TouchableOpacity onPress={rightPress}>
-          <Caret>
-            {'>'}
-          </Caret>
+          <ArrowButton
+            name="right"
+            size={28}
+            color="#CAB0FF"
+          />
         </TouchableOpacity>
       </View>
     </View>
