@@ -15,7 +15,7 @@ const Title = styled.Text`
 
 const SetAllWorkoutDetails = (props) => {
   const {
-    items, setReps, setSets, setSeconds, removeExercise,
+    items, setReps, setSets, setSeconds, removeExercise, toggleType,
   } = props;
 
   const renderCard = ({ item, index }) => (
@@ -27,9 +27,11 @@ const SetAllWorkoutDetails = (props) => {
       sets={item.sets}
       reps={item.reps}
       seconds={item.seconds}
+      isReps={item.isReps}
       setReps={setReps(index)}
       setSets={setSets(index)}
       setSeconds={setSeconds(index)}
+      toggleType={toggleType(index)}
       removeExercise={removeExercise(index)}
     />
   );

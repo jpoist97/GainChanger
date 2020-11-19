@@ -60,15 +60,23 @@ export default ({ navigation }) => {
     setItemState(newItemState);
   };
 
+  const toggleType = (index) => () => {
+    const newItemState = [...itemState];
+    newItemState[index].isReps = !newItemState[index].isReps;
+    setItemState(newItemState)
+  }
+
   const removeExercise = (index) => () => {
     const newItemState = [...itemState];
     newItemState.splice(index, 1);
     setItemState(newItemState);
   };
+
   const colors = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];
   const onExercisesAdd = (selectedExercises) => {
     const newItems = [...itemState];
-    newItems.push(...selectedExercises);
+    // For now all exercises will default to reps based exercises
+    newItems.push(...selectedExercises.map((exercise) => ({ ...exercise, isReps: true })));
     const newExercise = newItems.map((item, index) => {
       item.color = colors[index % 3];
       return item;
@@ -106,8 +114,11 @@ export default ({ navigation }) => {
             color: itemState[0].color,
             exercises: itemState.map((item) => {
               const setArr = [];
-              for(let i = 0; i < item.sets; i++) {
-                setArr.push({ weight: undefined, duration: (item.reps ? item.reps : item.seconds) });
+              // 3 is the default number of sets
+              const sets = item.sets || 3;
+
+              for(let i = 0; i < sets; i++) {
+                setArr.push({ weight: undefined, duration: (item.isReps ? item.reps || '10' : item.seconds || '60') });
               }
               return {
                 ...item,
@@ -116,11 +127,11 @@ export default ({ navigation }) => {
             })
           }
 
-          dispatch({ type: ADD_WORKOUT, workout: newWorkout});
+          dispatch({ type: ADD_WORKOUT, workout: newWorkout });
           navigation.goBack();
         }
       }} />
-      <SetAllWorkoutDetails items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} removeExercise={removeExercise} />
+      <SetAllWorkoutDetails items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} />
       <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', { onExercisesAdd }); }} />
     </View>
   );

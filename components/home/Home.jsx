@@ -52,7 +52,7 @@ export default () => {
     color: workout.color,
   }));
 
-  const selectedCycle = cycles.selectedCycleId && _.find(cycles.cycles, (cycle) => cycle.id === cycles.selectedCycleId);
+  const selectedCycle = (cycles.selectedCycleId !== undefined) && _.find(cycles.cycles, (cycle) => cycle.id === cycles.selectedCycleId);
   let cycleDetails;
   if (!cycles.selectedCycleDetails && selectedCycle) {
     cycleDetails = selectedCycle.workouts.map((workoutId) => _.find(workouts, (workout) => workout.id === workoutId));
