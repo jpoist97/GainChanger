@@ -1,27 +1,26 @@
 import * as React from 'react';
 import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
-import ExpandableCycleCard from './CycleOrder';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+import ExpandableCycleCard from './CycleOrder';
 
 const FullCycleOrder = (props) => {
-
-  const { 
-    workouts, passWorkoutList 
+  const {
+    workouts, passWorkoutList,
   } = props;
 
-  const [workoutList, setWorkoutList] = React.useState(workouts)
+  const [workoutList, setWorkoutList] = React.useState(workouts);
 
   React.useEffect(() => {
-    passWorkoutList(workoutList)
+    passWorkoutList(workoutList);
   }, [workoutList]);
 
   return (
     <DraggableFlatList
       data={workoutList}
       keyExtractor={(item, index) => item.id.toString() + index}
-      onDragEnd={({data}) => setWorkoutList(data) }
-      renderItem={({ item, drag}) => (
+      onDragEnd={({ data }) => setWorkoutList(data)}
+      renderItem={({ item, drag }) => (
         <ExpandableCycleCard
           drag={drag}
           name={item.name}

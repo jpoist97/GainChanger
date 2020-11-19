@@ -50,7 +50,7 @@ const ExpandableCycleCard = (props) => {
   const [icon, setIcon] = React.useState('chevron-down');
 
   const {
-    name, muscleGroups, color, exercises, drag
+    name, muscleGroups, color, exercises, drag,
   } = props;
 
   const FullBody = styled.TouchableOpacity`
@@ -100,7 +100,7 @@ const ExpandableCycleCard = (props) => {
   }
 
   return (
-    <FullBody 
+    <FullBody
       onLongPress={drag}
       onPress={showDetail}
     >
