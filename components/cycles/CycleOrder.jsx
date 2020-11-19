@@ -50,9 +50,10 @@ const ExpandableCycleCard = (props) => {
   const [icon, setIcon] = React.useState('chevron-down');
 
   const {
-    name, muscleGroups, color, exercises,
+    name, muscleGroups, color, exercises, drag
   } = props;
-  const FullBody = styled.View`
+
+  const FullBody = styled.TouchableOpacity`
         width: 90%;
         margin: auto;
         background-color: ${color};
@@ -99,13 +100,15 @@ const ExpandableCycleCard = (props) => {
   }
 
   return (
-    <FullBody>
+    <FullBody 
+      onLongPress={drag}
+      onPress={showDetail}
+    >
       <CycleTitle>{name}</CycleTitle>
       <IconButton
         icon={icon}
         color="white"
         size={25}
-        onPress={showDetail}
         style={{ position: 'absolute', alignSelf: 'flex-end', marginTop: 0 }}
       />
       {!showDetailed && <SubTitle>{muscleGroups}</SubTitle>}
