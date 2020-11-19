@@ -88,10 +88,17 @@ export default ({ navigation }) => {
     </SafeAreaView>
   );
 
+  function updateOrder(workoutList) {
+    setWorkouts(workoutList);
+  }
+
   function CreateCycle() {
     return (
       <SafeAreaView style={{ height: '100%' }}>
-        <FullCycleOrder workouts={workouts} />
+        <FullCycleOrder 
+          passWorkoutList={updateOrder} 
+          workouts={workouts} 
+        />
         <AddCycleButton
           title=" Add Workouts "
           size={18}
