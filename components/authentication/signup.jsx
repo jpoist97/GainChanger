@@ -45,73 +45,71 @@ export default ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
-      >
-        <View style={styles.container}>
-          <Image
-            style={styles.icon}
-            source={require('../../assets/icon.png')}
-          />
+    <KeyboardAvoidingView
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+      <View style={styles.container}>
+        <Image
+          style={styles.icon}
+          source={require('../../assets/icon.png')}
+        />
+        <TextInput
+          style={styles.input}
+          selectionColor="#A192FF"
+          placeholder="First name"
+          value={name}
+          onChangeText={(name) => setName(name)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          selectionColor="#A192FF"
+          textContentType="emailAddress"
+          value={email}
+          onChangeText={(email) => setEmail(email)}
+        />
+        <View style={styles.passwordContainer}>
           <TextInput
             style={styles.input}
+            placeholder="Password"
             selectionColor="#A192FF"
-            placeholder="First name"
-            value={name}
-            onChangeText={(name) => setName(name)}
+            textContentType="password"
+            secureTextEntry={showPassword}
+            value={password}
+            onChangeText={(password) => setPassword(password)}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            selectionColor="#A192FF"
-            textContentType="emailAddress"
-            value={email}
-            onChangeText={(email) => setEmail(email)}
-          />
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              selectionColor="#A192FF"
-              textContentType="password"
-              secureTextEntry={showPassword}
-              value={password}
-              onChangeText={(password) => setPassword(password)}
-            />
-            <Button
-              style={styles.passwordShow}
-              uppercase={false}
-              mode="text"
-              color="#8643FF"
-              onPress={() => setShowPassword(!showPassword)}
-            >
-              Show
-            </Button>
-          </View>
           <Button
-            style={styles.signup}
-            contentStyle={styles.signupContent}
-            uppercase={false}
-            mode="contained"
-            dark
-            onPress={signupPress}
-          >
-            Sign Up
-          </Button>
-          <Button
-            style={styles.login}
+            style={styles.passwordShow}
             uppercase={false}
             mode="text"
             color="#8643FF"
-            onPress={loginPress}
+            onPress={() => setShowPassword(!showPassword)}
           >
-            Already have an account? Login
+            Show
           </Button>
         </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <Button
+          style={styles.signup}
+          contentStyle={styles.signupContent}
+          uppercase={false}
+          mode="contained"
+          dark
+          onPress={signupPress}
+        >
+          Sign Up
+        </Button>
+        <Button
+          style={styles.login}
+          uppercase={false}
+          mode="text"
+          color="#8643FF"
+          onPress={loginPress}
+        >
+          Already have an account? Login
+        </Button>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
