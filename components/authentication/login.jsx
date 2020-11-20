@@ -4,6 +4,19 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
+import styled from 'styled-components/native';
+
+const Title = styled.Text`
+  font-family: 'Montserrat_700Bold';
+  font-size: 40px;
+  margin: 10px 6%;
+`;
+
+const SubTitle = styled.Text`
+  font-family: 'Montserrat_700Bold';
+  font-size: 30px;
+  padding-top: 20px;
+`;
 
 export default ({ navigation }) => {
   const [email, setEmail] = React.useState('');
@@ -42,9 +55,11 @@ export default ({ navigation }) => {
       style={{ flex: 1 }}
     >
       <View style={styles.container}>
+      <Title>GainChanger</Title>
+          <SubTitle>Login</SubTitle>
         <Image
-          style={styles.icon}
-          source={require('../../assets/icon.png')}
+          style={styles.logo}
+          source={require('../../assets/logo.png')}
         />
         <TextInput
           style={styles.input}
@@ -106,11 +121,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: '100%',
   },
-  icon: {
+  logo: {
     width: 225,
     height: 225,
-    marginTop: 50,
-    marginBottom: 50,
+    marginTop: 30,
+    marginBottom: 30,
   },
   input: {
     alignSelf: 'center',

@@ -60,6 +60,7 @@ const CompleteButton = styled(TouchableOpacity)`
 const PulloutButton = styled(TouchableOpacity)`
   justify-content: center;
   width: 25px;
+  margin-right: 8px;
 `;
 
 const SetDetails = (props) => {

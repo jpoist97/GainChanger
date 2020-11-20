@@ -95,9 +95,9 @@ export default ({ navigation }) => {
   function CreateCycle() {
     return (
       <SafeAreaView style={{ height: '100%' }}>
-        <FullCycleOrder 
-          passWorkoutList={updateOrder} 
-          workouts={workouts} 
+        <FullCycleOrder
+          passWorkoutList={updateOrder}
+          workouts={workouts}
         />
         <AddCycleButton
           title=" Add Workouts "
