@@ -32,7 +32,6 @@ export default ({ navigation }) => {
 
   firebase.auth().onAuthStateChanged(() => {
     if (firebase.auth().currentUser) {
-      console.log('sign in successful. Navigating to home...');
       navigation.navigate('Root');
     }
   });
