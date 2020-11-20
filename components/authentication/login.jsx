@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  SafeAreaView, View, StyleSheet, Image, TextInput, KeyboardAvoidingView, Platform,
+  View, StyleSheet, Image, TextInput, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -18,19 +18,16 @@ export default ({ navigation }) => {
         switch (errorCode) {
           case 'auth/wrong-password':
             alert('Incorrect password.');
-            console.log('Incorrect password.');
             break;
 
           default:
             alert(`Error: ${errorMsg}`);
-            console.log(`error logging in: ${errorMsg}`);
         }
       });
   }
 
   function signupPress() {
     navigation.navigate('Signup');
-    console.log('Navigating to signup...');
   }
 
   firebase.auth().onAuthStateChanged(() => {

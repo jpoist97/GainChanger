@@ -19,28 +19,23 @@ export default ({ navigation }) => {
         switch (errorCode) {
           case 'auth/weak-password':
             alert('Password too weak.');
-            console.log('Weak password');
             break;
 
           case 'auth/invalid-email':
             alert('Invalid email.');
-            console.log('Invalid email.');
             break;
 
           case 'auth/email-already-in-use':
             alert('That email is already being used.');
-            console.log('email already in use');
             break;
 
           default:
             alert(`Error: ${errorMessage}`);
-            console.log(errorMessage);
         }
       });
   }
 
   function loginPress() {
-    console.log('Navigating to login...');
     navigation.navigate('Login');
   }
 
