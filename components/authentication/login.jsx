@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  SafeAreaView, View, StyleSheet, Image, TextInput, KeyboardAvoidingView, Platform,
+  View, StyleSheet, Image, TextInput, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -31,91 +31,85 @@ export default ({ navigation }) => {
         switch (errorCode) {
           case 'auth/wrong-password':
             alert('Incorrect password.');
-            console.log('Incorrect password.');
             break;
 
           default:
             alert(`Error: ${errorMsg}`);
-            console.log(`error logging in: ${errorMsg}`);
         }
       });
   }
 
   function signupPress() {
     navigation.navigate('Signup');
-    console.log('Navigating to signup...');
   }
 
   firebase.auth().onAuthStateChanged(() => {
     if (firebase.auth().currentUser) {
-      console.log('sign in successful. Navigating to home...');
       navigation.navigate('Root');
     }
   });
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
-      >
-        <View style={styles.container}>
-          <Title>GainChanger</Title>
+    <KeyboardAvoidingView
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+      <View style={styles.container}>
+      <Title>GainChanger</Title>
           <SubTitle>Login</SubTitle>
-          <Image
-            style={styles.logo}
-            source={require('../../assets/logo.png')}
-          />
+        <Image
+          style={styles.logo}
+          source={require('../../assets/logo.png')}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          selectionColor="#A192FF"
+          textContentType="emailAddress"
+          value={email}
+          onChangeText={(email) => setEmail(email)}
+        />
+        <View style={styles.passwordContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder="Password"
             selectionColor="#A192FF"
-            textContentType="emailAddress"
-            value={email}
-            onChangeText={(email) => setEmail(email)}
+            textContentType="password"
+            secureTextEntry={hidePassword}
+            value={password}
+            onChangeText={(password) => setPassword(password)}
           />
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              selectionColor="#A192FF"
-              textContentType="password"
-              secureTextEntry={hidePassword}
-              value={password}
-              onChangeText={(password) => setPassword(password)}
-            />
-            <Button
-              style={styles.passwordShow}
-              uppercase={false}
-              mode="text"
-              color="#8643FF"
-              onPress={() => setHidePassword(!hidePassword)}
-            >
-              Show
-            </Button>
-          </View>
           <Button
-            style={styles.signup}
-            contentStyle={styles.signupContent}
-            uppercase={false}
-            mode="contained"
-            dark
-            onPress={loginPress}
-          >
-            Login
-          </Button>
-          <Button
-            style={styles.login}
+            style={styles.passwordShow}
             uppercase={false}
             mode="text"
             color="#8643FF"
-            onPress={signupPress}
+            onPress={() => setHidePassword(!hidePassword)}
           >
-            Don't have an account? Sign up
+            Show
           </Button>
         </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <Button
+          style={styles.signup}
+          contentStyle={styles.signupContent}
+          uppercase={false}
+          mode="contained"
+          dark
+          onPress={loginPress}
+        >
+          Login
+        </Button>
+        <Button
+          style={styles.login}
+          uppercase={false}
+          mode="text"
+          color="#8643FF"
+          onPress={signupPress}
+        >
+          Don't have an account? Sign up
+        </Button>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

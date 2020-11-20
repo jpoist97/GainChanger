@@ -48,6 +48,7 @@ import LogWorkout from './components/logWorkout/LogWorkout';
 import login from './components/authentication/login';
 import AddExercises from './components/exercises/AddExercises';
 import AddWorkouts from './components/cycles/AddWorkouts/AddWorkouts';
+console.disableYellowBox = true;
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
