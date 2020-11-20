@@ -63,8 +63,7 @@ const renderHeader = ({ section }) => (
 );
 
 const ExerciseList = (props) => {
-  const { items } = props;
-  const { onExercisesAdd } = props;
+  const { items, onExercisesAdd } = props;
 
   const parsedItems = parseItems(items);
   const [search, setSearch] = React.useState('');

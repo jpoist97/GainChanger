@@ -82,15 +82,17 @@ const CurrentCycle = (props) => {
 CurrentCycle.propTypes = {
   color: PropTypes.string,
   subtext: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   leftPress: PropTypes.func,
   rightPress: PropTypes.func,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
 };
 
 CurrentCycle.defaultProps = {
   color: '#CAB0FF',
+  name: 'Set a cycle',
   subtext: '',
+  id: undefined,
   leftPress: () => {},
   rightPress: () => {},
 };

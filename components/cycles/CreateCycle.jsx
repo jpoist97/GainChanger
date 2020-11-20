@@ -7,10 +7,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import FullCycleOrder from './FullCycleOrder';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
+import { useSelector, useDispatch } from 'react-redux';
+import { ADD_CYCLE } from '../../constants/index';
 
-const workoutsSampleData = [
-
-];
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -41,7 +40,10 @@ const AddCycleButton = styled(PlusButton)`
 
 export default ({ navigation }) => {
   const [name, setName] = React.useState('');
-  const [workouts, setWorkouts] = React.useState(workoutsSampleData);
+  const [workouts, setWorkouts] = React.useState([]);
+  const dispatch = useDispatch();
+  const allCycles = useSelector((state) => state.cycles.cycles);
+  const nextCycleId = allCycles[allCycles.length - 1].id + 1;
 
   const Stack = createStackNavigator();
   return (
@@ -59,7 +61,24 @@ export default ({ navigation }) => {
         placeholder="Cycle Name"
       />
 
-      <AddFinishButton onPress={() => alert('Cycle Created')} />
+      <AddFinishButton onPress={() => {
+        if(!name) {
+          alert('Please enter a cycle name');
+        } 
+        else if(workouts.length === 0) {
+          alert('Please add at least one workout');
+        } 
+        else {
+          const newCycle = {
+            name,
+            id: nextCycleId,
+            color: workouts[0].color,
+            workouts: workouts.map((workout) => workout.id),
+          }
+          dispatch({ type: ADD_CYCLE, cycle: newCycle });
+          navigation.goBack();
+        }
+      }} />
 
       {/* TODO: remove this stack navigator */}
       <Stack.Navigator initialRouteName="CreateCycle">

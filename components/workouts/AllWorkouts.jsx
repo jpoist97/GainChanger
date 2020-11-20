@@ -7,6 +7,8 @@ import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
 import { useNavigation } from '@react-navigation/native';
 import WorkoutCard from './WorkoutCard';
+import { useDispatch } from 'react-redux';
+import { DELETE_WORKOUT } from '../../constants';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -68,6 +70,7 @@ const AllWorkouts = (props) => {
   const { items } = props;
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const parsedItems = parseItems(items);
 
   const renderCard = ({ item: { left, right } }) => (
@@ -76,7 +79,7 @@ const AllWorkouts = (props) => {
         name={left.name}
         subtext={left.subtext}
         displayEllipses={left.displayEllipses}
-        deleteWorkout={left.deleteWorkout}
+        deleteWorkout={() => dispatch({ type: DELETE_WORKOUT, workoutId: left.id })}
         id={left.id}
         color={left.color}
         key={left.name + left.subtext}
@@ -87,7 +90,7 @@ const AllWorkouts = (props) => {
           name={right.name}
           subtext={right.subtext}
           displayEllipses={right.displayEllipses}
-          deleteWorkout={right.deleteWorkout}
+          deleteWorkout={() => dispatch({ type: DELETE_WORKOUT, workoutId: left.id })}
           id={right.id}
           color={right.color}
           key={right.name + right.subtext}

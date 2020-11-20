@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { useNavigation } from '@react-navigation/core';
 import SelectableWorkoutCard from './SelectableWorkoutCard';
 import ModalScreenWrapper from '../../utils/ModalScreenWrapper';
+import { useSelector } from 'react-redux';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -82,72 +83,11 @@ const renderHeader = ({ section }) => (
 const AddWorkouts = (props) => {
   const navigation = useNavigation();
 
-  const items = [
-    {
-      name: 'Push',
-      lastPerformed: 4,
-      id: 0,
-      muscleGroups: 'Chest Triceps',
-      color: '#CAB0FF',
-      exercises: [
-        { id: 'BENCH PRESS', sets: [{ weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }] },
-        { id: 'TRICEP DIPS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
-        { id: 'SHOULDER PRESS', sets: [{ weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }] },
-      ],
-    },
-    {
-      name: 'Pull',
-      lastPerformed: 3,
-      id: 1,
-      muscleGroups: 'Back Biceps',
-      color: '#9D8DFF',
-      exercises: [
-        { id: 'BARBELL ROWS', sets: [{ weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }] },
-        { id: 'BICEP CURLS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
-        { id: 'SHOULDER SHRUGS', sets: [{ weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }] },
-      ],
-    },
-    {
-      name: 'Legs',
-      lastPerformed: 2,
-      id: 2,
-      muscleGroups: 'Quads Glutes',
-      color: '#6D8DFF',
-      exercises: [
-        { id: 'SQUATS', sets: [{ weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }] },
-        { id: 'ROMANIAN DEADLIFTS', sets: [{ weight: '225', reps: '4' }, { weight: '225', reps: '4' }, { weight: '225', reps: '4' }, { weight: '225', reps: '4' }] },
-        { id: 'CALF RAISES', sets: [{ weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }] },
-      ],
-    },
-    {
-      name: 'Upper Body',
-      lastPerformed: 1,
-      id: 3,
-      muscleGroups: 'Chest Shoulder',
-      color: '#CAB0FF',
-      exercises: [
-        { id: 'BENCH PRESS', sets: [{ weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }, { weight: '150', reps: '8' }] },
-        { id: 'SHOULDER PRESS', sets: [{ weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }, { weight: '120', reps: '8' }] },
-        { id: 'BICEP CURLS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
-        { id: 'TRICEP DIPS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
-      ],
-    },
-    {
-      name: 'Arms',
-      lastPerformed: 7,
-      id: 4,
-      muscleGroups: 'Biceps Triceps',
-      color: '#9D8DFF',
-      exercises: [
-        { id: 'BICEP CURLS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
-        { id: 'TRICEP DIPS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
-        { id: 'HAMMER CURLS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
-        { id: 'SKULL CRUSHERS', sets: [{ weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }, { weight: '25', reps: '20' }] },
-      ],
-    },
-  ];
+  const allWorkouts = useSelector((state) => state.workouts.workouts);
+  const items = allWorkouts.map((workout) => ({ ...workout, subtext: workout.muscleGroups, selected: false }));
 
   const parsedItems = parseItems(items);
+  
   const [workoutCount, setWorkoutCount] = React.useState(0);
   const [workoutsList, setWorkoutsList] = React.useState(parsedItems);
   const [addedWorkouts] = React.useState([]);

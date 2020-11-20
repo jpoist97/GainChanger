@@ -5,6 +5,8 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import CycleCard from './CycleCard';
+import { DELETE_CYCLE, SELECT_NEW_CYCLE } from '../../constants';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -24,15 +26,7 @@ const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
-const renderCard = ({ item }) => (
-  <CycleCard
-    name={item.name}
-    subtext={item.subtext}
-    deleteCycle={item.deleteCycle}
-    onPress={item.onPress}
-    color={item.color}
-  />
-);
+
 
 const parseItems = (items, selectedCycle) => {
   // Sort names alphabetically
@@ -58,9 +52,21 @@ const parseItems = (items, selectedCycle) => {
 };
 
 const AllCycles = (props) => {
+  const dispatch = useDispatch();
   const { items, selectedCycle } = props;
 
   const parsedItems = parseItems(items, selectedCycle);
+
+  const renderCard = ({ item }) => (
+    <CycleCard
+      name={item.name}
+      subtext={item.subtext}
+      selectCycle={() => dispatch({ type: SELECT_NEW_CYCLE, cycleId: item.id})}
+      deleteCycle={() => dispatch({ type: DELETE_CYCLE, cycleId: item.id })}
+      onPress={item.onPress}
+      color={item.color}
+    />
+  );
 
   return (
     <View style={{ height: '100%' }}>

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-
 import { AppLoading } from 'expo';
 import { MenuProvider } from 'react-native-popup-menu';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -89,8 +88,8 @@ const theme = {
   },
 };
 
-export default function App() {
-  const [fontsLoaded] = useFonts({
+const App = () => {
+  let [fontsLoaded] = useFonts({
     Montserrat_100Thin,
     Montserrat_100Thin_Italic,
     Montserrat_200ExtraLight,
@@ -166,3 +165,5 @@ export default function App() {
     </MenuProvider>
   );
 }
+
+export default App;

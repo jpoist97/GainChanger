@@ -58,9 +58,9 @@ const StyledView = styled.View`
 
 const SetWorkoutDetailsCard = (props) => {
   const {
-    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise,
+    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise, isReps, toggleType
   } = props;
-  const [isReps, setIsReps] = React.useState(true);
+  // const [isReps, setIsReps] = React.useState(true);
 
   return (
     <StyledView style={{ backgroundColor: color }}>
@@ -69,7 +69,7 @@ const SetWorkoutDetailsCard = (props) => {
         <StyledEllipsesPopup
           options={[
             {
-              icon: 'SWAP', text: 'Switch Reps/Time', onPress: () => (isReps ? setIsReps(false) : setIsReps(true)),
+              icon: 'SWAP', text: 'Switch Reps/Time', onPress: () => { toggleType(); },
             },
             {
               icon: 'DELETE', text: 'Remove Exercise', onPress: () => { removeExercise(); },
