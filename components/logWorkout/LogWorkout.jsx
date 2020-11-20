@@ -5,9 +5,11 @@ import _ from 'lodash';
 import styled from 'styled-components';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
+import { COLORS } from '../../constants/index';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -49,53 +51,20 @@ const LogWorkout = (props) => {
 
   // get the workout details from redux based on workoutid
   console.log(`Opening Log Workout for workout id ${workoutId}`);
-  const name = 'Workout Name';
-  const exercises = [{
-    name: 'Bicep Curls',
-    type: 'REPS',
-    sets: [{
-      weight: '30', duration: '8',
-    }, {
-      weight: '30', duration: '8',
-    }, {
-      weight: '30', duration: '8',
-    }, {
-      weight: '30', duration: '8',
-    }],
-  }, {
-    name: 'Rows',
-    color: '#6D8DFF',
-    type: 'REPS',
-    sets: [{
-      weight: '150', duration: '12',
-    }, {
-      weight: '150', duration: '12',
-    }, {
-      weight: '150', duration: '12',
-    }, {
-      weight: '150', duration: '12',
-    }],
-  }, {
-    name: 'Reverse Fly',
-    color: '#9D8DFF',
-    type: 'REPS',
-    sets: [{
-      weight: '25', duration: '20',
-    }, {
-      weight: '25', duration: '20',
-    }, {
-      weight: '25', duration: '20',
-    }, {
-      weight: '25', duration: '20',
-    }],
-  },
-  {
-    name: 'Plank',
-    type: 'TIME',
-    sets: [{
-      weight: '0', duration: '60',
-    }],
-  }];
+
+  const exerciseStore = useSelector((state) => state.exercises.exercises);
+  const workouts = useSelector((state) => state.workouts.workouts);
+  const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
+
+  const { name } = selectedWorkout;
+  const exercises = selectedWorkout.exercises.map((exerciseObj, index) => {
+    const matchingExercise = _.find(exerciseStore, (exercise) => exerciseObj.id === exercise.id);
+    return {
+      ...exerciseObj,
+      name: matchingExercise.name,
+      color: COLORS[index % 3],
+    };
+  });
 
   const navigation = useNavigation();
   const initialExerciseState = parseExercises(exercises);
@@ -171,7 +140,7 @@ const LogWorkout = (props) => {
     <ModalWapper>
       <TitleText>{name}</TitleText>
       <StyledFinishButton onPress={() => {
-        // Update Redux and database
+        // TODO: Update Redux and database
         navigation.goBack();
       }}
       />

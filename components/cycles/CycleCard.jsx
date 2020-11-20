@@ -32,7 +32,7 @@ const StyledEllipsisPopup = styled(EllipsisPopup)`
 
 const WorkoutCard = (props) => {
   const {
-    color, subtext, name, onPress, deleteCycle,
+    color, subtext, name, onPress, deleteCycle, selectCycle
   } = props;
 
   const StyledView = styled(TouchableOpacity)`
@@ -49,7 +49,7 @@ const WorkoutCard = (props) => {
     <StyledView onPress={onPress}>
       <NameText>{name}</NameText>
       <StyledEllipsisPopup
-        options={[{ icon: 'SELECT', text: 'Select Cycle', onPress: () => alert('Update store to select cycle') },
+        options={[{ icon: 'SELECT', text: 'Select Cycle', onPress: selectCycle },
           { icon: 'EDIT', text: 'Edit Cycle', onPress: () => alert('Navigate to edit cycle screen') },
           {
             icon: 'DELETE',
@@ -76,6 +76,7 @@ WorkoutCard.propTypes = {
   name: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   deleteCycle: PropTypes.func,
+  selectCycle: PropTypes.func,
 };
 
 WorkoutCard.defaultProps = {
@@ -83,6 +84,7 @@ WorkoutCard.defaultProps = {
   subtext: '',
   onPress: () => {},
   deleteCycle: () => {},
+  selectCycle: ()=> {},
 };
 
 export default WorkoutCard;

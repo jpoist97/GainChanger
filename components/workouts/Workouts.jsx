@@ -3,6 +3,7 @@ import * as React from 'react';
 import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useSelector } from 'react-redux';
 import AllWorkouts from './AllWorkouts';
 import PlusButton from '../utils/PlusButton';
 import CreateWorkout from './CreateWorkout';
@@ -14,28 +15,15 @@ const AddCycleButton = styled(PlusButton)`
 `;
 
 export default ({ navigation }) => {
-  const items = [
-    {
-      name: 'Back & Biceps', subtext: 'Back Biceps', color: '#CAB0FF', id: 1, deleteWorkout: () => alert('Deleted Push, Pull, Legs'),
-    },
-    {
-      name: 'Upper A RP', subtext: 'Chest Triceps', color: '#9D8DFF', id: 2, deleteWorkout: () => alert('Deleted Bro Split A'),
-    },
-    {
-      name: 'Legs A', subtext: 'Quads Glutes', color: '#6D8DFF', id: 3, deleteWorkout: () => alert('Deleted Upper Lower Split'),
-    },
-    {
-      name: 'Pull B', subtext: 'Back Biceps', color: '#CAB0FF', id: 4, deleteWorkout: () => alert('Deleted Push, Pull, Legs B'),
-    },
-    {
-      name: 'Push B', subtext: 'Chest Triceps', color: '#9D8DFF', id: 5, deleteWorkout: () => alert('Deleted Bro Split B'),
-    },
-    {
-      name: 'Legs B', subtext: 'Quads Glutes', color: '#6D8DFF', id: 6, deleteWorkout: () => alert('Deleted Upper Lower Split B'),
-    },
-    {
-      name: 'Legs C', subtext: 'Quads Glutes', color: '#6D8DFF', id: 7, deleteWorkout: () => alert('Deleted Upper Lower Split B'),
-    }];
+  const workouts = useSelector((state) => state.workouts.workouts);
+
+  const items = workouts.map((workout) => ({
+    name: workout.name,
+    subtext: workout.muscleGroups,
+    color: workout.color,
+    id: workout.id,
+    deleteWorkout: () => alert(`dispatch delete workout with ${workout.id}`),
+  }));
 
   const Stack = createStackNavigator();
 
