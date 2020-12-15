@@ -58,7 +58,7 @@ const StyledView = styled.View`
 
 const SetWorkoutDetailsCard = (props) => {
   const {
-    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise, isReps, toggleType
+    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise, isReps, toggleType,
   } = props;
   // const [isReps, setIsReps] = React.useState(true);
 
