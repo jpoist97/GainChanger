@@ -5,7 +5,7 @@ import { Alert, View } from 'react-native';
 import styled from 'styled-components/native';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
-import SetAllWorkoutDetails from '../setWorkoutDetails/SetAllWorkoutDetails';
+import AdjustExercisesList from './AdjustExercisesList';
 import { useDispatch,useSelector } from 'react-redux';
 import { ADD_WORKOUT } from '../../constants';
 
@@ -131,7 +131,7 @@ export default ({ navigation }) => {
           navigation.goBack();
         }
       }} />
-      <SetAllWorkoutDetails items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} />
+      <AdjustExercisesList items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} />
       <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', { onExercisesAdd }); }} />
     </View>
   );

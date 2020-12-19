@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import SetDetails from './SetDetails';
-import LogHeader from './LogHeader';
+import ExerciseDetailsHeader from './ExerciseDetailsHeader';
 import PlusButton from '../utils/PlusButton';
 
 const ExerciseName = styled.Text`
@@ -36,7 +36,7 @@ const ExerciseDetails = (props) => {
   return (
     <Container style={{ backgroundColor: color }}>
       <ExerciseName>{name}</ExerciseName>
-      <LogHeader type={type} />
+      <ExerciseDetailsHeader type={type} />
       {items.map((set, index) => (
         <SetDetails
           prevWeight={set.prevWeight}

@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
-
 import EllipsisPopup from '../utils/EllipsisPopup';
 
 const NameText = styled.Text`
@@ -56,11 +55,10 @@ const StyledView = styled.View`
   box-shadow: 3px 5px 2px #00000050;
 `;
 
-const SetWorkoutDetailsCard = (props) => {
+const AdjustExerciseCard = (props) => {
   const {
     color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise, isReps, toggleType
   } = props;
-  // const [isReps, setIsReps] = React.useState(true);
 
   return (
     <StyledView style={{ backgroundColor: color }}>
@@ -138,15 +136,15 @@ const SetWorkoutDetailsCard = (props) => {
   );
 };
 
-SetWorkoutDetailsCard.propTypes = {
+AdjustExerciseCard.propTypes = {
   color: PropTypes.string,
   name: PropTypes.string.isRequired,
   displayEllipses: PropTypes.bool,
 };
 
-SetWorkoutDetailsCard.defaultProps = {
+AdjustExerciseCard.defaultProps = {
   color: '#CAB0FF',
   displayEllipses: true,
 };
 
-export default SetWorkoutDetailsCard;
+export default AdjustExerciseCard;

@@ -6,7 +6,7 @@ import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
 import { useNavigation } from '@react-navigation/core';
 import SelectableWorkoutCard from './SelectableWorkoutCard';
-import ModalScreenWrapper from '../../utils/ModalScreenWrapper';
+import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 import { useSelector } from 'react-redux';
 
 const Title = styled.Text`

@@ -51,7 +51,7 @@ const parseItems = (items, selectedCycle) => {
   return bucketData;
 };
 
-const AllCycles = (props) => {
+const AlphabetCycleList = (props) => {
   const dispatch = useDispatch();
   const { items, selectedCycle } = props;
 
@@ -81,13 +81,13 @@ const AllCycles = (props) => {
   );
 };
 
-AllCycles.propTypes = {
+AlphabetCycleList.propTypes = {
   items: PropTypes.array.isRequired,
   selectedCycle: PropTypes.object,
 };
 
-AllCycles.defaultProps = {
+AlphabetCycleList.defaultProps = {
   selectedCycle: undefined,
 };
 
-export default AllCycles;
+export default AlphabetCycleList;

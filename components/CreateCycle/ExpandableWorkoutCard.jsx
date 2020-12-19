@@ -45,7 +45,7 @@ const RowContent = styled.View`
     justifyContent: space-evenly;
 `;
 
-const ExpandableCycleCard = (props) => {
+const ExpandableWorkoutCard = (props) => {
   const [showDetailed, setshowDetailed] = React.useState(false);
   const [icon, setIcon] = React.useState('chevron-down');
 
@@ -117,18 +117,18 @@ const ExpandableCycleCard = (props) => {
   );
 };
 
-ExpandableCycleCard.propTypes = {
+ExpandableWorkoutCard.propTypes = {
   name: PropTypes.string,
   muscleGroups: PropTypes.string,
   color: PropTypes.string,
   exercises: PropTypes.array,
 };
 
-ExpandableCycleCard.defaultProps = {
+ExpandableWorkoutCard.defaultProps = {
   name: 'Cycle Name',
   muscleGroups: '',
   color: '#CAB0FF',
   exercises: [],
 };
 
-export default ExpandableCycleCard;
+export default ExpandableWorkoutCard;

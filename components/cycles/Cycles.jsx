@@ -5,9 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import { useNavigation } from '@react-navigation/native';
-import AllCycles from './AllCycles';
+import AlphabetCycleList from './AlphabetCycleList';
 import PlusButton from '../utils/PlusButton';
-import CreateCycle from './CreateCycle';
+import CreateCycle from '../CreateCycle/CreateCycle';
 
 const AddCycleButton = styled(PlusButton)`
    position: absolute;
@@ -47,7 +47,7 @@ export default () => {
   function Cycles() {
     return (
       <SafeAreaView style={{ height: '100%' }}>
-        <AllCycles items={allCycles} selectedCycle={selectedCycle} />
+        <AlphabetCycleList items={allCycles} selectedCycle={selectedCycle} />
         <AddCycleButton title="Cycle" size={18} onPress={() => navigation.navigate('Create Cycle')} />
       </SafeAreaView>
     );

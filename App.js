@@ -42,13 +42,12 @@ import {
 } from '@expo-google-fonts/roboto';
 import firebase from 'firebase';
 import { createStackNavigator } from '@react-navigation/stack';
-import signup from './components/authentication/signup';
+import Signup from './components/Authentication/Signup';
 import Root from './Root';
-import LogWorkout from './components/logWorkout/LogWorkout';
-import login from './components/authentication/login';
-import AddExercises from './components/exercises/AddExercises';
-import AddWorkouts from './components/cycles/AddWorkouts/AddWorkouts';
-console.disableYellowBox = true;
+import LogWorkout from './components/LogWorkout/LogWorkout';
+import Login from './components/Authentication/Login';
+import AddExercises from './components/AddExercises/AddExercises';
+import AddWorkouts from './components/AddWorkouts/AddWorkouts';
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -142,8 +141,8 @@ const App = () => {
 
   const TabStackScreen = () => (
     <Stack.Navigator initialRouteName={startupScreen}>
-      <Stack.Screen name="Login" component={login} options={{ headerShown: false }} />
-      <Stack.Screen name="Signup" component={signup} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
       <Stack.Screen name="Root" component={Root} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
