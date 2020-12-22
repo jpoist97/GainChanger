@@ -4,12 +4,11 @@ import * as React from 'react';
 import { View, SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useSelector, useDispatch } from 'react-redux';
 import FullCycleOrder from './FullCycleOrder';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
-import { useSelector, useDispatch } from 'react-redux';
 import { ADD_CYCLE } from '../../constants/index';
-
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -62,23 +61,22 @@ export default ({ navigation }) => {
       />
 
       <AddFinishButton onPress={() => {
-        if(!name) {
+        if (!name) {
           alert('Please enter a cycle name');
-        } 
-        else if(workouts.length === 0) {
+        } else if (workouts.length === 0) {
           alert('Please add at least one workout');
-        } 
-        else {
+        } else {
           const newCycle = {
             name,
             id: nextCycleId,
             color: workouts[0].color,
             workouts: workouts.map((workout) => workout.id),
-          }
+          };
           dispatch({ type: ADD_CYCLE, cycle: newCycle });
           navigation.goBack();
         }
-      }} />
+      }}
+      />
 
       {/* TODO: remove this stack navigator */}
       <Stack.Navigator initialRouteName="CreateCycle">
