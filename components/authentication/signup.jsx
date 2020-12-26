@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {
-  SafeAreaView, View, StyleSheet, Image, TextInput, KeyboardAvoidingView, Platform,
+  View, Image, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
 import styled from 'styled-components/native';
+import PropTypes from 'prop-types';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -18,11 +19,52 @@ const SubTitle = styled.Text`
   padding-top: 20px;
 `;
 
-export default ({ navigation }) => {
+const InputLine = styled.TextInput`
+  width: 80%;
+  background-color: #F6F6F6;
+  border-width: 1;
+  border-color: #E8E8E8;
+  border-radius: 12;
+  height: 50;
+  padding-left: 10;
+  margin-bottom: 25;
+`;
+
+const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  background-color: white;
+  justify-content: center;
+`;
+
+const SignupText = styled.Text`
+  color: white;
+  font-family: 'Montserrat_600SemiBold';
+  font-size: 16px;
+`;
+
+const SignupButton = styled.TouchableOpacity`
+  background-color: #A192FF;
+  height: 50px;
+  width: 80%;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ShowText = styled.Text`
+  font-family: 'Montserrat_600SemiBold';
+  color: #A192FF;
+  font-size: 16px;
+  position: absolute;
+  padding-right: 15px;
+`;
+
+const Signup = ({ navigation }) => {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [showPassword, setShowPassword] = React.useState(true);
+  const [hidePassword, setHidePassword] = React.useState(true);
 
   function signupPress() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -52,65 +94,64 @@ export default ({ navigation }) => {
     navigation.navigate('Login');
   }
 
+  firebase.auth().onAuthStateChanged(() => {
+    if (firebase.auth().currentUser) {
+      navigation.navigate('Root');
+    }
+  });
+
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1 }}
     >
-      <View style={styles.container}>
+      <Container>
         <Title>GainChanger</Title>
-        <SubTitle>Sign Up</SubTitle>
+        <SubTitle>Signup</SubTitle>
         <Image
-          style={styles.logo}
+          style={{ width: 250, height: 250 }}
+          /* eslint-disable global-require */
           source={require('../../assets/logo.png')}
+          /* eslint-enable global-require */
         />
-        <TextInput
-          style={styles.input}
+        <InputLine
+          placeholder="Name"
           selectionColor="#A192FF"
-          placeholder="First name"
+          textContentType="name"
           value={name}
-          onChangeText={(name) => setName(name)}
+          onChangeText={(text) => setName(text)}
         />
-        <TextInput
-          style={styles.input}
+        <InputLine
           placeholder="Email"
           selectionColor="#A192FF"
           textContentType="emailAddress"
           value={email}
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={(text) => setEmail(text)}
         />
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={styles.input}
+        <View style={{
+          flexDirection: 'row', justifyContent: 'flex-end', width: '80%', alignItems: 'center', marginBottom: 25,
+        }}
+        >
+          <InputLine
             placeholder="Password"
             selectionColor="#A192FF"
             textContentType="password"
-            secureTextEntry={showPassword}
+            secureTextEntry={hidePassword}
             value={password}
-            onChangeText={(password) => setPassword(password)}
+            style={{ width: '100%', marginBottom: 0 }}
+            onChangeText={(text) => setPassword(text)}
           />
-          <Button
-            style={styles.passwordShow}
-            uppercase={false}
-            mode="text"
-            color="#8643FF"
-            onPress={() => setShowPassword(!showPassword)}
-          >
-            Show
-          </Button>
+          <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
         </View>
-        <Button
-          style={styles.signup}
-          contentStyle={styles.signupContent}
+        <SignupButton
           uppercase={false}
           mode="contained"
           dark
           onPress={signupPress}
         >
-          Sign Up
-        </Button>
+          <SignupText>Signup</SignupText>
+        </SignupButton>
         <Button
-          style={styles.login}
           uppercase={false}
           mode="text"
           color="#8643FF"
@@ -118,54 +159,15 @@ export default ({ navigation }) => {
         >
           Already have an account? Login
         </Button>
-      </View>
+      </Container>
     </KeyboardAvoidingView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    height: '100%',
-  },
-  logo: {
-    width: 225,
-    height: 225,
-    marginTop: 30,
-    marginBottom: 30,
-  },
-  input: {
-    alignSelf: 'center',
-    width: '80%',
-    backgroundColor: '#f6f6f6',
-    borderColor: '#E8E8E8',
-    borderWidth: 1,
-    marginBottom: 25,
-    borderRadius: 7,
-    padding: 10,
-  },
+Signup.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
-  passwordContainer: {
-    width: '100%',
-    position: 'relative',
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  passwordShow: {
-    position: 'absolute',
-    padding: 5,
-    right: 35,
-  },
-  signup: {
-    width: '80%',
-    borderRadius: 25,
-    height: 50,
-    justifyContent: 'center',
-    backgroundColor: '#A192FF',
-
-  },
-});
+export default Signup;

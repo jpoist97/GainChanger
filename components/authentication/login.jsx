@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {
-  View, StyleSheet, Image, TextInput, KeyboardAvoidingView, Platform,
+  View, Image, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
 import styled from 'styled-components/native';
+import PropTypes from 'prop-types';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -18,7 +19,48 @@ const SubTitle = styled.Text`
   padding-top: 20px;
 `;
 
-export default ({ navigation }) => {
+const InputLine = styled.TextInput`
+  width: 80%;
+  backgroundColor: #F6F6F6;
+  borderWidth: 1;
+  borderColor: #E8E8E8;
+  borderRadius: 12;
+  height: 50;
+  paddingLeft: 10;
+  marginBottom: 25;
+`;
+
+const Container = styled.View`
+  flex: 1;
+  alignItems: center;
+  backgroundColor: white;
+  justifyContent: center;
+`;
+
+const LoginText = styled.Text`
+  color: white;
+  font-family: 'Montserrat_600SemiBold';
+  font-size: 16px;
+`;
+
+const LoginButton = styled.TouchableOpacity`
+  backgroundColor: #A192FF;
+  height: 50;
+  width: 80%;
+  borderRadius: 12;
+  alignItems: center;
+  justifyContent: center;
+`;
+
+const ShowText = styled.Text`
+  font-family: 'Montserrat_600SemiBold';
+  color: #A192FF;
+  font-size: 16px;
+  position: absolute;
+  paddingRight: 15px;
+`;
+
+const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [hidePassword, setHidePassword] = React.useState(true);
@@ -51,110 +93,65 @@ export default ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1 }}
     >
-      <View style={styles.container}>
+      <Container>
         <Title>GainChanger</Title>
         <SubTitle>Login</SubTitle>
         <Image
-          style={styles.logo}
+          style={{ width: 250, height: 250 }}
+          /* eslint-disable global-require */
           source={require('../../assets/logo.png')}
+          /* eslint-enable global-require */
         />
-        <TextInput
-          style={styles.input}
+        <InputLine
           placeholder="Email"
           selectionColor="#A192FF"
           textContentType="emailAddress"
           value={email}
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={(text) => setEmail(text)}
         />
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={styles.input}
+        <View style={{
+          flexDirection: 'row', justifyContent: 'flex-end', width: '80%', alignItems: 'center', marginBottom: 25,
+        }}
+        >
+          <InputLine
             placeholder="Password"
             selectionColor="#A192FF"
             textContentType="password"
             secureTextEntry={hidePassword}
             value={password}
-            onChangeText={(password) => setPassword(password)}
+            style={{ width: '100%', marginBottom: 0 }}
+            onChangeText={(text) => setPassword(text)}
           />
-          <Button
-            style={styles.passwordShow}
-            uppercase={false}
-            mode="text"
-            color="#8643FF"
-            onPress={() => setHidePassword(!hidePassword)}
-          >
-            Show
-          </Button>
+          <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
         </View>
-        <Button
-          style={styles.signup}
-          contentStyle={styles.signupContent}
+        <LoginButton
           uppercase={false}
           mode="contained"
           dark
           onPress={loginPress}
         >
-          Login
-        </Button>
+          <LoginText>Login</LoginText>
+        </LoginButton>
         <Button
-          style={styles.login}
           uppercase={false}
           mode="text"
           color="#8643FF"
           onPress={signupPress}
         >
-          Don't have an account? Sign up
+          Don&apos;t have an account? Sign up
         </Button>
-      </View>
+      </Container>
     </KeyboardAvoidingView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    height: '100%',
-  },
-  logo: {
-    width: 225,
-    height: 225,
-    marginTop: 30,
-    marginBottom: 30,
-  },
-  input: {
-    alignSelf: 'center',
-    width: '80%',
-    backgroundColor: '#f6f6f6',
-    borderColor: '#E8E8E8',
-    borderWidth: 1,
-    marginBottom: 25,
-    borderRadius: 7,
-    padding: 10,
-  },
+Login.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
-  passwordContainer: {
-    width: '100%',
-    position: 'relative',
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  passwordShow: {
-    position: 'absolute',
-    padding: 5,
-    right: 35,
-  },
-  signup: {
-    width: '80%',
-    borderRadius: 25,
-    height: 50,
-    justifyContent: 'center',
-    backgroundColor: '#A192FF',
-  },
-});
+export default Login;
