@@ -55,8 +55,8 @@ export default ({ navigation }) => {
       style={{ flex: 1 }}
     >
       <View style={styles.container}>
-      <Title>GainChanger</Title>
-          <SubTitle>Login</SubTitle>
+        <Title>GainChanger</Title>
+        <SubTitle>Login</SubTitle>
         <Image
           style={styles.logo}
           source={require('../../assets/logo.png')}

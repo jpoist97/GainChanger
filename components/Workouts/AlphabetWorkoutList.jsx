@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
 import { useNavigation } from '@react-navigation/native';
-import WorkoutCard from './WorkoutCard';
 import { useDispatch } from 'react-redux';
+import WorkoutCard from './WorkoutCard';
 import { DELETE_WORKOUT } from '../../constants';
 
 const Title = styled.Text`

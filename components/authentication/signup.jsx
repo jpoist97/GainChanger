@@ -57,13 +57,13 @@ export default ({ navigation }) => {
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
       style={{ flex: 1 }}
     >
-        <View style={styles.container}>
-          <Title>GainChanger</Title>
-          <SubTitle>Sign Up</SubTitle>
-          <Image
-            style={styles.logo}
-            source={require('../../assets/logo.png')}
-          />
+      <View style={styles.container}>
+        <Title>GainChanger</Title>
+        <SubTitle>Sign Up</SubTitle>
+        <Image
+          style={styles.logo}
+          source={require('../../assets/logo.png')}
+        />
         <TextInput
           style={styles.input}
           selectionColor="#A192FF"

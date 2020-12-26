@@ -3,10 +3,10 @@ import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
 import { Alert, View } from 'react-native';
 import styled from 'styled-components/native';
+import { useDispatch, useSelector } from 'react-redux';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AdjustExercisesList from './AdjustExercisesList';
-import { useDispatch,useSelector } from 'react-redux';
 import { ADD_WORKOUT } from '../../constants';
 
 const TitleTextInput = styled.TextInput`
@@ -63,8 +63,8 @@ export default ({ navigation }) => {
   const toggleType = (index) => () => {
     const newItemState = [...itemState];
     newItemState[index].isReps = !newItemState[index].isReps;
-    setItemState(newItemState)
-  }
+    setItemState(newItemState);
+  };
 
   const removeExercise = (index) => () => {
     const newItemState = [...itemState];
@@ -99,15 +99,13 @@ export default ({ navigation }) => {
 
       </View>
       <AddFinishButton onPress={() => {
-        if(!name) {
+        if (!name) {
           alert('Please enter a workout name');
-        } 
-        else if(itemState.length === 0) {
+        } else if (itemState.length === 0) {
           alert('Please add at least one exercise');
-        }
-        else {
+        } else {
           const newWorkout = {
-            name: name,
+            name,
             lastPerformed: 'n/a',
             id: nextWorkoutId,
             muscleGroups: itemState[0].muscleGroups,
@@ -117,20 +115,21 @@ export default ({ navigation }) => {
               // 3 is the default number of sets
               const sets = item.sets || 3;
 
-              for(let i = 0; i < sets; i++) {
+              for (let i = 0; i < sets; i++) {
                 setArr.push({ weight: undefined, duration: (item.isReps ? item.reps || '10' : item.seconds || '60') });
               }
               return {
                 ...item,
-                sets: setArr
+                sets: setArr,
               };
-            })
-          }
+            }),
+          };
 
           dispatch({ type: ADD_WORKOUT, workout: newWorkout });
           navigation.goBack();
         }
-      }} />
+      }}
+      />
       <AdjustExercisesList items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} />
       <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', { onExercisesAdd }); }} />
     </View>

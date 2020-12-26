@@ -5,9 +5,9 @@ import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
 import { useNavigation } from '@react-navigation/core';
+import { useSelector } from 'react-redux';
 import SelectableWorkoutCard from './SelectableWorkoutCard';
 import ModalScreenWrapper from '../utils/ModalScreenWrapper';
-import { useSelector } from 'react-redux';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -87,7 +87,7 @@ const AddWorkouts = (props) => {
   const items = allWorkouts.map((workout) => ({ ...workout, subtext: workout.muscleGroups, selected: false }));
 
   const parsedItems = parseItems(items);
-  
+
   const [workoutCount, setWorkoutCount] = React.useState(0);
   const [workoutsList, setWorkoutsList] = React.useState(parsedItems);
   const [addedWorkouts] = React.useState([]);
