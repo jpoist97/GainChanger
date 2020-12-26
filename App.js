@@ -42,10 +42,10 @@ import {
 } from '@expo-google-fonts/roboto';
 import firebase from 'firebase';
 import { createStackNavigator } from '@react-navigation/stack';
-import Signup from './components/Authentication/Signup';
+import Signup from './components/Authentication/signup';
 import Root from './Root';
 import LogWorkout from './components/LogWorkout/LogWorkout';
-import Login from './components/Authentication/Login';
+import Login from './components/Authentication/login';
 import AddExercises from './components/AddExercises/AddExercises';
 import AddWorkouts from './components/AddWorkouts/AddWorkouts';
 

@@ -22,12 +22,12 @@ const SubTitle = styled.Text`
 const InputLine = styled.TextInput`
   width: 80%;
   background-color: #F6F6F6;
-  border-width: 1;
+  border-width: 1px;
   border-color: #E8E8E8;
-  border-radius: 12;
-  height: 50;
-  padding-left: 10;
-  margin-bottom: 25;
+  border-radius: 12px;
+  height: 50px;
+  padding-left: 10px;
+  margin-bottom: 25px;
 `;
 
 const Container = styled.View`
