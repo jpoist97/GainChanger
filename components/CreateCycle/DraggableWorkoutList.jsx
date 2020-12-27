@@ -2,9 +2,9 @@ import * as React from 'react';
 import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import ExpandableCycleCard from './CycleOrder';
+import ExpandableWorkoutCard from './ExpandableWorkoutCard';
 
-const FullCycleOrder = (props) => {
+const DraggableWorkoutList = (props) => {
   const {
     workouts, passWorkoutList,
   } = props;
@@ -21,7 +21,7 @@ const FullCycleOrder = (props) => {
       keyExtractor={(item, index) => item.id.toString() + index}
       onDragEnd={({ data }) => setWorkoutList(data)}
       renderItem={({ item, drag }) => (
-        <ExpandableCycleCard
+        <ExpandableWorkoutCard
           drag={drag}
           name={item.name}
           muscleGroups={item.muscleGroups}
@@ -33,14 +33,14 @@ const FullCycleOrder = (props) => {
   );
 };
 
-FullCycleOrder.propTypes = {
+DraggableWorkoutList.propTypes = {
   workouts: PropTypes.array.isRequired,
   passWorkoutList: PropTypes.func.isRequired,
 };
 
-FullCycleOrder.defaultProps = {
+DraggableWorkoutList.defaultProps = {
   workouts: [],
   passWorkoutList: () => {},
 };
 
-export default FullCycleOrder;
+export default DraggableWorkoutList;

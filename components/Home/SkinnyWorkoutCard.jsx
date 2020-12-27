@@ -1,3 +1,7 @@
+/*
+  TODO: Potentially merge this component with Workouts/WorkoutCard
+  making height/width props of it to reuse here
+*/
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
@@ -18,7 +22,7 @@ const Subtext = styled.Text`
    font-family: 'Montserrat_500Medium';
 `;
 
-const WorkoutContainer = (props) => {
+const SkinnyWorkoutCard = (props) => {
   const {
     color, subtext, name, onPress,
   } = props;
@@ -45,17 +49,17 @@ const WorkoutContainer = (props) => {
   );
 };
 
-WorkoutContainer.propTypes = {
+SkinnyWorkoutCard.propTypes = {
   color: PropTypes.string,
   name: PropTypes.string.isRequired,
   subtext: PropTypes.string,
   onPress: PropTypes.func,
 };
 
-WorkoutContainer.defaultProps = {
+SkinnyWorkoutCard.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
   onPress: () => {},
 };
 
-export default WorkoutContainer;
+export default SkinnyWorkoutCard;

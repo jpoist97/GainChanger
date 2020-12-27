@@ -2,11 +2,11 @@ import * as React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Calendar from './components/calendar/Calendar';
-import Home from './components/home/Home';
-import Profile from './components/profile/Profile';
-import Workouts from './components/workouts/Workouts';
-import Cycles from './components/cycles/Cycles';
+import Calendar from './components/Calendar/Calendar';
+import Home from './components/Home/Home';
+import Profile from './components/Profile/Profile';
+import Workouts from './components/Workouts/Workouts';
+import Cycles from './components/Cycles/Cycles';
 import { Entypo } from '@expo/vector-icons';
 
 export default ({navigation}) => {

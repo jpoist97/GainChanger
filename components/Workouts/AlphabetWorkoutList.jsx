@@ -66,7 +66,7 @@ const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
-const AllWorkouts = (props) => {
+const AlphabetWorkoutList = (props) => {
   const { items } = props;
 
   const navigation = useNavigation();
@@ -118,8 +118,8 @@ const AllWorkouts = (props) => {
   );
 };
 
-AllWorkouts.propTypes = {
+AlphabetWorkoutList.propTypes = {
   items: PropTypes.array.isRequired,
 };
 
-export default AllWorkouts;
+export default AlphabetWorkoutList;

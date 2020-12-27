@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
-import SetAllWorkoutDetails from '../setWorkoutDetails/SetAllWorkoutDetails';
+import AdjustExercisesList from './AdjustExercisesList';
 import { ADD_WORKOUT } from '../../constants';
 
 const TitleTextInput = styled.TextInput`
@@ -130,7 +130,7 @@ export default ({ navigation }) => {
         }
       }}
       />
-      <SetAllWorkoutDetails items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} />
+      <AdjustExercisesList items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} />
       <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', { onExercisesAdd }); }} />
     </View>
   );

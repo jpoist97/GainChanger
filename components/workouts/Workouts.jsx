@@ -4,9 +4,9 @@ import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
-import AllWorkouts from './AllWorkouts';
+import AlphabetWorkoutList from './AlphabetWorkoutList';
 import PlusButton from '../utils/PlusButton';
-import CreateWorkout from './CreateWorkout';
+import CreateWorkout from '../CreateWorkout/CreateWorkout';
 
 const AddCycleButton = styled(PlusButton)`
    position: absolute;
@@ -38,7 +38,7 @@ export default ({ navigation }) => {
   function Workouts() {
     return (
       <SafeAreaView style={{ height: '100%' }}>
-        <AllWorkouts items={items} />
+        <AlphabetWorkoutList items={items} />
         <AddCycleButton title="Workout" size={18} onPress={() => navigation.navigate('Create Workout')} />
       </SafeAreaView>
     );

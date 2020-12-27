@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import CurrentCycle from './CurrentCycle';
-import WorkoutList from './WorkoutList';
+import WorkoutSwipeList from './WorkoutSwipeList';
 import {
   INITIALIZE_WORKOUTS,
   INITIALIZE_CYCLES,
@@ -82,7 +82,7 @@ export default () => {
           rightPress={() => { dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
         />
-        <WorkoutList items={workoutList} style={{ marginLeft: '10%' }} />
+        <WorkoutSwipeList items={workoutList} style={{ marginLeft: '10%' }} />
       </View>
     </SafeAreaView>
 

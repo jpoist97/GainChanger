@@ -6,7 +6,7 @@ import {
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
-import WorkoutContainer from './WorkoutContainer';
+import SkinnyWorkoutCard from './SkinnyWorkoutCard';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -15,12 +15,12 @@ const Title = styled.Text`
   paddingBottom: 15px
 `;
 
-const WorkoutList = (props) => {
+const WorkoutSwipeList = (props) => {
   const { items } = props;
   const navigation = useNavigation();
 
   const renderCard = ({ item }) => (
-    <WorkoutContainer
+    <SkinnyWorkoutCard
       name={item.name}
       subtext={item.subtext}
       onIconPress={item.onIconPress}
@@ -46,8 +46,8 @@ const WorkoutList = (props) => {
   );
 };
 
-WorkoutList.propTypes = {
+WorkoutSwipeList.propTypes = {
   items: PropTypes.array.isRequired,
 };
 
-export default WorkoutList;
+export default WorkoutSwipeList;

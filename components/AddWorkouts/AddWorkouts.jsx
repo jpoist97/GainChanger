@@ -7,7 +7,7 @@ import _ from 'lodash';
 import { useNavigation } from '@react-navigation/core';
 import { useSelector } from 'react-redux';
 import SelectableWorkoutCard from './SelectableWorkoutCard';
-import ModalScreenWrapper from '../../utils/ModalScreenWrapper';
+import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';

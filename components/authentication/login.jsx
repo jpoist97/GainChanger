@@ -21,20 +21,20 @@ const SubTitle = styled.Text`
 
 const InputLine = styled.TextInput`
   width: 80%;
-  backgroundColor: #F6F6F6;
-  borderWidth: 1;
-  borderColor: #E8E8E8;
-  borderRadius: 12;
-  height: 50;
-  paddingLeft: 10;
-  marginBottom: 25;
+  background-color: #F6F6F6;
+  border-width: 1px;
+  border-color: #E8E8E8;
+  border-radius: 12px;
+  height: 50px;
+  padding-left: 10px;
+  margin-bottom: 25px;
 `;
 
 const Container = styled.View`
   flex: 1;
-  alignItems: center;
-  backgroundColor: white;
-  justifyContent: center;
+  align-items: center;
+  background-color: white;
+  justify-content: center;
 `;
 
 const LoginText = styled.Text`
@@ -44,12 +44,12 @@ const LoginText = styled.Text`
 `;
 
 const LoginButton = styled.TouchableOpacity`
-  backgroundColor: #A192FF;
-  height: 50;
+  background-color: #A192FF;
+  height: 50px;
   width: 80%;
-  borderRadius: 12;
-  alignItems: center;
-  justifyContent: center;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ShowText = styled.Text`
@@ -57,7 +57,7 @@ const ShowText = styled.Text`
   color: #A192FF;
   font-size: 16px;
   position: absolute;
-  paddingRight: 15px;
+  padding-right: 15px;
 `;
 
 const Login = ({ navigation }) => {

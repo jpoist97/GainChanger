@@ -5,7 +5,7 @@ import { View, SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector, useDispatch } from 'react-redux';
-import FullCycleOrder from './FullCycleOrder';
+import DraggableWorkoutList from './DraggableWorkoutList';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import { ADD_CYCLE } from '../../constants/index';
@@ -93,7 +93,7 @@ export default ({ navigation }) => {
   function CreateCycle() {
     return (
       <SafeAreaView style={{ height: '100%' }}>
-        <FullCycleOrder
+        <DraggableWorkoutList
           passWorkoutList={updateOrder}
           workouts={workouts}
         />

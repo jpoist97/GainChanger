@@ -2,10 +2,9 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
-
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import SetWorkoutDetailsCard from './SetWorkoutDetailsCard';
+import AdjustExerciseCard from './AdjustExerciseCard';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -13,14 +12,14 @@ const Title = styled.Text`
   margin: 0px 5% 5px 5%;
 `;
 
-const SetAllWorkoutDetails = (props) => {
+const AdjustExercisesList = (props) => {
   const {
     items, setReps, setSets, setSeconds, removeExercise, toggleType,
   } = props;
 
   const renderCard = ({ item, index }) => (
 
-    <SetWorkoutDetailsCard
+    <AdjustExerciseCard
       name={item.name}
       displayEllipses={item.displayEllipses}
       color={item.color}
@@ -50,8 +49,8 @@ const SetAllWorkoutDetails = (props) => {
   );
 };
 
-SetAllWorkoutDetails.propTypes = {
+AdjustExercisesList.propTypes = {
   items: PropTypes.array.isRequired,
 };
 
-export default SetAllWorkoutDetails;
+export default AdjustExercisesList;

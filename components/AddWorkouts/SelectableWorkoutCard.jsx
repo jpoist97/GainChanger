@@ -6,7 +6,6 @@ import {
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
-import PlusButton from '../../utils/PlusButton';
 
 const NameText = styled.Text`
    color: #EFEFEF;

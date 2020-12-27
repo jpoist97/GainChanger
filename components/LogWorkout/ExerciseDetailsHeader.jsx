@@ -18,7 +18,7 @@ const StyledText = styled.Text`
   text-align: center;
 `;
 
-const LogHeader = ({ type }) => (
+const ExerciseDetailsHeader = ({ type }) => (
   <Container>
     <StyledText style={{ width: 30 }}>Set</StyledText>
 
@@ -32,12 +32,12 @@ const LogHeader = ({ type }) => (
   </Container>
 );
 
-LogHeader.propTypes = {
+ExerciseDetailsHeader.propTypes = {
   type: PropTypes.string,
 };
 
-LogHeader.defaultProps = {
+ExerciseDetailsHeader.defaultProps = {
   type: 'REPS',
 };
 
-export default LogHeader;
+export default ExerciseDetailsHeader;
