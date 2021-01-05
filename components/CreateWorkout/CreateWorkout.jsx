@@ -84,6 +84,10 @@ export default ({ navigation }) => {
     setItemState(newExercise);
   };
 
+  function updateOrder(exerciseList) {
+    setItemState(exerciseList);
+  }
+
   return (
     <View style={{ height: '100%' }}>
       <View>
@@ -130,7 +134,7 @@ export default ({ navigation }) => {
         }
       }}
       />
-      <AdjustExercisesList items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} />
+      <AdjustExercisesList items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} updateOrder={updateOrder}/>
       <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', { onExercisesAdd }); }} />
     </View>
   );
