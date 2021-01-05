@@ -3,10 +3,9 @@ import * as React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import AdjustExerciseCard from './AdjustExerciseCard';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import { KeyboardAwareView } from 'react-native-keyboard-aware-view'
-
+import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
+import AdjustExerciseCard from './AdjustExerciseCard';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -16,7 +15,7 @@ const Title = styled.Text`
 
 const AdjustExercisesList = (props) => {
   const {
-    items, setReps, setSets, setSeconds, removeExercise, toggleType, updateOrder
+    items, setReps, setSets, setSeconds, removeExercise, toggleType, updateOrder,
   } = props;
 
   const [exerciseList, setExerciseList] = React.useState(items);
@@ -24,7 +23,7 @@ const AdjustExercisesList = (props) => {
   React.useEffect(() => {
     updateOrder(exerciseList);
   }, [exerciseList]);
-  
+
   const renderCard = ({ item, index, drag }) => (
     <AdjustExerciseCard
       drag={drag}
@@ -46,8 +45,8 @@ const AdjustExercisesList = (props) => {
   return (
     <View style={{ height: '92%' }}>
       <Title>Exercises</Title>
-      <KeyboardAwareView animated={true}>
-        <DraggableFlatList 
+      <KeyboardAwareView animated>
+        <DraggableFlatList
           data={items}
           keyExtractor={(item, index) => item.id.toString() + index}
           onDragEnd={({ data }) => setExerciseList(data)}

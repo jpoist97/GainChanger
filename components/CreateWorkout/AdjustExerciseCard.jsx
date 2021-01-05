@@ -57,12 +57,12 @@ const StyledTouchableOpacity = styled.TouchableOpacity`
 
 const AdjustExerciseCard = (props) => {
   const {
-    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise, isReps, toggleType, drag
+    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise, isReps, toggleType, drag,
   } = props;
 
   return (
     <StyledTouchableOpacity onLongPress={drag} style={{ backgroundColor: color }}>
-      
+
       <NameText>{name}</NameText>
       {displayEllipses ? (
         <StyledEllipsesPopup

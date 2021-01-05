@@ -134,7 +134,7 @@ export default ({ navigation }) => {
         }
       }}
       />
-      <AdjustExercisesList items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} updateOrder={updateOrder}/>
+      <AdjustExercisesList items={itemState} setSets={setSets} setSeconds={setSeconds} setReps={setReps} toggleType={toggleType} removeExercise={removeExercise} updateOrder={updateOrder} />
       <AddCycleButton title="Exercise" size={18} onPress={() => { navigation.navigate('Add Exercises', { onExercisesAdd }); }} />
     </View>
   );
