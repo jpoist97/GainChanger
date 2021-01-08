@@ -67,27 +67,26 @@ const Signup = ({ navigation }) => {
   const [hidePassword, setHidePassword] = React.useState(true);
 
   function signupPress() {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+    if(name.length > 1){
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((user) => {
+          user.user.updateProfile({
+            displayName: name
+          }).then(() => {
+            navigation.navigate("Root");
+          }).catch(() => {
+            console.log("Display name not set.");
+          });
+      })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        switch (errorCode) {
-          case 'auth/weak-password':
-            alert('Password too weak.');
-            break;
-
-          case 'auth/invalid-email':
-            alert('Invalid email.');
-            break;
-
-          case 'auth/email-already-in-use':
-            alert('That email is already being used.');
-            break;
-
-          default:
-            alert(`Error: ${errorMessage}`);
-        }
+        //TODO: this alert looks odd for some reason, 
+        //can't remember what an invalid password alert looks like
+        Alert.alert("Error:", errorMessage);
       });
+    } else {
+      alert("Please enter your name.")
+    }
   }
 
   function loginPress() {
