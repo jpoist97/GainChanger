@@ -6,6 +6,7 @@ import {
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
+import firebase from 'firebase';
 import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import {
@@ -16,7 +17,6 @@ import {
   DECREMENT_SELECTED_CYCLE_INDEX,
 } from '../../constants/index';
 import { workouts as DBWorkoutResponse, exercises as DBExerciseResponse, cycleResp as DBCyclesResponse } from '../../FakeData';
-import firebase from 'firebase';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -24,10 +24,10 @@ const Title = styled.Text`
   margin: 0px 6%;
 `;
 
-var welcomeName = 'Shriya';
-const curUser = firebase.auth().currentUser
-if(curUser){
-  if(curUser.displayName){
+let welcomeName = 'Shriya';
+const curUser = firebase.auth().currentUser;
+if (curUser) {
+  if (curUser.displayName) {
     welcomeName = curUser.displayName;
   }
 }

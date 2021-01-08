@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  View, Image, KeyboardAvoidingView, Platform, Alert, Text
+  View, Image, KeyboardAvoidingView, Platform, Alert,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -73,68 +73,66 @@ const Signup = ({ navigation }) => {
   const [name, setName] = React.useState('');
   const [validName, setValidName] = React.useState(false);
   const [email, setEmail] = React.useState('');
-  const [validEmail, setValidEmail] = React.useState(false)
+  const [validEmail, setValidEmail] = React.useState(false);
   const [password, setPassword] = React.useState('');
-  const [validPassword, setValidPassword] = React.useState(false)
+  const [validPassword, setValidPassword] = React.useState(false);
   const [hidePassword, setHidePassword] = React.useState(true);
-  const isFirstRunName = React.useRef(true);  
-  const isFirstRunEmail = React.useRef(true);  
+  const isFirstRunName = React.useRef(true);
+  const isFirstRunEmail = React.useRef(true);
   const isFirstRunPassword = React.useRef(true);
 
+  // TODO: this regex isn't fully functional
+  function ValidateEmail(mail) {
+    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)) {
+      return (true);
+    }
+    return (false);
+  }
+
   React.useEffect(() => {
-    if(isFirstRunName.current){
+    if (isFirstRunName.current) {
       isFirstRunName.current = false;
-      return
-    } 
-    setValidName((name.length > 1) ? false : true);
+      return;
+    }
+    setValidName(!((name.length > 1)));
   }, [name]);
 
   React.useEffect(() => {
-    if(isFirstRunEmail.current){
+    if (isFirstRunEmail.current) {
       isFirstRunEmail.current = false;
-      return
+      return;
     }
-    setValidEmail(ValidateEmail(email) ? false : true);
+    setValidEmail(!ValidateEmail(email));
   }, [email]);
 
   React.useEffect(() => {
-    if(isFirstRunPassword.current){
+    if (isFirstRunPassword.current) {
       isFirstRunPassword.current = false;
-      return
+      return;
     }
-    setValidPassword((password.length > 5) ? false : true);
+    setValidPassword(!(password.length > 5));
   }, [password]);
 
-  //TODO: this regex isn't fully functional
-  function ValidateEmail(mail) 
-  {
-    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail))
-    {
-      return (true)
-    }
-    return (false)
-  }
-
   function signupPress() {
-    if(name.length > 1 ){
+    if (name.length > 1) {
       firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((user) => {
+        .then((user) => {
           user.user.updateProfile({
-            displayName: name
+            displayName: name,
           }).then(() => {
-            navigation.navigate("Root");
+            navigation.navigate('Root');
           }).catch(() => {
-            console.log("Display name not set.");
+            console.log('Display name not set.');
           });
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        //TODO: this alert looks odd for some reason, 
-        //can't remember what an invalid password alert looks like
-        Alert.alert("Error:", errorMessage);
-      });
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          // TODO: this alert looks odd for some reason,
+          // can't remember what an invalid password alert looks like
+          Alert.alert('Error:', errorMessage);
+        });
     } else {
-      alert("Please enter your name.")
+      alert('Please enter your name.');
     }
   }
 
@@ -164,8 +162,8 @@ const Signup = ({ navigation }) => {
           onChangeText={(text) => setName(text)}
           // onEndEditing={() => endEditing()}
         />
-        {validName && <View style={{paddingLeft: 15,width:'80%',flexDirection:'row'}}><ErrorText>Name must be longer than 1 character.</ErrorText></View>}
-        {!validName && <ViewFiller></ViewFiller>}
+        {validName && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Name must be longer than 1 character.</ErrorText></View>}
+        {!validName && <ViewFiller />}
         <InputLine
           placeholder="Email"
           selectionColor="#A192FF"
@@ -173,8 +171,8 @@ const Signup = ({ navigation }) => {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-        {validEmail && <View style={{paddingLeft: 15,width:'80%',flexDirection:'row'}}><ErrorText>Invalid email.</ErrorText></View>}
-        {!validEmail && <ViewFiller></ViewFiller>}
+        {validEmail && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Invalid email.</ErrorText></View>}
+        {!validEmail && <ViewFiller />}
         <View style={{
           flexDirection: 'row', justifyContent: 'flex-end', width: '80%', alignItems: 'center',
         }}
@@ -190,8 +188,8 @@ const Signup = ({ navigation }) => {
           />
           <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
         </View>
-        {validPassword && <View style={{paddingLeft: 15,width:'80%',flexDirection:'row'}}><ErrorText>Password must be more than 6 characters.</ErrorText></View>}
-        {!validPassword && <ViewFiller></ViewFiller>}
+        {validPassword && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Password must be more than 6 characters.</ErrorText></View>}
+        {!validPassword && <ViewFiller />}
         <SignupButton
           uppercase={false}
           mode="contained"
