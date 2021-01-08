@@ -6,7 +6,6 @@ import {
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import firebase from 'firebase';
 import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import {
@@ -25,12 +24,6 @@ const Title = styled.Text`
 `;
 
 let welcomeName = 'Shriya';
-const curUser = firebase.auth().currentUser;
-if (curUser) {
-  if (curUser.displayName) {
-    welcomeName = curUser.displayName;
-  }
-}
 
 export default () => {
   useEffect(() => {
