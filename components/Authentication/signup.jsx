@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  View, Image, KeyboardAvoidingView, Platform,
+  View, Image, KeyboardAvoidingView, Platform, Alert,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -92,12 +92,6 @@ const Signup = ({ navigation }) => {
   function loginPress() {
     navigation.navigate('Login');
   }
-
-  firebase.auth().onAuthStateChanged(() => {
-    if (firebase.auth().currentUser) {
-      navigation.navigate('Root');
-    }
-  });
 
   return (
     <KeyboardAvoidingView
