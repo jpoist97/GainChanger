@@ -23,7 +23,7 @@ const Title = styled.Text`
   margin: 0px 6%;
 `;
 
-let welcomeName = 'Shriya';
+const welcomeName = 'Shriya';
 
 export default () => {
   useEffect(() => {
