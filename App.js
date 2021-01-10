@@ -137,6 +137,7 @@ const App = () => {
   let startupScreen = 'Login';
   if (user) {
     startupScreen = 'Root';
+    const displayName = user.displayName;
   }
 
   const TabStackScreen = () => (
