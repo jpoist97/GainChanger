@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  View, Image, KeyboardAvoidingView, Platform,
+  View, Image, KeyboardAvoidingView, Platform, Alert,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -67,29 +67,20 @@ const Login = ({ navigation }) => {
 
   function loginPress() {
     firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        navigation.navigate('Root');
+      })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMsg = error.message;
-        switch (errorCode) {
-          case 'auth/wrong-password':
-            alert('Incorrect password.');
-            break;
-
-          default:
-            alert(`Error: ${errorMsg}`);
-        }
+        const errorMessage = error.message;
+          // TODO: this alert looks odd for some reason,
+          // can't remember what an invalid password alert looks like
+        Alert.alert('Error:', errorMessage);
       });
   }
 
   function signupPress() {
     navigation.navigate('Signup');
   }
-
-  firebase.auth().onAuthStateChanged(() => {
-    if (firebase.auth().currentUser) {
-      navigation.navigate('Root');
-    }
-  });
 
   return (
     <KeyboardAvoidingView

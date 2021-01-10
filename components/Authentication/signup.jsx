@@ -123,8 +123,9 @@ const Signup = ({ navigation }) => {
             displayName: name,
           }).then(() => {
             navigation.navigate('Root');
-          }).catch(() => {
+          }).catch((error) => {
             console.log('Display name not set.');
+            console.log(error);
           });
         })
         .catch((error) => {
