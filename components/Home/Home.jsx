@@ -8,14 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
-import {
-  INITIALIZE_WORKOUTS,
-  INITIALIZE_CYCLES,
-  INITIALIZE_EXERCISES,
-  INCREMENT_SELECTED_CYCLE_INDEX,
-  DECREMENT_SELECTED_CYCLE_INDEX,
-} from '../../constants/index';
 import { workouts as DBWorkoutResponse, exercises as DBExerciseResponse, cycleResp as DBCyclesResponse } from '../../FakeData';
+import actions from '../../actions/index';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -29,15 +23,14 @@ export default () => {
   useEffect(() => {
     // This is where we would hit our database, but for now we'll have fake data
     console.log('Home: Initializing Workout store');
-    dispatch({ type: INITIALIZE_WORKOUTS, workouts: DBWorkoutResponse });
+    dispatch(actions.workouts.initializeWorkouts(DBWorkoutResponse));
 
     console.log('Home: Initializing Cycles store');
-    dispatch({
-      type: INITIALIZE_CYCLES, cycles: DBCyclesResponse.cycles, selectedCycleId: DBCyclesResponse.selectedCycleId, selectedCycleIndex: DBCyclesResponse.selectedCycleIndex,
-    });
+    console.log(actions);
+    dispatch(actions.cycles.initializeCycles(DBCyclesResponse.cycles, DBCyclesResponse.selectedCycleId, DBCyclesResponse.selectedCycleIndex));
 
     console.log('Home: Initialize Exercise store');
-    dispatch({ type: INITIALIZE_EXERCISES, exercises: DBExerciseResponse });
+    dispatch(actions.exercises.initalizeExercises(DBExerciseResponse));
   }, []);
 
   const workouts = useSelector((state) => state.workouts.workouts);
@@ -78,8 +71,8 @@ export default () => {
           name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
           subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
           color={cycleDetails && cycleDetails[cycles.selectedCycleIndex].color}
-          leftPress={() => { dispatch({ type: DECREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
-          rightPress={() => { dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
+          leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
+          rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
         />
         <WorkoutSwipeList items={workoutList} style={{ marginLeft: '10%' }} />

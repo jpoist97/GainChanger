@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AdjustExercisesList from './AdjustExercisesList';
-import { ADD_WORKOUT } from '../../constants';
+import actions from '../../actions/index';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -125,7 +125,7 @@ export default ({ navigation }) => {
             }),
           };
 
-          dispatch({ type: ADD_WORKOUT, workout: newWorkout });
+          dispatch(actions.workouts.addWorkout(newWorkout));
           navigation.goBack();
         }
       }}
