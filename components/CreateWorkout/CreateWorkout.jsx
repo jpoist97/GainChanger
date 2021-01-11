@@ -121,6 +121,7 @@ export default ({ navigation }) => {
               return {
                 ...item,
                 sets: setArr,
+                exerciseId: item.id,
               };
             }),
           };

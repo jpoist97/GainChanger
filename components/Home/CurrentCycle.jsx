@@ -85,7 +85,7 @@ CurrentCycle.propTypes = {
   name: PropTypes.string,
   leftPress: PropTypes.func,
   rightPress: PropTypes.func,
-  id: PropTypes.number,
+  id: PropTypes.string,
 };
 
 CurrentCycle.defaultProps = {
