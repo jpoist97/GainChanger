@@ -27,7 +27,6 @@ const InputLine = styled.TextInput`
   border-radius: 12px;
   height: 50px;
   padding-left: 10px;
-  margin-bottom: 25px;
 `;
 
 const Container = styled.View`
@@ -60,6 +59,10 @@ const ShowText = styled.Text`
   padding-right: 15px;
 `;
 
+const ViewFiller = styled.View`
+  height: 15px;
+`;
+
 const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -80,6 +83,30 @@ const Login = ({ navigation }) => {
 
   function signupPress() {
     navigation.navigate('Signup');
+  }
+
+  function forgotPassword() {
+    if(ValidateEmail(email)){
+      firebase.auth().sendPasswordResetEmail(email)
+      .then(() => {
+        alert("Password reset link sent.");
+      })
+      .catch((error) => {
+        alert("Password reset failed.")
+        console.log(error)
+      });
+    } else {
+      alert("Please input account email.");
+    }
+  }
+
+  function ValidateEmail(mail) {
+    // eslint-disable-next-line
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(mail)) {
+      return (true);
+    }
+    return (false);
   }
 
   return (
@@ -103,8 +130,9 @@ const Login = ({ navigation }) => {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
+        <ViewFiller />
         <View style={{
-          flexDirection: 'row', justifyContent: 'flex-end', width: '80%', alignItems: 'center', marginBottom: 25,
+          flexDirection: 'row', justifyContent: 'flex-end', width: '80%', alignItems: 'center', 
         }}
         >
           <InputLine
@@ -118,6 +146,17 @@ const Login = ({ navigation }) => {
           />
           <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
         </View>
+        <View style={{ width: '80%', flexDirection: 'row' }}>
+          <Button
+            uppercase={false}
+            mode="text"
+            color="#8643FF"
+            onPress={forgotPassword}
+          >
+            Forgot password?
+          </Button>
+        </View>
+        <ViewFiller />
         <LoginButton
           uppercase={false}
           mode="contained"
