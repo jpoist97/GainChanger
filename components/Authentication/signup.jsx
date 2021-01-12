@@ -157,8 +157,7 @@ const Signup = ({ navigation }) => {
         value={name}
         onChangeText={(text) => setName(text)}
       />
-      {validName && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Name must be longer than 1 character.</ErrorText></View>}
-      {!validName && <ViewFiller />}
+      {validName ? <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Name must be longer than 1 character.</ErrorText></View> : <ViewFiller />}
       <InputLine
         placeholder="Email"
         selectionColor="#A192FF"
@@ -166,8 +165,7 @@ const Signup = ({ navigation }) => {
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
-      {validEmail && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Invalid email.</ErrorText></View>}
-      {!validEmail && <ViewFiller />}
+      {validEmail ? <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Invalid email.</ErrorText></View> : <ViewFiller />}
       <View style={{
         flexDirection: 'row', justifyContent: 'flex-end', width: '80%', alignItems: 'center',
       }}
@@ -183,8 +181,7 @@ const Signup = ({ navigation }) => {
         />
         <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
       </View>
-      {validPassword && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Password must be more than 6 characters.</ErrorText></View>}
-      {!validPassword && <ViewFiller />}
+      {validPassword ? <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Password must be more than 6 characters.</ErrorText></View> : <ViewFiller />}
       <SignupButton
         uppercase={false}
         mode="contained"

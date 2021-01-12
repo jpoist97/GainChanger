@@ -103,6 +103,12 @@ const Login = ({ navigation }) => {
     }
   }
 
+  firebase.auth().onAuthStateChanged(() => {
+    if(firebase.auth().currentUser) {
+      navigation.navigate('Root');
+    }
+  })
+
   return (
     <KeyboardAwareScrollView
       resetScrollToCoords={{ x: 0, y: 0 }}
