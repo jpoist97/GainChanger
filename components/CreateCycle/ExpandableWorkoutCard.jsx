@@ -3,7 +3,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import { IconButton } from 'react-native-paper';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import * as React from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import _ from 'lodash';
 
 const CycleTitle = styled.Text`
    color: #FFFFFF;
@@ -66,6 +68,19 @@ const ExpandableWorkoutCard = (props) => {
 
   const ExercisesView = (props) => {
     const { exercises } = props;
+    const storeExercises = useSelector((state) => state.exercises.exercises);
+
+    const parseExercises = (exercises) => exercises.map((exercise) => {
+      const matchingExercise = _.find(storeExercises, (exerciseObj) => exercise.exerciseId === exerciseObj.id);
+
+      return {
+        ...exercise,
+        name: matchingExercise.name,
+      };
+    });
+
+    const parsedExercises = parseExercises(exercises);
+
     return (
       <View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>
         <RowHeader>
@@ -74,12 +89,11 @@ const ExpandableWorkoutCard = (props) => {
           <SubTitle>Previous</SubTitle>
         </RowHeader>
         <FlatList
-          data={exercises}
-          // TODO: rename to exercise name
-          keyExtractor={(item) => item.exerciseId}
+          data={parsedExercises}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <RowContent>
-              <WorkoutViewText style={{ marginLeft: 10 }}>{item.exerciseId}</WorkoutViewText>
+              <WorkoutViewText style={{ marginLeft: 10 }}>{item.name}</WorkoutViewText>
               {/* TODO: center the sets x reps around the x so double digit numbers dont look bad */}
               <WorkoutViewText>{`${item.sets.length}x${item.sets[0].reps || item.sets[0].time}`}</WorkoutViewText>
               <WorkoutViewText>{`${item.sets[0].weight} lbs.`}</WorkoutViewText>
@@ -91,7 +105,7 @@ const ExpandableWorkoutCard = (props) => {
   };
 
   function showDetail() {
-    if (icon == 'chevron-down') {
+    if (icon === 'chevron-down') {
       setIcon('chevron-up');
     } else {
       setIcon('chevron-down');

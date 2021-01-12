@@ -51,7 +51,7 @@ export default () => {
         } = doc.data();
         const dateDiff = differenceInCalendarDays(new Date(), toDate(lastPerformed.seconds * 1000));
 
-        if(exercises && name && muscleGroups) {
+        if (exercises && name && muscleGroups) {
           workouts.push({
             id: doc.id,
             name,
@@ -68,7 +68,7 @@ export default () => {
       const cycleSnapshot = await cycleRef.get();
       cycleSnapshot.forEach((doc) => {
         const { workoutIDs, name } = doc.data();
-        if(workoutIDs && name) {
+        if (workoutIDs && name) {
           cycles.push({
             id: doc.id,
             name,
@@ -84,7 +84,7 @@ export default () => {
       exerciseSnapshot.forEach((doc) => {
         const { name, muscleGroups } = doc.data();
 
-        if(name && muscleGroups) {
+        if (name && muscleGroups) {
           exercises.push({
             id: doc.id,
             name,
