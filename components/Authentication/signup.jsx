@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {
-  View, Image, KeyboardAvoidingView, Platform, Alert,
+  View, Image, Alert, 
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -27,13 +28,6 @@ const InputLine = styled.TextInput`
   border-radius: 12px;
   height: 50px;
   padding-left: 10px;
-`;
-
-const Container = styled.View`
-  flex: 1;
-  align-items: center;
-  background-color: white;
-  justify-content: center;
 `;
 
 const SignupText = styled.Text`
@@ -144,11 +138,8 @@ const Signup = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
-    >
-      <Container>
+    <KeyboardAwareScrollView resetScrollToCoords={{x:0, y:0}}
+    contentContainerStyle={{justifyContent:'center', alignItems:'center', height:'100%'}}>
         <Title>GainChanger</Title>
         <SubTitle>Signup</SubTitle>
         <Image
@@ -210,8 +201,7 @@ const Signup = ({ navigation }) => {
         >
           Already have an account? Login
         </Button>
-      </Container>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 

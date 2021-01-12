@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {
-  View, Image, KeyboardAvoidingView, Platform, Alert,
+  View, Image, Alert, 
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -27,13 +28,6 @@ const InputLine = styled.TextInput`
   border-radius: 12px;
   height: 50px;
   padding-left: 10px;
-`;
-
-const Container = styled.View`
-  flex: 1;
-  align-items: center;
-  background-color: white;
-  justify-content: center;
 `;
 
 const LoginText = styled.Text`
@@ -110,11 +104,8 @@ const Login = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
-    >
-      <Container>
+    <KeyboardAwareScrollView resetScrollToCoords={{x:0, y:0}}
+      contentContainerStyle={{justifyContent:'center', alignItems:'center', height:'100%'}}>
         <Title>GainChanger</Title>
         <SubTitle>Login</SubTitle>
         <Image
@@ -132,7 +123,7 @@ const Login = ({ navigation }) => {
         />
         <ViewFiller />
         <View style={{
-          flexDirection: 'row', justifyContent: 'flex-end', width: '80%', alignItems: 'center', 
+          flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', 
         }}
         >
           <InputLine
@@ -141,7 +132,7 @@ const Login = ({ navigation }) => {
             textContentType="password"
             secureTextEntry={hidePassword}
             value={password}
-            style={{ width: '100%', marginBottom: 0 }}
+            style={{ marginBottom: 0 }}
             onChangeText={(text) => setPassword(text)}
           />
           <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
@@ -173,8 +164,7 @@ const Login = ({ navigation }) => {
         >
           Don&apos;t have an account? Sign up
         </Button>
-      </Container>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 
