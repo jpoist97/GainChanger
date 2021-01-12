@@ -133,12 +133,15 @@ const App = () => {
     console.log('Firebase setup already complete.');
   }
 
-  const user = firebase.auth().currentUser;
   let startupScreen = 'Login';
-  if (user) {
-    startupScreen = 'Root';
-    const displayName = user.displayName;
-  }
+
+  firebase.auth().onAuthStateChanged((user) => {
+    //user is already logged in
+    if (user) {
+      const displayName = user.displayName;
+      startupScreen = 'Root'
+    }
+  });
 
   const TabStackScreen = () => (
     <Stack.Navigator initialRouteName={startupScreen}>
