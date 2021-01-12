@@ -136,9 +136,7 @@ const App = () => {
   let startupScreen = 'Login';
 
   firebase.auth().onAuthStateChanged((user) => {
-    //user is already logged in
     if (user) {
-      const displayName = user.displayName;
       startupScreen = 'Root'
     }
   });
