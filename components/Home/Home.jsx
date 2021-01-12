@@ -32,6 +32,7 @@ export default () => {
     const initializeDatabase = async () => {
       // Get the current logged in user id
       const currentUser = firebase.auth().currentUser.uid;
+      // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
       const dbRef = firebase.firestore();
 
@@ -50,13 +51,15 @@ export default () => {
         } = doc.data();
         const dateDiff = differenceInCalendarDays(new Date(), toDate(lastPerformed.seconds * 1000));
 
-        workouts.push({
-          id: doc.id,
-          name,
-          exercises,
-          muscleGroups,
-          lastPerformed: dateDiff,
-        });
+        if(exercises && name && muscleGroups) {
+          workouts.push({
+            id: doc.id,
+            name,
+            exercises,
+            muscleGroups,
+            lastPerformed: dateDiff,
+          });
+        }
       });
 
       // Retrieve cycles
@@ -65,11 +68,13 @@ export default () => {
       const cycleSnapshot = await cycleRef.get();
       cycleSnapshot.forEach((doc) => {
         const { workoutIDs, name } = doc.data();
-        cycles.push({
-          id: doc.id,
-          name,
-          workouts: workoutIDs,
-        });
+        if(workoutIDs && name) {
+          cycles.push({
+            id: doc.id,
+            name,
+            workouts: workoutIDs,
+          });
+        }
       });
 
       // Retrieve exercises
@@ -78,11 +83,14 @@ export default () => {
       const exerciseSnapshot = await exerciseRef.get();
       exerciseSnapshot.forEach((doc) => {
         const { name, muscleGroups } = doc.data();
-        exercises.push({
-          id: doc.id,
-          name,
-          muscleGroups: muscleGroups.join(', '),
-        });
+
+        if(name && muscleGroups) {
+          exercises.push({
+            id: doc.id,
+            name,
+            muscleGroups: muscleGroups.join(', '),
+          });
+        }
       });
 
       // Initialize redux store
