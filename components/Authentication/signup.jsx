@@ -75,7 +75,6 @@ const Signup = ({ navigation }) => {
   const isFirstRunEmail = React.useRef(true);
   const isFirstRunPassword = React.useRef(true);
 
-  // TODO: this regex isn't fully functional
   function ValidateEmail(mail) {
     // eslint-disable-next-line
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -124,8 +123,6 @@ const Signup = ({ navigation }) => {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          // TODO: this alert looks odd for some reason,
-          // can't remember what an invalid password alert looks like
           Alert.alert('Error:', errorMessage);
         });
     } else {

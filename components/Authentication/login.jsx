@@ -78,8 +78,6 @@ const Login = ({ navigation }) => {
       })
       .catch((error) => {
         const errorMessage = error.message;
-        // TODO: this alert looks odd for some reason,
-        // can't remember what an invalid password alert looks like
         Alert.alert('Error:', errorMessage);
       });
   }
