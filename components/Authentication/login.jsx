@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  View, Image, Alert, 
+  View, Image, Alert,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -62,6 +62,15 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = React.useState('');
   const [hidePassword, setHidePassword] = React.useState(true);
 
+  function ValidateEmail(mail) {
+    // eslint-disable-next-line
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(mail)) {
+      return (true);
+    }
+    return (false);
+  }
+
   function loginPress() {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
@@ -80,90 +89,82 @@ const Login = ({ navigation }) => {
   }
 
   function forgotPassword() {
-    if(ValidateEmail(email)){
+    if (ValidateEmail(email)) {
       firebase.auth().sendPasswordResetEmail(email)
-      .then(() => {
-        alert("Password reset link sent.");
-      })
-      .catch((error) => {
-        alert("Password reset failed.")
-        console.log(error)
-      });
+        .then(() => {
+          alert('Password reset link sent.');
+        })
+        .catch((error) => {
+          alert('Password reset failed.');
+          console.log(error);
+        });
     } else {
-      alert("Please input account email.");
+      alert('Please input account email.');
     }
-  }
-
-  function ValidateEmail(mail) {
-    // eslint-disable-next-line
-    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(mail)) {
-      return (true);
-    }
-    return (false);
   }
 
   return (
-    <KeyboardAwareScrollView resetScrollToCoords={{x:0, y:0}}
-      contentContainerStyle={{justifyContent:'center', alignItems:'center', height:'100%'}}>
-        <Title>GainChanger</Title>
-        <SubTitle>Login</SubTitle>
-        <Image
-          style={{ width: 250, height: 250 }}
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}
+    >
+      <Title>GainChanger</Title>
+      <SubTitle>Login</SubTitle>
+      <Image
+        style={{ width: 250, height: 250 }}
           /* eslint-disable global-require */
-          source={require('../../assets/logo.png')}
-          /* eslint-enable global-require */
-        />
+        source={require('../../assets/logo.png')}
+      />
+      <InputLine
+        placeholder="Email"
+        selectionColor="#A192FF"
+        textContentType="emailAddress"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
+      <ViewFiller />
+      <View style={{
+        flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center',
+      }}
+      >
         <InputLine
-          placeholder="Email"
+          placeholder="Password"
           selectionColor="#A192FF"
-          textContentType="emailAddress"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+          textContentType="password"
+          secureTextEntry={hidePassword}
+          value={password}
+          style={{ marginBottom: 0 }}
+          onChangeText={(text) => setPassword(text)}
         />
-        <ViewFiller />
-        <View style={{
-          flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', 
-        }}
-        >
-          <InputLine
-            placeholder="Password"
-            selectionColor="#A192FF"
-            textContentType="password"
-            secureTextEntry={hidePassword}
-            value={password}
-            style={{ marginBottom: 0 }}
-            onChangeText={(text) => setPassword(text)}
-          />
-          <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
-        </View>
-        <View style={{ width: '80%', flexDirection: 'row' }}>
-          <Button
-            uppercase={false}
-            mode="text"
-            color="#8643FF"
-            onPress={forgotPassword}
-          >
-            Forgot password?
-          </Button>
-        </View>
-        <ViewFiller />
-        <LoginButton
-          uppercase={false}
-          mode="contained"
-          dark
-          onPress={loginPress}
-        >
-          <LoginText>Login</LoginText>
-        </LoginButton>
+        <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
+      </View>
+      <View style={{ width: '80%', flexDirection: 'row' }}>
         <Button
           uppercase={false}
           mode="text"
           color="#8643FF"
-          onPress={signupPress}
+          onPress={forgotPassword}
         >
-          Don&apos;t have an account? Sign up
+          Forgot password?
         </Button>
+      </View>
+      <ViewFiller />
+      <LoginButton
+        uppercase={false}
+        mode="contained"
+        dark
+        onPress={loginPress}
+      >
+        <LoginText>Login</LoginText>
+      </LoginButton>
+      <Button
+        uppercase={false}
+        mode="text"
+        color="#8643FF"
+        onPress={signupPress}
+      >
+        Don&apos;t have an account? Sign up
+      </Button>
     </KeyboardAwareScrollView>
   );
 };

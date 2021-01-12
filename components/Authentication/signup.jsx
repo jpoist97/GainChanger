@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  View, Image, Alert, 
+  View, Image, Alert,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -138,69 +138,69 @@ const Signup = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAwareScrollView resetScrollToCoords={{x:0, y:0}}
-    contentContainerStyle={{justifyContent:'center', alignItems:'center', height:'100%'}}>
-        <Title>GainChanger</Title>
-        <SubTitle>Signup</SubTitle>
-        <Image
-          style={{ width: 250, height: 250 }}
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}
+    >
+      <Title>GainChanger</Title>
+      <SubTitle>Signup</SubTitle>
+      <Image
+        style={{ width: 250, height: 250 }}
           /* eslint-disable global-require */
-          source={require('../../assets/logo.png')}
-          /* eslint-enable global-require */
-        />
+        source={require('../../assets/logo.png')}
+      />
+      <InputLine
+        placeholder="Name"
+        selectionColor="#A192FF"
+        textContentType="name"
+        autoCorrect={false}
+        value={name}
+        onChangeText={(text) => setName(text)}
+      />
+      {validName && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Name must be longer than 1 character.</ErrorText></View>}
+      {!validName && <ViewFiller />}
+      <InputLine
+        placeholder="Email"
+        selectionColor="#A192FF"
+        textContentType="emailAddress"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
+      {validEmail && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Invalid email.</ErrorText></View>}
+      {!validEmail && <ViewFiller />}
+      <View style={{
+        flexDirection: 'row', justifyContent: 'flex-end', width: '80%', alignItems: 'center',
+      }}
+      >
         <InputLine
-          placeholder="Name"
+          placeholder="Password"
           selectionColor="#A192FF"
-          textContentType="name"
-          autoCorrect={false}
-          value={name}
-          onChangeText={(text) => setName(text)}
-          // onEndEditing={() => endEditing()}
+          textContentType="password"
+          secureTextEntry={hidePassword}
+          value={password}
+          style={{ width: '100%', marginBottom: 0 }}
+          onChangeText={(text) => setPassword(text)}
         />
-        {validName && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Name must be longer than 1 character.</ErrorText></View>}
-        {!validName && <ViewFiller />}
-        <InputLine
-          placeholder="Email"
-          selectionColor="#A192FF"
-          textContentType="emailAddress"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-        {validEmail && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Invalid email.</ErrorText></View>}
-        {!validEmail && <ViewFiller />}
-        <View style={{
-          flexDirection: 'row', justifyContent: 'flex-end', width: '80%', alignItems: 'center',
-        }}
-        >
-          <InputLine
-            placeholder="Password"
-            selectionColor="#A192FF"
-            textContentType="password"
-            secureTextEntry={hidePassword}
-            value={password}
-            style={{ width: '100%', marginBottom: 0 }}
-            onChangeText={(text) => setPassword(text)}
-          />
-          <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
-        </View>
-        {validPassword && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Password must be more than 6 characters.</ErrorText></View>}
-        {!validPassword && <ViewFiller />}
-        <SignupButton
-          uppercase={false}
-          mode="contained"
-          dark
-          onPress={signupPress}
-        >
-          <SignupText>Signup</SignupText>
-        </SignupButton>
-        <Button
-          uppercase={false}
-          mode="text"
-          color="#8643FF"
-          onPress={loginPress}
-        >
-          Already have an account? Login
-        </Button>
+        <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
+      </View>
+      {validPassword && <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Password must be more than 6 characters.</ErrorText></View>}
+      {!validPassword && <ViewFiller />}
+      <SignupButton
+        uppercase={false}
+        mode="contained"
+        dark
+        onPress={signupPress}
+      >
+        <SignupText>Signup</SignupText>
+      </SignupButton>
+      <Button
+        uppercase={false}
+        mode="text"
+        color="#8643FF"
+        onPress={loginPress}
+      >
+        Already have an account? Login
+      </Button>
     </KeyboardAwareScrollView>
   );
 };
