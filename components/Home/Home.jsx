@@ -47,6 +47,7 @@ export default () => {
   }, []);
 
   const welcomeName = firebase.auth().currentUser.displayName;
+  
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
   const dispatch = useDispatch();
