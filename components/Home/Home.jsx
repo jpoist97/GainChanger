@@ -24,6 +24,13 @@ const Title = styled.Text`
   margin: 0px 6%;
 `;
 
+const WelcomeTitle = styled.Text`
+  font-family: 'Montserrat_700Bold';
+  font-size: 40px;
+  margin: 0px 6%;
+  width: 50%;
+`;
+
 export default () => {
   useEffect(() => {
     // This is where we would hit our database, but for now we'll have fake data
@@ -40,7 +47,6 @@ export default () => {
   }, []);
 
   const welcomeName = firebase.auth().currentUser.displayName;
-
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
   const dispatch = useDispatch();
@@ -68,11 +74,11 @@ export default () => {
         }}
       />
       <View style={{ marginBottom: '10%', marginTop: '5%' }}>
-        <Title>Hello</Title>
-        <Title>
+        <WelcomeTitle>Hello</WelcomeTitle>
+        <WelcomeTitle numberOfLines={1}>
           {welcomeName}
           !
-        </Title>
+        </WelcomeTitle>
       </View>
       <View style={{ height: '50%', marginBottom: '25%' }}>
         <CurrentCycle
