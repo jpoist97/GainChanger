@@ -27,6 +27,76 @@ const Title = styled.Text`
 
 const welcomeName = 'Shriya';
 
+const retrieveUsers = async (userRef) => {
+  const userDoc = await userRef.get();
+  return userDoc.data();
+};
+
+const retrieveWorkouts = async (userRef) => {
+  const workouts = [];
+  const workoutRef = userRef.collection('workouts');
+  const workoutSnapshot = await workoutRef.get();
+
+  workoutSnapshot.forEach((doc) => {
+    const {
+      exercises, name, lastPerformed, muscleGroups,
+    } = doc.data();
+    const dateDiff = differenceInCalendarDays(new Date(), toDate(lastPerformed.seconds * 1000));
+
+    if (exercises && name && muscleGroups) {
+      workouts.push({
+        id: doc.id,
+        name,
+        exercises,
+        muscleGroups,
+        lastPerformed: dateDiff,
+      });
+    }
+  });
+
+  return workouts;
+};
+
+const retrieveCycles = async (userRef) => {
+  const cycles = [];
+  const cycleRef = userRef.collection('cycles');
+  const cycleSnapshot = await cycleRef.get();
+
+  cycleSnapshot.forEach((doc) => {
+    const { workoutIDs, name } = doc.data();
+
+    if (workoutIDs && name) {
+      cycles.push({
+        id: doc.id,
+        name,
+        workouts: workoutIDs,
+      });
+    }
+  });
+
+  return cycles;
+};
+
+const retrieveExercises = async (dbRef) => {
+  const exercises = [];
+  const exerciseRef = dbRef.collection('exercises');
+  const exerciseSnapshot = await exerciseRef.get();
+
+  exerciseSnapshot.forEach((doc) => {
+    const { name, muscleGroups } = doc.data();
+
+    if (name && muscleGroups) {
+      exercises.push({
+        id: doc.id,
+        name,
+        muscleGroups: muscleGroups.join(', '),
+      });
+    }
+  });
+
+  return exercises;
+};
+
 export default () => {
   useEffect(() => {
     const initializeDatabase = async () => {
@@ -35,63 +105,16 @@ export default () => {
       // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
       const dbRef = firebase.firestore();
-
-      // Retrieve user info
       const userRef = dbRef.collection('users').doc(currentUser);
-      const userDoc = await userRef.get();
-      const userData = userDoc.data();
 
-      // Retrieve workouts
-      const workouts = [];
-      const workoutRef = userRef.collection('workouts');
-      const workoutSnapshot = await workoutRef.get();
-      workoutSnapshot.forEach((doc) => {
-        const {
-          exercises, name, lastPerformed, muscleGroups,
-        } = doc.data();
-        const dateDiff = differenceInCalendarDays(new Date(), toDate(lastPerformed.seconds * 1000));
-
-        if (exercises && name && muscleGroups) {
-          workouts.push({
-            id: doc.id,
-            name,
-            exercises,
-            muscleGroups,
-            lastPerformed: dateDiff,
-          });
-        }
-      });
-
-      // Retrieve cycles
-      const cycles = [];
-      const cycleRef = userRef.collection('cycles');
-      const cycleSnapshot = await cycleRef.get();
-      cycleSnapshot.forEach((doc) => {
-        const { workoutIDs, name } = doc.data();
-        if (workoutIDs && name) {
-          cycles.push({
-            id: doc.id,
-            name,
-            workouts: workoutIDs,
-          });
-        }
-      });
-
-      // Retrieve exercises
-      const exercises = [];
-      const exerciseRef = dbRef.collection('exercises');
-      const exerciseSnapshot = await exerciseRef.get();
-      exerciseSnapshot.forEach((doc) => {
-        const { name, muscleGroups } = doc.data();
-
-        if (name && muscleGroups) {
-          exercises.push({
-            id: doc.id,
-            name,
-            muscleGroups: muscleGroups.join(', '),
-          });
-        }
-      });
+      // Retrieve firestore data in parallel
+      const firestoreResponse = await Promise.all([
+        retrieveUsers(userRef),
+        retrieveWorkouts(userRef),
+        retrieveCycles(userRef),
+        retrieveExercises(dbRef),
+      ]);
+      const [userData, workouts, cycles, exercises] = firestoreResponse;
 
       // Initialize redux store
       console.log('Home: Initializing Workout store');
