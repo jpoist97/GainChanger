@@ -6,6 +6,7 @@ import {
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
+import * as firebase from 'firebase';
 import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import {
@@ -23,8 +24,6 @@ const Title = styled.Text`
   margin: 0px 6%;
 `;
 
-const welcomeName = 'Shriya';
-
 export default () => {
   useEffect(() => {
     // This is where we would hit our database, but for now we'll have fake data
@@ -39,6 +38,8 @@ export default () => {
     console.log('Home: Initialize Exercise store');
     dispatch({ type: INITIALIZE_EXERCISES, exercises: DBExerciseResponse });
   }, []);
+
+  const welcomeName = firebase.auth().currentUser.displayName;
 
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
