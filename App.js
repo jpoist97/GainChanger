@@ -7,38 +7,12 @@ import { MenuProvider } from 'react-native-popup-menu';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   useFonts,
-  Montserrat_100Thin,
-  Montserrat_100Thin_Italic,
-  Montserrat_200ExtraLight,
-  Montserrat_200ExtraLight_Italic,
-  Montserrat_300Light,
-  Montserrat_300Light_Italic,
-  Montserrat_400Regular,
-  Montserrat_400Regular_Italic,
   Montserrat_500Medium,
-  Montserrat_500Medium_Italic,
   Montserrat_600SemiBold,
-  Montserrat_600SemiBold_Italic,
   Montserrat_700Bold,
-  Montserrat_700Bold_Italic,
-  Montserrat_800ExtraBold,
-  Montserrat_800ExtraBold_Italic,
-  Montserrat_900Black,
-  Montserrat_900Black_Italic,
 } from '@expo-google-fonts/montserrat';
 import {
-  Roboto_100Thin,
-  Roboto_100Thin_Italic,
-  Roboto_300Light,
-  Roboto_300Light_Italic,
   Roboto_400Regular,
-  Roboto_400Regular_Italic,
-  Roboto_500Medium,
-  Roboto_500Medium_Italic,
-  Roboto_700Bold,
-  Roboto_700Bold_Italic,
-  Roboto_900Black,
-  Roboto_900Black_Italic,
 } from '@expo-google-fonts/roboto';
 import firebase from 'firebase';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -90,36 +64,10 @@ const theme = {
 
 const App = () => {
   let [fontsLoaded] = useFonts({
-    Montserrat_100Thin,
-    Montserrat_100Thin_Italic,
-    Montserrat_200ExtraLight,
-    Montserrat_200ExtraLight_Italic,
-    Montserrat_300Light,
-    Montserrat_300Light_Italic,
-    Montserrat_400Regular,
-    Montserrat_400Regular_Italic,
     Montserrat_500Medium,
-    Montserrat_500Medium_Italic,
     Montserrat_600SemiBold,
-    Montserrat_600SemiBold_Italic,
     Montserrat_700Bold,
-    Montserrat_700Bold_Italic,
-    Montserrat_800ExtraBold,
-    Montserrat_800ExtraBold_Italic,
-    Montserrat_900Black,
-    Montserrat_900Black_Italic,
-    Roboto_100Thin,
-    Roboto_100Thin_Italic,
-    Roboto_300Light,
-    Roboto_300Light_Italic,
     Roboto_400Regular,
-    Roboto_400Regular_Italic,
-    Roboto_500Medium,
-    Roboto_500Medium_Italic,
-    Roboto_700Bold,
-    Roboto_700Bold_Italic,
-    Roboto_900Black,
-    Roboto_900Black_Italic,
   });
 
   if (!fontsLoaded) {
@@ -133,11 +81,13 @@ const App = () => {
     console.log('Firebase setup already complete.');
   }
 
-  const user = firebase.auth().currentUser;
   let startupScreen = 'Login';
-  if (user) {
-    startupScreen = 'Root';
-  }
+
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      startupScreen = 'Root'
+    }
+  });
 
   const TabStackScreen = () => (
     <Stack.Navigator initialRouteName={startupScreen}>

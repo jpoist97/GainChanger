@@ -46,7 +46,7 @@ const StyledText = styled.Text`
   padding: 2px 15px; 0px 0px;
 `;
 
-const StyledView = styled.View`
+const StyledTouchableOpacity = styled.TouchableOpacity`
   width: 90%;
   height: 120px;
   border-radius: 20px;
@@ -57,11 +57,12 @@ const StyledView = styled.View`
 
 const AdjustExerciseCard = (props) => {
   const {
-    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise, isReps, toggleType,
+    color, name, displayEllipses, sets, setSets, seconds, setSeconds, reps, setReps, removeExercise, isReps, toggleType, drag,
   } = props;
 
   return (
-    <StyledView style={{ backgroundColor: color }}>
+    <StyledTouchableOpacity onLongPress={drag} style={{ backgroundColor: color }}>
+
       <NameText>{name}</NameText>
       {displayEllipses ? (
         <StyledEllipsesPopup
@@ -132,7 +133,7 @@ const AdjustExerciseCard = (props) => {
           </ContentWrapper>
         )}
       </ContentWrapper>
-    </StyledView>
+    </StyledTouchableOpacity>
   );
 };
 
