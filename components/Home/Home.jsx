@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import * as firebase from 'firebase';
+import { toDate, differenceInCalendarDays } from 'date-fns';
 import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import {
@@ -16,7 +17,7 @@ import {
   INCREMENT_SELECTED_CYCLE_INDEX,
   DECREMENT_SELECTED_CYCLE_INDEX,
 } from '../../constants/index';
-import { workouts as DBWorkoutResponse, exercises as DBExerciseResponse, cycleResp as DBCyclesResponse } from '../../FakeData';
+import 'firebase/firestore';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -31,19 +32,112 @@ const WelcomeTitle = styled.Text`
   width: 50%;
 `;
 
+const retrieveUsers = async (userRef) => {
+  const userDoc = await userRef.get();
+  return userDoc.data();
+};
+
+const retrieveWorkouts = async (userRef) => {
+  const workouts = [];
+  const workoutRef = userRef.collection('workouts');
+  const workoutSnapshot = await workoutRef.get();
+
+  workoutSnapshot.forEach((doc) => {
+    const {
+      exercises, name, lastPerformed, muscleGroups,
+    } = doc.data();
+    const dateDiff = differenceInCalendarDays(new Date(), toDate(lastPerformed.seconds * 1000));
+
+    if (exercises && name && muscleGroups) {
+      workouts.push({
+        id: doc.id,
+        name,
+        exercises,
+        muscleGroups,
+        lastPerformed: dateDiff,
+      });
+    }
+  });
+
+  return workouts;
+};
+
+const retrieveCycles = async (userRef) => {
+  const cycles = [];
+  const cycleRef = userRef.collection('cycles');
+  const cycleSnapshot = await cycleRef.get();
+
+  cycleSnapshot.forEach((doc) => {
+    const { workoutIDs, name } = doc.data();
+
+    if (workoutIDs && name) {
+      cycles.push({
+        id: doc.id,
+        name,
+        workouts: workoutIDs,
+      });
+    }
+  });
+
+  return cycles;
+};
+
+const retrieveExercises = async (dbRef) => {
+  const exercises = [];
+  const exerciseRef = dbRef.collection('exercises');
+  const exerciseSnapshot = await exerciseRef.get();
+
+  exerciseSnapshot.forEach((doc) => {
+    const { name, muscleGroups } = doc.data();
+
+    if (name && muscleGroups) {
+      exercises.push({
+        id: doc.id,
+        name,
+        muscleGroups: muscleGroups.join(', '),
+      });
+    }
+  });
+
+  return exercises;
+};
+
 export default () => {
   useEffect(() => {
-    // This is where we would hit our database, but for now we'll have fake data
-    console.log('Home: Initializing Workout store');
-    dispatch({ type: INITIALIZE_WORKOUTS, workouts: DBWorkoutResponse });
+    const initializeDatabase = async () => {
+      // Get the current logged in user id
+      const currentUser = firebase.auth().currentUser.uid;
+      // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
-    console.log('Home: Initializing Cycles store');
-    dispatch({
-      type: INITIALIZE_CYCLES, cycles: DBCyclesResponse.cycles, selectedCycleId: DBCyclesResponse.selectedCycleId, selectedCycleIndex: DBCyclesResponse.selectedCycleIndex,
-    });
+      const dbRef = firebase.firestore();
+      const userRef = dbRef.collection('users').doc(currentUser);
 
-    console.log('Home: Initialize Exercise store');
-    dispatch({ type: INITIALIZE_EXERCISES, exercises: DBExerciseResponse });
+      // Retrieve firestore data in parallel
+      const firestoreResponse = await Promise.all([
+        retrieveUsers(userRef),
+        retrieveWorkouts(userRef),
+        retrieveCycles(userRef),
+        retrieveExercises(dbRef),
+      ]);
+      const [userData, workouts, cycles, exercises] = firestoreResponse;
+
+      // Initialize redux store
+      console.log('Home: Initializing Workout store');
+      dispatch({ type: INITIALIZE_WORKOUTS, workouts });
+
+      console.log('Home: Initializing Cycles store');
+      dispatch({
+        type: INITIALIZE_CYCLES,
+        cycles,
+        selectedCycleId: userData.selectedCycleId,
+        selectedCycleIndex: userData.selectedCycleIndex,
+      });
+
+      console.log('Home: Initialize Exercise store');
+      dispatch({ type: INITIALIZE_EXERCISES, exercises });
+    };
+
+    initializeDatabase();
   }, []);
 
   const welcomeName = firebase.auth().currentUser.displayName;
