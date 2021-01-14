@@ -23,18 +23,22 @@ const TitleText = styled.Text`
   margin: 15px 15px;
 `;
 
-const parseExercises = (exercises) => exercises.map((exercise) => ({
-  name: exercise.name,
-  color: exercise.color,
-  type: exercise.type,
-  sets: exercise.sets.map((set) => ({
-    prevWeight: set.weight,
-    weight: '',
-    prevDuration: set.duration,
-    duration: '',
-    completed: false,
-  })),
-}));
+const parseExercises = (exercises) => exercises.map((exercise) => {
+  const exerciseType = exercise.sets[0].reps ? 'REPS' : 'SECS';
+
+  return {
+    name: exercise.name,
+    color: exercise.color,
+    type: exerciseType,
+    sets: exercise.sets.map((set) => ({
+      prevWeight: set.weight && set.weight.toString(),
+      weight: '',
+      prevDuration: exerciseType === 'REPS' ? set.reps.toString() : set.time.toString(),
+      duration: '',
+      completed: false,
+    })),
+  };
+});
 
 /**
  * The exercises prop expect and object with the following formatting.
@@ -57,8 +61,10 @@ const LogWorkout = (props) => {
   const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
 
   const { name } = selectedWorkout;
+
   const exercises = selectedWorkout.exercises.map((exerciseObj, index) => {
-    const matchingExercise = _.find(exerciseStore, (exercise) => exerciseObj.id === exercise.id);
+    const matchingExercise = _.find(exerciseStore, (exercise) => exerciseObj.exerciseId === exercise.id);
+
     return {
       ...exerciseObj,
       name: matchingExercise.name,
@@ -160,7 +166,7 @@ const LogWorkout = (props) => {
 LogWorkout.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
-      workoutId: PropTypes.number.isRequired,
+      workoutId: PropTypes.string.isRequired,
     }),
   }).isRequired,
 };
