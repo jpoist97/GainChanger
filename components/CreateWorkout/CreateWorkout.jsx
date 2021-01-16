@@ -4,10 +4,12 @@ import * as React from 'react';
 import { Alert, View } from 'react-native';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
+import * as firebase from 'firebase';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AdjustExercisesList from './AdjustExercisesList';
 import { ADD_WORKOUT } from '../../constants';
+// import * as admin from 'firebase-admin'
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -88,6 +90,21 @@ export default ({ navigation }) => {
     setItemState(exerciseList);
   }
 
+  const sendWorkoutToDB = (newWorkout) => {
+    // const currentUser = firebase.auth().currentUser.uid;
+    const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+
+    const dbRef = firebase.firestore();
+    const userRef = dbRef.collection('users').doc(currentUser);
+    const workoutRef = userRef.collection('workouts');
+
+    newWorkout = JSON.parse(JSON.stringify(newWorkout, (k, v) => {
+      if (v === undefined) { return null; } return v;
+    })); // This is needed so that we can have an undefined weight and color
+
+    workoutRef.add(newWorkout);
+  };
+
   return (
     <View style={{ height: '100%' }}>
       <View>
@@ -129,7 +146,7 @@ export default ({ navigation }) => {
               };
             }),
           };
-
+          sendWorkoutToDB(newWorkout);
           dispatch({ type: ADD_WORKOUT, workout: newWorkout });
           navigation.goBack();
         }
