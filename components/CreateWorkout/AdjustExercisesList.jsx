@@ -1,9 +1,10 @@
 /* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
 import { View } from 'react-native';
-import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import DraggableFlatList from 'react-native-draggable-flatlist';
+import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
 import AdjustExerciseCard from './AdjustExerciseCard';
 
 const Title = styled.Text`
@@ -14,12 +15,18 @@ const Title = styled.Text`
 
 const AdjustExercisesList = (props) => {
   const {
-    items, setReps, setSets, setSeconds, removeExercise, toggleType,
+    items, setReps, setSets, setSeconds, removeExercise, toggleType, updateOrder,
   } = props;
 
-  const renderCard = ({ item, index }) => (
+  const [exerciseList, setExerciseList] = React.useState(items);
 
+  React.useEffect(() => {
+    updateOrder(exerciseList);
+  }, [exerciseList]);
+
+  const renderCard = ({ item, index, drag }) => (
     <AdjustExerciseCard
+      drag={drag}
       name={item.name}
       displayEllipses={item.displayEllipses}
       color={item.color}
@@ -38,12 +45,14 @@ const AdjustExercisesList = (props) => {
   return (
     <View style={{ height: '92%' }}>
       <Title>Exercises</Title>
-      <KeyboardAwareFlatList
-        data={items}
-        renderItem={renderCard}
-        keyExtractor={(item, index) => item.name + index}
-        keyboardOpeningTime={300}
-      />
+      <KeyboardAwareView animated>
+        <DraggableFlatList
+          data={items}
+          keyExtractor={(item, index) => item.id.toString() + index}
+          onDragEnd={({ data }) => setExerciseList(data)}
+          renderItem={renderCard}
+        />
+      </KeyboardAwareView>
     </View>
 
   );
