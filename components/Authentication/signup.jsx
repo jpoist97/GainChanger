@@ -229,7 +229,6 @@ const Signup = ({ navigation }) => {
             const userWorkout2 = userRef.collection('workouts').doc();
             const userWorkout3 = userRef.collection('workouts').doc();
 
-
             Promise.all(
               userDataRef,
               userWorkout1.set(pushWorkout), 
@@ -237,6 +236,8 @@ const Signup = ({ navigation }) => {
               userWorkout3.set(legsWorkout)
             ).then(() => {
               console.log("workouts and user set successfully.");
+            }).catch((error) => {
+              console.log(error);
             });
 
             const cycleData = {
@@ -249,14 +250,19 @@ const Signup = ({ navigation }) => {
             cyclesDataRef.set(cycleData)
               .then(() => {
                 console.log("cycles set successfully.");
-            });
+              }).catch((error) => {
+                console.log(error);
+              });
 
             userRef.update({selectedCycleId: cyclesDataRef.id})
               .then(() => {
-                console.log("selected cycle updated.");
-            });
+                console.log("selected cycle updated.")
+              }).catch((error) => {
+                console.log(error);
+              });
             
             navigation.navigate('Root');
+
           }).catch((error) => {
             console.log('Display name not set.');
             console.log(error);
