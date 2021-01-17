@@ -19,12 +19,6 @@ import {
 } from '../../constants/index';
 import 'firebase/firestore';
 
-const Title = styled.Text`
-  font-family: 'Montserrat_700Bold';
-  font-size: 40px;
-  margin: 0px 6%;
-`;
-
 const WelcomeTitle = styled.Text`
   font-family: 'Montserrat_700Bold';
   font-size: 40px;
@@ -149,10 +143,29 @@ export default () => {
   // Parse the database response into workoutList
   const workoutList = workouts.map((workout) => ({
     name: workout.name,
+    lastPerformed : workout.lastPerformed,
     subtext: `${workout.lastPerformed} days ago`,
     id: workout.id,
     color: workout.color,
   }));
+  
+  // Filter the workout list to show only the 5 most recently performed workouts
+  // If less than 5, display all workouts
+  const filterWorkoutListForDisplay = (workoutList) => {
+      workoutList.sort(function(a,b) {
+        if (isNaN(a.lastPerformed)) return 1;
+        if (isNaN(b.lastPerformed)) return -1;
+        if (a.lastPerformed == b.lastPerformed) return 0;
+        return (a.lastPerformed > b.lastPerformed ? 1 : -1)
+    });
+    workoutList.forEach((workout) => {
+      if (isNaN(workout.lastPerformed)) {
+        workout.subtext = "Try for first time!";
+      }
+    });
+    return workoutList.slice(0,5);
+  }
+
 
   const selectedCycle = (cycles.selectedCycleId !== undefined) && _.find(cycles.cycles, (cycle) => cycle.id === cycles.selectedCycleId);
   let cycleDetails;
@@ -184,7 +197,7 @@ export default () => {
           rightPress={() => { dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
         />
-        <WorkoutSwipeList items={workoutList} style={{ marginLeft: '10%' }} />
+        <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />
       </View>
     </SafeAreaView>
 
