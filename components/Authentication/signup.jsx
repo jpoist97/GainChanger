@@ -64,6 +64,101 @@ const ViewFiller = styled.View`
   height: 15px;
 `;
 
+const currentTime = firebase.firestore.FieldValue.serverTimestamp();
+
+const pushWorkout = {
+  name: "Push",
+  muscleGroups: "Chest Triceps Shoulders",
+  lastPerformed: currentTime,
+  exercises: [
+                {
+                  exerciseID: "6peaHJkFD27icchxAJzD", 
+                  sets: [
+                    {reps: 12, weight: 135},
+                    {reps: 12, weight: 135},
+                    {reps: 12, weight: 135},
+                  ]},
+                {
+                  exerciseID: "5kSGnmeQOtKHZCX3Omka",
+                  sets: [
+                    {reps: 10, weight: 100},
+                    {reps: 10, weight: 100},
+                    {reps: 10, weight: 100},
+                  ]
+                },
+                {
+                  exerciseID: "C9QDiFEpKx0oZhqdLymp",
+                  sets: [
+                    {reps: 10, weight: 50},
+                    {reps: 10, weight: 50},
+                    {reps: 10, weight: 50},
+                  ]
+                }
+              ]
+}
+
+const pullWorkout = {
+  name: "Pull",
+  muscleGroups: "Back Biceps",
+  lastPerformed: currentTime,
+  exercises: [
+                {
+                  exerciseID: "6zvctw4Ii0dHgBX1eQe6", 
+                  sets: [
+                    {time: 10, weight: 60},
+                    {time: 10, weight: 60},
+                    {time: 10, weight: 60},
+                  ]},
+                {
+                  exerciseID: "An8hwIGvJrMMphdxubUs",
+                  sets: [
+                    {reps: 10, weight: 100},
+                    {reps: 10, weight: 100},
+                    {reps: 10, weight: 100},
+                  ]
+                },
+                {
+                  exerciseID: "X9HKNuWTf5zTHqpobfxS",
+                  sets: [
+                    {reps: 12, weight: 100},
+                    {reps: 12, weight: 100},
+                    {reps: 12, weight: 100},
+                  ]
+                }
+              ]
+}
+
+const legsWorkout = {
+  name: "Legs",
+  muscleGroups: "Quads Glutes",
+  lastPerformed: currentTime,
+  exercises: [
+                {
+                  exerciseID: "31ROy02NIqplIBvXoaeB", 
+                  sets: [
+                    {time: 10, weight: 135},
+                    {time: 10, weight: 135},
+                    {time: 10, weight: 135},
+                  ]},
+                {
+                  exerciseID: "2TvJvGO8CuxXzxk1D2Si",
+                  sets: [
+                    {reps: 10, weight: 100},
+                    {reps: 10, weight: 100},
+                    {reps: 10, weight: 100},
+                  ]
+                },
+                {
+                  exerciseID: "XzkLscitllVWr1sRrMAk",
+                  sets: [
+                    {reps: 10, weight: 100},
+                    {reps: 10, weight: 100},
+                    {reps: 10, weight: 100},
+                  ]
+                }
+              ]
+}
+
 const Signup = ({ navigation }) => {
   const [name, setName] = React.useState('');
   const [validName, setValidName] = React.useState(false);
@@ -111,6 +206,39 @@ const Signup = ({ navigation }) => {
     setValidPassword(!(password.length > 5));
   }, [password]);
 
+  const logUserData = async (user) => {
+    const userData = {
+      email: user.email,
+      name: user.displayName,
+      selectedCycleId: '',
+      selectedCycleIndex: 0,
+    }
+
+    const userRef = db.collection('users').doc(user.uid);
+
+    let userDataRef = userRef.set(userData);
+    let workoutData1 = userRef.collection('workouts').doc();
+    let workoutData2 = userRef.collection('workouts').doc();
+    let workoutData3 = userRef.collection('workouts').doc();
+
+    await Promise.all([userDataRef, workoutData1.set(pushWorkout), workoutData2.set(pullWorkout), workoutData3.set(legsWorkout)]);
+    logCycleData([workoutData1.id, workoutData2.id, workoutData3.id], userRef);
+  }
+
+  const logCycleData = async (workoutIDs, userRef) => {
+    const cycleData = {
+      name: 'Push, Pull, Legs',
+      workoutIDs: workoutIDs,
+    }
+
+    const cyclesDataRef = userRef.collection('cycles').doc();
+
+    let cycleSetData = cyclesDataRef.set(cycleData);
+    let selectedCycleData = userRef.update({selectedCycleId: cyclesDataRef.id});
+
+    await Promise.all([cycleSetData, selectedCycleData]);
+  }
+
   function signupPress() {
     if (name.length > 1) {
       firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -119,149 +247,13 @@ const Signup = ({ navigation }) => {
             displayName: name,
           }).then(() => {
 
-            const userData = {
-              email: user.user.email,
-              name: user.user.displayName,
-              selectedCycleId: '',
-              selectedCycleIndex: 0,
-            }
-
-            const currentTime = firebase.firestore.FieldValue.serverTimestamp();
-
-            const pushWorkout = {
-              name: "Push",
-              muscleGroups: "Chest Triceps Shoulders",
-              lastPerformed: currentTime,
-              exercises: [
-                            {
-                              exerciseID: "6peaHJkFD27icchxAJzD", 
-                              sets: [
-                                {reps: 12, weight: 135},
-                                {reps: 12, weight: 135},
-                                {reps: 12, weight: 135},
-                              ]},
-                            {
-                              exerciseID: "5kSGnmeQOtKHZCX3Omka",
-                              sets: [
-                                {reps: 10, weight: 100},
-                                {reps: 10, weight: 100},
-                                {reps: 10, weight: 100},
-                              ]
-                            },
-                            {
-                              exerciseID: "C9QDiFEpKx0oZhqdLymp",
-                              sets: [
-                                {reps: 10, weight: 50},
-                                {reps: 10, weight: 50},
-                                {reps: 10, weight: 50},
-                              ]
-                            }
-                          ]
-            }
-
-            const pullWorkout = {
-              name: "Pull",
-              muscleGroups: "Back Biceps",
-              lastPerformed: currentTime,
-              exercises: [
-                            {
-                              exerciseID: "6zvctw4Ii0dHgBX1eQe6", 
-                              sets: [
-                                {time: 10, weight: 60},
-                                {time: 10, weight: 60},
-                                {time: 10, weight: 60},
-                              ]},
-                            {
-                              exerciseID: "An8hwIGvJrMMphdxubUs",
-                              sets: [
-                                {reps: 10, weight: 100},
-                                {reps: 10, weight: 100},
-                                {reps: 10, weight: 100},
-                              ]
-                            },
-                            {
-                              exerciseID: "X9HKNuWTf5zTHqpobfxS",
-                              sets: [
-                                {reps: 12, weight: 100},
-                                {reps: 12, weight: 100},
-                                {reps: 12, weight: 100},
-                              ]
-                            }
-                          ]
-            }
-
-            const legsWorkout = {
-              name: "Legs",
-              muscleGroups: "Quads Glutes",
-              lastPerformed: currentTime,
-              exercises: [
-                            {
-                              exerciseID: "31ROy02NIqplIBvXoaeB", 
-                              sets: [
-                                {time: 10, weight: 135},
-                                {time: 10, weight: 135},
-                                {time: 10, weight: 135},
-                              ]},
-                            {
-                              exerciseID: "2TvJvGO8CuxXzxk1D2Si",
-                              sets: [
-                                {reps: 10, weight: 100},
-                                {reps: 10, weight: 100},
-                                {reps: 10, weight: 100},
-                              ]
-                            },
-                            {
-                              exerciseID: "XzkLscitllVWr1sRrMAk",
-                              sets: [
-                                {reps: 10, weight: 100},
-                                {reps: 10, weight: 100},
-                                {reps: 10, weight: 100},
-                              ]
-                            }
-                          ]
-            }
-
-            //set initial user 
-            const userRef = db.collection('users').doc(user.user.uid);
-            
-            const userDataRef = userRef.set(userData);
-            const userWorkout1 = userRef.collection('workouts').doc();
-            const userWorkout2 = userRef.collection('workouts').doc();
-            const userWorkout3 = userRef.collection('workouts').doc();
-
-            Promise.all(
-              userDataRef,
-              userWorkout1.set(pushWorkout), 
-              userWorkout2.set(pullWorkout),
-              userWorkout3.set(legsWorkout)
-            ).then(() => {
-              console.log("workouts and user set successfully.");
-            }).catch((error) => {
+            logUserData(user.user)
+            .then(() => {
+              navigation.navigate('Root');
+            })
+            .catch((error) => {
               console.log(error);
             });
-
-            const cycleData = {
-              name: 'Push, Pull, Legs',
-              workoutIDs: [userWorkout1.id, userWorkout2.id, userWorkout3.id],
-            }
-
-            const cyclesDataRef = userRef.collection('cycles').doc();
-            
-            cyclesDataRef.set(cycleData)
-              .then(() => {
-                console.log("cycles set successfully.");
-              }).catch((error) => {
-                console.log(error);
-              });
-
-            userRef.update({selectedCycleId: cyclesDataRef.id})
-              .then(() => {
-                console.log("selected cycle updated.")
-              }).catch((error) => {
-                console.log(error);
-              });
-            
-            navigation.navigate('Root');
 
           }).catch((error) => {
             console.log('Display name not set.');
