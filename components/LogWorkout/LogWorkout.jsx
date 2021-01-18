@@ -1,5 +1,6 @@
 /* eslint-disable react/forbid-prop-types, react/no-array-index-key */
 import React, { useState } from 'react';
+import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import styled from 'styled-components';
@@ -27,6 +28,7 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
   const exerciseType = exercise.sets[0].reps ? 'REPS' : 'SECS';
 
   return {
+    ID: exercise.exerciseId,
     name: exercise.name,
     color: exercise.color,
     type: exerciseType,
@@ -40,6 +42,7 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
   };
 });
 
+
 /**
  * The exercises prop expect and object with the following formatting.
  * The weight and reps of each set it the previous weight/rep count.
@@ -51,7 +54,7 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
  *
  */
 const LogWorkout = (props) => {
-  const { route: { params: { workoutId } } } = props;
+  const { route: { params: { workoutId, isSelectedCycle } } } = props;
 
   // get the workout details from redux based on workoutid
   console.log(`Opening Log Workout for workout id ${workoutId}`);
@@ -76,6 +79,59 @@ const LogWorkout = (props) => {
   const initialExerciseState = parseExercises(exercises);
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
+
+
+const updatePrevDetails = (props) => exerciseState.map((exercise) => {
+  const exerciseType = exercise.sets[0].reps ? 'REPS' : 'SECS';
+  return {
+    ID: exercise.exerciseId,
+    name: 'AYOOOOOO',
+    color: exercise.color,
+    type: exerciseType,
+    sets: exercise.sets.map((set) => ({
+      prevWeight: set.weight && set.weight.toString(),
+      weight: '',
+      prevDuration: exerciseType === 'REPS' ? set.reps.toString() : set.time.toString(),
+      duration: '',
+      completed: false,
+    })),
+  };
+});
+
+  // const currentUser = firebase.auth().currentUser.uid;
+  const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+
+  const dbRef = firebase.firestore();
+  const userRef = dbRef.collection('users').doc(currentUser);
+
+  const sendWorkoutLogToDB = () => {
+
+    const workoutRecsRef = userRef.collection('workouts').doc(workoutId).collection('workoutRecords');
+  
+    //  newWorkoutLog = JSON.parse(JSON.stringify(newWorkoutLog, (k, v) => {
+    //   if (v === undefined) { return null; } return v;
+    // })); // This is needed so values can be undefined
+  
+    //make new object to only return data we need
+    const newWorkoutLog = {
+      date: firebase.firestore.FieldValue.serverTimestamp(),
+      exercises: exerciseState.map((exercise) => {
+          return {
+            exerciseId: exercise.ID,
+            sets: exercise.sets.map((set) => {
+                const parsedSet = {
+                  weight: set.weight || set.prevWeight,
+                }
+                _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], set.duration || set.prevDuration)
+                return parsedSet;
+              })
+          }
+
+      })
+  
+    }
+    workoutRecsRef.add(newWorkoutLog);
+  };
 
   const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {
     const newExercise = [...exerciseState];
@@ -147,6 +203,8 @@ const LogWorkout = (props) => {
       <TitleText>{name}</TitleText>
       <StyledFinishButton onPress={() => {
         // TODO: Update Redux and database
+        sendWorkoutLogToDB();
+        updatePrevDetails();
         navigation.goBack();
       }}
       />
@@ -167,8 +225,13 @@ LogWorkout.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
       workoutId: PropTypes.string.isRequired,
+      isSelectedCycle: PropTypes.bool,
     }),
   }).isRequired,
+};
+
+LogWorkout.defaultProps = {
+  isSelectedCycle: false,
 };
 
 export default LogWorkout;

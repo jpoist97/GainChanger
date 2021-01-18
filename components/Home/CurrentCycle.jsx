@@ -63,7 +63,7 @@ const CurrentCycle = (props) => {
             color="#CAB0FF"
           />
         </TouchableOpacity>
-        <StyledView onPress={() => navigation.navigate('Log Workout', { workoutId: id })}>
+        <StyledView onPress={() => navigation.navigate('Log Workout', { workoutId: id, isSelectedCycle: true })}>
           <NameText>{name}</NameText>
           <Subtext>{subtext}</Subtext>
         </StyledView>
