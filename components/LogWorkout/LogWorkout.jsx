@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types, react/no-array-index-key */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import _, { set } from 'lodash';
+import _ from 'lodash';
 import styled from 'styled-components';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
@@ -26,14 +26,12 @@ const TitleText = styled.Text`
 const parseExercises = (exercises) => exercises.map((exercise) => {
   const exerciseType = exercise.sets[0].reps ? 'REPS' : 'SECS';
 
-  const previous = (set.weight ? set.weight.toString() : 'n/a');
-  
   return {
     name: exercise.name,
     color: exercise.color,
     type: exerciseType,
     sets: exercise.sets.map((set) => ({
-      prevWeight: /*set.weight && set.weight.toString()*/previous,
+      prevWeight: (set.weight ? set.weight.toString() : 'n/a'),
       weight: '',
       prevDuration: exerciseType === 'REPS' ? set.reps.toString() : set.time.toString(),
       duration: '',
@@ -67,7 +65,6 @@ const LogWorkout = (props) => {
   const exercises = selectedWorkout.exercises.map((exerciseObj, index) => {
     const matchingExercise = _.find(exerciseStore, (exercise) => exerciseObj.exerciseId === exercise.id);
 
-    if(!matchingExercise) { console.log(exerciseObj); console.log(exerciseStore); }
     return {
       ...exerciseObj,
       name: matchingExercise.name,
