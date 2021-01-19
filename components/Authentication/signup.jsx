@@ -64,35 +64,33 @@ const ViewFiller = styled.View`
   height: 15px;
 `;
 
-const currentTime = firebase.firestore.FieldValue.serverTimestamp();
-
 const pushWorkout = {
   name: 'Push',
   muscleGroups: 'Chest Triceps Shoulders',
-  lastPerformed: currentTime,
+  lastPerformed: 'N/A',
   exercises: [
     {
-      exerciseID: '6peaHJkFD27icchxAJzD',
+      exerciseId: '6peaHJkFD27icchxAJzD',
       sets: [
-        { reps: 12, weight: 135 },
-        { reps: 12, weight: 135 },
-        { reps: 12, weight: 135 },
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
       ],
     },
     {
-      exerciseID: '5kSGnmeQOtKHZCX3Omka',
+      exerciseId: '5kSGnmeQOtKHZCX3Omka',
       sets: [
-        { reps: 10, weight: 100 },
-        { reps: 10, weight: 100 },
-        { reps: 10, weight: 100 },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
       ],
     },
     {
-      exerciseID: 'C9QDiFEpKx0oZhqdLymp',
+      exerciseId: 'C9QDiFEpKx0oZhqdLymp',
       sets: [
-        { reps: 10, weight: 50 },
-        { reps: 10, weight: 50 },
-        { reps: 10, weight: 50 },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
       ],
     },
   ],
@@ -101,30 +99,30 @@ const pushWorkout = {
 const pullWorkout = {
   name: 'Pull',
   muscleGroups: 'Back Biceps',
-  lastPerformed: currentTime,
+  lastPerformed: 'N/A',
   exercises: [
     {
-      exerciseID: '6zvctw4Ii0dHgBX1eQe6',
+      exerciseId: '6zvctw4Ii0dHgBX1eQe6',
       sets: [
-        { time: 10, weight: 60 },
-        { time: 10, weight: 60 },
-        { time: 10, weight: 60 },
+        { time: 10, weight: null },
+        { time: 10, weight: null },
+        { time: 10, weight: null },
       ],
     },
     {
-      exerciseID: 'An8hwIGvJrMMphdxubUs',
+      exerciseId: 'An8hwIGvJrMMphdxubUs',
       sets: [
-        { reps: 10, weight: 100 },
-        { reps: 10, weight: 100 },
-        { reps: 10, weight: 100 },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
       ],
     },
     {
-      exerciseID: 'X9HKNuWTf5zTHqpobfxS',
+      exerciseId: 'X9HKNuWTf5zTHqpobfxS',
       sets: [
-        { reps: 12, weight: 100 },
-        { reps: 12, weight: 100 },
-        { reps: 12, weight: 100 },
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
       ],
     },
   ],
@@ -133,30 +131,30 @@ const pullWorkout = {
 const legsWorkout = {
   name: 'Legs',
   muscleGroups: 'Quads Glutes',
-  lastPerformed: currentTime,
+  lastPerformed: 'N/A',
   exercises: [
     {
-      exerciseID: '31ROy02NIqplIBvXoaeB',
+      exerciseId: '31ROy02NIqplIBvXoaeB',
       sets: [
-        { time: 10, weight: 135 },
-        { time: 10, weight: 135 },
-        { time: 10, weight: 135 },
+        { time: 10, weight: null },
+        { time: 10, weight: null },
+        { time: 10, weight: null },
       ],
     },
     {
-      exerciseID: '2TvJvGO8CuxXzxk1D2Si',
+      exerciseId: '2TvJvGO8CuxXzxk1D2Si',
       sets: [
-        { reps: 10, weight: 100 },
-        { reps: 10, weight: 100 },
-        { reps: 10, weight: 100 },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
       ],
     },
     {
-      exerciseID: 'XzkLscitllVWr1sRrMAk',
+      exerciseId: 'XzkLscitllVWr1sRrMAk',
       sets: [
-        { reps: 10, weight: 100 },
-        { reps: 10, weight: 100 },
-        { reps: 10, weight: 100 },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
       ],
     },
   ],
