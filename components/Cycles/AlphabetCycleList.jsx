@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { useDispatch, useSelector } from 'react-redux';
 import CycleCard from './CycleCard';
-import { DELETE_CYCLE, SELECT_NEW_CYCLE } from '../../constants';
+import actions from '../../actions/index';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -59,8 +59,8 @@ const AlphabetCycleList = (props) => {
     <CycleCard
       name={item.name}
       subtext={item.subtext}
-      selectCycle={() => dispatch({ type: SELECT_NEW_CYCLE, cycleId: item.id })}
-      deleteCycle={() => dispatch({ type: DELETE_CYCLE, cycleId: item.id })}
+      selectCycle={() => dispatch(actions.cycles.selectCycle(item.id))}
+      deleteCycle={() => dispatch(actions.cycles.deleteCycle(item.id))}
       onPress={item.onPress}
       color={item.color}
     />

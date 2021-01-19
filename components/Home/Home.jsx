@@ -10,14 +10,8 @@ import * as firebase from 'firebase';
 import { toDate, differenceInCalendarDays } from 'date-fns';
 import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
-import {
-  INITIALIZE_WORKOUTS,
-  INITIALIZE_CYCLES,
-  INITIALIZE_EXERCISES,
-  INCREMENT_SELECTED_CYCLE_INDEX,
-  DECREMENT_SELECTED_CYCLE_INDEX,
-} from '../../constants/index';
 import 'firebase/firestore';
+import actions from '../../actions/index';
 
 const WelcomeTitle = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -117,18 +111,17 @@ export default () => {
 
       // Initialize redux store
       console.log('Home: Initializing Workout store');
-      dispatch({ type: INITIALIZE_WORKOUTS, workouts });
+      dispatch(actions.workouts.initializeWorkouts(workouts));
 
       console.log('Home: Initializing Cycles store');
-      dispatch({
-        type: INITIALIZE_CYCLES,
+      dispatch(actions.cycles.initializeCycles(
         cycles,
-        selectedCycleId: userData.selectedCycleId,
-        selectedCycleIndex: userData.selectedCycleIndex,
-      });
+        userData.selectedCycleId,
+        userData.selectedCycleIndex,
+      ));
 
       console.log('Home: Initialize Exercise store');
-      dispatch({ type: INITIALIZE_EXERCISES, exercises });
+      dispatch(actions.exercises.initalizeExercises(exercises));
     };
 
     initializeDatabase();
@@ -193,8 +186,8 @@ export default () => {
           name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
           subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
           color={cycleDetails && cycleDetails[cycles.selectedCycleIndex].color}
-          leftPress={() => { dispatch({ type: DECREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
-          rightPress={() => { dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
+          leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
+          rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
         />
         <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />
