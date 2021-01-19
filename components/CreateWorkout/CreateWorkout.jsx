@@ -91,8 +91,8 @@ export default ({ navigation }) => {
   }
 
   const sendWorkoutToDB = (createWorkout) => {
-    // const currentUser = firebase.auth().currentUser.uid;
-    const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+    const currentUser = firebase.auth().currentUser.uid;
+    //const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
     const dbRef = firebase.firestore();
     const userRef = dbRef.collection('users').doc(currentUser);
