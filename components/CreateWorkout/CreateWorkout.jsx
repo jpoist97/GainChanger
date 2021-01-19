@@ -9,7 +9,6 @@ import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AdjustExercisesList from './AdjustExercisesList';
 import { ADD_WORKOUT } from '../../constants';
-// import * as admin from 'firebase-admin'
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
