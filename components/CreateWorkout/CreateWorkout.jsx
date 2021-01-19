@@ -89,19 +89,18 @@ export default ({ navigation }) => {
     setItemState(exerciseList);
   }
 
-  const sendWorkoutToDB = (createWorkout) => {
+  const sendWorkoutToDB = (newWorkout) => {
     const currentUser = firebase.auth().currentUser.uid;
-    //const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
     const dbRef = firebase.firestore();
     const userRef = dbRef.collection('users').doc(currentUser);
     const workoutRef = userRef.collection('workouts');
 
-    createWorkout = JSON.parse(JSON.stringify(createWorkout, (k, v) => {
+    newWorkout = JSON.parse(JSON.stringify(newWorkout, (k, v) => {
       if (v === undefined) { return null; } return v;
     })); // This is needed so that we can have an undefined weight and color
 
-    workoutRef.add(createWorkout);
+    workoutRef.add(newWorkout);
   };
 
   return (
@@ -124,32 +123,12 @@ export default ({ navigation }) => {
         } else if (itemState.length === 0) {
           alert('Please add at least one exercise');
         } else {
-          const newWorkout = { // This is for redux
-            name,
-            lastPerformed: 'n/a',
-            id: nextWorkoutId,
-            muscleGroups: itemState[0].muscleGroups,
-            color: itemState[0].color,
-            exercises: itemState.map((item) => {
-              const setArr = [];
-              // 3 is the default number of sets
-              const sets = item.sets || 3;
-              for (let i = 0; i < sets; i++) {
-                setArr.push({ weight: undefined, duration: (item.isReps ? item.reps || '10' : item.seconds || '60') });
-              }
-              return {
-                ...item,
-                sets: setArr,
-                exerciseId: item.id,
-              };
-            }),
-          };
           let muscleGroups = itemState[0].muscleGroups; 
           if (itemState.length >= 2) { // for showing top 2 muscle groups
             muscleGroups += " ";
             muscleGroups += itemState[1].muscleGroups;
           }
-          const createWorkout = { // This is for database
+          const newWorkout = {
             name,
             lastPerformed: 'n/a',
             muscleGroups: muscleGroups,
@@ -157,27 +136,18 @@ export default ({ navigation }) => {
             exercises: itemState.map((item) => {
               const setArr = [];
               const sets = item.sets || 3;
-              if (item.isReps) {
-                for (let i = 0; i < sets; i++) {
-                setArr.push({ 
-                  weight: undefined,
-                  reps: item.reps || '60' 
-                });} 
-              }
-              else {
               for (let i = 0; i < sets; i++) {
-                setArr.push({ 
-                  weight: undefined,
-                  time: item.seconds || '10'
-                });}
+                item.isReps ?
+                  setArr.push({ weight: undefined, reps: item.reps || 10 }) :
+                  setArr.push({ weight: undefined, time: item.seconds || 60 })
               }
               return {
                 sets: setArr,
                 exerciseId: item.id,
               };
-            }),
+            })
           };
-          sendWorkoutToDB(createWorkout);
+          sendWorkoutToDB(newWorkout);
           dispatch({ type: ADD_WORKOUT, workout: newWorkout });
           navigation.goBack();
         }
