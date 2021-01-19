@@ -10,7 +10,9 @@ import { useSelector } from 'react-redux';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
-import { COLORS } from '../../constants/index';
+import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX, } from '../../constants/index';
+import CurrentCycle from '../Home/CurrentCycle';
+
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -41,7 +43,6 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
     })),
   };
 });
-
 
 /**
  * The exercises prop expect and object with the following formatting.
@@ -80,29 +81,23 @@ const LogWorkout = (props) => {
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
 
-
-const updatePrevDetails = (props) => exerciseState.map((exercise) => {
-  const exerciseType = exercise.sets[0].reps ? 'REPS' : 'SECS';
-  return {
-    ID: exercise.exerciseId,
-    name: 'AYOOOOOO',
-    color: exercise.color,
-    type: exerciseType,
-    sets: exercise.sets.map((set) => ({
-      prevWeight: set.weight && set.weight.toString(),
-      weight: '',
-      prevDuration: exerciseType === 'REPS' ? set.reps.toString() : set.time.toString(),
-      duration: '',
-      completed: false,
-    })),
-  };
-});
-
   // const currentUser = firebase.auth().currentUser.uid;
   const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
   const dbRef = firebase.firestore();
   const userRef = dbRef.collection('users').doc(currentUser);
+
+  const incrementSelectedCycleIdx = () => {
+    // userRef.update({selectedCycleIndex: 2})
+    // userRef.get().then(function(doc) {
+    //       console.log("Document data:", doc.data().selectedCycleIndex);
+    //   } 
+    // )
+    return (
+    <CurrentCycle
+          rightPress={() => { dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
+        /> )
+  };
 
   const sendWorkoutLogToDB = () => {
 
@@ -130,8 +125,11 @@ const updatePrevDetails = (props) => exerciseState.map((exercise) => {
       })
   
     }
+    userRef.collection('workouts').doc(workoutId).update(newWorkoutLog);
     workoutRecsRef.add(newWorkoutLog);
   };
+
+  
 
   const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {
     const newExercise = [...exerciseState];
@@ -204,7 +202,7 @@ const updatePrevDetails = (props) => exerciseState.map((exercise) => {
       <StyledFinishButton onPress={() => {
         // TODO: Update Redux and database
         sendWorkoutLogToDB();
-        updatePrevDetails();
+        incrementSelectedCycleIdx();
         navigation.goBack();
       }}
       />
