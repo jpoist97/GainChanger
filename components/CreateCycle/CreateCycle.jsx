@@ -9,7 +9,7 @@ import * as firebase from 'firebase';
 import DraggableWorkoutList from './DraggableWorkoutList';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
-import { ADD_CYCLE } from '../../constants/index';
+import actions from '../../actions/index';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -87,7 +87,7 @@ export default ({ navigation }) => {
             workouts: workouts.map((workout) => workout.id),
           };
           sendCycleToDB(newCycle);
-          dispatch({ type: ADD_CYCLE, cycle: newCycle });
+          dispatch(actions.cycles.addCycle(newCycle));
           navigation.goBack();
         }
       }}

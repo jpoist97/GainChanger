@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import WorkoutCard from './WorkoutCard';
-import { DELETE_WORKOUT } from '../../constants';
+import actions from '../../actions/index';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -79,7 +79,7 @@ const AlphabetWorkoutList = (props) => {
         name={left.name}
         subtext={left.subtext}
         displayEllipses={left.displayEllipses}
-        deleteWorkout={() => dispatch({ type: DELETE_WORKOUT, workoutId: left.id })}
+        deleteWorkout={() => dispatch(actions.workouts.deleteWorkout(left.id))}
         id={left.id}
         color={left.color}
         key={left.name + left.subtext}
@@ -90,7 +90,7 @@ const AlphabetWorkoutList = (props) => {
           name={right.name}
           subtext={right.subtext}
           displayEllipses={right.displayEllipses}
-          deleteWorkout={() => dispatch({ type: DELETE_WORKOUT, workoutId: left.id })}
+          deleteWorkout={() => dispatch(actions.workouts.deleteWorkout(right.id))}
           id={right.id}
           color={right.color}
           key={right.name + right.subtext}

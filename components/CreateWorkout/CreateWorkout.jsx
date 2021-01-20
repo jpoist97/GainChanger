@@ -8,7 +8,7 @@ import * as firebase from 'firebase';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AdjustExercisesList from './AdjustExercisesList';
-import { ADD_WORKOUT } from '../../constants';
+import actions from '../../actions/index';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -131,6 +131,7 @@ export default ({ navigation }) => {
           const newWorkout = {
             name,
             lastPerformed: 'n/a',
+            id: nextWorkoutId,
             muscleGroups: muscleGroups,
             color: itemState[0].color,
             exercises: itemState.map((item) => {
@@ -148,7 +149,7 @@ export default ({ navigation }) => {
             })
           };
           sendWorkoutToDB(newWorkout);
-          dispatch({ type: ADD_WORKOUT, workout: newWorkout });
+          dispatch(actions.workouts.addWorkout(newWorkout));
           navigation.goBack();
         }
       }}
