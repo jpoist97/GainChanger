@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { AntDesign } from '@expo/vector-icons';
-import * as React from 'react';
+import React from 'react';
 import { View, SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector, useDispatch } from 'react-redux';
+import * as firebase from 'firebase';
 import DraggableWorkoutList from './DraggableWorkoutList';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
@@ -38,6 +39,21 @@ const AddCycleButton = styled(PlusButton)`
 `;
 
 export default ({ navigation }) => {
+  const sendCycleToDB = (newCycle) => {
+    const currentUser = firebase.auth().currentUser.uid;
+    // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+
+    const dbRef = firebase.firestore();
+    const userRef = dbRef.collection('users').doc(currentUser);
+    const cycleRef = userRef.collection('cycles');
+
+    newCycle = JSON.parse(JSON.stringify(newCycle, (k, v) => {
+      if (v === undefined) { return null; } return v;
+    })); // This is needed so values can be undefined
+
+    cycleRef.add(newCycle);
+  };
+
   const [name, setName] = React.useState('');
   const [workouts, setWorkouts] = React.useState([]);
   const dispatch = useDispatch();
@@ -46,9 +62,7 @@ export default ({ navigation }) => {
 
   const Stack = createStackNavigator();
   return (
-
     <SafeAreaView style={{ height: '100%' }}>
-
       <BackButton onPress={() => navigation.navigate('Cycles')}>
         <AntDesign name="left" size={30} color="black" />
       </BackButton>
@@ -72,6 +86,7 @@ export default ({ navigation }) => {
             color: workouts[0].color,
             workouts: workouts.map((workout) => workout.id),
           };
+          sendCycleToDB(newCycle);
           dispatch(actions.cycles.addCycle(newCycle));
           navigation.goBack();
         }
