@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
+import 'firebase/firestore';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -63,6 +64,102 @@ const ViewFiller = styled.View`
   height: 15px;
 `;
 
+const pushWorkout = {
+  name: 'Push',
+  muscleGroups: 'Chest Triceps Shoulders',
+  lastPerformed: 'N/A',
+  exercises: [
+    {
+      exerciseId: '6peaHJkFD27icchxAJzD',
+      sets: [
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
+      ],
+    },
+    {
+      exerciseId: '5kSGnmeQOtKHZCX3Omka',
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'C9QDiFEpKx0oZhqdLymp',
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+      ],
+    },
+  ],
+};
+
+const pullWorkout = {
+  name: 'Pull',
+  muscleGroups: 'Back Biceps',
+  lastPerformed: 'N/A',
+  exercises: [
+    {
+      exerciseId: '6zvctw4Ii0dHgBX1eQe6',
+      sets: [
+        { time: 10, weight: null },
+        { time: 10, weight: null },
+        { time: 10, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'An8hwIGvJrMMphdxubUs',
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'X9HKNuWTf5zTHqpobfxS',
+      sets: [
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
+      ],
+    },
+  ],
+};
+
+const legsWorkout = {
+  name: 'Legs',
+  muscleGroups: 'Quads Glutes',
+  lastPerformed: 'N/A',
+  exercises: [
+    {
+      exerciseId: '31ROy02NIqplIBvXoaeB',
+      sets: [
+        { time: 10, weight: null },
+        { time: 10, weight: null },
+        { time: 10, weight: null },
+      ],
+    },
+    {
+      exerciseId: '2TvJvGO8CuxXzxk1D2Si',
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'XzkLscitllVWr1sRrMAk',
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+      ],
+    },
+  ],
+};
+
 const Signup = ({ navigation }) => {
   const [name, setName] = React.useState('');
   const [validName, setValidName] = React.useState(false);
@@ -74,6 +171,8 @@ const Signup = ({ navigation }) => {
   const isFirstRunName = React.useRef(true);
   const isFirstRunEmail = React.useRef(true);
   const isFirstRunPassword = React.useRef(true);
+
+  const db = firebase.firestore();
 
   function ValidateEmail(mail) {
     // eslint-disable-next-line
@@ -108,6 +207,39 @@ const Signup = ({ navigation }) => {
     setValidPassword(!(password.length > 5));
   }, [password]);
 
+  const logCycleData = async (workoutIDs, userRef) => {
+    const cycleData = {
+      name: 'Push, Pull, Legs',
+      workoutIDs,
+    };
+
+    const cyclesDataRef = userRef.collection('cycles').doc();
+
+    const cycleSetData = cyclesDataRef.set(cycleData);
+    const selectedCycleData = userRef.update({ selectedCycleId: cyclesDataRef.id });
+
+    await Promise.all([cycleSetData, selectedCycleData]);
+  };
+
+  const logUserData = async (user) => {
+    const userData = {
+      email: user.email,
+      name: user.displayName,
+      selectedCycleId: '',
+      selectedCycleIndex: 0,
+    };
+
+    const userRef = db.collection('users').doc(user.uid);
+
+    const userDataRef = userRef.set(userData);
+    const workoutData1 = userRef.collection('workouts').doc();
+    const workoutData2 = userRef.collection('workouts').doc();
+    const workoutData3 = userRef.collection('workouts').doc();
+    // eslint-disable-next-line
+    await Promise.all([userDataRef, workoutData1.set(pushWorkout), workoutData2.set(pullWorkout), workoutData3.set(legsWorkout)]);
+    logCycleData([workoutData1.id, workoutData2.id, workoutData3.id], userRef);
+  };
+
   function signupPress() {
     if (name.length > 1) {
       firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -115,7 +247,13 @@ const Signup = ({ navigation }) => {
           user.user.updateProfile({
             displayName: name,
           }).then(() => {
-            navigation.navigate('Root');
+            logUserData(user.user)
+              .then(() => {
+                navigation.navigate('Root');
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           }).catch((error) => {
             console.log('Display name not set.');
             console.log(error);
