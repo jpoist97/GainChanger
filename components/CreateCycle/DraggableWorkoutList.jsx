@@ -3,6 +3,7 @@ import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import ExpandableWorkoutCard from './ExpandableWorkoutCard';
+import { COLORS } from '../../constants';
 
 const DraggableWorkoutList = (props) => {
   const {
@@ -25,7 +26,7 @@ const DraggableWorkoutList = (props) => {
           drag={drag}
           name={item.name}
           muscleGroups={item.muscleGroups}
-          color={item.color}
+          color={COLORS[item.index % COLORS.length]}
           exercises={item.exercises}
         />
       )}

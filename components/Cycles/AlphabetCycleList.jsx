@@ -7,6 +7,7 @@ import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { useDispatch, useSelector } from 'react-redux';
 import CycleCard from './CycleCard';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants/index';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -33,14 +34,18 @@ const parseItems = (items, selectedCycle) => {
   // The second argument here is the initial accumulator, if there is a
   // selected cycle we want that to be in the initial accumulator, if not
   // we want an empty object as the initial accumulator
-  const bucketData = items.reduce((accumulator, item) => {
+  const bucketData = items.reduce((accumulator, item, index) => {
     const bucket = item.name[0].toUpperCase();
+    const newItem = {
+      ...item,
+      index,
+    };
 
     // If this is the first time we've seen this letter, create a bucket
     if (!accumulator[bucket]) {
-      accumulator[bucket] = [item];
+      accumulator[bucket] = [newItem];
     } else {
-      accumulator[bucket].push(item);
+      accumulator[bucket].push(newItem);
     }
 
     return accumulator;
@@ -62,7 +67,7 @@ const AlphabetCycleList = (props) => {
       selectCycle={() => dispatch(actions.cycles.selectCycle(item.id))}
       deleteCycle={() => dispatch(actions.cycles.deleteCycle(item.id))}
       onPress={item.onPress}
-      color={item.color}
+      color={COLORS[item.index % COLORS.length]}
     />
   );
 

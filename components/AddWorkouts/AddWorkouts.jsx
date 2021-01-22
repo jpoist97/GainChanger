@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/core';
 import { useSelector } from 'react-redux';
 import SelectableWorkoutCard from './SelectableWorkoutCard';
 import ModalScreenWrapper from '../utils/ModalScreenWrapper';
+import { COLORS } from '../../constants/index';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -50,14 +51,18 @@ const parseItems = (items) => {
   items.sort((a, b) => a.name.localeCompare(b.name));
 
   // Group by first letter of each name
-  const bucketData = items.reduce((accumulator, item) => {
+  const bucketData = items.reduce((accumulator, item, index) => {
     const bucket = item.name[0].toUpperCase();
+    const newItem = {
+      ...item,
+      index,
+    };
 
     // If this is the first time we've seen this letter, create a bucket
     if (!accumulator[bucket]) {
-      accumulator[bucket] = [item];
+      accumulator[bucket] = [newItem];
     } else {
-      accumulator[bucket].push(item);
+      accumulator[bucket].push(newItem);
     }
     return accumulator;
   }, {});
@@ -110,7 +115,7 @@ const AddWorkouts = (props) => {
         }}
         selected={left.selected}
         displayAddButton={left.displayAddButton}
-        color={left.color}
+        color={COLORS[left.index % COLORS.length]}
         key={left.name + left.subtext}
       />
 
@@ -130,7 +135,7 @@ const AddWorkouts = (props) => {
               : addedWorkouts.splice(addedWorkouts.indexOf(right), 1);
           }}
           displayAddButton={right.displayAddButton}
-          color={right.color}
+          color={COLORS[right.index % COLORS.length]}
           key={right.name + right.subtext}
         />
       ) : (

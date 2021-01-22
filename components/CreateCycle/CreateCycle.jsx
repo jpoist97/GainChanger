@@ -119,7 +119,10 @@ export default ({ navigation }) => {
             onWorkoutsAdd: (selectedWorkouts) => {
               const newWorkouts = [...workouts];
               newWorkouts.push(...selectedWorkouts);
-              setWorkouts(newWorkouts);
+              setWorkouts(newWorkouts.map((workout, index) => ({
+                ...workout,
+                index,
+              })));
             },
           })}
         />
