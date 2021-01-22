@@ -22,5 +22,7 @@ module.exports = {
     'radix': 'off',
     'global-require': 'off',
     'no-param-reassign': 'off',
+    'react/forbid-prop-types': 'off',
+    'react/prop-types': 'off',
   },
 };
