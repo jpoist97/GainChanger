@@ -9,6 +9,30 @@ import {
 import firebase from 'firebase';
 
 export default ({ navigation }) => {
+  const styles = StyleSheet.create({
+    bottomBorder: {
+      borderBottomWidth: 1,
+      borderBottomColor: '#B7B7B7',
+      padding: 2,
+    },
+    cardView: {
+      margin: '8%',
+      height: '62%',
+      paddingLeft: 20,
+      paddingRight: 20,
+      backgroundColor: '#F6F6F6',
+      borderWidth: 3,
+      borderColor: '#5DB075',
+      borderRadius: 10,
+    },
+    HeaderText: {
+      fontSize: 30,
+      color: 'black',
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+  });
+
   const [name, setName] = React.useState('John Doe');
   const [state, setState] = React.useState('6x a week');
   return (
@@ -30,15 +54,15 @@ export default ({ navigation }) => {
             <Text style={styles.HeaderText}>Profile</Text>
           </View>
           <View style={{ width: '25%', height: 50 }}>
-          <Button
+            <Button
               compact
               uppercase={false}
               mode="text"
-              onPress={() => firebase.auth().signOut().then(function() {
-                console.log("sign out successful. Navigating to login...")
+              onPress={() => firebase.auth().signOut().then(() => {
+                console.log('sign out successful. Navigating to login...');
                 navigation.navigate('Login');
-              }).catch(function(error) {
-                Alert.alert("Could not be signed out", error)
+              }).catch((error) => {
+                Alert.alert('Could not be signed out', error);
               })}
             >
               Logout
@@ -79,28 +103,3 @@ export default ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-
-const styles = StyleSheet.create({
-  bottomBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#B7B7B7',
-    padding: 2,
-  },
-  cardView: {
-    margin: '8%',
-    height: '62%',
-    paddingLeft: 20,
-    paddingRight: 20,
-    backgroundColor: '#F6F6F6',
-    borderWidth: 3,
-    borderColor: '#5DB075',
-    borderRadius: 10,
-  },
-  HeaderText: {
-    fontSize: 30,
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});

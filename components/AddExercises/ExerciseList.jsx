@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
 import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';

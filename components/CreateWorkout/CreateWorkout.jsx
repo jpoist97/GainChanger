@@ -78,6 +78,7 @@ export default ({ navigation }) => {
     // For now all exercises will default to reps based exercises
     newItems.push(...selectedExercises.map((exercise) => ({ ...exercise, isReps: true })));
     const newExercise = newItems.map((item, index) => {
+      /* eslint-disable no-param-reassign */
       item.color = colors[index % 3];
       return item;
     });
@@ -95,11 +96,11 @@ export default ({ navigation }) => {
     const userRef = dbRef.collection('users').doc(currentUser);
     const workoutRef = userRef.collection('workouts');
 
-    newWorkout = JSON.parse(JSON.stringify(newWorkout, (k, v) => {
+    const newerWorkout = JSON.parse(JSON.stringify(newWorkout, (k, v) => {
       if (v === undefined) { return null; } return v;
     })); // This is needed so that we can have an undefined weight and color
 
-    workoutRef.add(newWorkout);
+    workoutRef.add(newerWorkout);
   };
 
   return (

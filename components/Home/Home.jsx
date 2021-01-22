@@ -152,6 +152,7 @@ export default () => {
     });
     workoutList.forEach((workout) => {
       if (Number.isNaN(workout.lastPerformed)) {
+        /* eslint-disable no-param-reassign */
         workout.subtext = 'Try for first time!';
       }
     });
