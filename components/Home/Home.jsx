@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import React, { useEffect } from 'react';
 import {
   SafeAreaView, Image, View,
@@ -91,6 +90,7 @@ const retrieveExercises = async (dbRef) => {
 };
 
 export default () => {
+  const dispatch = useDispatch();
   useEffect(() => {
     const initializeDatabase = async () => {
       // Get the current logged in user id
@@ -131,7 +131,6 @@ export default () => {
 
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
-  const dispatch = useDispatch();
 
   // Parse the database response into workoutList
   const workoutList = workouts.map((workout) => ({
