@@ -47,11 +47,10 @@ export default ({ navigation }) => {
     const userRef = dbRef.collection('users').doc(currentUser);
     const cycleRef = userRef.collection('cycles');
 
-    newCycle = JSON.parse(JSON.stringify(newCycle, (k, v) => {
-      if (v === undefined) { return null; } return v;
-    })); // This is needed so values can be undefined
-
-    cycleRef.add(newCycle);
+    cycleRef.add({
+      name: newCycle.name,
+      workoutIds: newCycle.workouts,
+    });
   };
 
   const [name, setName] = React.useState('');
@@ -83,7 +82,6 @@ export default ({ navigation }) => {
           const newCycle = {
             name,
             id: nextCycleId,
-            color: workouts[0].color,
             workouts: workouts.map((workout) => workout.id),
           };
           sendCycleToDB(newCycle);
