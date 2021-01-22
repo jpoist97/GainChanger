@@ -176,6 +176,8 @@ export default () => {
           leftPress={() => { dispatch({ type: DECREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
           rightPress={() => { dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
+          cycleLength = {cycleDetails && cycleDetails.length}
+          selectedCycleIndex = {cycles.selectedCycleIndex}
         />
         <WorkoutSwipeList items={workoutList} style={{ marginLeft: '10%' }} />
       </View>

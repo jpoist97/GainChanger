@@ -6,13 +6,11 @@ import _ from 'lodash';
 import styled from 'styled-components';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
 import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX, } from '../../constants/index';
-import CurrentCycle from '../Home/CurrentCycle';
-
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -55,7 +53,7 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
  *
  */
 const LogWorkout = (props) => {
-  const { route: { params: { workoutId, isSelectedCycle } } } = props;
+  const { route: { params: { workoutId, isSelectedCycle, cycleLength, selectedCycleIndex } } } = props;
 
   // get the workout details from redux based on workoutid
   console.log(`Opening Log Workout for workout id ${workoutId}`);
@@ -86,33 +84,26 @@ const LogWorkout = (props) => {
 
   const dbRef = firebase.firestore();
   const userRef = dbRef.collection('users').doc(currentUser);
+  const dispatch = useDispatch();
 
   const incrementSelectedCycleIdx = () => {
-    // userRef.update({selectedCycleIndex: 2})
-    // userRef.get().then(function(doc) {
-    //       console.log("Document data:", doc.data().selectedCycleIndex);
-    //   } 
-    // )
-    return (
-    <CurrentCycle
-          rightPress={() => { dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength: cycleDetails.length }); }}
-        /> )
+    userRef.update({selectedCycleIndex: selectedCycleIndex})
+    dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
+
   };
 
   const sendWorkoutLogToDB = () => {
 
-    const workoutRecsRef = userRef.collection('workouts').doc(workoutId).collection('workoutRecords');
+    const workoutRecsRef = userRef.collection('workoutRecords');
   
-    //  newWorkoutLog = JSON.parse(JSON.stringify(newWorkoutLog, (k, v) => {
-    //   if (v === undefined) { return null; } return v;
-    // })); // This is needed so values can be undefined
-  
-    //make new object to only return data we need
     const newWorkoutLog = {
+      workoutName: name,
+      workoutId: workoutId,
       date: firebase.firestore.FieldValue.serverTimestamp(),
       exercises: exerciseState.map((exercise) => {
           return {
             exerciseId: exercise.ID,
+            exerciseName: exercise.name,
             sets: exercise.sets.map((set) => {
                 const parsedSet = {
                   weight: set.weight || set.prevWeight,
@@ -120,16 +111,19 @@ const LogWorkout = (props) => {
                 _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], set.duration || set.prevDuration)
                 return parsedSet;
               })
-          }
-
+          }      
       })
-  
     }
-    userRef.collection('workouts').doc(workoutId).update(newWorkoutLog);
-    workoutRecsRef.add(newWorkoutLog);
-  };
 
-  
+    const newWorkoutDoc = {
+      workoutId: newWorkoutLog.workoutId,
+      lastPerformed: newWorkoutLog.date,
+      exercises: newWorkoutLog.exercises,
+    }
+
+    userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); //updates workout doc
+    workoutRecsRef.add(newWorkoutLog); //makes a new workoutRecord
+  }; 
 
   const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {
     const newExercise = [...exerciseState];
@@ -202,7 +196,8 @@ const LogWorkout = (props) => {
       <StyledFinishButton onPress={() => {
         // TODO: Update Redux and database
         sendWorkoutLogToDB();
-        incrementSelectedCycleIdx();
+        if (isSelectedCycle) {incrementSelectedCycleIdx();}
+        
         navigation.goBack();
       }}
       />
