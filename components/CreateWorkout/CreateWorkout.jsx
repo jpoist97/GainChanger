@@ -4,10 +4,11 @@ import * as React from 'react';
 import { Alert, View } from 'react-native';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
+import * as firebase from 'firebase';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AdjustExercisesList from './AdjustExercisesList';
-import { ADD_WORKOUT } from '../../constants';
+import actions from '../../actions/index';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -88,6 +89,20 @@ export default ({ navigation }) => {
     setItemState(exerciseList);
   }
 
+  const sendWorkoutToDB = (newWorkout) => {
+    const currentUser = firebase.auth().currentUser.uid;
+
+    const dbRef = firebase.firestore();
+    const userRef = dbRef.collection('users').doc(currentUser);
+    const workoutRef = userRef.collection('workouts');
+
+    newWorkout = JSON.parse(JSON.stringify(newWorkout, (k, v) => {
+      if (v === undefined) { return null; } return v;
+    })); // This is needed so that we can have an undefined weight and color
+
+    workoutRef.add(newWorkout);
+  };
+
   return (
     <View style={{ height: '100%' }}>
       <View>
@@ -108,29 +123,33 @@ export default ({ navigation }) => {
         } else if (itemState.length === 0) {
           alert('Please add at least one exercise');
         } else {
+          let muscleGroups = itemState[0].muscleGroups; 
+          if (itemState.length >= 2) { // for showing top 2 muscle groups
+            muscleGroups += " ";
+            muscleGroups += itemState[1].muscleGroups;
+          }
           const newWorkout = {
             name,
             lastPerformed: 'n/a',
             id: nextWorkoutId,
-            muscleGroups: itemState[0].muscleGroups,
+            muscleGroups: muscleGroups,
             color: itemState[0].color,
             exercises: itemState.map((item) => {
               const setArr = [];
-              // 3 is the default number of sets
               const sets = item.sets || 3;
-
               for (let i = 0; i < sets; i++) {
-                setArr.push({ weight: undefined, duration: (item.isReps ? item.reps || '10' : item.seconds || '60') });
+                item.isReps ?
+                  setArr.push({ weight: undefined, reps: item.reps || 10 }) :
+                  setArr.push({ weight: undefined, time: item.seconds || 60 })
               }
               return {
-                ...item,
                 sets: setArr,
                 exerciseId: item.id,
               };
-            }),
+            })
           };
-
-          dispatch({ type: ADD_WORKOUT, workout: newWorkout });
+          sendWorkoutToDB(newWorkout);
+          dispatch(actions.workouts.addWorkout(newWorkout));
           navigation.goBack();
         }
       }}

@@ -33,7 +33,7 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
     color: exercise.color,
     type: exerciseType,
     sets: exercise.sets.map((set) => ({
-      prevWeight: set.weight && set.weight.toString(),
+      prevWeight: (set.weight ? set.weight.toString() : 'n/a'),
       weight: '',
       prevDuration: exerciseType === 'REPS' ? set.reps.toString() : set.time.toString(),
       duration: '',

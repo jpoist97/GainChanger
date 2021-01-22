@@ -41,9 +41,7 @@ const SkinnyWorkoutCard = (props) => {
     <StyledView onPress={onPress}>
       <NameText numberOfLines={2}>{name}</NameText>
       <Subtext>
-        {' '}
         {subtext}
-        {' '}
       </Subtext>
     </StyledView>
   );
