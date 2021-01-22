@@ -18,5 +18,9 @@ module.exports = {
     'react',
   ],
   rules: {
+    'max-len': 'off',
+    'radix': 'off',
+    'global-require': 'off',
+    'no-param-reassign': 'off',
   },
 };
