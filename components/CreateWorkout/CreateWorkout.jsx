@@ -138,9 +138,11 @@ export default ({ navigation }) => {
               const setArr = [];
               const sets = item.sets || 3;
               for (let i = 0; i < sets; i += 1) {
-                item.isReps
-                  ? setArr.push({ weight: undefined, reps: item.reps || 10 })
-                  : setArr.push({ weight: undefined, time: item.seconds || 60 });
+                if (item.isReps) {
+                  setArr.push({ weight: undefined, reps: item.reps || 10 });
+                } else {
+                  setArr.push({ weight: undefined, time: item.seconds || 60 });
+                }
               }
               return {
                 sets: setArr,

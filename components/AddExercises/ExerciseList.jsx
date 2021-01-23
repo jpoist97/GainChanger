@@ -18,7 +18,6 @@ const SectionHeader = styled.Text`
   padding-left: 2%;
   background-color: #CAB0FF;
   color: #EFEFEF;
-
 `;
 
 const ButtonContainer = styled(TouchableOpacity)`
@@ -113,10 +112,13 @@ const ExerciseList = (props) => {
         const { selected } = temp[item.name[0]][index];
         temp[item.name[0]][index].selected = !selected;
         setMasterDataSource(temp);
-        (temp[item.name[0]][index].selected === true) ? setExerciseCount(exerciseCount + 1)
-          : setExerciseCount(exerciseCount - 1);
-        (temp[item.name[0]][index].selected === true) ? addedExercises.push(item)
-          : addedExercises.splice(addedExercises.indexOf(item), 1);
+        if (temp[item.name[0]][index].selected === true) {
+          setExerciseCount(exerciseCount + 1);
+          addedExercises.push(item);
+        } else {
+          setExerciseCount(exerciseCount - 1);
+          addedExercises.splice(addedExercises.indexOf(item), 1);
+        }
       }}
     />
   );
