@@ -46,6 +46,10 @@ const SignupButton = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+const DisabledSignupButton = styled(SignupButton)`
+  opacity: .5;
+`;
+
 const ShowText = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   color: #A192FF;
@@ -171,6 +175,7 @@ const Signup = ({ navigation }) => {
   const isFirstRunName = React.useRef(true);
   const isFirstRunEmail = React.useRef(true);
   const isFirstRunPassword = React.useRef(true);
+  const [disableButton, setDisableButton] = React.useState(false);
 
   const db = firebase.firestore();
 
@@ -244,6 +249,7 @@ const Signup = ({ navigation }) => {
     if (name.length > 1) {
       firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {
+          setDisableButton(true);
           user.user.updateProfile({
             displayName: name,
           }).then(() => {
@@ -260,6 +266,7 @@ const Signup = ({ navigation }) => {
           });
         })
         .catch((error) => {
+          setDisableButton(false);
           const errorMessage = error.message;
           Alert.alert('Error:', errorMessage);
         });
@@ -316,14 +323,26 @@ const Signup = ({ navigation }) => {
         <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
       </View>
       {validPassword ? <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Password must be more than 6 characters.</ErrorText></View> : <ViewFiller />}
-      <SignupButton
-        uppercase={false}
-        mode="contained"
-        dark
-        onPress={signupPress}
-      >
-        <SignupText>Signup</SignupText>
-      </SignupButton>
+      {!disableButton
+        ? (
+          <SignupButton
+            uppercase={false}
+            mode="contained"
+            onPress={signupPress}
+          >
+            <SignupText>Signup</SignupText>
+          </SignupButton>
+        )
+        : (
+          <DisabledSignupButton
+            disabled={disableButton}
+            uppercase={false}
+            mode="contained"
+            onPress={signupPress}
+          >
+            <SignupText>Signup</SignupText>
+          </DisabledSignupButton>
+        )}
       <Button
         uppercase={false}
         mode="text"
