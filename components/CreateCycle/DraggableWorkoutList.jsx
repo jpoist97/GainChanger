@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import ExpandableWorkoutCard from './ExpandableWorkoutCard';
@@ -36,11 +35,6 @@ const DraggableWorkoutList = (props) => {
 DraggableWorkoutList.propTypes = {
   workouts: PropTypes.array.isRequired,
   passWorkoutList: PropTypes.func.isRequired,
-};
-
-DraggableWorkoutList.defaultProps = {
-  workouts: [],
-  passWorkoutList: () => {},
 };
 
 export default DraggableWorkoutList;
