@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import React, { useEffect } from 'react';
 import {
   SafeAreaView, Image, View,
@@ -91,6 +90,7 @@ const retrieveExercises = async (dbRef) => {
 };
 
 export default () => {
+  const dispatch = useDispatch();
   useEffect(() => {
     const initializeDatabase = async () => {
       // Get the current logged in user id
@@ -131,7 +131,6 @@ export default () => {
 
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
-  const dispatch = useDispatch();
 
   // Parse the database response into workoutList
   const workoutList = workouts.map((workout) => ({
@@ -144,15 +143,16 @@ export default () => {
 
   // Filter the workout list to show only the 5 most recently performed workouts
   // If less than 5, display all workouts
-  const filterWorkoutListForDisplay = (workoutList) => {
+  const filterWorkoutListForDisplay = () => {
     workoutList.sort((a, b) => {
-      if (isNaN(a.lastPerformed)) return 1;
-      if (isNaN(b.lastPerformed)) return -1;
-      if (a.lastPerformed == b.lastPerformed) return 0;
+      if (Number.isNaN(a.lastPerformed)) return 1;
+      if (Number.isNaN(b.lastPerformed)) return -1;
+      if (a.lastPerformed === b.lastPerformed) return 0;
       return (a.lastPerformed > b.lastPerformed ? 1 : -1);
     });
     workoutList.forEach((workout) => {
-      if (isNaN(workout.lastPerformed)) {
+      if (Number.isNaN(workout.lastPerformed)) {
+        /* eslint-disable no-param-reassign */
         workout.subtext = 'Try for first time!';
       }
     });

@@ -288,7 +288,6 @@ const Signup = ({ navigation }) => {
       <SubTitle>Signup</SubTitle>
       <Image
         style={{ width: 250, height: 250 }}
-          /* eslint-disable global-require */
         source={require('../../assets/logo.png')}
       />
       <InputLine
