@@ -159,7 +159,6 @@ const Login = ({ navigation }) => {
           <LoginButton
             uppercase={false}
             mode="contained"
-            dark
             onPress={loginPress}
           >
             <LoginText>Login</LoginText>
@@ -167,9 +166,9 @@ const Login = ({ navigation }) => {
         )
         : (
           <DisableLoginButton
+            disabled={disableButton}
             uppercase={false}
             mode="contained"
-            dark
             onPress={loginPress}
           >
             <LoginText>Login</LoginText>

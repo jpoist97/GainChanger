@@ -327,10 +327,8 @@ const Signup = ({ navigation }) => {
       {!disableButton
         ? (
           <SignupButton
-            disabled={disableButton}
             uppercase={false}
             mode="contained"
-            dark
             onPress={signupPress}
           >
             <SignupText>Signup</SignupText>
@@ -341,7 +339,6 @@ const Signup = ({ navigation }) => {
             disabled={disableButton}
             uppercase={false}
             mode="contained"
-            dark
             onPress={signupPress}
           >
             <SignupText>Signup</SignupText>
