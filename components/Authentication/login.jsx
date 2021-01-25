@@ -76,11 +76,17 @@ const Login = ({ navigation }) => {
     return (false);
   }
 
+  function clearFields () {
+    setEmail('');
+    setPassword('');
+  }
+
   function loginPress() {
     setDisableButton(true);
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
         setDisableButton(false);
+        clearFields();
         navigation.navigate('Root');
       })
       .catch((error) => {
