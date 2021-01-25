@@ -1,4 +1,4 @@
-import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT } from '../constants/index';
+import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, UPDATE_WORKOUT_PREV } from '../constants/index';
 
 const initialState = {
    workouts: [],
@@ -24,6 +24,12 @@ const workoutReducer = (state = initialState, action) => {
          return {
             workouts: postDeleteWorkout,
          }
+      case UPDATE_WORKOUT_PREV:
+         console.log(`Updating workout's prev details in store ${action.workout}`);
+         newWorkouts.update(action.workout)
+         return {
+            workouts: newWorkouts,
+         };
       default:
          return state;
    }

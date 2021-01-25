@@ -11,6 +11,7 @@ import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
 import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX, } from '../../constants/index';
+import actions from '../../actions/index';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -122,6 +123,7 @@ const LogWorkout = (props) => {
     }
 
     userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); //updates workout doc
+    // dispatch(actions.workouts.updateWorkoutPrev(newWorkoutDoc)); //rerenders workout to show update prev details
     workoutRecsRef.add(newWorkoutLog); //makes a new workoutRecord
   }; 
 

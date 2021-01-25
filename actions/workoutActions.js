@@ -1,4 +1,4 @@
-import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT } from '../constants/index';
+import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, UPDATE_WORKOUT_PREV } from '../constants/index';
 
 const initializeWorkouts = (workouts) => {
    return {
@@ -21,8 +21,16 @@ const deleteWorkout = (workoutId) => {
    }
 }
 
+const updateWorkoutPrev = (workout) => {
+   return {
+      type: UPDATE_WORKOUT_PREV,
+      workout,
+   }
+}
+
 export default {
    initializeWorkouts,
    addWorkout,
    deleteWorkout,
+   updateWorkoutPrev,
 };
