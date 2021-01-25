@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
 import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import * as firebase from 'firebase';
@@ -79,6 +78,7 @@ export default ({ navigation }) => {
     // For now all exercises will default to reps based exercises
     newItems.push(...selectedExercises.map((exercise) => ({ ...exercise, isReps: true })));
     const newExercise = newItems.map((item, index) => {
+      /* eslint-disable no-param-reassign */
       item.color = colors[index % 3];
       return item;
     });
@@ -96,11 +96,11 @@ export default ({ navigation }) => {
     const userRef = dbRef.collection('users').doc(currentUser);
     const workoutRef = userRef.collection('workouts');
 
-    newWorkout = JSON.parse(JSON.stringify(newWorkout, (k, v) => {
+    const newerWorkout = JSON.parse(JSON.stringify(newWorkout, (k, v) => {
       if (v === undefined) { return null; } return v;
     })); // This is needed so that we can have an undefined weight and color
 
-    workoutRef.add(newWorkout);
+    workoutRef.add(newerWorkout);
   };
 
   return (
@@ -123,30 +123,32 @@ export default ({ navigation }) => {
         } else if (itemState.length === 0) {
           alert('Please add at least one exercise');
         } else {
-          let muscleGroups = itemState[0].muscleGroups; 
+          let { muscleGroups } = itemState[0];
           if (itemState.length >= 2) { // for showing top 2 muscle groups
-            muscleGroups += " ";
+            muscleGroups += ' ';
             muscleGroups += itemState[1].muscleGroups;
           }
           const newWorkout = {
             name,
             lastPerformed: 'n/a',
             id: nextWorkoutId,
-            muscleGroups: muscleGroups,
+            muscleGroups,
             color: itemState[0].color,
             exercises: itemState.map((item) => {
               const setArr = [];
               const sets = item.sets || 3;
-              for (let i = 0; i < sets; i++) {
-                item.isReps ?
-                  setArr.push({ weight: undefined, reps: item.reps || 10 }) :
-                  setArr.push({ weight: undefined, time: item.seconds || 60 })
+              for (let i = 0; i < sets; i += 1) {
+                if (item.isReps) {
+                  setArr.push({ weight: undefined, reps: item.reps || 10 });
+                } else {
+                  setArr.push({ weight: undefined, time: item.seconds || 60 });
+                }
               }
               return {
                 sets: setArr,
                 exerciseId: item.id,
               };
-            })
+            }),
           };
           sendWorkoutToDB(newWorkout);
           dispatch(actions.workouts.addWorkout(newWorkout));

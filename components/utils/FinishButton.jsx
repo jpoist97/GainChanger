@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';

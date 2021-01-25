@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import React, { useRef } from 'react';
 import {
   View, Text, TouchableOpacity, Animated,

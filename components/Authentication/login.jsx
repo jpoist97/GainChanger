@@ -45,6 +45,10 @@ const LoginButton = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+const DisableLoginButton = styled(LoginButton)`
+  opacity: .5;
+`;
+
 const ShowText = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   color: #A192FF;
@@ -61,6 +65,7 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [hidePassword, setHidePassword] = React.useState(true);
+  const [disableButton, setDisableButton] = React.useState(false);
 
   function ValidateEmail(mail) {
     // eslint-disable-next-line
@@ -72,11 +77,13 @@ const Login = ({ navigation }) => {
   }
 
   function loginPress() {
+    setDisableButton(true);
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
         navigation.navigate('Root');
       })
       .catch((error) => {
+        setDisableButton(false);
         const errorMessage = error.message;
         Alert.alert('Error:', errorMessage);
       });
@@ -110,7 +117,6 @@ const Login = ({ navigation }) => {
       <SubTitle>Login</SubTitle>
       <Image
         style={{ width: 250, height: 250 }}
-          /* eslint-disable global-require */
         source={require('../../assets/logo.png')}
       />
       <InputLine
@@ -147,14 +153,26 @@ const Login = ({ navigation }) => {
         </Button>
       </View>
       <ViewFiller />
-      <LoginButton
-        uppercase={false}
-        mode="contained"
-        dark
-        onPress={loginPress}
-      >
-        <LoginText>Login</LoginText>
-      </LoginButton>
+      {!disableButton
+        ? (
+          <LoginButton
+            uppercase={false}
+            mode="contained"
+            onPress={loginPress}
+          >
+            <LoginText>Login</LoginText>
+          </LoginButton>
+        )
+        : (
+          <DisableLoginButton
+            disabled={disableButton}
+            uppercase={false}
+            mode="contained"
+            onPress={loginPress}
+          >
+            <LoginText>Login</LoginText>
+          </DisableLoginButton>
+        )}
       <Button
         uppercase={false}
         mode="text"

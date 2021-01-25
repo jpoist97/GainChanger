@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types, react/no-array-index-key */
 import React, { useState } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
