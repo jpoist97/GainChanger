@@ -3,6 +3,27 @@ import { View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 
+const testSets = [
+  {
+      exerciseID: 'blabla1',
+      previous: '135',
+      lbs: '135',
+      reps: '135',
+  },
+  {
+      exerciseID: 'blabla2',
+      previous: '135',
+      lbs: '135',
+      reps: '135',
+  },
+  {
+      exerciseID: 'blabla3',
+      previous: '135',
+      lbs: '135',
+      reps: '135',
+  }
+]
+
 // eslint-disable-next-line no-unused-vars
 const CalendarView = (props) => {
 
@@ -33,6 +54,7 @@ const CalendarView = (props) => {
       onDayPress={(day) => {console.log('selected day', day["dateString"])}} //CHANGE TO SHOW RECORD COMPONENT
       enableSwipeMonths={true}
     />
+    <CalendarWorkoutCard sets={testSets} name={'testing'}/>
   </View>
   )
 };

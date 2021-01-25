@@ -1,9 +1,11 @@
+import { string } from 'prop-types';
 import * as React from 'react';
 import { View, Text} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import styled from 'styled-components';
 
 const RowText = styled.View`
+    width: 100%;
     flexDirection: row;
     alignContent: center;    
     alignItems: center;
@@ -13,12 +15,12 @@ const RowText = styled.View`
 
 const WorkoutTitle = styled.Text`
     font-family: 'Montserrat_500Medium';
-    font-size: 24;
+    font-size: 24px;
     color: #FFFFFF;
 `;
 
 const SubHeader = styled(WorkoutTitle)`
-    font-size: 16;
+    font-size: 16px;
 `;
 
 const WorkoutViewText = styled(WorkoutTitle)`
@@ -30,7 +32,7 @@ const WorkoutViewText = styled(WorkoutTitle)`
 
 const Container = styled.View`
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     background-color: #CAB0FF;
     width: 90%;
     margin: auto;
@@ -47,13 +49,18 @@ const CalendarWorkoutCard = (props) => {
         name, sets, isReps
     } = props;
 
-    const SetRow = () => {
+    const SetRow = (props) => {
+
+        const {
+            index, previous, lbs, reps
+        } = props;
+
         return (
             <RowText>
-                <WorkoutViewText>1</WorkoutViewText>
-                <WorkoutViewText>135 lbs.</WorkoutViewText>
-                <WorkoutViewText>135 lbs.</WorkoutViewText>
-                <WorkoutViewText>10</WorkoutViewText>
+                <WorkoutViewText>{index}</WorkoutViewText>
+                <WorkoutViewText>{previous}</WorkoutViewText>
+                <WorkoutViewText>{lbs}</WorkoutViewText>
+                <WorkoutViewText>{reps}</WorkoutViewText>
             </RowText>
         )
     };
@@ -67,7 +74,17 @@ const CalendarWorkoutCard = (props) => {
                 <SubHeader>lbs</SubHeader>
                 <SubHeader>Reps</SubHeader>
             </RowText>
-            <SetRow />
+            <FlatList
+                //sets prop should be the sets within each specific workout
+                //can get the name by looking in 'exercises' for matching exerciseID and then grab the name
+                data={sets}
+                keyExtractor={(item) => item.exerciseID}
+                renderItem={({item, index}) => {
+                    return(
+                        <SetRow index={index+1} previous={item.previous} lbs={item.lbs} reps={item.reps}/>
+                    )
+                }}
+            />
         </Container>
     )
 };
