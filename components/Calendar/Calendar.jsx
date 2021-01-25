@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import CalendarWorkoutCard from './CalendarWorkoutCard';
 
 // eslint-disable-next-line no-unused-vars
-export default (props) => (
+const CalendarView = (props) => {
+
+  return (
   <View style={{ flex: 1, justifyContent: 'center', height: 500}}>
     <Calendar
       // Specify style for calendar container element. Default = {}
@@ -31,4 +34,7 @@ export default (props) => (
       enableSwipeMonths={true}
     />
   </View>
-);
+  )
+};
+
+export default CalendarView;
