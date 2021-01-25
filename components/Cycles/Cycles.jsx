@@ -29,7 +29,7 @@ export default () => {
   function Cycles() {
     return (
       <SafeAreaView style={{ height: '100%' }}>
-        <AllCycles items={items} selectedCycle={selectedCycle} />
+        <AlphabetCycleList items={allCycles} selectedCycle={selectedCycle} />
         <AddCycleButton title="Cycle" size={18} onPress={() => navigation.navigate('Create Cycle')} />
       </SafeAreaView>
     );
@@ -44,12 +44,4 @@ export default () => {
       </Stack.Navigator>
     </SafeAreaView>
   );
-  function Cycles() {
-    return (
-      <SafeAreaView style={{ height: '100%' }}>
-        <AlphabetCycleList items={allCycles} selectedCycle={selectedCycle} />
-        <AddCycleButton title="Cycle" size={18} onPress={() => navigation.navigate('Create Cycle')} />
-      </SafeAreaView>
-    );
-  }
 };

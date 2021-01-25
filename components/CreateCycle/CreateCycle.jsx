@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector, useDispatch } from 'react-redux';
@@ -60,6 +59,33 @@ export default ({ navigation }) => {
   const nextCycleId = allCycles[allCycles.length - 1].id + 1;
 
   const Stack = createStackNavigator();
+
+  function updateOrder(workoutList) {
+    setWorkouts(workoutList);
+  }
+
+  function CreateCycle() {
+    return (
+      <SafeAreaView style={{ height: '100%' }}>
+        <DraggableWorkoutList
+          passWorkoutList={updateOrder}
+          workouts={workouts}
+        />
+        <AddCycleButton
+          title=" Add Workouts "
+          size={18}
+          onPress={() => navigation.navigate('Add Workouts', {
+            onWorkoutsAdd: (selectedWorkouts) => {
+              const newWorkouts = [...workouts];
+              newWorkouts.push(...selectedWorkouts);
+              setWorkouts(newWorkouts);
+            },
+          })}
+        />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{ height: '100%' }}>
       <BackButton onPress={() => navigation.navigate('Cycles')}>
@@ -98,30 +124,4 @@ export default ({ navigation }) => {
 
     </SafeAreaView>
   );
-
-  function updateOrder(workoutList) {
-    setWorkouts(workoutList);
-  }
-
-  function CreateCycle() {
-    return (
-      <SafeAreaView style={{ height: '100%' }}>
-        <DraggableWorkoutList
-          passWorkoutList={updateOrder}
-          workouts={workouts}
-        />
-        <AddCycleButton
-          title=" Add Workouts "
-          size={18}
-          onPress={() => navigation.navigate('Add Workouts', {
-            onWorkoutsAdd: (selectedWorkouts) => {
-              const newWorkouts = [...workouts];
-              newWorkouts.push(...selectedWorkouts);
-              setWorkouts(newWorkouts);
-            },
-          })}
-        />
-      </SafeAreaView>
-    );
-  }
 };
