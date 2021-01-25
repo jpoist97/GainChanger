@@ -1,10 +1,9 @@
-/* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CycleCard from './CycleCard';
 import actions from '../../actions/index';
 import { COLORS } from '../../constants/index';

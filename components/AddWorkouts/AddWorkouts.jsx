@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
@@ -107,11 +106,13 @@ const AddWorkouts = (props) => {
           const { selected } = temp[left.name[0].toUpperCase()][index].left;
           temp[left.name[0].toUpperCase()][index].left.selected = !selected;
           setWorkoutsList(temp);
-
-          (temp[left.name[0].toUpperCase()][index].left.selected === true) ? setWorkoutCount(workoutCount + 1)
-            : setWorkoutCount(workoutCount - 1);
-          (temp[left.name[0].toUpperCase()][index].left.selected === true) ? addedWorkouts.push(left)
-            : addedWorkouts.splice(addedWorkouts.indexOf(left), 1);
+          if (temp[left.name[0].toUpperCase()][index].left.selected === true) {
+            setWorkoutCount(workoutCount + 1);
+            addedWorkouts.push(left);
+          } else {
+            setWorkoutCount(workoutCount - 1);
+            addedWorkouts.splice(addedWorkouts.indexOf(left), 1);
+          }
         }}
         selected={left.selected}
         displayAddButton={left.displayAddButton}
@@ -129,10 +130,13 @@ const AddWorkouts = (props) => {
             const { selected } = temp[right.name[0].toUpperCase()][index].right;
             temp[right.name[0].toUpperCase()][index].right.selected = !selected;
             setWorkoutsList(temp);
-            (temp[right.name[0].toUpperCase()][index].right.selected === true) ? setWorkoutCount(workoutCount + 1)
-              : setWorkoutCount(workoutCount - 1);
-            (temp[right.name[0].toUpperCase()][index].right.selected === true) ? addedWorkouts.push(right)
-              : addedWorkouts.splice(addedWorkouts.indexOf(right), 1);
+            if (temp[right.name[0].toUpperCase()][index].right.selected === true) {
+              setWorkoutCount(workoutCount + 1);
+              addedWorkouts.push(right);
+            } else {
+              setWorkoutCount(workoutCount - 1);
+              addedWorkouts.splice(addedWorkouts.indexOf(right), 1);
+            }
           }}
           displayAddButton={right.displayAddButton}
           color={COLORS[right.index % COLORS.length]}

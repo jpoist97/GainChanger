@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types, react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
@@ -49,7 +48,6 @@ const ExerciseDetails = (props) => {
           onSetDelete={onSetDelete(index)}
           completed={set.completed}
           setNumber={index + 1}
-          key={index}
         />
       ))}
       <ButtonFlexContainer>

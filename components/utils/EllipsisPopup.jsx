@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types, react/no-array-index-key */
 import React from 'react';
 import { Text } from 'react-native';
 import {
@@ -50,6 +49,7 @@ const EllipsisPopup = (props) => {
       }}
       >
         {options.map((option, index) => (
+          /* eslint-disable react/no-array-index-key */
           <MenuOption key={option.text + index} onSelect={option.onPress}>
             <Text>
               <IconWrapper>{ICON_MAP[option.icon]}</IconWrapper>

@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define, react/prop-types */
 import * as React from 'react';
 import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
@@ -27,14 +26,6 @@ export default ({ navigation }) => {
 
   const Stack = createStackNavigator();
 
-  return ( // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
-    <SafeAreaView style={{ height: '100%' }}>
-      <Stack.Navigator initialRouteName="Workouts">
-        <Stack.Screen name="Workouts" component={Workouts} options={{ headerShown: false }} />
-        <Stack.Screen name="Create Workout" component={CreateWorkout} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </SafeAreaView>
-  );
   function Workouts() {
     return (
       <SafeAreaView style={{ height: '100%' }}>
@@ -43,4 +34,13 @@ export default ({ navigation }) => {
       </SafeAreaView>
     );
   }
+
+  return ( // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
+    <SafeAreaView style={{ height: '100%' }}>
+      <Stack.Navigator initialRouteName="Workouts">
+        <Stack.Screen name="Workouts" component={Workouts} options={{ headerShown: false }} />
+        <Stack.Screen name="Create Workout" component={CreateWorkout} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </SafeAreaView>
+  );
 };
