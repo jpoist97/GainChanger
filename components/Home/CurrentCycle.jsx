@@ -37,7 +37,7 @@ const ArrowButton = styled(AntDesign)`
 
 const CurrentCycle = (props) => {
   const {
-    color, subtext, name, leftPress, rightPress, id, cycleLength, selectedCycleIndex, isCycleSelected,
+    color, subtext, name, leftPress, rightPress, id, cycleLength, selectedCycleIndex, isCycleSelected
   } = props;
 
   const navigation = useNavigation();

@@ -21,11 +21,10 @@ const deleteWorkout = (workoutId) => {
    }
 }
 
-const updateWorkoutPrev = (workout, workoutId) => {
+const updateWorkoutPrev = (workout) => {
    return {
       type: UPDATE_WORKOUT_PREV,
       workout,
-      workoutId,
    }
 }
 

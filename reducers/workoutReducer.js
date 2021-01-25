@@ -31,10 +31,10 @@ const workoutReducer = (state = initialState, action) => {
          console.log(`Updating workout's prev details in store ${action.workout.workoutId}`);
          return {
             workouts: state.workouts.map((workoutEle) => {
-               if (workoutEle.id == action.workoutId) {
-                  console.log(...workoutEle)
+               if (workoutEle.id == action.workout.workoutId) {
+                  console.log('boi');
                   return {
-                     ...workoutEle, 
+                     workoutEle, 
                   }
                } 
                else {
