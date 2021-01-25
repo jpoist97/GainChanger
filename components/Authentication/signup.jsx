@@ -215,7 +215,7 @@ const Signup = ({ navigation }) => {
   const logCycleData = async (workoutIDs, userRef) => {
     const cycleData = {
       name: 'Push, Pull, Legs',
-      workoutIDs,
+      workoutIds: workoutIDs,
     };
 
     const cyclesDataRef = userRef.collection('cycles').doc();

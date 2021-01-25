@@ -4,9 +4,11 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { useDispatch } from 'react-redux';
+import * as firebase from 'firebase';
 import CycleCard from './CycleCard';
 import actions from '../../actions/index';
 import { COLORS } from '../../constants/index';
+import 'firebase/firestore';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -63,8 +65,17 @@ const AlphabetCycleList = (props) => {
     <CycleCard
       name={item.name}
       subtext={item.subtext}
-      selectCycle={() => dispatch(actions.cycles.selectCycle(item.id))}
-      deleteCycle={() => dispatch(actions.cycles.deleteCycle(item.id))}
+      selectCycle={() => {
+        const currentUser = firebase.auth().currentUser.uid;
+        firebase.firestore().collection('users').doc(currentUser).update({
+          selectedCycleId: item.id,
+          selectedCycleIndex: 0,
+        });
+        dispatch(actions.cycles.selectCycle(item.id));
+      }}
+      deleteCycle={() => {
+        dispatch(actions.cycles.deleteCycle(item.id));
+      }}
       onPress={item.onPress}
       color={COLORS[item.index % COLORS.length]}
     />
