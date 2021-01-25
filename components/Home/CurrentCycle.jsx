@@ -93,7 +93,7 @@ CurrentCycle.propTypes = {
   leftPress: PropTypes.func,
   rightPress: PropTypes.func,
   id: PropTypes.string,
-  isCycleSelected: PropTypes.bool,
+  isCycleSelected: PropTypes.bool.isRequired,
 };
 
 CurrentCycle.defaultProps = {
@@ -103,7 +103,6 @@ CurrentCycle.defaultProps = {
   id: undefined,
   leftPress: () => {},
   rightPress: () => {},
-  isCycleSelected: false,
 };
 
 export default CurrentCycle;
