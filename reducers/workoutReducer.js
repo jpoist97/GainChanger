@@ -14,6 +14,9 @@ const workoutReducer = (state = initialState, action) => {
       case ADD_WORKOUT:
          console.log(`Adding workout to store with ${action.workout}`);
          const newWorkouts = [...state.workouts];
+         newWorkouts.map((workoutEle) => {
+            console.log(workoutEle.id)
+         })
          newWorkouts.push(action.workout);
          return {
             workouts: newWorkouts,
@@ -25,11 +28,20 @@ const workoutReducer = (state = initialState, action) => {
             workouts: postDeleteWorkout,
          }
       case UPDATE_WORKOUT_PREV:
-         console.log(`Updating workout's prev details in store ${action.workout}`);
-         newWorkouts.update(action.workout)
+         console.log(`Updating workout's prev details in store ${action.workout.workoutId}`);
          return {
-            workouts: newWorkouts,
-         };
+            workouts: state.workouts.map((workoutEle) => {
+               if (workoutEle.id == action.workoutId) {
+                  console.log(...workoutEle)
+                  return {
+                     ...workoutEle, 
+                  }
+               } 
+               else {
+                  return workoutEle;
+               }
+            }),
+         }
       default:
          return state;
    }

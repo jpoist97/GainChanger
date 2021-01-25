@@ -55,13 +55,13 @@ const retrieveCycles = async (userRef) => {
   const cycleSnapshot = await cycleRef.get();
 
   cycleSnapshot.forEach((doc) => {
-    const { workoutIDs, name } = doc.data();
+    const { workoutIds, name } = doc.data();
 
-    if (workoutIDs && name) {
+    if (workoutIds && name) {
       cycles.push({
         id: doc.id,
         name,
-        workouts: workoutIDs,
+        workouts: workoutIds,
       });
     }
   });
@@ -188,8 +188,12 @@ export default () => {
           leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
           rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
+<<<<<<< HEAD
           cycleLength = {cycleDetails && cycleDetails.length}
           selectedCycleIndex = {cycles.selectedCycleIndex}
+=======
+          isCycleSelected={cycleDetails !== undefined}
+>>>>>>> 9e79805378f64a2e5787ed8b6aba7af4f5490d16
         />
         <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />
       </View>
