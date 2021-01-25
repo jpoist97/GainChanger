@@ -80,6 +80,7 @@ const Login = ({ navigation }) => {
     setDisableButton(true);
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
+        setDisableButton(false);
         navigation.navigate('Root');
       })
       .catch((error) => {
