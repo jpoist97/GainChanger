@@ -218,10 +218,10 @@ const LogWorkout = (props) => {
 };
 
 LogWorkout.propTypes = {
+  isSelectedCycle: PropTypes.bool,
   route: PropTypes.shape({
     params: PropTypes.shape({
       workoutId: PropTypes.string.isRequired,
-      isSelectedCycle: PropTypes.bool,
     }),
   }).isRequired,
 };
