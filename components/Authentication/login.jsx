@@ -76,7 +76,7 @@ const Login = ({ navigation }) => {
     return (false);
   }
 
-  function clearFields () {
+  function clearFields() {
     setEmail('');
     setPassword('');
   }
