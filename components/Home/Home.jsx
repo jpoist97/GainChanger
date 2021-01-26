@@ -94,8 +94,8 @@ export default () => {
   useEffect(() => {
     const initializeDatabase = async () => {
       // Get the current logged in user id
-      // const currentUser = firebase.auth().currentUser.uid;
-      const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+      const currentUser = firebase.auth().currentUser.uid;
+      // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
       const dbRef = firebase.firestore();
       const userRef = dbRef.collection('users').doc(currentUser);
@@ -188,8 +188,8 @@ export default () => {
           leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
           rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
-          cycleLength = {cycleDetails && cycleDetails.length}
-          selectedCycleIndex = {cycles.selectedCycleIndex}
+          cycleLength={cycleDetails && cycleDetails.length}
+          selectedCycleIndex={cycles.selectedCycleIndex}
           isCycleSelected={cycleDetails !== undefined}
         />
         <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />

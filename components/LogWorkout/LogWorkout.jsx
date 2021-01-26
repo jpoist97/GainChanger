@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
-import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX, } from '../../constants/index';
+import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX } from '../../constants/index';
 import actions from '../../actions/index';
 
 const StyledFinishButton = styled(FinishButton)`
@@ -53,7 +53,13 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
  *
  */
 const LogWorkout = (props) => {
-  const { route: { params: { workoutId, isSelectedCycle, cycleLength, selectedCycleIndex } } } = props;
+  const {
+    route: {
+      params: {
+        workoutId, isSelectedCycle, cycleLength, selectedCycleIndex,
+      },
+    },
+  } = props;
 
   // get the workout details from redux based on workoutid
   console.log(`Opening Log Workout for workout id ${workoutId}`);
@@ -79,52 +85,48 @@ const LogWorkout = (props) => {
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
 
-  // const currentUser = firebase.auth().currentUser.uid;
-  const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+  const currentUser = firebase.auth().currentUser.uid;
+  // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
   const dbRef = firebase.firestore();
   const userRef = dbRef.collection('users').doc(currentUser);
   const dispatch = useDispatch();
 
   const incrementSelectedCycleIdx = () => {
-    userRef.update({selectedCycleIndex: selectedCycleIndex})
+    userRef.update({ selectedCycleIndex });
     dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
-
   };
 
   const sendWorkoutLogToDB = () => {
-
     const workoutRecsRef = userRef.collection('workoutRecords');
-  
+
     const newWorkoutLog = {
       workoutName: name,
-      workoutId: workoutId,
+      workoutId,
       date: firebase.firestore.FieldValue.serverTimestamp(),
-      exercises: exerciseState.map((exercise) => {
-          return {
-            exerciseId: exercise.ID,
-            exerciseName: exercise.name,
-            sets: exercise.sets.map((set) => {
-                const parsedSet = {
-                  weight: set.weight || set.prevWeight,
-                }
-                _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], set.duration || set.prevDuration)
-                return parsedSet;
-              })
-          }      
-      })
-    }
+      exercises: exerciseState.map((exercise) => ({
+        exerciseId: exercise.ID,
+        exerciseName: exercise.name,
+        sets: exercise.sets.map((set) => {
+          const parsedSet = {
+            weight: set.weight || set.prevWeight,
+          };
+          _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], set.duration || set.prevDuration);
+          return parsedSet;
+        }),
+      })),
+    };
 
     const newWorkoutDoc = {
       workoutId: newWorkoutLog.workoutId,
       lastPerformed: newWorkoutLog.date,
       exercises: newWorkoutLog.exercises,
-    }
+    };
 
-    userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); //updates workout doc
-    dispatch(actions.workouts.updateWorkoutPrev(newWorkoutDoc)); //rerenders workout to show update prev details
-    workoutRecsRef.add(newWorkoutLog); //makes a new workoutRecord
-  }; 
+    userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); // updates workout doc
+    dispatch(actions.workouts.updateWorkoutPrev(newWorkoutDoc)); // rerenders workout to show update prev details
+    workoutRecsRef.add(newWorkoutLog); // makes a new workoutRecord
+  };
 
   const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {
     const newExercise = [...exerciseState];
@@ -197,8 +199,8 @@ const LogWorkout = (props) => {
       <StyledFinishButton onPress={() => {
         // TODO: Update Redux and database
         sendWorkoutLogToDB();
-        if (isSelectedCycle) {incrementSelectedCycleIdx();}
-        
+        if (isSelectedCycle) { incrementSelectedCycleIdx(); }
+
         navigation.goBack();
       }}
       />

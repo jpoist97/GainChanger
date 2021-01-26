@@ -29,19 +29,22 @@ const workoutReducer = (state = initialState, action) => {
          }
       case UPDATE_WORKOUT_PREV:
          console.log(`Updating workout's prev details in store ${action.workout.workoutId}`);
+         const newW = state.workouts.map((workoutEle) => {
+            if (workoutEle.id == action.workout.workoutId) {
+               return {
+                  ...workoutEle,
+                  exercises: action.workout.exercises,
+                  lastPerformed: 0,
+               };
+            } 
+            else {
+               return workoutEle;
+            }
+         });
          return {
-            workouts: state.workouts.map((workoutEle) => {
-               if (workoutEle.id == action.workout.workoutId) {
-                  console.log('boi');
-                  return {
-                     workoutEle, 
-                  }
-               } 
-               else {
-                  return workoutEle;
-               }
-            }),
+            workouts: newW
          }
+         
       default:
          return state;
    }
