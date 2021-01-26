@@ -28,7 +28,7 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
   const exerciseType = exercise.sets[0].reps ? 'REPS' : 'SECS';
 
   return {
-    ID: exercise.exerciseId,
+    id: exercise.exerciseId,
     name: exercise.name,
     color: exercise.color,
     type: exerciseType,
@@ -105,7 +105,7 @@ const LogWorkout = (props) => {
       workoutId,
       date: firebase.firestore.FieldValue.serverTimestamp(),
       exercises: exerciseState.map((exercise) => ({
-        exerciseId: exercise.ID,
+        exerciseId: exercise.id,
         exerciseName: exercise.name,
         sets: exercise.sets.map((set) => {
           const parsedSet = {
