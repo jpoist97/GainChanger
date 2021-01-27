@@ -76,12 +76,10 @@ export default ({ navigation }) => {
     const newItems = [...itemState];
     // For now all exercises will default to reps based exercises
     newItems.push(...selectedExercises.map((exercise) => ({ ...exercise, isReps: true })));
-    const newExercise = newItems.map((item, index) => {
-      return {
-        ...item,
-        color: COLORS[index % COLORS.length]
-      };
-    });
+    const newExercise = newItems.map((item, index) => ({
+      ...item,
+      color: COLORS[index % COLORS.length],
+    }));
     setItemState(newExercise);
   };
 
