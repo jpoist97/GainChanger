@@ -2,12 +2,13 @@ import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as firebase from 'firebase';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AdjustExercisesList from './AdjustExercisesList';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants/index';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -35,12 +36,11 @@ const AddCycleButton = styled(PlusButton)`
    bottom: 20px;
    right: 25px;
 `;
+
 export default ({ navigation }) => {
   const [name, setName] = React.useState('');
   const [itemState, setItemState] = React.useState([]);
   const dispatch = useDispatch();
-  const workouts = useSelector((state) => state.workouts.workouts);
-  const nextWorkoutId = workouts[workouts.length - 1].id + 1;
 
   const setReps = (index) => (reps) => {
     const newItemState = [...itemState];
@@ -72,16 +72,14 @@ export default ({ navigation }) => {
     setItemState(newItemState);
   };
 
-  const colors = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];
   const onExercisesAdd = (selectedExercises) => {
     const newItems = [...itemState];
     // For now all exercises will default to reps based exercises
     newItems.push(...selectedExercises.map((exercise) => ({ ...exercise, isReps: true })));
-    const newExercise = newItems.map((item, index) => {
-      /* eslint-disable no-param-reassign */
-      item.color = colors[index % 3];
-      return item;
-    });
+    const newExercise = newItems.map((item, index) => ({
+      ...item,
+      color: COLORS[index % COLORS.length],
+    }));
     setItemState(newExercise);
   };
 
@@ -89,18 +87,21 @@ export default ({ navigation }) => {
     setItemState(exerciseList);
   }
 
-  const sendWorkoutToDB = (newWorkout) => {
+  const createNewWorkout = async (newWorkout) => {
     const currentUser = firebase.auth().currentUser.uid;
 
-    const dbRef = firebase.firestore();
-    const userRef = dbRef.collection('users').doc(currentUser);
-    const workoutRef = userRef.collection('workouts');
+    const workoutRef = firebase.firestore()
+      .collection('users')
+      .doc(currentUser)
+      .collection('workouts');
 
-    const newerWorkout = JSON.parse(JSON.stringify(newWorkout, (k, v) => {
-      if (v === undefined) { return null; } return v;
-    })); // This is needed so that we can have an undefined weight and color
+    const workoutDoc = await workoutRef.add(newWorkout);
 
-    workoutRef.add(newerWorkout);
+    dispatch(actions.workouts.addWorkout({
+      ...newWorkout,
+      id: workoutDoc.id,
+    }));
+    navigation.goBack();
   };
 
   return (
@@ -131,17 +132,15 @@ export default ({ navigation }) => {
           const newWorkout = {
             name,
             lastPerformed: 'n/a',
-            id: nextWorkoutId,
             muscleGroups,
-            color: itemState[0].color,
             exercises: itemState.map((item) => {
               const setArr = [];
               const sets = item.sets || 3;
               for (let i = 0; i < sets; i += 1) {
                 if (item.isReps) {
-                  setArr.push({ weight: undefined, reps: item.reps || 10 });
+                  setArr.push({ weight: null, reps: item.reps || 10 });
                 } else {
-                  setArr.push({ weight: undefined, time: item.seconds || 60 });
+                  setArr.push({ weight: null, time: item.seconds || 60 });
                 }
               }
               return {
@@ -150,9 +149,7 @@ export default ({ navigation }) => {
               };
             }),
           };
-          sendWorkoutToDB(newWorkout);
-          dispatch(actions.workouts.addWorkout(newWorkout));
-          navigation.goBack();
+          createNewWorkout(newWorkout, dispatch);
         }
       }}
       />

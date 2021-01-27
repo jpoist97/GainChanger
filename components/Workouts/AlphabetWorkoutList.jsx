@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import WorkoutCard from './WorkoutCard';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants/index';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -34,14 +35,18 @@ const parseItems = (items) => {
   items.sort((a, b) => a.name.localeCompare(b.name));
 
   // Group by first letter of each name
-  const bucketData = items.reduce((accumulator, item) => {
+  const bucketData = items.reduce((accumulator, item, index) => {
     const bucket = item.name[0].toUpperCase();
+    const newItem = {
+      ...item,
+      index,
+    };
 
     // If this is the first time we've seen this letter, create a bucket
     if (!accumulator[bucket]) {
-      accumulator[bucket] = [item];
+      accumulator[bucket] = [newItem];
     } else {
-      accumulator[bucket].push(item);
+      accumulator[bucket].push(newItem);
     }
 
     return accumulator;
@@ -80,7 +85,7 @@ const AlphabetWorkoutList = (props) => {
         displayEllipses={left.displayEllipses}
         deleteWorkout={() => dispatch(actions.workouts.deleteWorkout(left.id))}
         id={left.id}
-        color={left.color}
+        color={COLORS[left.index % COLORS.length]}
         key={left.name + left.subtext}
         onPress={() => { navigation.navigate('Log Workout', { workoutId: left.id }); }}
       />
@@ -91,7 +96,7 @@ const AlphabetWorkoutList = (props) => {
           displayEllipses={right.displayEllipses}
           deleteWorkout={() => dispatch(actions.workouts.deleteWorkout(right.id))}
           id={right.id}
-          color={right.color}
+          color={COLORS[right.index % COLORS.length]}
           key={right.name + right.subtext}
           onPress={() => { navigation.navigate('Log Workout', { workoutId: right.id }); }}
         />

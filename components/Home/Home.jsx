@@ -11,6 +11,7 @@ import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import 'firebase/firestore';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants/index';
 
 const WelcomeTitle = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -55,13 +56,13 @@ const retrieveCycles = async (userRef) => {
   const cycleSnapshot = await cycleRef.get();
 
   cycleSnapshot.forEach((doc) => {
-    const { workoutIDs, name } = doc.data();
+    const { workoutIds, name } = doc.data();
 
-    if (workoutIDs && name) {
+    if (workoutIds && name) {
       cycles.push({
         id: doc.id,
         name,
-        workouts: workoutIDs,
+        workouts: workoutIds,
       });
     }
   });
@@ -184,10 +185,11 @@ export default () => {
         <CurrentCycle
           name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
           subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
-          color={cycleDetails && cycleDetails[cycles.selectedCycleIndex].color}
+          color={cycleDetails && COLORS[cycles.selectedCycleIndex % COLORS.length]}
           leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
           rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
+          isCycleSelected={cycleDetails !== undefined}
         />
         <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />
       </View>

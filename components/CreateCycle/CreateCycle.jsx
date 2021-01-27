@@ -3,7 +3,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as firebase from 'firebase';
 import DraggableWorkoutList from './DraggableWorkoutList';
 import FinishButton from '../utils/FinishButton';
@@ -38,32 +38,33 @@ const AddCycleButton = styled(PlusButton)`
 `;
 
 export default ({ navigation }) => {
-  const sendCycleToDB = (newCycle) => {
-    const currentUser = firebase.auth().currentUser.uid;
-    // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
-
-    const dbRef = firebase.firestore();
-    const userRef = dbRef.collection('users').doc(currentUser);
-    const cycleRef = userRef.collection('cycles');
-
-    const newerCycle = JSON.parse(JSON.stringify(newCycle, (k, v) => {
-      if (v === undefined) { return null; } return v;
-    })); // This is needed so values can be undefined
-
-    cycleRef.add(newerCycle);
-  };
-
   const [name, setName] = React.useState('');
   const [workouts, setWorkouts] = React.useState([]);
   const dispatch = useDispatch();
-  const allCycles = useSelector((state) => state.cycles.cycles);
-  const nextCycleId = allCycles[allCycles.length - 1].id + 1;
 
   const Stack = createStackNavigator();
 
   function updateOrder(workoutList) {
     setWorkouts(workoutList);
   }
+
+  const createNewCycle = async (newCycle) => {
+    const currentUser = firebase.auth().currentUser.uid;
+
+    const cycleRef = firebase.firestore()
+      .collection('users')
+      .doc(currentUser)
+      .collection('cycles');
+
+    const cycleDoc = await cycleRef.add(newCycle);
+
+    dispatch(actions.cycles.addCycle({
+      workouts: newCycle.workoutIds,
+      name: newCycle.name,
+      id: cycleDoc.id,
+    }));
+    navigation.goBack();
+  };
 
   function CreateCycle() {
     return (
@@ -108,13 +109,9 @@ export default ({ navigation }) => {
         } else {
           const newCycle = {
             name,
-            id: nextCycleId,
-            color: workouts[0].color,
-            workouts: workouts.map((workout) => workout.id),
+            workoutIds: workouts.map((workout) => workout.id),
           };
-          sendCycleToDB(newCycle);
-          dispatch(actions.cycles.addCycle(newCycle));
-          navigation.goBack();
+          createNewCycle(newCycle, dispatch);
         }
       }}
       />

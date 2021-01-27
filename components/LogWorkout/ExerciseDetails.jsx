@@ -48,6 +48,8 @@ const ExerciseDetails = (props) => {
           onSetDelete={onSetDelete(index)}
           completed={set.completed}
           setNumber={index + 1}
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
         />
       ))}
       <ButtonFlexContainer>
