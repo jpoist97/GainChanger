@@ -85,15 +85,15 @@ const LogWorkout = (props) => {
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
 
-  const currentUser = firebase.auth().currentUser.uid;
-  // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+  // const currentUser = firebase.auth().currentUser.uid;
+  const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
   const dbRef = firebase.firestore();
   const userRef = dbRef.collection('users').doc(currentUser);
   const dispatch = useDispatch();
 
   const incrementSelectedCycleIdx = () => {
-    userRef.update({ selectedCycleIndex });
+    userRef.update({ selectedCycleIndex: selectedCycleIndex });
     dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
   };
 
@@ -102,7 +102,7 @@ const LogWorkout = (props) => {
 
     const newWorkoutLog = {
       workoutName: name,
-      workoutId,
+      workoutId: workoutId,
       date: firebase.firestore.FieldValue.serverTimestamp(),
       exercises: exerciseState.map((exercise) => ({
         exerciseId: exercise.id,
@@ -218,10 +218,10 @@ const LogWorkout = (props) => {
 };
 
 LogWorkout.propTypes = {
-  isSelectedCycle: PropTypes.bool,
   route: PropTypes.shape({
     params: PropTypes.shape({
       workoutId: PropTypes.string.isRequired,
+      isSelectedCycle: PropTypes.bool,
     }),
   }).isRequired,
 };
