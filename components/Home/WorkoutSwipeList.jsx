@@ -6,6 +6,7 @@ import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import SkinnyWorkoutCard from './SkinnyWorkoutCard';
+import { COLORS } from '../../constants/index';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -18,14 +19,14 @@ const WorkoutSwipeList = (props) => {
   const { items } = props;
   const navigation = useNavigation();
 
-  const renderCard = ({ item }) => (
+  const renderCard = ({ item, index }) => (
     <SkinnyWorkoutCard
       name={item.name}
       subtext={item.subtext}
       onIconPress={item.onIconPress}
       onPress={() => navigation.navigate('Log Workout', { workoutId: item.id })}
       key={item.id}
-      color={item.color}
+      color={COLORS[index % COLORS.length]}
     />
   );
 
