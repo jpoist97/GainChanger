@@ -19,6 +19,20 @@ const WelcomeTitle = styled.Text`
   width: 50%;
 `;
 
+const splasho = async () => {
+  return  (  
+  <SafeAreaView style={{ height: '100%' }}>
+    <Image
+      source={require('../../assets/logo.png')}
+      style={{
+        width: 300, height: 215, position: 'absolute', top: 20,
+      }}
+    /> 
+    <View style={{ marginBottom: '10%', marginTop: '5%' }}>
+        <WelcomeTitle>RARARARA</WelcomeTitle></View>
+  </SafeAreaView>)
+};
+
 const retrieveUsers = async (userRef) => {
   const userDoc = await userRef.get();
   return userDoc.data();
@@ -90,12 +104,13 @@ const retrieveExercises = async (dbRef) => {
 };
 
 export default () => {
+  splasho();
   const dispatch = useDispatch();
   useEffect(() => {
     const initializeDatabase = async () => {
       // Get the current logged in user id
-      const currentUser = firebase.auth().currentUser.uid;
-      // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+      // const currentUser = firebase.auth().currentUser.uid;
+      const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
       const dbRef = firebase.firestore();
       const userRef = dbRef.collection('users').doc(currentUser);
