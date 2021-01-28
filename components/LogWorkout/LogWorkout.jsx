@@ -56,7 +56,7 @@ const LogWorkout = (props) => {
   const {
     route: {
       params: {
-        workoutId, isSelectedCycle, cycleLength, selectedCycleIndex,
+        workoutId, isSelectedCycle, cycleLength,
       },
     },
   } = props;
@@ -66,6 +66,7 @@ const LogWorkout = (props) => {
 
   const exerciseStore = useSelector((state) => state.exercises.exercises);
   const workouts = useSelector((state) => state.workouts.workouts);
+  const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
   const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
 
   const { name } = selectedWorkout;
@@ -85,16 +86,16 @@ const LogWorkout = (props) => {
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
 
-  // const currentUser = firebase.auth().currentUser.uid;
-  const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+  const currentUser = firebase.auth().currentUser.uid;
+  // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
   const dbRef = firebase.firestore();
   const userRef = dbRef.collection('users').doc(currentUser);
   const dispatch = useDispatch();
 
   const incrementSelectedCycleIdx = () => {
-    userRef.update({ selectedCycleIndex: selectedCycleIndex });
     dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
+    userRef.update({ selectedCycleIndex: (cycleIdx + 1) % cycleLength });
   };
 
   const sendWorkoutLogToDB = () => {
@@ -102,7 +103,7 @@ const LogWorkout = (props) => {
 
     const newWorkoutLog = {
       workoutName: name,
-      workoutId: workoutId,
+      workoutId,
       date: firebase.firestore.FieldValue.serverTimestamp(),
       exercises: exerciseState.map((exercise) => ({
         exerciseId: exercise.id,
@@ -118,13 +119,12 @@ const LogWorkout = (props) => {
     };
 
     const newWorkoutDoc = {
-      workoutId: newWorkoutLog.workoutId,
       lastPerformed: newWorkoutLog.date,
       exercises: newWorkoutLog.exercises,
     };
 
     userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); // updates workout doc
-    dispatch(actions.workouts.updateWorkoutPrev(newWorkoutDoc)); // rerenders workout to show update prev details
+    dispatch(actions.workouts.updateWorkoutPrev(workoutId, newWorkoutLog.exercises)); // rerenders workout to show update prev details
     workoutRecsRef.add(newWorkoutLog); // makes a new workoutRecord
   };
 
@@ -218,10 +218,10 @@ const LogWorkout = (props) => {
 };
 
 LogWorkout.propTypes = {
+  isSelectedCycle: PropTypes.bool,
   route: PropTypes.shape({
     params: PropTypes.shape({
       workoutId: PropTypes.string.isRequired,
-      isSelectedCycle: PropTypes.bool,
     }),
   }).isRequired,
 };
