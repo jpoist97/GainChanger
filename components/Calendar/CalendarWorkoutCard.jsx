@@ -90,7 +90,7 @@ const CalendarWorkoutCard = (props) => {
                 //sets prop should be the sets within each specific workout
                 //can get the name by looking in 'exercises' for matching exerciseID and then grab the name
                 data={sets}
-                keyExtractor={(item) => item.exerciseID}
+                keyExtractor={(item, index)=> item.exerciseID + index.toString()}
                 renderItem={({item, index}) => {
                     return(
                         <SetRow index={index+1} lbs={item.weight} reps={item.reps}/>

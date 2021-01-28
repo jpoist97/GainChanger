@@ -76,11 +76,18 @@ const Login = ({ navigation }) => {
     return (false);
   }
 
+  function clearFields() {
+    setEmail('');
+    setPassword('');
+  }
+
   function loginPress() {
     setDisableButton(true);
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
         navigation.navigate('Root');
+        clearFields();
+        setDisableButton(false);
       })
       .catch((error) => {
         setDisableButton(false);
@@ -123,6 +130,7 @@ const Login = ({ navigation }) => {
         placeholder="Email"
         selectionColor="#A192FF"
         textContentType="emailAddress"
+        autoCorrect={false}
         value={email}
         onChangeText={(text) => setEmail(text)}
       />

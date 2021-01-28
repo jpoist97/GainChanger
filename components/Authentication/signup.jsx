@@ -232,6 +232,7 @@ const Signup = ({ navigation }) => {
       name: user.displayName,
       selectedCycleId: '',
       selectedCycleIndex: 0,
+      pastWorkoutDates: [],
     };
 
     const userRef = db.collection('users').doc(user.uid);
@@ -255,12 +256,15 @@ const Signup = ({ navigation }) => {
           }).then(() => {
             logUserData(user.user)
               .then(() => {
+                setDisableButton(false);
                 navigation.navigate('Root');
               })
               .catch((error) => {
+                setDisableButton(false);
                 console.log(error);
               });
           }).catch((error) => {
+            setDisableButton(false);
             console.log('Display name not set.');
             console.log(error);
           });

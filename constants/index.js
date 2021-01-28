@@ -15,5 +15,8 @@ export const SELECT_NEW_CYCLE = 'SELECT_NEW_CYCLE';
 // Exercises
 export const INITIALIZE_EXERCISES = 'INITIALIZE_EXERCISES';
 
+// Records
+export const ADD_WORKOUT_RECORD = 'ADD_WORKOUT_RECORD';
+
 // Misc
 export const COLORS = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];

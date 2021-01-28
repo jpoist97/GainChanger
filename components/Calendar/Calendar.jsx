@@ -3,7 +3,6 @@ import { View, Text, FlatList } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import styled from 'styled-components';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
-import { format } from 'date-fns';
 import firebase from 'firebase';
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -23,11 +22,20 @@ function formatDate(date) {
 // eslint-disable-next-line no-unused-vars
 const CalendarView = () => {
 
+  //1. make field for completed workout dates in user
+  //2. update log workout, date should be sent to the date array in user
+  //3. update log workout to include isReps in the workoutRecords
+  //4. mark all dates on calendar with workouts
+  //5. fixing selected date so circle shows up in right place
+  //6. implement redux so we don't have to make db calls every date click
+
   var startDate = new Date();
   const stateStart = days[startDate.getDay()] + ', ' + months[startDate.getMonth()] + ' ' + (startDate.getDate());
 
   const [selectedDate, setselectedDate] = React.useState(stateStart);
   const [exercises, setExercises] = React.useState([]);
+  const firstRun = React.useRef(true);
+  const [markedDates, setMarkedDates] = React.useState();
 
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser.uid;
@@ -48,7 +56,6 @@ const CalendarView = () => {
       const date = data.date;
 
       exerciseRecord.forEach(record => {
-
         const loggableData = {
           name: record.exerciseName,
           sets: record.sets,
@@ -58,9 +65,6 @@ const CalendarView = () => {
         setExercises([...exercises,loggableData]);
       });
     });
-  
-    // re-format each matching document object to work with CalendarWorkoutCard
-    // set exercises to list of those objects
   }
 
   return (
@@ -83,11 +87,13 @@ const CalendarView = () => {
         textDayHeaderFontFamily: 'Montserrat_500Medium',
         textDayFontSize: 14,
       }}
-      markedDates={{
-        '2021-01-15': {marked: true},
-        '2021-01-16': {marked: true}
-      }}
+      markedDates={markedDates}
       onDayPress={(date) => { 
+        let marks = {};
+        marks[date.dateString] = {selected: true, selectedColor:'#cab0ff'};
+        setMarkedDates(marks);
+
+        firstRun.current = false;
         var formattedDate = formatDate(new Date(date.dateString));
         if(selectedDate != formattedDate){
           setExercises([]);
@@ -98,7 +104,7 @@ const CalendarView = () => {
       enableSwipeMonths={true}
     />
     <View style={{justifyContent:'flex-start', width: '100%', paddingLeft: 20}}>
-    <DayTitle>Workout on {selectedDate}</DayTitle>
+    {firstRun.current ? <DayTitle>No date selected</DayTitle> : <DayTitle>Workout on {selectedDate}</DayTitle>}
     </View>
     <FlatList 
       data={exercises}
