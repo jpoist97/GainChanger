@@ -1,8 +1,7 @@
-import { string } from 'prop-types';
 import * as React from 'react';
-import { View, Text} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const RowText = styled.View`
     width: 100%;
@@ -17,17 +16,20 @@ const WorkoutTitle = styled.Text`
     font-family: 'Montserrat_500Medium';
     font-size: 24px;
     color: #FFFFFF;
+    margin-bottom: 5px;
 `;
 
 const SubHeader = styled(WorkoutTitle)`
     font-size: 16px;
+    textAlign: center;
+    flex: 1;
 `;
 
 const WorkoutViewText = styled(WorkoutTitle)`
     font-family: 'Montserrat_500Medium';
     font-size: 12px;
-    width: 25%;
     textAlign: center;
+    flex: 1;
   `;
 
 const Container = styled.View`
@@ -52,27 +54,37 @@ const CalendarWorkoutCard = (props) => {
     const SetRow = (props) => {
 
         const {
-            index, previous, lbs, reps
+            index, lbs, reps
         } = props;
 
         return (
             <RowText>
                 <WorkoutViewText>{index}</WorkoutViewText>
-                <WorkoutViewText>{previous}</WorkoutViewText>
-                <WorkoutViewText>{lbs}</WorkoutViewText>
+                <WorkoutViewText>{lbs + " lbs."}</WorkoutViewText>
                 <WorkoutViewText>{reps}</WorkoutViewText>
             </RowText>
         )
     };
+
+    SetRow.propTypes = {
+        index: PropTypes.number.isRequired,
+        lbs: PropTypes.number,
+        reps: PropTypes.number.isRequired,
+    }
+
+    SetRow.defaultProps = {
+        index: 0,
+        lbs: 0,
+        reps: 0,
+    }
 
     return (
         <Container>
             <WorkoutTitle>{name}</WorkoutTitle>
             <RowText>
                 <SubHeader>Set</SubHeader>
-                <SubHeader>Previous</SubHeader>
-                <SubHeader>lbs</SubHeader>
-                <SubHeader>Reps</SubHeader>
+                <SubHeader>Weight</SubHeader>
+                <SubHeader>{isReps ? "Reps" : "Time"}</SubHeader>
             </RowText>
             <FlatList
                 //sets prop should be the sets within each specific workout
@@ -88,5 +100,17 @@ const CalendarWorkoutCard = (props) => {
         </Container>
     )
 };
+
+CalendarWorkoutCard.propTypes = {
+    name: PropTypes.string,
+    sets: PropTypes.array,
+    isReps: PropTypes.bool,
+}
+
+CalendarWorkoutCard.defaultProps = {
+    name: 'Workout_Name',
+    sets: [],
+    isReps: true,
+}
 
 export default CalendarWorkoutCard;

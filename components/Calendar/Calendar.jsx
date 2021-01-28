@@ -1,38 +1,55 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import styled from 'styled-components';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
+import { format } from 'date-fns';
 
 const testSets = [
   {
       exerciseID: 'blabla1',
-      previous: '135',
-      lbs: '135',
-      reps: '135',
+      lbs: 135,
+      reps: 10,
   },
   {
       exerciseID: 'blabla2',
-      previous: '135',
-      lbs: '135',
-      reps: '135',
+      lbs: 135,
+      reps: 10,
   },
   {
       exerciseID: 'blabla3',
-      previous: '135',
-      lbs: '135',
-      reps: '135',
+      lbs: 135,
+      reps: 10,
   }
 ]
+
+const DayTitle = styled.Text`
+  font-family: 'Montserrat_500Medium';
+  font-size: 16px;
+  text-align: left;
+`;
 
 // eslint-disable-next-line no-unused-vars
 const CalendarView = (props) => {
 
+  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  const months = ["January","February","March","April","May","June","July",
+            "August","September","October","November","December"];
+
+  var startDate = new Date();
+
+  const [currentDate, setCurrentDate] = React.useState(formatDate(startDate));
+
+  function formatDate(date) { 
+    return days[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + (date.getDate());
+  }
+
   return (
-  <View style={{ flex: 1, justifyContent: 'center', height: 500}}>
+  <View style={{justifyContent: 'center', alignItems: 'center', height: '100%'}}>
     <Calendar
       // Specify style for calendar container element. Default = {}
       style={{
-        height: 350,      
+        marginTop: 50, 
       }}
       // Specify theme properties to override specific styles for calendar parts. Default = {}
       theme={{
@@ -51,10 +68,16 @@ const CalendarView = (props) => {
         '2021-01-15': {marked: true},
         '2021-01-16': {marked: true}
       }}
-      onDayPress={(day) => {console.log('selected day', day["dateString"])}} //CHANGE TO SHOW RECORD COMPONENT
+      onDayPress={(date) => { 
+        var jsDate = new Date(date.dateString);
+        setCurrentDate(formatDate(jsDate));
+      }} //CHANGE TO SHOW RECORD COMPONENT
       enableSwipeMonths={true}
     />
-    <CalendarWorkoutCard sets={testSets} name={'testing'}/>
+    <View style={{justifyContent:'flex-start', width: '100%', paddingLeft: 20}}>
+    <DayTitle>Workout on {currentDate}</DayTitle>
+    </View>
+    <FlatList />
   </View>
   )
 };
