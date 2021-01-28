@@ -77,7 +77,7 @@ const CalendarView = () => {
           todayTextColor: '#cab0ff',
           dotColor: '#cab0ff',
           arrowColor: '#cab0ff',
-          monthTextColor: '#cab0ff',
+          monthTextColor: 'black',
           textDayFontFamily: 'Montserrat_500Medium',
           textMonthFontFamily: 'Montserrat_600SemiBold',
           textDayHeaderFontFamily: 'Montserrat_500Medium',
@@ -99,6 +99,7 @@ const CalendarView = () => {
         }}
         enableSwipeMonths
       />
+      <View style={{width:'90%', alignSelf:'center',height:2, backgroundColor:'#e5e5e5', marginTop:25}}/>
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
         {firstRun.current ? <DayTitle>No date selected</DayTitle> : <DayTitle>{selectedDate}</DayTitle>}
       </View>
