@@ -99,23 +99,13 @@ const LogWorkout = (props) => {
   };
 
   const sendWorkoutLogToDB = () => {
-    const formatDate = (date) => {
-      const formatMonth = (month) => {
-        if (month < 10) {
-          return '0' + month;
-        }
-        else {
-          return month;
-        }
-      }
-      return date.getFullYear() + '-' + formatMonth(date.getMonth() + 1) + '-' + date.getDate();
-    }
     const workoutRecsRef = userRef.collection('workoutRecords');
+    const {format} = require('date-fns');
 
     const newWorkoutLog = {
       workoutName: name,
       workoutId,
-      date: formatDate(new Date),
+      date: `${format(new Date(), 'yyyy-MM-dd').toString()}`,
       exercises: exerciseState.map((exercise) => ({
         exerciseId: exercise.id,
         exerciseName: exercise.name,
