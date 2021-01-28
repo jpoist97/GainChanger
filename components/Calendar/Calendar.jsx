@@ -4,6 +4,11 @@ import { Calendar } from 'react-native-calendars';
 import styled from 'styled-components';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import { format } from 'date-fns';
+import firebase from 'firebase';
+
+const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  const months = ["January","February","March","April","May","June","July",
+            "August","September","October","November","December"];
 
 const testSets = [
   {
@@ -29,23 +34,44 @@ const DayTitle = styled.Text`
   text-align: left;
 `;
 
-// eslint-disable-next-line no-unused-vars
-const CalendarView = (props) => {
+const getDateRecords = async (userRef, currentDate) => {
+  //this function retrieves a workoutRecord by date
+  const recordsRef = userRef.collection('workoutRecords');
+  //currentDate is kind of a placeholder idk if it'll be able to match
+  const workoutRecordSnapshot = await recordsRef.doc().where('date', '==', currentDate).get();
 
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-  const months = ["January","February","March","April","May","June","July",
-            "August","September","October","November","December"];
+  if(workoutRecordSnapshot.empty){
+    console.log("No workout records for " + currentDate);
+    return;
+  }
+  
+  workoutRecordSnapshot.forEach(doc => {
+    console.log(doc.id, '=>', doc.data());
+  });
+
+  // re-format each matching document object to work with CalendarWorkoutCard
+  // set exercises to list of those objects
+}
+
+function formatDate(date) { 
+  return days[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + (date.getDate() + 1);
+}
+
+// eslint-disable-next-line no-unused-vars
+const CalendarView = () => {
 
   var startDate = new Date();
+  const stateStart = days[startDate.getDay()] + ', ' + months[startDate.getMonth()] + ' ' + (startDate.getDate());
 
-  const [currentDate, setCurrentDate] = React.useState(formatDate(startDate));
+  const [selectedDate, setselectedDate] = React.useState(stateStart);
+  const [exercises, setExercises] = React.useState([]);
 
-  function formatDate(date) { 
-    return days[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + (date.getDate());
-  }
+  const db = firebase.firestore();
+  const currentUser = firebase.auth().currentUser.uid;
+  const userRef = db.collection('users').doc(currentUser);
 
   return (
-  <View style={{justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+  <View style={{justifyContent: 'center', height: '100%'}}>
     <Calendar
       // Specify style for calendar container element. Default = {}
       style={{
@@ -70,14 +96,25 @@ const CalendarView = (props) => {
       }}
       onDayPress={(date) => { 
         var jsDate = new Date(date.dateString);
-        setCurrentDate(formatDate(jsDate));
+        setselectedDate(formatDate(jsDate));
+
+        //date.datestring would be like 2021-01-28 so we need to store the dates in workoutRecords like that
+        getDateRecords(userRef, date.dateString);
+        
       }} //CHANGE TO SHOW RECORD COMPONENT
       enableSwipeMonths={true}
     />
     <View style={{justifyContent:'flex-start', width: '100%', paddingLeft: 20}}>
-    <DayTitle>Workout on {currentDate}</DayTitle>
+    <DayTitle>Workout on {selectedDate}</DayTitle>
     </View>
-    <FlatList />
+    <FlatList 
+      data={exercises}
+      renderItem={(item) => {
+        return (
+          <CalendarWorkoutCard name={item.name} sets={item.sets} isReps={item.reps ? true : false} />
+        )
+      }}
+    />
   </View>
   )
 };
