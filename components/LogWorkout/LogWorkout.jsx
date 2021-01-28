@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import styled from 'styled-components';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
-import { COLORS } from '../../constants/index';
+import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX } from '../../constants/index';
+import actions from '../../actions/index';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -26,6 +28,7 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
   const exerciseType = exercise.sets[0].reps ? 'REPS' : 'SECS';
 
   return {
+    id: exercise.exerciseId,
     name: exercise.name,
     color: exercise.color,
     type: exerciseType,
@@ -50,13 +53,20 @@ const parseExercises = (exercises) => exercises.map((exercise) => {
  *
  */
 const LogWorkout = (props) => {
-  const { route: { params: { workoutId } } } = props;
+  const {
+    route: {
+      params: {
+        workoutId, isSelectedCycle, cycleLength,
+      },
+    },
+  } = props;
 
   // get the workout details from redux based on workoutid
   console.log(`Opening Log Workout for workout id ${workoutId}`);
 
   const exerciseStore = useSelector((state) => state.exercises.exercises);
   const workouts = useSelector((state) => state.workouts.workouts);
+  const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
   const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
 
   const { name } = selectedWorkout;
@@ -75,6 +85,59 @@ const LogWorkout = (props) => {
   const initialExerciseState = parseExercises(exercises);
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
+
+  const currentUser = firebase.auth().currentUser.uid;
+  // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+
+  const dbRef = firebase.firestore();
+  const userRef = dbRef.collection('users').doc(currentUser);
+  const dispatch = useDispatch();
+
+  const incrementSelectedCycleIdx = () => {
+    dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
+    userRef.update({ selectedCycleIndex: (cycleIdx + 1) % cycleLength });
+  };
+
+  const sendWorkoutLogToDB = () => {
+    const formatDate = (date) => {
+      const formatMonth = (month) => {
+        if (month < 10) {
+          return '0' + month;
+        }
+        else {
+          return month;
+        }
+      }
+      return date.getFullYear() + '-' + formatMonth(date.getMonth() + 1) + '-' + date.getDate();
+    }
+    const workoutRecsRef = userRef.collection('workoutRecords');
+
+    const newWorkoutLog = {
+      workoutName: name,
+      workoutId,
+      date: formatDate(new Date),
+      exercises: exerciseState.map((exercise) => ({
+        exerciseId: exercise.id,
+        exerciseName: exercise.name,
+        sets: exercise.sets.map((set) => {
+          const parsedSet = {
+            weight: set.weight || set.prevWeight,
+          };
+          _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], set.duration || set.prevDuration);
+          return parsedSet;
+        }),
+      })),
+    };
+
+    const newWorkoutDoc = {
+      lastPerformed: newWorkoutLog.date,
+      exercises: newWorkoutLog.exercises,
+    };
+
+    userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); // updates workout doc
+    dispatch(actions.workouts.updateWorkoutPrev(workoutId, newWorkoutLog.exercises)); // rerenders workout to show update prev details
+    workoutRecsRef.add(newWorkoutLog); // makes a new workoutRecord
+  };
 
   const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {
     const newExercise = [...exerciseState];
@@ -146,6 +209,9 @@ const LogWorkout = (props) => {
       <TitleText>{name}</TitleText>
       <StyledFinishButton onPress={() => {
         // TODO: Update Redux and database
+        sendWorkoutLogToDB();
+        if (isSelectedCycle) { incrementSelectedCycleIdx(); }
+
         navigation.goBack();
       }}
       />
@@ -163,11 +229,16 @@ const LogWorkout = (props) => {
 };
 
 LogWorkout.propTypes = {
+  isSelectedCycle: PropTypes.bool,
   route: PropTypes.shape({
     params: PropTypes.shape({
       workoutId: PropTypes.string.isRequired,
     }),
   }).isRequired,
+};
+
+LogWorkout.defaultProps = {
+  isSelectedCycle: false,
 };
 
 export default LogWorkout;

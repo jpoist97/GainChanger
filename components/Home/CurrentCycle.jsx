@@ -37,7 +37,7 @@ const ArrowButton = styled(AntDesign)`
 
 const CurrentCycle = (props) => {
   const {
-    color, subtext, name, leftPress, rightPress, id,
+    color, subtext, name, leftPress, rightPress, id, cycleLength, isCycleSelected,
   } = props;
 
   const navigation = useNavigation();
@@ -56,18 +56,27 @@ const CurrentCycle = (props) => {
     <View style={{ height: '100%' }}>
       <Title>Today</Title>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
-        <TouchableOpacity onPress={leftPress}>
+        <TouchableOpacity onPress={leftPress} disabled={!isCycleSelected}>
           <ArrowButton
             name="left"
             size={28}
             color="#CAB0FF"
           />
         </TouchableOpacity>
-        <StyledView onPress={() => navigation.navigate('Log Workout', { workoutId: id })}>
+        <StyledView onPress={() => {
+          if (isCycleSelected) {
+            navigation.navigate('Log Workout', {
+              workoutId: id, isSelectedCycle: true, cycleLength,
+            });
+          } else {
+            navigation.navigate('Cycles');
+          }
+        }}
+        >
           <NameText>{name}</NameText>
           <Subtext>{subtext}</Subtext>
         </StyledView>
-        <TouchableOpacity onPress={rightPress}>
+        <TouchableOpacity onPress={rightPress} disabled={!isCycleSelected}>
           <ArrowButton
             name="right"
             size={28}
@@ -86,6 +95,7 @@ CurrentCycle.propTypes = {
   leftPress: PropTypes.func,
   rightPress: PropTypes.func,
   id: PropTypes.string,
+  isCycleSelected: PropTypes.bool.isRequired,
 };
 
 CurrentCycle.defaultProps = {
