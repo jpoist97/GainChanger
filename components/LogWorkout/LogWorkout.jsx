@@ -64,6 +64,8 @@ const LogWorkout = (props) => {
   // get the workout details from redux based on workoutid
   console.log(`Opening Log Workout for workout id ${workoutId}`);
 
+  const {format} = require('date-fns');
+
   const exerciseStore = useSelector((state) => state.exercises.exercises);
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
@@ -98,10 +100,13 @@ const LogWorkout = (props) => {
     userRef.update({ selectedCycleIndex: (cycleIdx + 1) % cycleLength });
   };
 
+  const updatePastWorkoutDates = (completedDate) => {
+    //dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
+    userRef.update({ pastWorkoutDates: firebase.firestore.FieldValue.arrayUnion(completedDate)});
+  }
+
   const sendWorkoutLogToDB = () => {
     const workoutRecsRef = userRef.collection('workoutRecords');
-    const {format} = require('date-fns');
-
     const newWorkoutLog = {
       workoutName: name,
       workoutId,
@@ -201,7 +206,7 @@ const LogWorkout = (props) => {
         // TODO: Update Redux and database
         sendWorkoutLogToDB();
         if (isSelectedCycle) { incrementSelectedCycleIdx(); }
-
+        updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`)
         navigation.goBack();
       }}
       />
