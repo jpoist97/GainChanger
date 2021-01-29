@@ -14,6 +14,7 @@ const DayTitle = styled.Text`
   font-size: 16px;
   text-align: left;
   margin-top: 25px;
+  margin-bottom: 15px;
 `;
 
 function formatDate(date) {
@@ -53,6 +54,8 @@ const CalendarView = () => {
       const exerciseRecord = data.exercises;
       const { date } = data;
 
+      let workoutSets = [];
+
       exerciseRecord.forEach((record) => {
         const loggableData = {
           name: record.exerciseName,
@@ -60,8 +63,10 @@ const CalendarView = () => {
           isReps: true,
           date,
         };
-        setExercises([...exercises, loggableData]);
+        workoutSets.push(loggableData);
       });
+      console.log(workoutSets);
+      setExercises(workoutSets);
     });
   };
 
@@ -89,7 +94,9 @@ const CalendarView = () => {
           marks[date.dateString] = { selected: true, selectedColor: '#cab0ff' };
           setMarkedDates(marks);
 
-          firstRun.current = false;
+          if(firstRun.current){
+            firstRun.current = false;
+          }
           const formattedDate = formatDate(new Date(date.dateString));
           if (selectedDate !== formattedDate) {
             setExercises([]);
@@ -105,10 +112,13 @@ const CalendarView = () => {
       </View>
       <FlatList
         data={exercises}
-        keyExtractor={(item) => item.name + item.date}
-        renderItem={(item) => (
-          <CalendarWorkoutCard name={item.item.name} sets={item.item.sets} isReps={!!item.item.reps} />
-        )}
+        keyExtractor={(item, index) => item.name + item.date + index.toString()}
+        renderItem={(item) => {
+          const isReps = item.item.sets[0].hasOwnProperty('reps') ? true : false;
+          return (
+            <CalendarWorkoutCard name={item.item.name} sets={item.item.sets} isReps={isReps} />
+          )
+        }}
       />
     </View>
   );
