@@ -88,7 +88,6 @@ const retrieveRecords = async (userRef) => {
       });
     }
   });
-
   return records;
 };
 
