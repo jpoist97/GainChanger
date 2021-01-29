@@ -7,7 +7,7 @@ const initialState = {
 const recordReducer = (state = initialState, action) => {
    switch(action.type) {
         case INITIALIZE_RECORDS:
-            console.log('Adding workout record');
+            console.log('Initializing records store');
             return {
                 records: [...action.records]
             };

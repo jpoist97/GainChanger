@@ -4,6 +4,7 @@ import { Calendar } from 'react-native-calendars';
 import styled from 'styled-components';
 import firebase from 'firebase';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
+import { useSelector } from 'react-redux';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -39,6 +40,15 @@ const CalendarView = () => {
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser.uid;
   const userRef = db.collection('users').doc(currentUser);
+
+  //this loads in all of the records so we don't need to make any db calls
+  const records = useSelector((state) => state.records.records);
+
+  const filterRecords = (date, records) => {
+    return records.filter((e) => {
+      return e.date === date;
+    });
+  }
 
   const getDateRecords = async (user, currentDate) => {
     const recordsRef = user.collection('workoutRecords');
@@ -100,6 +110,10 @@ const CalendarView = () => {
             // --> update redux/state with today's records if there are some
           }
           const formattedDate = formatDate(new Date(date.dateString));
+          // const filteredRecords = filterRecords(date.dateString, records);
+          // if(filteredRecords[0]){
+          //   setExercises(filteredRecords[0].exercises);
+          // }
           if (selectedDate !== formattedDate) {
             setExercises([]);
             setselectedDate(formattedDate);
