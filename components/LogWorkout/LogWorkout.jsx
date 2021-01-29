@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import _, { set } from 'lodash';
 import styled from 'styled-components';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
@@ -27,6 +27,7 @@ const TitleText = styled.Text`
 const parseExercises = (exercises) => exercises.map((exercise) => {
   const exerciseType = exercise.sets[0].reps ? 'REPS' : 'SECS';
 
+  
   return {
     id: exercise.exerciseId,
     name: exercise.name,
@@ -111,9 +112,9 @@ const LogWorkout = (props) => {
         exerciseName: exercise.name,
         sets: exercise.sets.map((set) => {
           const parsedSet = {
-            weight: set.weight || set.prevWeight,
+            weight: (set.prevWeight == 'n/a' && set.weight  == '') ? null : parseInt(set.weight) || parseInt(set.prevWeight),
           };
-          _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], set.duration || set.prevDuration);
+          _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], parseInt(set.duration) || parseInt(set.prevDuration));
           return parsedSet;
         }),
       })),
