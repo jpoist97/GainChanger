@@ -86,7 +86,7 @@ const AlphabetWorkoutList = (props) => {
         displayEllipses={left.displayEllipses}
         deleteWorkout={() => {
           if (selectedCycle.workouts.includes(left.id)) {
-            alert('This workout is included in the selected cycle. Please selected another cycle before deleting this workout.');
+            alert('This workout is included in the selected cycle. Please select another cycle before deleting this workout.');
           } else {
             dispatch(actions.workouts.deleteWorkout(left.id));
           }
@@ -103,7 +103,7 @@ const AlphabetWorkoutList = (props) => {
           displayEllipses={right.displayEllipses}
           deleteWorkout={() => {
             if (selectedCycle.workouts.includes(right.id)) {
-              alert('This workout is included in the selected cycle. Please selected another cycle before deleting this workout.');
+              alert('This workout is included in the selected cycle. Please select another cycle before deleting this workout.');
             } else {
               dispatch(actions.workouts.deleteWorkout(right.id));
             }
