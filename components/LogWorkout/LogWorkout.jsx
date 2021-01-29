@@ -100,7 +100,7 @@ const LogWorkout = (props) => {
 
   const sendWorkoutLogToDB = () => {
     const workoutRecsRef = userRef.collection('workoutRecords');
-    const {format} = require('date-fns');
+    const { format } = require('date-fns');
 
     const newWorkoutLog = {
       workoutName: name,
@@ -199,10 +199,19 @@ const LogWorkout = (props) => {
       <TitleText>{name}</TitleText>
       <StyledFinishButton onPress={() => {
         // TODO: Update Redux and database
-        sendWorkoutLogToDB();
-        if (isSelectedCycle) { incrementSelectedCycleIdx(); }
-
-        navigation.goBack();
+        const completedList = [];
+        exerciseState.forEach((exercise) => {
+          exercise.sets.forEach((set) => {
+            completedList.push(set.completed);
+          });
+        });
+        if (completedList.includes(false)) {
+          alert('All sets must be completed to Finish');
+        } else {
+          sendWorkoutLogToDB();
+          if (isSelectedCycle) { incrementSelectedCycleIdx(); }
+          navigation.goBack();
+        }
       }}
       />
       <KeyboardAwareFlatList
