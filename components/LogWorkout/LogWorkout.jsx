@@ -100,22 +100,21 @@ const LogWorkout = (props) => {
 
   const sendWorkoutLogToDB = () => {
     const formatDate = (date) => {
-      const formatMonth = (month) => {
-        if (month < 10) {
-          return '0' + month;
-        }
-        else {
-          return month;
-        }
-      }
-      return date.getFullYear() + '-' + formatMonth(date.getMonth() + 1) + '-' + date.getDate();
-    }
+      const formatMonth = (month) => {
+        if (month < 10) {
+          return `0${month}`;
+        }
+
+        return month;
+      };
+      return `${date.getFullYear()}-${formatMonth(date.getMonth() + 1)}-${date.getDate()}`;
+    };
     const workoutRecsRef = userRef.collection('workoutRecords');
 
     const newWorkoutLog = {
       workoutName: name,
       workoutId,
-      date: formatDate(new Date),
+      date: formatDate(new Date()),
       exercises: exerciseState.map((exercise) => ({
         exerciseId: exercise.id,
         exerciseName: exercise.name,

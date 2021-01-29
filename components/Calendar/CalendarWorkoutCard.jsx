@@ -46,71 +46,63 @@ const Container = styled.View`
 `;
 
 const CalendarWorkoutCard = (props) => {
+  const {
+    name, sets, isReps,
+  } = props;
 
+  const SetRow = (props) => {
     const {
-        name, sets, isReps
+      index, lbs, reps,
     } = props;
 
-    const SetRow = (props) => {
-
-        const {
-            index, lbs, reps
-        } = props;
-
-        return (
-            <RowText>
-                <WorkoutViewText>{index}</WorkoutViewText>
-                <WorkoutViewText>{lbs + " lbs."}</WorkoutViewText>
-                <WorkoutViewText>{reps}</WorkoutViewText>
-            </RowText>
-        )
-    };
-
-    SetRow.propTypes = {
-        index: PropTypes.number.isRequired,
-        lbs: PropTypes.number,
-        reps: PropTypes.number.isRequired,
-    }
-
-    SetRow.defaultProps = {
-        index: 0,
-        lbs: 0,
-        reps: 0,
-    }
-
     return (
-        <Container>
-            <WorkoutTitle>{name}</WorkoutTitle>
-            <RowText>
-                <SubHeader>Set</SubHeader>
-                <SubHeader>Weight</SubHeader>
-                <SubHeader>{isReps ? "Reps" : "Time"}</SubHeader>
-            </RowText>
-            <FlatList
-                //sets prop should be the sets within each specific workout
-                //can get the name by looking in 'exercises' for matching exerciseID and then grab the name
-                data={sets}
-                keyExtractor={(item) => item.exerciseID}
-                renderItem={({item, index}) => {
-                    return(
-                        <SetRow index={index+1} lbs={item.weight} reps={item.reps}/>
-                    )
-                }}
-            />
-        </Container>
-    )
+      <RowText>
+        <WorkoutViewText>{index}</WorkoutViewText>
+        <WorkoutViewText>{`${lbs} lbs.`}</WorkoutViewText>
+        <WorkoutViewText>{reps}</WorkoutViewText>
+      </RowText>
+    );
+  };
+
+  SetRow.propTypes = {
+    index: PropTypes.number.isRequired,
+    lbs: PropTypes.number,
+    reps: PropTypes.number.isRequired,
+  };
+
+  SetRow.defaultProps = {
+    lbs: 0,
+  };
+
+  return (
+    <Container>
+      <WorkoutTitle>{name}</WorkoutTitle>
+      <RowText>
+        <SubHeader>Set</SubHeader>
+        <SubHeader>Weight</SubHeader>
+        <SubHeader>{isReps ? 'Reps' : 'Time'}</SubHeader>
+      </RowText>
+      <FlatList
+        data={sets}
+        keyExtractor={(item, index) => item.exerciseID + index.toString()}
+        renderItem={({ item, index }) => (
+          <SetRow index={index + 1} lbs={item.weight} reps={item.reps} />
+        )}
+      />
+    </Container>
+  );
 };
 
 CalendarWorkoutCard.propTypes = {
-    name: PropTypes.string,
-    sets: PropTypes.array,
-    isReps: PropTypes.bool,
-}
+  name: PropTypes.string,
+  sets: PropTypes.array,
+  isReps: PropTypes.bool,
+};
 
 CalendarWorkoutCard.defaultProps = {
-    name: 'Workout_Name',
-    sets: [],
-    isReps: true,
-}
+  name: 'Workout_Name',
+  sets: [],
+  isReps: true,
+};
 
 export default CalendarWorkoutCard;
