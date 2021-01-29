@@ -24,9 +24,9 @@ function formatDate(date) {
 const CalendarView = () => {
   // 1. make field for completed workout dates in user
   // 2. update log workout, date should be sent to the date array in user
-  // 3. update log workout to include isReps in the workoutRecords
-  // 4. mark all dates on calendar with workouts
-  // 5. implement redux so we don't have to make db calls every date click
+  // 3. mark all dates on calendar with workouts
+  // 4. add to redux after db call and check it each time in the future --> no more db calls once a date has been clicked
+  // 5. make records work for the current day
 
   const startDate = new Date();
   const stateStart = `${days[startDate.getDay()]}, ${months[startDate.getMonth()]} ${startDate.getDate()}`;
@@ -54,7 +54,7 @@ const CalendarView = () => {
       const exerciseRecord = data.exercises;
       const { date } = data;
 
-      let workoutSets = [];
+      const workoutSets = [];
 
       exerciseRecord.forEach((record) => {
         const loggableData = {
@@ -65,7 +65,7 @@ const CalendarView = () => {
         };
         workoutSets.push(loggableData);
       });
-      console.log(workoutSets);
+      // TODO: right now this only works if there is one workout on the selected date
       setExercises(workoutSets);
     });
   };
@@ -94,8 +94,10 @@ const CalendarView = () => {
           marks[date.dateString] = { selected: true, selectedColor: '#cab0ff' };
           setMarkedDates(marks);
 
-          if(firstRun.current){
+          if (firstRun.current) {
             firstRun.current = false;
+            // TODO: on first run, check today's date in the list of workout records
+            // --> update redux/state with today's records if there are some
           }
           const formattedDate = formatDate(new Date(date.dateString));
           if (selectedDate !== formattedDate) {
@@ -106,7 +108,10 @@ const CalendarView = () => {
         }}
         enableSwipeMonths
       />
-      <View style={{width:'90%', alignSelf:'center',height:2, backgroundColor:'#e5e5e5', marginTop:25}}/>
+      <View style={{
+        width: '90%', alignSelf: 'center', height: 2, backgroundColor: '#e5e5e5', marginTop: 25,
+      }}
+      />
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
         {firstRun.current ? <DayTitle>No date selected</DayTitle> : <DayTitle>{selectedDate}</DayTitle>}
       </View>
@@ -114,10 +119,10 @@ const CalendarView = () => {
         data={exercises}
         keyExtractor={(item, index) => item.name + item.date + index.toString()}
         renderItem={(item) => {
-          const isReps = item.item.sets[0].hasOwnProperty('reps') ? true : false;
+          const isReps = 'reps' in item.item.sets[0];
           return (
             <CalendarWorkoutCard name={item.item.name} sets={item.item.sets} isReps={isReps} />
-          )
+          );
         }}
       />
     </View>

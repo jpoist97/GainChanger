@@ -72,16 +72,18 @@ const retrieveCycles = async (userRef) => {
 const retrieveRecords = async (userRef) => {
   const records = [];
   const recordsRef = userRef.collection('workoutRecords');
-  const recordsSnapshot = await recordsRef.get()
+  const recordsSnapshot = await recordsRef.get();
 
   recordsSnapshot.forEach((doc) => {
-    const { date, exercises, workoutId, workoutName } = doc.data();
+    const {
+      date, exercises, workoutId, workoutName,
+    } = doc.data();
 
     if (date && exercises && workoutId && workoutName) {
       records.push({
-        date: date,
-        exercises: exercises,
-        workoutId: workoutId,
+        date,
+        exercises,
+        workoutId,
         name: workoutName,
       });
     }
