@@ -11,6 +11,7 @@ import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import 'firebase/firestore';
 import actions from '../../actions/index';
+import HomeScreen from './HomeScreen';
 
 const WelcomeTitle = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -18,20 +19,6 @@ const WelcomeTitle = styled.Text`
   margin: 0px 6%;
   width: 50%;
 `;
-
-const splasho = async () => {
-  return  (  
-  <SafeAreaView style={{ height: '100%' }}>
-    <Image
-      source={require('../../assets/logo.png')}
-      style={{
-        width: 300, height: 215, position: 'absolute', top: 20,
-      }}
-    /> 
-    <View style={{ marginBottom: '10%', marginTop: '5%' }}>
-        <WelcomeTitle>RARARARA</WelcomeTitle></View>
-  </SafeAreaView>)
-};
 
 const retrieveUsers = async (userRef) => {
   const userDoc = await userRef.get();
@@ -104,7 +91,7 @@ const retrieveExercises = async (dbRef) => {
 };
 
 export default () => {
-  splasho();
+  const [showSplash, setShowSplash] = React.useState(true);
   const dispatch = useDispatch();
   useEffect(() => {
     const initializeDatabase = async () => {
@@ -137,6 +124,7 @@ export default () => {
 
       console.log('Home: Initialize Exercise store');
       dispatch(actions.exercises.initalizeExercises(exercises));
+      setShowSplash(false);
     };
 
     initializeDatabase();
@@ -180,34 +168,38 @@ export default () => {
     cycleDetails = selectedCycle.workouts.map((workoutId) => _.find(workouts, (workout) => workout.id === workoutId));
   }
 
-  return (
-    <SafeAreaView>
-      <Image
-        source={require('../../assets/logo.png')}
-        style={{
-          width: 215, height: 215, position: 'absolute', right: 10, top: 20,
-        }}
-      />
-      <View style={{ marginBottom: '10%', marginTop: '5%' }}>
-        <WelcomeTitle>Hello</WelcomeTitle>
-        <WelcomeTitle numberOfLines={1}>
-          {welcomeName}
-          !
-        </WelcomeTitle>
-      </View>
-      <View style={{ height: '50%', marginBottom: '25%' }}>
-        <CurrentCycle
-          name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
-          subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
-          color={cycleDetails && cycleDetails[cycles.selectedCycleIndex].color}
-          leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
-          rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
-          id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
-          isCycleSelected={cycleDetails !== undefined}
+  if (!showSplash) {
+    return (
+      <SafeAreaView>
+        <Image
+          source={require('../../assets/logo.png')}
+          style={{
+            width: 215, height: 215, position: 'absolute', right: 10, top: 20,
+          }}
         />
-        <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />
-      </View>
-    </SafeAreaView>
+        <View style={{ marginBottom: '10%', marginTop: '5%' }}>
+          <WelcomeTitle>Hello</WelcomeTitle>
+          <WelcomeTitle numberOfLines={1}>
+            {welcomeName}
+            !
+          </WelcomeTitle>
+        </View>
+        <View style={{ height: '50%', marginBottom: '25%' }}>
+          <CurrentCycle
+            name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
+            subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
+            color={cycleDetails && cycleDetails[cycles.selectedCycleIndex].color}
+            leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
+            rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
+            id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
+            isCycleSelected={cycleDetails !== undefined}
+          />
+          <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />
+        </View>
+      </SafeAreaView>
 
-  );
+    );
+  }
+
+  return <HomeScreen />;
 };
