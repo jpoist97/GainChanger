@@ -107,7 +107,7 @@ export default () => {
         retrieveCycles(userRef),
         retrieveExercises(dbRef),
       ]);
-      const [userData, workouts, cycles, exercises, ] = firestoreResponse;
+      const [userData, workouts, cycles, exercises] = firestoreResponse;
 
       // Initialize redux store
       console.log('Home: Initializing Workout store');

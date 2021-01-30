@@ -3,8 +3,8 @@ import { View, FlatList } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import styled from 'styled-components';
 import firebase from 'firebase';
-import CalendarWorkoutCard from './CalendarWorkoutCard';
 import { useDispatch, useSelector } from 'react-redux';
+import CalendarWorkoutCard from './CalendarWorkoutCard';
 import actions from '../../actions';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -27,8 +27,15 @@ function formatDate(date) {
   return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate() + 1}`;
 }
 
-const CalendarView = () => {
+function setDates(dates) {
+  const marks = {};
+  dates.forEach((date) => {
+    marks[date] = { marked: true, selectedColor: '#cab0ff' };
+  });
+  return marks;
+}
 
+const CalendarView = () => {
   const startDate = new Date();
   const stateStart = `${days[startDate.getDay()]}, ${months[startDate.getMonth()]} ${startDate.getDate()}`;
   const pastWorkoutDates = useSelector((state) => state.dates.dates);
@@ -46,24 +53,12 @@ const CalendarView = () => {
 
   const dispatch = useDispatch();
 
-  function setDates(dates){
-    let marks = {};
-    dates.forEach((date) => {
-      marks[date] = { marked: true, selectedColor: '#cab0ff' };
-    });
-    return marks;
-  }
-
-  const filterRecords = (date, records) => {
-    return records.filter((e) => {
-        return e.date === date;
-    });
-  }
+  const filterRecords = (date, records) => records.filter((e) => e.date === date);
 
   const getDateRecords = async (user, currentDate) => {
     const recordCheck = filterRecords(currentDate, workoutRecords);
-    if(recordCheck.length > 0){
-      console.log("Record found in redux.");
+    if (recordCheck.length > 0) {
+      console.log('Record found in redux.');
       setShowWorkout(true);
       setExercises(recordCheck);
     } else {
@@ -75,14 +70,14 @@ const CalendarView = () => {
         return;
       }
       setShowWorkout(true);
-  
+
       workoutRecordSnapshot.forEach((doc) => {
         const data = doc.data();
         const exerciseRecord = data.exercises;
         const { date } = data;
-  
+
         const workoutSets = [];
-  
+
         exerciseRecord.forEach((record) => {
           const loggableData = {
             name: record.exerciseName,
@@ -94,7 +89,6 @@ const CalendarView = () => {
           dispatch(actions.records.addWorkoutRecord(loggableData));
         });
         setExercises(workoutSets);
-        return;
       });
     }
   };
@@ -119,12 +113,11 @@ const CalendarView = () => {
         }}
         markedDates={markedDates}
         onDayPress={(date) => {
-          const marks = {};
-          let allDates = setDates(pastWorkoutDates);
-          if(allDates[date.dateString]){
-            allDates[date.dateString] = { selected: true, marked:allDates[date.dateString].marked, selectedColor: '#cab0ff' };
+          const allDates = setDates(pastWorkoutDates);
+          if (allDates[date.dateString]) {
+            allDates[date.dateString] = { selected: true, marked: allDates[date.dateString].marked, selectedColor: '#cab0ff' };
           } else {
-            allDates[date.dateString] = { selected: true, marked:false, selectedColor: '#cab0ff' };
+            allDates[date.dateString] = { selected: true, marked: false, selectedColor: '#cab0ff' };
           }
           setMarkedDates(allDates);
 
@@ -147,18 +140,25 @@ const CalendarView = () => {
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
         {firstRun.current ? <DayTitle>No date selected</DayTitle> : <DayTitle>{selectedDate}</DayTitle>}
       </View>
-      {showWorkout ? <FlatList
-        data={exercises}
-        keyExtractor={(item, index) => item.name + item.date + index.toString()}
-        renderItem={(item) => {
-          const isReps = 'reps' in item.item.sets[0];
-          return (
-            <CalendarWorkoutCard name={item.item.name} sets={item.item.sets} isReps={isReps} />
-          );
+      {showWorkout ? (
+        <FlatList
+          data={exercises}
+          keyExtractor={(item, index) => item.name + item.date + index.toString()}
+          renderItem={(item) => {
+            const isReps = 'reps' in item.item.sets[0];
+            return (
+              <CalendarWorkoutCard name={item.item.name} sets={item.item.sets} isReps={isReps} />
+            );
+          }}
+        />
+      ) : (
+        <View style={{
+          flex: 1, widht: '100%', alignItems: 'center', justifyContent: 'center',
         }}
-      /> : <View style={{flex: 1, widht:'100%', alignItems:'center', justifyContent:'center'}}>
-            <NoWorkoutText>No workout performed</NoWorkoutText>
-          </View>}
+        >
+          <NoWorkoutText>No workout performed</NoWorkoutText>
+        </View>
+      )}
     </View>
   );
 };
