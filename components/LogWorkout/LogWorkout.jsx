@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
-import _, { set } from 'lodash';
+import _ from 'lodash';
 import styled from 'styled-components';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
@@ -27,7 +28,6 @@ const TitleText = styled.Text`
 const parseExercises = (exercises) => exercises.map((exercise) => {
   const exerciseType = exercise.sets[0].reps ? 'REPS' : 'SECS';
 
-  
   return {
     id: exercise.exerciseId,
     name: exercise.name,
@@ -95,13 +95,12 @@ const LogWorkout = (props) => {
   const dispatch = useDispatch();
 
   const incrementSelectedCycleIdx = () => {
-    dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
     userRef.update({ selectedCycleIndex: (cycleIdx + 1) % cycleLength });
+    dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
   };
 
   const sendWorkoutLogToDB = () => {
     const workoutRecsRef = userRef.collection('workoutRecords');
-    const { format } = require('date-fns');
 
     const newWorkoutLog = {
       workoutName: name,
@@ -112,7 +111,7 @@ const LogWorkout = (props) => {
         exerciseName: exercise.name,
         sets: exercise.sets.map((set) => {
           const parsedSet = {
-            weight: (set.prevWeight == 'n/a' && set.weight  == '') ? null : parseInt(set.weight) || parseInt(set.prevWeight),
+            weight: (set.prevWeight === 'n/a' && set.weight === '') ? null : parseInt(set.weight) || parseInt(set.prevWeight),
           };
           _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], parseInt(set.duration) || parseInt(set.prevDuration));
           return parsedSet;
@@ -199,14 +198,16 @@ const LogWorkout = (props) => {
     <ModalWapper>
       <TitleText>{name}</TitleText>
       <StyledFinishButton onPress={() => {
-        // TODO: Update Redux and database
-        const completedList = [];
-        exerciseState.forEach((exercise) => {
-          exercise.sets.forEach((set) => {
-            completedList.push(set.completed);
-          });
-        });
-        if (completedList.includes(false)) {
+        let completed = true;
+        for (let i = 0; completed && i < exerciseState.length; i += 1) {
+          const { sets } = exerciseState[i];
+          for (let j = 0; completed && j < sets.length; j += 1) {
+            if (!sets[j].completed) {
+              completed = false;
+            }
+          }
+        }
+        if (!completed) {
           alert('All sets must be completed to Finish');
         } else {
           sendWorkoutLogToDB();
