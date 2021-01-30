@@ -69,6 +69,7 @@ const retrieveCycles = async (userRef) => {
   return cycles;
 };
 
+//TODO: retrieve the array pastWorkoutDates from the user
 const retrieveRecords = async (userRef) => {
   const records = [];
   const recordsRef = userRef.collection('workoutRecords');

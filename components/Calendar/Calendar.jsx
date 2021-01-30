@@ -23,6 +23,9 @@ function formatDate(date) {
 }
 
 const CalendarView = () => {
+  //TODO: don't load in all records in home, only load by day clicked and add to redux --> no need to initialize
+  // load the array of dates in on home loading time, mark all in the month and when navigate months load them in and mark that month 
+
   // 1. make field for completed workout dates in user
   // 2. update log workout, date should be sent to the date array in user
   // 3. mark all dates on calendar with workouts
