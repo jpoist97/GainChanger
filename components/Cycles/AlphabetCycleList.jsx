@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import * as firebase from 'firebase';
 import CycleCard from './CycleCard';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants/index';
 import 'firebase/firestore';
 
 const Title = styled.Text`
@@ -34,18 +35,22 @@ const parseItems = (items, selectedCycle) => {
   // The second argument here is the initial accumulator, if there is a
   // selected cycle we want that to be in the initial accumulator, if not
   // we want an empty object as the initial accumulator
-  const bucketData = items.reduce((accumulator, item) => {
+  const bucketData = items.reduce((accumulator, item, index) => {
     const bucket = item.name[0].toUpperCase();
+    const newItem = {
+      ...item,
+      index,
+    };
 
     // If this is the first time we've seen this letter, create a bucket
     if (!accumulator[bucket]) {
-      accumulator[bucket] = [item];
+      accumulator[bucket] = [newItem];
     } else {
-      accumulator[bucket].push(item);
+      accumulator[bucket].push(newItem);
     }
 
     return accumulator;
-  }, (selectedCycle ? { 'Selected Cycle': [selectedCycle] } : {}));
+  }, (selectedCycle ? { 'Selected Cycle': [{ ...selectedCycle, color: '#4457BC' }] } : {}));
 
   return bucketData;
 };
@@ -72,7 +77,7 @@ const AlphabetCycleList = (props) => {
         dispatch(actions.cycles.deleteCycle(item.id));
       }}
       onPress={item.onPress}
-      color={item.color}
+      color={item.color || COLORS[item.index % COLORS.length]}
     />
   );
 

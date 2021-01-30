@@ -12,6 +12,7 @@ import WorkoutSwipeList from './WorkoutSwipeList';
 import 'firebase/firestore';
 import actions from '../../actions/index';
 import HomeScreen from './HomeScreen';
+import { COLORS } from '../../constants/index';
 
 const WelcomeTitle = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -96,8 +97,7 @@ export default () => {
   useEffect(() => {
     const initializeDatabase = async () => {
       // Get the current logged in user id
-      // const currentUser = firebase.auth().currentUser.uid;
-      const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
+      const currentUser = firebase.auth().currentUser.uid;
 
       const dbRef = firebase.firestore();
       const userRef = dbRef.collection('users').doc(currentUser);
@@ -175,29 +175,27 @@ export default () => {
           source={require('../../assets/logo.png')}
           style={{
             width: 215, height: 215, position: 'absolute', right: 10, top: 20,
-          }}
+          }} />
+      <View style={{ marginBottom: '10%', marginTop: '5%' }}>
+        <WelcomeTitle>Hello</WelcomeTitle>
+        <WelcomeTitle numberOfLines={1}>
+          {welcomeName}
+          !
+        </WelcomeTitle>
+      </View>
+      <View style={{ height: '50%', marginBottom: '25%' }}>
+        <CurrentCycle
+          name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
+          subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
+          color={cycleDetails && COLORS[cycles.selectedCycleIndex % COLORS.length]}
+          leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
+          rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
+          id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
+          isCycleSelected={cycleDetails !== undefined}
         />
-        <View style={{ marginBottom: '10%', marginTop: '5%' }}>
-          <WelcomeTitle>Hello</WelcomeTitle>
-          <WelcomeTitle numberOfLines={1}>
-            {welcomeName}
-            !
-          </WelcomeTitle>
-        </View>
-        <View style={{ height: '50%', marginBottom: '25%' }}>
-          <CurrentCycle
-            name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
-            subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
-            color={cycleDetails && cycleDetails[cycles.selectedCycleIndex].color}
-            leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
-            rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
-            id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
-            isCycleSelected={cycleDetails !== undefined}
-          />
           <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />
         </View>
       </SafeAreaView>
-
     );
   }
 
