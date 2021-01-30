@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import firebase from 'firebase';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import { useDispatch, useSelector } from 'react-redux';
+import actions from '../../actions';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -60,39 +61,47 @@ const CalendarView = () => {
 
   const filterRecords = (date, records) => {
     return records.filter((e) => {
-      return e.date === date;
+        return e.date === date;
     });
   }
 
   const getDateRecords = async (user, currentDate) => {
-    const recordsRef = user.collection('workoutRecords');
-    //add here to check redux store
-    const workoutRecordSnapshot = await recordsRef.where('date', '==', currentDate).get();
+    const recordCheck = filterRecords(currentDate, workoutRecords);
+    if(recordCheck.length > 0){
+      console.log("Record found in redux.");
+      setShowWorkout(true);
+      setExercises(recordCheck);
+    } else {
+      const recordsRef = user.collection('workoutRecords');
+      const workoutRecordSnapshot = await recordsRef.where('date', '==', currentDate).get();
 
-    if (workoutRecordSnapshot.empty) {
-      setShowWorkout(false);
-      return;
-    }
-    setShowWorkout(true);
-
-    workoutRecordSnapshot.forEach((doc) => {
-      const data = doc.data();
-      const exerciseRecord = data.exercises;
-      const { date } = data;
-
-      const workoutSets = [];
-
-      exerciseRecord.forEach((record) => {
-        const loggableData = {
-          name: record.exerciseName,
-          sets: record.sets,
-          isReps: true,
-          date,
-        };
-        workoutSets.push(loggableData);
+      if (workoutRecordSnapshot.empty) {
+        setShowWorkout(false);
+        return;
+      }
+      setShowWorkout(true);
+  
+      workoutRecordSnapshot.forEach((doc) => {
+        const data = doc.data();
+        const exerciseRecord = data.exercises;
+        const { date } = data;
+  
+        const workoutSets = [];
+  
+        exerciseRecord.forEach((record) => {
+          const loggableData = {
+            name: record.exerciseName,
+            sets: record.sets,
+            isReps: true,
+            date,
+          };
+          workoutSets.push(loggableData);
+          dispatch(actions.records.addWorkoutRecord(loggableData));
+        });
+        setExercises(workoutSets);
+        return;
       });
-      setExercises(workoutSets);
-    });
+    }
   };
 
   return (
