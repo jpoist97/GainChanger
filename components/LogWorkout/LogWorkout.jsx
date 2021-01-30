@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
@@ -94,35 +95,25 @@ const LogWorkout = (props) => {
   const dispatch = useDispatch();
 
   const incrementSelectedCycleIdx = () => {
-    dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
     userRef.update({ selectedCycleIndex: (cycleIdx + 1) % cycleLength });
+    dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
   };
 
   const sendWorkoutLogToDB = () => {
-    const formatDate = (date) => {
-      const formatMonth = (month) => {
-        if (month < 10) {
-          return `0${month}`;
-        }
-
-        return month;
-      };
-      return `${date.getFullYear()}-${formatMonth(date.getMonth() + 1)}-${date.getDate()}`;
-    };
     const workoutRecsRef = userRef.collection('workoutRecords');
 
     const newWorkoutLog = {
       workoutName: name,
       workoutId,
-      date: formatDate(new Date()),
+      date: `${format(new Date(), 'yyyy-MM-dd').toString()}`,
       exercises: exerciseState.map((exercise) => ({
         exerciseId: exercise.id,
         exerciseName: exercise.name,
         sets: exercise.sets.map((set) => {
           const parsedSet = {
-            weight: set.weight || set.prevWeight,
+            weight: (set.prevWeight === 'n/a' && set.weight === '') ? null : parseInt(set.weight) || parseInt(set.prevWeight),
           };
-          _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], set.duration || set.prevDuration);
+          _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], parseInt(set.duration) || parseInt(set.prevDuration));
           return parsedSet;
         }),
       })),
@@ -207,11 +198,22 @@ const LogWorkout = (props) => {
     <ModalWapper>
       <TitleText>{name}</TitleText>
       <StyledFinishButton onPress={() => {
-        // TODO: Update Redux and database
-        sendWorkoutLogToDB();
-        if (isSelectedCycle) { incrementSelectedCycleIdx(); }
-
-        navigation.goBack();
+        let completed = true;
+        for (let i = 0; completed && i < exerciseState.length; i += 1) {
+          const { sets } = exerciseState[i];
+          for (let j = 0; completed && j < sets.length; j += 1) {
+            if (!sets[j].completed) {
+              completed = false;
+            }
+          }
+        }
+        if (!completed) {
+          alert('All sets must be completed to Finish');
+        } else {
+          sendWorkoutLogToDB();
+          if (isSelectedCycle) { incrementSelectedCycleIdx(); }
+          navigation.goBack();
+        }
       }}
       />
       <KeyboardAwareFlatList
