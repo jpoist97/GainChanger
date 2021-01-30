@@ -21,7 +21,6 @@ export default ({ navigation }) => {
     subtext: workout.muscleGroups,
     color: workout.color,
     id: workout.id,
-    deleteWorkout: () => alert(`dispatch delete workout with ${workout.id}`),
   }));
 
   const Stack = createStackNavigator();

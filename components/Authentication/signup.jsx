@@ -263,6 +263,7 @@ const Signup = ({ navigation }) => {
             logUserData(user.user)
               .then(() => {
                 setDisableButton(false);
+                clearFields();
                 navigation.navigate('Root');
               })
               .catch((error) => {

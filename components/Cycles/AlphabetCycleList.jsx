@@ -50,7 +50,7 @@ const parseItems = (items, selectedCycle) => {
     }
 
     return accumulator;
-  }, (selectedCycle ? { 'Selected Cycle': [selectedCycle] } : {}));
+  }, (selectedCycle ? { 'Selected Cycle': [{ ...selectedCycle, color: '#4457BC' }] } : {}));
 
   return bucketData;
 };
@@ -77,7 +77,7 @@ const AlphabetCycleList = (props) => {
         dispatch(actions.cycles.deleteCycle(item.id));
       }}
       onPress={item.onPress}
-      color={COLORS[item.index % COLORS.length]}
+      color={item.color || COLORS[item.index % COLORS.length]}
     />
   );
 
