@@ -8,6 +8,7 @@ import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AdjustExercisesList from './AdjustExercisesList';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants/index';
 
 const TitleTextInput = styled.TextInput`
   position: absolute;
@@ -71,16 +72,14 @@ export default ({ navigation }) => {
     setItemState(newItemState);
   };
 
-  const colors = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];
   const onExercisesAdd = (selectedExercises) => {
     const newItems = [...itemState];
     // For now all exercises will default to reps based exercises
     newItems.push(...selectedExercises.map((exercise) => ({ ...exercise, isReps: true })));
-    const newExercise = newItems.map((item, index) => {
-      /* eslint-disable no-param-reassign */
-      item.color = colors[index % 3];
-      return item;
-    });
+    const newExercise = newItems.map((item, index) => ({
+      ...item,
+      color: COLORS[index % COLORS.length],
+    }));
     setItemState(newExercise);
   };
 

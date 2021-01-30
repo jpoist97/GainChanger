@@ -85,6 +85,8 @@ const Login = ({ navigation }) => {
     setDisableButton(true);
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
+        setDisableButton(false);
+        clearFields();
         navigation.navigate('Root');
         clearFields();
         setDisableButton(false);

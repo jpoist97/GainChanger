@@ -11,6 +11,7 @@ import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import 'firebase/firestore';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants/index';
 
 const WelcomeTitle = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -118,7 +119,6 @@ export default () => {
     const initializeDatabase = async () => {
       // Get the current logged in user id
       const currentUser = firebase.auth().currentUser.uid;
-      // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
       const dbRef = firebase.firestore();
       const userRef = dbRef.collection('users').doc(currentUser);
@@ -211,7 +211,7 @@ export default () => {
         <CurrentCycle
           name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
           subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
-          color={cycleDetails && cycleDetails[cycles.selectedCycleIndex].color}
+          color={cycleDetails && COLORS[cycles.selectedCycleIndex % COLORS.length]}
           leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
           rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
