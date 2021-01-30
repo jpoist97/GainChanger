@@ -58,8 +58,8 @@ const CalendarWorkoutCard = (props) => {
     return (
       <RowText>
         <WorkoutViewText>{index}</WorkoutViewText>
-        <WorkoutViewText>{`${lbs} lbs.`}</WorkoutViewText>
-        <WorkoutViewText>{reps}</WorkoutViewText>
+        <WorkoutViewText>{`${lbs} lbs`}</WorkoutViewText>
+        <WorkoutViewText>{isReps ? reps : `${reps} secs`}</WorkoutViewText>
       </RowText>
     );
   };

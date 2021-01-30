@@ -29,11 +29,6 @@ function formatDate(date) {
 
 const CalendarView = () => {
 
-  // 1. update log workout, should be numbers not strings
-  // 2. add workout to redux store if it isn't in it already. check by the date
-  // 3. on start up check the current day to load potential data
-  // 4. don't unmark the marked dates
-
   const startDate = new Date();
   const stateStart = `${days[startDate.getDay()]}, ${months[startDate.getMonth()]} ${startDate.getDate()}`;
   const pastWorkoutDates = useSelector((state) => state.dates.dates);
@@ -125,20 +120,18 @@ const CalendarView = () => {
         markedDates={markedDates}
         onDayPress={(date) => {
           const marks = {};
-          //TODO: make this not overwrite the marked: true property if it's true
-          marks[date.dateString] = { selected: true, selectedColor: '#cab0ff' };
-          setMarkedDates(marks);
+          let allDates = setDates(pastWorkoutDates);
+          if(allDates[date.dateString]){
+            allDates[date.dateString] = { selected: true, marked:allDates[date.dateString].marked, selectedColor: '#cab0ff' };
+          } else {
+            allDates[date.dateString] = { selected: true, marked:false, selectedColor: '#cab0ff' };
+          }
+          setMarkedDates(allDates);
 
           if (firstRun.current) {
             firstRun.current = false;
-            // TODO: on first run, check today's date in the list of workout records
-            // --> update redux/state with today's records if there are some
           }
           const formattedDate = formatDate(new Date(date.dateString));
-          // const filteredRecords = filterRecords(date.dateString, workoutRecords);
-          // if(filteredRecords[0]){
-          //   setExercises(filteredRecords[0].exercises);
-          // } 
           if (selectedDate !== formattedDate) {
             setExercises([]);
             setselectedDate(formattedDate);
