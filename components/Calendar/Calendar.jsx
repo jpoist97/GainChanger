@@ -31,6 +31,7 @@ const CalendarView = () => {
   // 1. update log workout, should be numbers not strings
   // 2. add workout to redux store if it isn't in it already. check by the date
   // 3. on start up check the current day to load potential data
+  // 4. don't unmark the marked dates
 
   const startDate = new Date();
   const stateStart = `${days[startDate.getDay()]}, ${months[startDate.getMonth()]} ${startDate.getDate()}`;
@@ -115,6 +116,7 @@ const CalendarView = () => {
         markedDates={markedDates}
         onDayPress={(date) => {
           const marks = {};
+          //TODO: make this not overwrite the marked: true property if it's true
           marks[date.dateString] = { selected: true, selectedColor: '#cab0ff' };
           setMarkedDates(marks);
 
