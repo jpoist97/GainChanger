@@ -2,17 +2,16 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import workoutReducer from '../reducers/workoutReducer';
 import cycleReducer from '../reducers/cycleReducer';
 import exerciseReducer from '../reducers/exerciseReducer';
-<<<<<<< HEAD
-import recordReducer from '../reducers/recordReducer';
-=======
 import thunk from 'redux-thunk';
->>>>>>> ddaaf913608cd1abf018bf99bb9cb2a9b81085a2
+import pastWorkoutDateReducer from '../reducers/pastWorkoutDatesReducer';
+import workoutRecordReducer from '../reducers/workoutRecordReducer'
 
 const rootReducer = combineReducers({ 
    workouts: workoutReducer, 
    cycles: cycleReducer,
    exercises: exerciseReducer,
-   records: recordReducer,
+   dates: pastWorkoutDateReducer,
+   records: workoutRecordReducer,
 });
 
 const configureStore = () => {

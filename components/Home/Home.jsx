@@ -70,29 +70,6 @@ const retrieveCycles = async (userRef) => {
   return cycles;
 };
 
-//TODO: retrieve the array pastWorkoutDates from the user
-const retrieveRecords = async (userRef) => {
-  const records = [];
-  const recordsRef = userRef.collection('workoutRecords');
-  const recordsSnapshot = await recordsRef.get();
-
-  recordsSnapshot.forEach((doc) => {
-    const {
-      date, exercises, workoutId, workoutName,
-    } = doc.data();
-
-    if (date && exercises && workoutId && workoutName) {
-      records.push({
-        date,
-        exercises,
-        workoutId,
-        name: workoutName,
-      });
-    }
-  });
-  return records;
-};
-
 const retrieveExercises = async (dbRef) => {
   const exercises = [];
   const exerciseRef = dbRef.collection('exercises');
@@ -129,9 +106,8 @@ export default () => {
         retrieveWorkouts(userRef),
         retrieveCycles(userRef),
         retrieveExercises(dbRef),
-        retrieveRecords(userRef),
       ]);
-      const [userData, workouts, cycles, exercises, records] = firestoreResponse;
+      const [userData, workouts, cycles, exercises, ] = firestoreResponse;
 
       // Initialize redux store
       console.log('Home: Initializing Workout store');
@@ -147,8 +123,8 @@ export default () => {
       console.log('Home: Initialize Exercise store');
       dispatch(actions.exercises.initalizeExercises(exercises));
 
-      console.log('Home: Initialize Records store');
-      dispatch(actions.records.initializeRecords(records));
+      console.log('Home: Initialize Dates store');
+      dispatch(actions.dates.initializeRecordDates(userData.pastWorkoutDates));
     };
 
     initializeDatabase();

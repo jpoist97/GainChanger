@@ -16,9 +16,12 @@ export const PURGE_WORKOUT = 'PURGE_WORKOUT'
 // Exercises
 export const INITIALIZE_EXERCISES = 'INITIALIZE_EXERCISES';
 
-// Records
-export const INITIALIZE_RECORDS = 'INITIALIZE_RECORDS';
-export const ADD_WORKOUT_RECORD = 'ADD_WORKOUT_RECORD';
+// Past Workout Dates
+export const INITIALIZE_DATES = 'INITIALIZE_DATES';
+export const ADD_WORKOUT_RECORD_DATE = 'ADD_WORKOUT_RECORD_DATE';
+
+// Workout Records
+export const ADD_WORKOUT_RECORD = 'ADD_WORKOUT_RECORD'
 
 // Misc
 export const COLORS = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];

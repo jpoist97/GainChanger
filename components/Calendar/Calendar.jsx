@@ -4,7 +4,7 @@ import { Calendar } from 'react-native-calendars';
 import styled from 'styled-components';
 import firebase from 'firebase';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -18,34 +18,44 @@ const DayTitle = styled.Text`
   margin-bottom: 15px;
 `;
 
+const NoWorkoutText = styled(DayTitle)`
+  font-size: 24px;
+`;
+
 function formatDate(date) {
   return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate() + 1}`;
 }
 
 const CalendarView = () => {
-  //TODO: don't load in all records in home, only load by day clicked and add to redux --> no need to initialize
-  // load the array of dates in on home loading time, mark all in the month and when navigate months load them in and mark that month 
 
-  // 1. make field for completed workout dates in user
-  // 2. update log workout, date should be sent to the date array in user
-  // 3. mark all dates on calendar with workouts
-  // 4. add to redux after db call and check it each time in the future --> no more db calls once a date has been clicked
-  // 5. make records work for the current day
+  // 1. update log workout, should be numbers not strings
+  // 2. add workout to redux store if it isn't in it already. check by the date
+  // 3. on start up check the current day to load potential data
 
   const startDate = new Date();
   const stateStart = `${days[startDate.getDay()]}, ${months[startDate.getMonth()]} ${startDate.getDate()}`;
+  const pastWorkoutDates = useSelector((state) => state.dates.dates);
+  const workoutRecords = useSelector((state) => state.records.records);
 
   const [selectedDate, setselectedDate] = React.useState(stateStart);
   const [exercises, setExercises] = React.useState([]);
+  const [markedDates, setMarkedDates] = React.useState(setDates(pastWorkoutDates));
+  const [showWorkout, setShowWorkout] = React.useState(false);
   const firstRun = React.useRef(true);
-  const [markedDates, setMarkedDates] = React.useState();
 
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser.uid;
   const userRef = db.collection('users').doc(currentUser);
 
-  //this loads in all of the records so we don't need to make any db calls
-  const records = useSelector((state) => state.records.records);
+  const dispatch = useDispatch();
+
+  function setDates(dates){
+    let marks = {};
+    dates.forEach((date) => {
+      marks[date] = { marked: true, selectedColor: '#cab0ff' };
+    });
+    return marks;
+  }
 
   const filterRecords = (date, records) => {
     return records.filter((e) => {
@@ -55,12 +65,14 @@ const CalendarView = () => {
 
   const getDateRecords = async (user, currentDate) => {
     const recordsRef = user.collection('workoutRecords');
+    //add here to check redux store
     const workoutRecordSnapshot = await recordsRef.where('date', '==', currentDate).get();
 
     if (workoutRecordSnapshot.empty) {
-      console.log(`No workout records for ${currentDate}`);
+      setShowWorkout(false);
       return;
     }
+    setShowWorkout(true);
 
     workoutRecordSnapshot.forEach((doc) => {
       const data = doc.data();
@@ -78,7 +90,6 @@ const CalendarView = () => {
         };
         workoutSets.push(loggableData);
       });
-      // TODO: right now this only works if there is one workout on the selected date
       setExercises(workoutSets);
     });
   };
@@ -113,10 +124,10 @@ const CalendarView = () => {
             // --> update redux/state with today's records if there are some
           }
           const formattedDate = formatDate(new Date(date.dateString));
-          // const filteredRecords = filterRecords(date.dateString, records);
+          // const filteredRecords = filterRecords(date.dateString, workoutRecords);
           // if(filteredRecords[0]){
           //   setExercises(filteredRecords[0].exercises);
-          // }
+          // } 
           if (selectedDate !== formattedDate) {
             setExercises([]);
             setselectedDate(formattedDate);
@@ -132,7 +143,7 @@ const CalendarView = () => {
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
         {firstRun.current ? <DayTitle>No date selected</DayTitle> : <DayTitle>{selectedDate}</DayTitle>}
       </View>
-      <FlatList
+      {showWorkout ? <FlatList
         data={exercises}
         keyExtractor={(item, index) => item.name + item.date + index.toString()}
         renderItem={(item) => {
@@ -141,7 +152,9 @@ const CalendarView = () => {
             <CalendarWorkoutCard name={item.item.name} sets={item.item.sets} isReps={isReps} />
           );
         }}
-      />
+      /> : <View style={{flex: 1, widht:'100%', alignItems:'center', justifyContent:'center'}}>
+            <NoWorkoutText>No workout performed</NoWorkoutText>
+          </View>}
     </View>
   );
 };

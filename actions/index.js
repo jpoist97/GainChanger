@@ -1,11 +1,13 @@
 import cycleActions from './cycleActions';
 import workoutActions from './workoutActions';
 import exerciseActions from './exerciseActions';
-import recordActions from './recordActions';
+import pastWorkoutDatesActions from './pastWorkoutDatesActions';
+import workoutRecordActions from './workoutRecordActions';
 
 export default {
    cycles: cycleActions,
    workouts: workoutActions,
    exercises: exerciseActions,
-   records: recordActions,
+   records: workoutRecordActions,
+   dates: pastWorkoutDatesActions,
 };
