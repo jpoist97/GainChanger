@@ -1,4 +1,4 @@
-import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, PURGE_WORKOUT, DELETE_CYCLE } from '../constants/index';
+import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, UPDATE_WORKOUT_PREV, PURGE_WORKOUT, DELETE_CYCLE } from '../constants/index';
 import * as api from '../api';
 
 const initializeWorkouts = (workouts) => {
@@ -48,8 +48,17 @@ const deleteWorkout = (workoutId) => {
    }
 }
 
+const updateWorkoutPrev = (workoutId, updatedExercises) => {
+   return {
+      type: UPDATE_WORKOUT_PREV,
+      workoutId,
+      updatedExercises
+   }
+}
+
 export default {
    initializeWorkouts,
    addWorkout,
    deleteWorkout,
+   updateWorkoutPrev,
 };
