@@ -6,7 +6,7 @@ import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import actions from '../../actions';
-import {DAYS, MONTHS} from '../../constants/index';
+import { DAYS, MONTHS } from '../../constants/index';
 
 const DayTitle = styled.Text`
   font-family: 'Montserrat_500Medium';

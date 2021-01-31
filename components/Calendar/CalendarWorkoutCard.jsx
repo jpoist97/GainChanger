@@ -50,7 +50,7 @@ const CalendarWorkoutCard = (props) => {
     name, sets, isReps,
   } = props;
 
-  const SetRow = (props) => {
+  const SetRow = (props) => { //eslint-disable-line
     const {
       index, lbs, reps,
     } = props;
