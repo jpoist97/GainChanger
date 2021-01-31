@@ -1,4 +1,4 @@
-import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT } from '../constants/index';
+import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, UPDATE_WORKOUT } from '../constants/index';
 
 const initialState = {
    workouts: [],
@@ -24,6 +24,22 @@ const workoutReducer = (state = initialState, action) => {
          return {
             workouts: postDeleteWorkout,
          }
+      case UPDATE_WORKOUT:
+         console.log(`Updating workout with ID ${action.workoutId}`);
+
+         const updatedWorkouts = state.workouts.map((workout) => {
+            if(workout.id === action.workoutId) {
+               return {
+                  ...action.newWorkoutContent,
+                  id: action.workoutId,
+               };
+            } else {
+               return workout;
+            }
+         });
+         return {
+            workouts: updatedWorkouts
+         };
       default:
          return state;
    }

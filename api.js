@@ -89,3 +89,9 @@ export async function deleteCycleDocument(cycleId) {
    const userRef = getUserRef();
    return await userRef.collection('cycles').doc(cycleId).delete();
 }
+
+
+export async function updateWorkoutDocument(workoutId, newWorkoutContent) {
+   const userRef = getUserRef();
+   return await userRef.collection('workouts').doc(workoutId).update(newWorkoutContent);
+}

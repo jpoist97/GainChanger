@@ -1,4 +1,4 @@
-import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, PURGE_WORKOUT, DELETE_CYCLE } from '../constants/index';
+import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, PURGE_WORKOUT, DELETE_CYCLE, UPDATE_WORKOUT } from '../constants/index';
 import * as api from '../api';
 
 const initializeWorkouts = (workouts) => {
@@ -48,8 +48,22 @@ const deleteWorkout = (workoutId) => {
    }
 }
 
+const updateWorkout = (workoutId, newWorkoutContent) => {
+   return (dispatch) => {
+      console.log(`Updating workout ${workoutId}`);
+
+      api.updateWorkoutDocument(workoutId, newWorkoutContent);
+      dispatch({
+         type: UPDATE_WORKOUT,
+         workoutId,
+         newWorkoutContent,
+      });
+   }
+}
+
 export default {
    initializeWorkouts,
    addWorkout,
    deleteWorkout,
+   updateWorkout,
 };
