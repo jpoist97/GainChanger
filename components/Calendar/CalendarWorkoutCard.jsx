@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 
 const RowText = styled.View`
     width: 100%;
-    flexDirection: row;
-    alignContent: center;    
-    alignItems: center;
+    flex-direction: row;
+    align-content: center;    
+    align-items: center;
     font-family: 'Montserrat_500Medium';
-    justifyContent: space-evenly;
+    justify-content: space-evenly;
 `;
 
 const WorkoutTitle = styled.Text`
@@ -21,14 +21,14 @@ const WorkoutTitle = styled.Text`
 
 const SubHeader = styled(WorkoutTitle)`
     font-size: 16px;
-    textAlign: center;
+    text-align: center;
     flex: 1;
 `;
 
 const WorkoutViewText = styled(WorkoutTitle)`
     font-family: 'Montserrat_500Medium';
     font-size: 12px;
-    textAlign: center;
+    text-align: center;
     flex: 1;
   `;
 
@@ -38,10 +38,10 @@ const Container = styled.View`
     background-color: #CAB0FF;
     width: 90%;
     margin: auto;
-    borderRadius: 10px;
+    border-radius: 10px;
     box-shadow: 1px 5px 2px gray;
-    marginBottom: 10px;
-    marginTop: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
     padding: 10px;
 `;
 
