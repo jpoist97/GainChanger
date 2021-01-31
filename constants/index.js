@@ -25,3 +25,6 @@ export const ADD_WORKOUT_RECORD = 'ADD_WORKOUT_RECORD'
 
 // Misc
 export const COLORS = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];
+export const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+  'August', 'September', 'October', 'November', 'December'];
