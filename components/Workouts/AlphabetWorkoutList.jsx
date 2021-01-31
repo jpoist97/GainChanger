@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import _ from 'lodash';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import WorkoutCard from './WorkoutCard';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants/index';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -34,14 +35,18 @@ const parseItems = (items) => {
   items.sort((a, b) => a.name.localeCompare(b.name));
 
   // Group by first letter of each name
-  const bucketData = items.reduce((accumulator, item) => {
+  const bucketData = items.reduce((accumulator, item, index) => {
     const bucket = item.name[0].toUpperCase();
+    const newItem = {
+      ...item,
+      index,
+    };
 
     // If this is the first time we've seen this letter, create a bucket
     if (!accumulator[bucket]) {
-      accumulator[bucket] = [item];
+      accumulator[bucket] = [newItem];
     } else {
-      accumulator[bucket].push(item);
+      accumulator[bucket].push(newItem);
     }
 
     return accumulator;
@@ -69,6 +74,7 @@ const AlphabetWorkoutList = (props) => {
   const { items } = props;
 
   const navigation = useNavigation();
+  const selectedCycle = useSelector((state) => state.cycles.selectedCycle);
   const dispatch = useDispatch();
   const parsedItems = parseItems(items);
 
@@ -78,9 +84,15 @@ const AlphabetWorkoutList = (props) => {
         name={left.name}
         subtext={left.subtext}
         displayEllipses={left.displayEllipses}
-        deleteWorkout={() => dispatch(actions.workouts.deleteWorkout(left.id))}
+        deleteWorkout={() => {
+          if (selectedCycle.workouts.includes(left.id)) {
+            alert('This workout is included in the selected cycle. Please select another cycle before deleting this workout.');
+          } else {
+            dispatch(actions.workouts.deleteWorkout(left.id));
+          }
+        }}
         id={left.id}
-        color={left.color}
+        color={COLORS[left.index % COLORS.length]}
         key={left.name + left.subtext}
         onPress={() => { navigation.navigate('Log Workout', { workoutId: left.id }); }}
       />
@@ -89,9 +101,15 @@ const AlphabetWorkoutList = (props) => {
           name={right.name}
           subtext={right.subtext}
           displayEllipses={right.displayEllipses}
-          deleteWorkout={() => dispatch(actions.workouts.deleteWorkout(right.id))}
+          deleteWorkout={() => {
+            if (selectedCycle.workouts.includes(right.id)) {
+              alert('This workout is included in the selected cycle. Please select another cycle before deleting this workout.');
+            } else {
+              dispatch(actions.workouts.deleteWorkout(right.id));
+            }
+          }}
           id={right.id}
-          color={right.color}
+          color={COLORS[right.index % COLORS.length]}
           key={right.name + right.subtext}
           onPress={() => { navigation.navigate('Log Workout', { workoutId: right.id }); }}
         />

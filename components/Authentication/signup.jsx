@@ -188,6 +188,12 @@ const Signup = ({ navigation }) => {
     return (false);
   }
 
+  function clearFields() {
+    setName('');
+    setEmail('');
+    setPassword('');
+  }
+
   React.useEffect(() => {
     if (isFirstRunName.current) {
       isFirstRunName.current = false;
@@ -255,12 +261,16 @@ const Signup = ({ navigation }) => {
           }).then(() => {
             logUserData(user.user)
               .then(() => {
+                setDisableButton(false);
+                clearFields();
                 navigation.navigate('Root');
               })
               .catch((error) => {
+                setDisableButton(false);
                 console.log(error);
               });
           }).catch((error) => {
+            setDisableButton(false);
             console.log('Display name not set.');
             console.log(error);
           });
