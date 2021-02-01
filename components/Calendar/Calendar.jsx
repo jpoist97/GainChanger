@@ -141,7 +141,7 @@ const CalendarView = () => {
         <FlatList
           data={exercises}
           keyExtractor={(item, index) => item.name + item.date + index.toString()}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             const isReps = 'reps' in item.sets[0];
             console.log(index);
             return (

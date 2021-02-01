@@ -34,7 +34,7 @@ const WorkoutViewText = styled(WorkoutTitle)`
 
 const CalendarWorkoutCard = (props) => {
   const {
-    name, sets, isReps, color
+    name, sets, isReps, color,
   } = props;
 
   const Container = styled.View`
