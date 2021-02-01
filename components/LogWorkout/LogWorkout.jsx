@@ -65,8 +65,6 @@ const LogWorkout = (props) => {
   // get the workout details from redux based on workoutid
   console.log(`Opening Log Workout for workout id ${workoutId}`);
 
-  const { format } = require('date-fns');
-
   const exerciseStore = useSelector((state) => state.exercises.exercises);
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
@@ -216,7 +214,7 @@ const LogWorkout = (props) => {
           alert('All sets must be completed to Finish');
         } else {
           sendWorkoutLogToDB();
-          updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`)
+          updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`);
           if (isSelectedCycle) { incrementSelectedCycleIdx(); }
           navigation.goBack();
         }
