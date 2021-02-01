@@ -6,10 +6,7 @@ import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import actions from '../../actions';
-
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-  'August', 'September', 'October', 'November', 'December'];
+import { DAYS, MONTHS, COLORS } from '../../constants/index';
 
 const DayTitle = styled.Text`
   font-family: 'Montserrat_500Medium';
@@ -24,10 +21,10 @@ const NoWorkoutText = styled(DayTitle)`
 `;
 
 function formatDate(date) {
-  return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate() + 1}`;
+  return `${DAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate() + 1}`;
 }
 
-function setDates(dates) {
+function createCalendarMarkedDates(dates) {
   const marks = {};
   dates.forEach((date) => {
     marks[date] = { marked: true, selectedColor: '#cab0ff' };
@@ -37,13 +34,13 @@ function setDates(dates) {
 
 const CalendarView = () => {
   const startDate = new Date();
-  const stateStart = `${days[startDate.getDay()]}, ${months[startDate.getMonth()]} ${startDate.getDate()}`;
+  const stateStart = `${DAYS[startDate.getDay()]}, ${MONTHS[startDate.getMonth()]} ${startDate.getDate()}`;
   const pastWorkoutDates = useSelector((state) => state.dates.dates);
   const workoutRecords = useSelector((state) => state.records.records);
 
   const [selectedDate, setselectedDate] = React.useState(stateStart);
   const [exercises, setExercises] = React.useState([]);
-  const [markedDates, setMarkedDates] = React.useState(setDates(pastWorkoutDates));
+  const [markedDates, setMarkedDates] = React.useState(createCalendarMarkedDates(pastWorkoutDates));
   const [showWorkout, setShowWorkout] = React.useState(false);
   const firstRun = React.useRef(true);
 
@@ -82,7 +79,6 @@ const CalendarView = () => {
           const loggableData = {
             name: record.exerciseName,
             sets: record.sets,
-            isReps: true,
             date,
           };
           workoutSets.push(loggableData);
@@ -113,7 +109,7 @@ const CalendarView = () => {
         }}
         markedDates={markedDates}
         onDayPress={(date) => {
-          const allDates = setDates(pastWorkoutDates);
+          const allDates = createCalendarMarkedDates(pastWorkoutDates);
           if (allDates[date.dateString]) {
             allDates[date.dateString] = { selected: true, marked: allDates[date.dateString].marked, selectedColor: '#cab0ff' };
           } else {
@@ -144,10 +140,10 @@ const CalendarView = () => {
         <FlatList
           data={exercises}
           keyExtractor={(item, index) => item.name + item.date + index.toString()}
-          renderItem={(item) => {
-            const isReps = 'reps' in item.item.sets[0];
+          renderItem={({ item, index }) => {
+            const isReps = 'reps' in item.sets[0];
             return (
-              <CalendarWorkoutCard name={item.item.name} sets={item.item.sets} isReps={isReps} />
+              <CalendarWorkoutCard color={COLORS[index % COLORS.length]} name={item.name} sets={item.sets} isReps={isReps} />
             );
           }}
         />
