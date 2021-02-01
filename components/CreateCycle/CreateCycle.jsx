@@ -37,9 +37,12 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default ({ navigation }) => {
-  const [name, setName] = React.useState('');
-  const [workouts, setWorkouts] = React.useState([]);
+export default ({ navigation, route }) => {
+  const {
+    cycleName, cycleDetails, isNewCycle, cycleID,
+  } = route.params;
+  const [name, setName] = React.useState(cycleName);
+  const [workouts, setWorkouts] = React.useState(cycleDetails);
   const dispatch = useDispatch();
 
   const Stack = createStackNavigator();
@@ -50,20 +53,22 @@ export default ({ navigation }) => {
 
   const createNewCycle = async (newCycle) => {
     const currentUser = firebase.auth().currentUser.uid;
-
     const cycleRef = firebase.firestore()
       .collection('users')
       .doc(currentUser)
       .collection('cycles');
-
-    const cycleDoc = await cycleRef.add(newCycle);
+    let cycleDoc;
+    if (isNewCycle) {
+      cycleDoc = await cycleRef.add(newCycle);
+    } else {
+      cycleDoc = await cycleRef.doc(cycleID).update(newCycle);
+    }
 
     dispatch(actions.cycles.addCycle({
       workouts: newCycle.workoutIds,
       name: newCycle.name,
       id: cycleDoc.id,
     }));
-    navigation.goBack();
   };
 
   function CreateCycle() {
@@ -112,6 +117,7 @@ export default ({ navigation }) => {
             workoutIds: workouts.map((workout) => workout.id),
           };
           createNewCycle(newCycle, dispatch);
+          navigation.navigate('Cycles');
         }
       }}
       />

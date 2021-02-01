@@ -19,10 +19,21 @@ export default () => {
   const navigation = useNavigation();
 
   const cycles = useSelector((state) => state.cycles);
+  const workouts = useSelector((state) => state.workouts.workouts);
+
   const allCycles = cycles.cycles.map((cycle) => ({
     ...cycle,
     subtext: `${cycle.workouts.length} Workouts`,
-    onPress: () => alert(`Navigate to cycle ${cycle.id}`),
+    onPress: () => {
+      const cID = cycle.id;
+      const cycleDetails = cycle.workouts.map((workoutId) => _.find(workouts, (workout) => workout.id === workoutId));
+      navigation.navigate('Create Cycle', {
+        cycleName: cycle.name,
+        cycleDetails,
+        isNewCycle: false,
+        cycleID: cID,
+      });
+    },
   }));
   const selectedCycle = (cycles.selectedCycleId !== undefined) && _.find(allCycles, (cycle) => cycle.id === cycles.selectedCycleId);
 
@@ -30,7 +41,15 @@ export default () => {
     return (
       <SafeAreaView style={{ height: '100%' }}>
         <AlphabetCycleList items={allCycles} selectedCycle={selectedCycle} />
-        <AddCycleButton title="Cycle" size={18} onPress={() => navigation.navigate('Create Cycle')} />
+        <AddCycleButton
+          title="Cycle"
+          size={18}
+          onPress={() => navigation.navigate('Create Cycle', {
+            cycleName: '',
+            cycleDetails: [],
+            isNewCycle: true,
+          })}
+        />
       </SafeAreaView>
     );
   }
