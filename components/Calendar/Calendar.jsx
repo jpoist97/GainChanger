@@ -79,7 +79,6 @@ const CalendarView = () => {
           const loggableData = {
             name: record.exerciseName,
             sets: record.sets,
-            isReps: true,
             date,
           };
           workoutSets.push(loggableData);
@@ -143,7 +142,6 @@ const CalendarView = () => {
           keyExtractor={(item, index) => item.name + item.date + index.toString()}
           renderItem={({ item, index }) => {
             const isReps = 'reps' in item.sets[0];
-            console.log(index);
             return (
               <CalendarWorkoutCard color={COLORS[index % COLORS.length]} name={item.name} sets={item.sets} isReps={isReps} />
             );
