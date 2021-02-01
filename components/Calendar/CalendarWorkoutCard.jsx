@@ -32,10 +32,15 @@ const WorkoutViewText = styled(WorkoutTitle)`
     flex: 1;
   `;
 
-const Container = styled.View`
+const CalendarWorkoutCard = (props) => {
+  const {
+    name, sets, isReps, color
+  } = props;
+
+  const Container = styled.View`
     flex-direction: column;
     justify-content: flex-start;
-    background-color: #CAB0FF;
+    background-color: ${color};
     width: 90%;
     margin: auto;
     border-radius: 10px;
@@ -44,11 +49,6 @@ const Container = styled.View`
     margin-top: 10px;
     padding: 10px;
 `;
-
-const CalendarWorkoutCard = (props) => {
-  const {
-    name, sets, isReps,
-  } = props;
 
   const SetRow = (props) => { //eslint-disable-line
     const {
@@ -97,12 +97,14 @@ CalendarWorkoutCard.propTypes = {
   name: PropTypes.string,
   sets: PropTypes.array,
   isReps: PropTypes.bool,
+  color: PropTypes.string,
 };
 
 CalendarWorkoutCard.defaultProps = {
   name: 'Workout_Name',
   sets: [],
   isReps: true,
+  color: '#CAB0FF',
 };
 
 export default CalendarWorkoutCard;

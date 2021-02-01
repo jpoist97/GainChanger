@@ -6,7 +6,7 @@ import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import actions from '../../actions';
-import { DAYS, MONTHS } from '../../constants/index';
+import { DAYS, MONTHS, COLORS } from '../../constants/index';
 
 const DayTitle = styled.Text`
   font-family: 'Montserrat_500Medium';
@@ -141,10 +141,11 @@ const CalendarView = () => {
         <FlatList
           data={exercises}
           keyExtractor={(item, index) => item.name + item.date + index.toString()}
-          renderItem={(item) => {
-            const isReps = 'reps' in item.item.sets[0];
+          renderItem={({item, index}) => {
+            const isReps = 'reps' in item.sets[0];
+            console.log(index);
             return (
-              <CalendarWorkoutCard name={item.item.name} sets={item.item.sets} isReps={isReps} />
+              <CalendarWorkoutCard color={COLORS[index % COLORS.length]} name={item.name} sets={item.sets} isReps={isReps} />
             );
           }}
         />

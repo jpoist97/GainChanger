@@ -14,7 +14,9 @@ const pastWorkoutDateReducer = (state = initialState, action) => {
         case ADD_WORKOUT_RECORD_DATE:
             console.log(`Adding workout to store with ${action.date}`);
             const newDates = [...state.dates];
-            newDates.push(action.date);
+            if(!(newDates.includes(action.date))){
+                newDates.push(action.date);
+            }
             return {
                 dates: newDates,
             };
