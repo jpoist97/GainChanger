@@ -67,26 +67,24 @@ const parseItemsByName = (items) => {
 };
 
 const parseItemsByMuscleGroup = (items) => {
-  // Sort names alphabetically
-  // items.sort((a, b) => a.muscleGroups.localeCompare(b.muscleGroups));
+  // Sort by muscle group
+  items.sort((a, b) => a.muscleGroups.localeCompare(b.muscleGroups));
+  const bucketData = items.reduce((accumulator, item) => {
+    const bucket = item.muscleGroups;
+    if(!accumulator[bucket]) {
+      accumulator[bucket] = [item]
+    } else {
+      accumulator[bucket].push(item);
+    }
+    return accumulator;
+  }, {})
 
-  // const bucketData = items.reduce((accumulator, item) => {
-  //   const bucket = item.muscleGroups;
-
-  //   if(!accumulator[bucket]) {
-  //     accumulator[bucket] = [item]
-  //   } else {
-  //     accumulator[bucket].push(item);
-  //   }
-  //   return accumulator;
-  // }, {});
-  // return bucketData;
-  // Group by muscle group
-  var muscleGroupBuckets = {"Arms": [], "Back": [], "Biceps": [], "Calves": [], "Cardio": [], "Chest": [], "Core": [], "Legs": [], "Full Body": [], "Olympic": [], "Shoulders": [], "Triceps": []}
-  items.forEach((item) => {
-    muscleGroupBuckets[item.muscleGroups].push(item);
-  });
-  return muscleGroupBuckets;
+  // Sort by name within each muscle group
+  for (let muscle in bucketData) {
+    bucketData[muscle].sort((a, b) => a.name.localeCompare(b.name));
+  }
+  
+  return bucketData;
 };
 
 const renderHeader = ({ section }) => (
@@ -182,10 +180,10 @@ const ExerciseList = (props) => {
         <FilterButton
           options={[
             {
-              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { filterByName(); },
+              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { filterByName() },
             },
             {
-              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { filterByMuscleGroup(); },
+              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { filterByMuscleGroup() },
             }]}
             triggerSize = {28}
             masterDataSource = {masterDataSource}
