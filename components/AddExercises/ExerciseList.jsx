@@ -5,7 +5,7 @@ import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import ExerciseItem from './ExerciseItem';
-import FilterPopup from '../utils/FilterPopup';
+import SortByPopup from '../utils/SortByPopup';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -37,7 +37,7 @@ const Buttontext = styled.Text`
   font-size: 18px;
 `;
 
-const FilterButton = styled(FilterPopup)`
+const SortByButton = styled(SortByPopup)`
   position: absolute;
   right: 15px;
   top: 22px;
@@ -140,6 +140,7 @@ const ExerciseList = (props) => {
       selected={item.selected}
       onPress={() => {
         const temp = { ...masterDataSource };
+        // console.log(temp[item.muscleGroups][index]) !!! FOR MUSCLE GROUP ITEM ACCESS !!!
         const { selected } = temp[item.name[0]][index];
         temp[item.name[0]][index].selected = !selected;
         setMasterDataSource(temp);
@@ -177,7 +178,7 @@ const ExerciseList = (props) => {
           platform="ios"
           containerStyle={{ backgroundColor: '#f2f2f2', width: '82%' }}
         />
-        <FilterButton
+        <SortByButton
           options={[
             {
               icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { filterByName() },

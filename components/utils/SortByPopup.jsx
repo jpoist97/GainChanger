@@ -24,7 +24,7 @@ const IconWrapper = styled.View`
 `;
 
 
-const FilterPopup = (props) => {
+const SortByPopup = (props) => {
     const { style, options, triggerSize, masterDataSource, setMasterDataSource } = props;
     
     const parseItems = (items) => {
@@ -51,7 +51,7 @@ const FilterPopup = (props) => {
       <Menu style={style}>
         <MenuTrigger>
           <FontAwesome5
-            name="filter"
+            name="sort-amount-down"
             size={triggerSize}
             color="#CAB0FF"
           />
@@ -77,4 +77,4 @@ const FilterPopup = (props) => {
     );
   };
 
-export default FilterPopup;
+export default SortByPopup;
