@@ -82,7 +82,7 @@ const retrieveExercises = async (dbRef) => {
       exercises.push({
         id: doc.id,
         name,
-        muscleGroups: muscleGroups.join(', '),
+        muscleGroups,
       });
     }
   });
