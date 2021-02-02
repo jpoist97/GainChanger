@@ -51,6 +51,7 @@ const ExpandableWorkoutCard = (props) => {
     <FullBody
       onLongPress={drag}
       onPress={showDetail}
+      style={{ backgroundColor: color }}
     >
       <CycleTitle>{name}</CycleTitle>
       <IconButton

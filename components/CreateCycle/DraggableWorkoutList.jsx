@@ -15,20 +15,22 @@ const DraggableWorkoutList = (props) => {
     passWorkoutList(workoutList);
   }, [workoutList]);
 
+  const renderCard = ({item, index, drag}) => (
+    <ExpandableWorkoutCard
+    drag={drag}
+    name={item.name}
+    muscleGroups={item.muscleGroups}
+    color={COLORS[index % COLORS.length]}
+    exercises={item.exercises}
+  />
+  );
+
   return (
     <DraggableFlatList
       data={workoutList}
       keyExtractor={(item, index) => item.id.toString() + index}
       onDragEnd={({ data }) => setWorkoutList(data)}
-      renderItem={({ item, drag }) => (
-        <ExpandableWorkoutCard
-          drag={drag}
-          name={item.name}
-          muscleGroups={item.muscleGroups}
-          color={COLORS[item.index % COLORS.length]}
-          exercises={item.exercises}
-        />
-      )}
+      renderItem={renderCard}
     />
   );
 };
