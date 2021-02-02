@@ -1,4 +1,4 @@
-import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, UPDATE_WORKOUT } from '../constants/index';
+import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, UPDATE_WORKOUT, UPDATE_WORKOUT_PREV } from '../constants/index';
 
 const initialState = {
    workouts: [],
@@ -40,6 +40,24 @@ const workoutReducer = (state = initialState, action) => {
          return {
             workouts: updatedWorkouts
          };
+      case UPDATE_WORKOUT_PREV:
+         console.log(`Updating workout's prev details in store ${action.workoutId}`);
+         const updatedWorkoutList = state.workouts.map((workoutEle) => {
+            if (workoutEle.id == action.workoutId) {
+               return {
+                  ...workoutEle,
+                  exercises: action.updatedExercises,
+                  lastPerformed: 0,
+               };
+            } 
+            else {
+               return workoutEle;
+            }
+         });
+         return {
+            workouts: updatedWorkoutList
+         }
+         
       default:
          return state;
    }
