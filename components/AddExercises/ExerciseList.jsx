@@ -46,7 +46,7 @@ const FilterButton = styled(FilterPopup)`
   margin: 0px 15px 0px 0px;
 `;
 
-const parseItems = (items) => {
+const parseItemsByName = (items) => {
   // Sort names alphabetically
   items.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -66,6 +66,29 @@ const parseItems = (items) => {
   return bucketData;
 };
 
+const parseItemsByMuscleGroup = (items) => {
+  // Sort names alphabetically
+  // items.sort((a, b) => a.muscleGroups.localeCompare(b.muscleGroups));
+
+  // const bucketData = items.reduce((accumulator, item) => {
+  //   const bucket = item.muscleGroups;
+
+  //   if(!accumulator[bucket]) {
+  //     accumulator[bucket] = [item]
+  //   } else {
+  //     accumulator[bucket].push(item);
+  //   }
+  //   return accumulator;
+  // }, {});
+  // return bucketData;
+  // Group by muscle group
+  var muscleGroupBuckets = {"Arms": [], "Back": [], "Biceps": [], "Calves": [], "Cardio": [], "Chest": [], "Core": [], "Legs": [], "Full Body": [], "Olympic": [], "Shoulders": [], "Triceps": []}
+  items.forEach((item) => {
+    muscleGroupBuckets[item.muscleGroups].push(item);
+  });
+  return muscleGroupBuckets;
+};
+
 const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
@@ -73,14 +96,13 @@ const renderHeader = ({ section }) => (
 const ExerciseList = (props) => {
   const { items, onExercisesAdd } = props;
 
-  const parsedItems = parseItems(items);
+  const parsedItems = parseItemsByMuscleGroup(items);
   const [search, setSearch] = React.useState('');
   const [filteredDataSource, setFilteredDataSource] = React.useState(parsedItems);
   const [masterDataSource, setMasterDataSource] = React.useState(parsedItems);
   const [exerciseCount, setExerciseCount] = React.useState(0);
   const [addedExercises] = React.useState([]);
   const navigation = useNavigation();
-  console.log(parsedItems);
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -160,12 +182,15 @@ const ExerciseList = (props) => {
         <FilterButton
           options={[
             {
-              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { toggleType(); },
+              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { filterByName(); },
             },
             {
-              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { removeExercise(); },
+              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { filterByMuscleGroup(); },
             }]}
             triggerSize = {28}
+            masterDataSource = {masterDataSource}
+            setMasterDataSource = {setMasterDataSource}
+
         />
         <AlphabetSectionList
           data={filteredDataSource}
