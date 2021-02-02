@@ -5,6 +5,7 @@ import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import ExerciseItem from './ExerciseItem';
+import FilterPopup from '../utils/FilterPopup';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -34,6 +35,15 @@ const ButtonContainer = styled(TouchableOpacity)`
 const Buttontext = styled.Text`
   font-family: 'Montserrat_500Medium';
   font-size: 18px;
+`;
+
+const FilterButton = styled(FilterPopup)`
+  position: absolute;
+  right: 15px;
+  top: 22px;
+  height: 35px;
+  width: 35px;
+  margin: 0px 15px 0px 0px;
 `;
 
 const parseItems = (items) => {
@@ -70,6 +80,7 @@ const ExerciseList = (props) => {
   const [exerciseCount, setExerciseCount] = React.useState(0);
   const [addedExercises] = React.useState([]);
   const navigation = useNavigation();
+  console.log(parsedItems);
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -137,14 +148,24 @@ const ExerciseList = (props) => {
           {' '}
         </Buttontext>
       </ButtonContainer>
-      <View style={{ height: '92%' }}>
+      <View style={{ height: '92%'}}>
         <SearchBar
           placeholder="Type Here..."
           onChangeText={(text) => searchFilterFunction(text)}
           onClear={() => searchFilterFunction('')}
           value={search}
           platform="ios"
-          containerStyle={{ backgroundColor: '#f2f2f2' }}
+          containerStyle={{ backgroundColor: '#f2f2f2', width: '82%' }}
+        />
+        <FilterButton
+          options={[
+            {
+              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { toggleType(); },
+            },
+            {
+              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { removeExercise(); },
+            }]}
+            triggerSize = {28}
         />
         <AlphabetSectionList
           data={filteredDataSource}
