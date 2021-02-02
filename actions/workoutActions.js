@@ -23,6 +23,13 @@ const addWorkout = (workout) => {
    }
 }
 
+/**
+ * Action that deletes a given workout from redux and Firebase and also removes
+ * it from each cycle the workout is included in. Workout is specified by 
+ * workoutId.
+ * 
+ * @param {String} workoutId 
+ */
 const deleteWorkout = (workoutId) => {
    return async (dispatch) => {
       console.log(`DELETING workout ${workoutId}`);
@@ -56,6 +63,13 @@ const deleteWorkout = (workoutId) => {
    }
 }
 
+/**
+ * Action that updates the entire workout object of a given workout in redux
+ * and Firebase. Workout that is updated is specified by workoutId.
+ * 
+ * @param {String} workoutId 
+ * @param {Workout} newWorkoutContent 
+ */
 const updateWorkout = (workoutId, newWorkoutContent) => {
    return (dispatch) => {
       console.log(`Updating workout ${workoutId}`);
@@ -69,6 +83,14 @@ const updateWorkout = (workoutId, newWorkoutContent) => {
    }
 }
 
+/**
+ * Action that updates just the exercises property of a given workout in redux.
+ * Workout that is updated is specified by workoutId. This action does not
+ * update Firestore.
+ * 
+ * @param {String} workoutId 
+ * @param {Array<Exercise>} updatedExercises 
+ */
 const updateWorkoutExercises = (workoutId, updatedExercises) => {
    return {
       type: UPDATE_WORKOUT_EXERCISES,
