@@ -46,58 +46,57 @@ const SortByButton = styled(SortByPopup)`
   margin: 0px 15px 0px 0px;
 `;
 
-const parseItemsByName = (items) => {
-  // Sort names alphabetically
-  items.sort((a, b) => a.name.localeCompare(b.name));
+// const parseItemsByName = (items) => {
+//   // Sort names alphabetically
+//   items.sort((a, b) => a.name.localeCompare(b.name));
 
-  // Group by first letter of each name
-  const bucketData = items.reduce((accumulator, item) => {
-    const bucket = item.name[0].toUpperCase();
+//   // Group by first letter of each name
+//   const bucketData = items.reduce((accumulator, item) => {
+//     const bucket = item.name[0].toUpperCase();
 
-    // If this is the first time we've seen this letter, create a bucket
-    if (!accumulator[bucket]) {
-      accumulator[bucket] = [item];
-    } else {
-      accumulator[bucket].push(item);
-    }
+//     // If this is the first time we've seen this letter, create a bucket
+//     if (!accumulator[bucket]) {
+//       accumulator[bucket] = [item];
+//     } else {
+//       accumulator[bucket].push(item);
+//     }
 
-    return accumulator;
-  }, {});
-  return bucketData;
-};
+//     return accumulator;
+//   }, {});
+//   return bucketData;
+// };
 
-const parseItemsByMuscleGroup = (items) => {
-  // Sort by muscle group
-  items.sort((a, b) => a.muscleGroups.localeCompare(b.muscleGroups));
-  const bucketData = items.reduce((accumulator, item) => {
-    const bucket = item.muscleGroups;
-    if(!accumulator[bucket]) {
-      accumulator[bucket] = [item]
-    } else {
-      accumulator[bucket].push(item);
-    }
-    return accumulator;
-  }, {})
+// const parseItemsByMuscleGroup = (items) => {
+//   // Sort by muscle group
+//   items.sort((a, b) => a.muscleGroups.localeCompare(b.muscleGroups));
+//   const bucketData = items.reduce((accumulator, item) => {
+//     const bucket = item.muscleGroups;
+//     if(!accumulator[bucket]) {
+//       accumulator[bucket] = [item]
+//     } else {
+//       accumulator[bucket].push(item);
+//     }
+//     return accumulator;
+//   }, {})
 
-  // Sort by name within each muscle group
-  for (let muscle in bucketData) {
-    bucketData[muscle].sort((a, b) => a.name.localeCompare(b.name));
-  }
+//   // Sort by name within each muscle group
+//   for (let muscle in bucketData) {
+//     bucketData[muscle].sort((a, b) => a.name.localeCompare(b.name));
+//   }
   
-  return bucketData;
-};
+//   return bucketData;
+// };
 
 const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
 const ExerciseList = (props) => {
-  const { items, onExercisesAdd } = props;
-
-  const parsedItems = parseItemsByMuscleGroup(items);
+  const { items, onExercisesAdd, isSortByMuscleGroup, setIsSortByMuscleGroup } = props;
+  // const parsedItems = parseItemsByName(items);
   const [search, setSearch] = React.useState('');
-  const [filteredDataSource, setFilteredDataSource] = React.useState(parsedItems);
-  const [masterDataSource, setMasterDataSource] = React.useState(parsedItems);
+  const [filteredDataSource, setFilteredDataSource] = React.useState(items);
+  const [masterDataSource, setMasterDataSource] = React.useState(items);
   const [exerciseCount, setExerciseCount] = React.useState(0);
   const [addedExercises] = React.useState([]);
   const navigation = useNavigation();
@@ -139,18 +138,32 @@ const ExerciseList = (props) => {
       subtext={item.subtext}
       selected={item.selected}
       onPress={() => {
-        const temp = { ...masterDataSource };
+        const allExercises = { ...masterDataSource };
         // console.log(temp[item.muscleGroups][index]) !!! FOR MUSCLE GROUP ITEM ACCESS !!!
-        const { selected } = temp[item.name[0]][index];
-        temp[item.name[0]][index].selected = !selected;
-        setMasterDataSource(temp);
-        if (temp[item.name[0]][index].selected === true) {
-          setExerciseCount(exerciseCount + 1);
-          addedExercises.push(item);
+        console.log(isSortByMuscleGroup)
+        if(isSortByMuscleGroup) {
+          const { selected } = allExercises[item.muscleGroups][index];
+          allExercises[item.muscleGroups][index].selected = !selected;
+          if (allExercises[item.muscleGroups][index].selected === true) {
+            setExerciseCount(exerciseCount + 1);
+            addedExercises.push(item);
+          } else {
+            setExerciseCount(exerciseCount - 1);
+            addedExercises.splice(addedExercises.indexOf(item), 1);
+          }
+          console.log("should be sorting by muscle")
         } else {
-          setExerciseCount(exerciseCount - 1);
-          addedExercises.splice(addedExercises.indexOf(item), 1);
+          const { selected } = allExercises[item.name[0]][index];
+          allExercises[item.name[0]][index].selected = !selected;
+          if (allExercises[item.name[0]][index].selected === true) {
+            setExerciseCount(exerciseCount + 1);
+            addedExercises.push(item);
+          } else {
+            setExerciseCount(exerciseCount - 1);
+            addedExercises.splice(addedExercises.indexOf(item), 1);
+          }
         }
+        setMasterDataSource(allExercises);
       }}
     />
   );
@@ -181,10 +194,10 @@ const ExerciseList = (props) => {
         <SortByButton
           options={[
             {
-              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { filterByName() },
+              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { setIsSortByMuscleGroup(false) },
             },
             {
-              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { filterByMuscleGroup() },
+              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { setIsSortByMuscleGroup(true) },
             }]}
             triggerSize = {28}
             masterDataSource = {masterDataSource}

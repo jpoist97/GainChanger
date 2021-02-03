@@ -25,27 +25,7 @@ const IconWrapper = styled.View`
 
 
 const SortByPopup = (props) => {
-    const { style, options, triggerSize, masterDataSource, setMasterDataSource } = props;
-    
-    const parseItems = (items) => {
-        // Sort names alphabetically
-        items.sort((a, b) => a.name.localeCompare(b.name));
-      
-        // Group by first letter of each name
-        const bucketData = items.reduce((accumulator, item) => {
-          const bucket = item.name[0].toUpperCase();
-      
-          // If this is the first time we've seen this letter, create a bucket
-          if (!accumulator[bucket]) {
-            accumulator[bucket] = [item];
-          } else {
-            accumulator[bucket].push(item);
-          }
-      
-          return accumulator;
-        }, {});
-        return bucketData;
-      };
+    const { style, options, triggerSize } = props;
 
     return (
       <Menu style={style}>
