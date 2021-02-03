@@ -52,7 +52,8 @@ const renderHeader = ({ section }) => (
 
 const ExerciseList = (props) => {
   const { onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups } = props;
-  const [isSortByMuscleGroup, setIsSortByMuscleGroup] = React.useState(false);
+  //const [isSortByMuscleGroup, setIsSortByMuscleGroup] = React.useState(false);
+  const isSortByMuscleGroup = React.useRef(false);
   const navigation = useNavigation();
   const [search, setSearch] = React.useState('');
   const [filteredDataSource, setFilteredDataSource] = React.useState(parsedItemsName);
@@ -62,8 +63,8 @@ const ExerciseList = (props) => {
 
   function toggleSort() {
     console.log("-----------------")
-    console.log(isSortByMuscleGroup)
-    if(isSortByMuscleGroup) {
+    console.log(isSortByMuscleGroup.current)
+    if(isSortByMuscleGroup.current) {
       console.log("code is setting muscle groups")
       setFilteredDataSource(parsedItemsMuscleGroups);
       setMasterDataSource(parsedItemsMuscleGroups);
@@ -104,8 +105,6 @@ const ExerciseList = (props) => {
     }
   };
 
-
-
   const renderCard = ({ item, index }) => (
     <ExerciseItem
       name={item.name}
@@ -114,7 +113,7 @@ const ExerciseList = (props) => {
       onPress={() => {
         const allExercises = { ...masterDataSource };
         // console.log(temp[item.muscleGroups][index]) !!! FOR MUSCLE GROUP ITEM ACCESS !!!
-        if(isSortByMuscleGroup) {
+        if(isSortByMuscleGroup.current) {
           const { selected } = allExercises[item.muscleGroups][index];
           allExercises[item.muscleGroups][index].selected = !selected;
           if (allExercises[item.muscleGroups][index].selected === true) {
@@ -166,10 +165,10 @@ const ExerciseList = (props) => {
         <SortByButton
           options={[
             {
-              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { setIsSortByMuscleGroup(false); toggleSort(); },
+              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { isSortByMuscleGroup.current = false; toggleSort(); },
             },
             {
-              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { setIsSortByMuscleGroup(true); toggleSort(); },
+              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { isSortByMuscleGroup.current = true; toggleSort(); },
             }]}
             triggerSize = {28}
         />
