@@ -17,16 +17,15 @@ const AddCycleButton = styled(PlusButton)`
 
 export default () => {
   const navigation = useNavigation();
-
   const cycles = useSelector((state) => state.cycles);
   const workouts = useSelector((state) => state.workouts.workouts);
-
   const allCycles = cycles.cycles.map((cycle) => ({
     ...cycle,
     subtext: `${cycle.workouts.length} Workouts`,
     onPress: () => {
       const cID = cycle.id;
       const cycleDetails = cycle.workouts.map((workoutId) => _.find(workouts, (workout) => workout.id === workoutId));
+
       navigation.navigate('Create Cycle', {
         cycleName: cycle.name,
         cycleDetails,

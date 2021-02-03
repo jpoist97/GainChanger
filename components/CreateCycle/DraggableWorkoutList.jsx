@@ -15,14 +15,14 @@ const DraggableWorkoutList = (props) => {
     passWorkoutList(workoutList);
   }, [workoutList]);
 
-  const renderCard = ({item, index, drag}) => (
+  const renderCard = ({ item, index, drag }) => (
     <ExpandableWorkoutCard
-    drag={drag}
-    name={item.name}
-    muscleGroups={item.muscleGroups}
-    color={COLORS[index % COLORS.length]}
-    exercises={item.exercises}
-  />
+      drag={drag}
+      name={item.name}
+      muscleGroups={item.muscleGroups}
+      color={COLORS[index % COLORS.length]}
+      exercises={item.exercises}
+    />
   );
 
   return (

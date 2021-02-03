@@ -57,18 +57,23 @@ export default ({ navigation, route }) => {
       .collection('users')
       .doc(currentUser)
       .collection('cycles');
-    let cycleDoc;
     if (isNewCycle) {
-      cycleDoc = await cycleRef.add(newCycle);
+      const cycleDoc = await cycleRef.add(newCycle);
+      dispatch(actions.cycles.addCycle({
+        workouts: newCycle.workoutIds,
+        name: newCycle.name,
+        id: cycleDoc.id,
+      }));
     } else {
-      cycleDoc = await cycleRef.doc(cycleID).update(newCycle);
+      await cycleRef.doc(cycleID).update(newCycle);
+      dispatch(actions.cycles.updateCycle(cycleID,
+        {
+          id: cycleID,
+          workouts: newCycle.workoutIds,
+          name: newCycle.name,
+        }));
     }
-
-    dispatch(actions.cycles.addCycle({
-      workouts: newCycle.workoutIds,
-      name: newCycle.name,
-      id: cycleDoc.id,
-    }));
+    navigation.navigate('Cycles');
   };
 
   function CreateCycle() {
@@ -117,7 +122,6 @@ export default ({ navigation, route }) => {
             workoutIds: workouts.map((workout) => workout.id),
           };
           createNewCycle(newCycle, dispatch);
-          navigation.navigate('Cycles');
         }
       }}
       />
