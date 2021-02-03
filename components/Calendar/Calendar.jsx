@@ -52,7 +52,7 @@ const CalendarView = () => {
 
   const filterRecords = (date, records) => records.filter((e) => e.date === date);
 
-  //TODO: change redux stuff to a map of date strings to workout records
+  // TODO: change redux stuff to a map of date strings to workout records
 
   const getDateRecords = async (user, currentDate) => {
     const recordCheck = filterRecords(currentDate, workoutRecords);
