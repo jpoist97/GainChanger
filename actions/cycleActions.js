@@ -1,5 +1,4 @@
-import { INITIALIZE_CYCLES, INCREMENT_SELECTED_CYCLE_INDEX, DECREMENT_SELECTED_CYCLE_INDEX, SET_SELECTED_CYCLE_DETAILS, ADD_CYCLE, DELETE_CYCLE, SELECT_NEW_CYCLE } from '../constants/index';
-
+import { INITIALIZE_CYCLES, INCREMENT_SELECTED_CYCLE_INDEX, DECREMENT_SELECTED_CYCLE_INDEX, SET_SELECTED_CYCLE_DETAILS, ADD_CYCLE, UPDATE_CYCLE, DELETE_CYCLE, SELECT_NEW_CYCLE } from '../constants/index';
 
 const initializeCycles = (cycles, selectedCycleId, selectedCycleIndex) => {
    return {
@@ -31,6 +30,14 @@ const addCycle = (cycle) => {
    }
 }
 
+const updateCycle = (cycleId, newCycleContent) => {
+  return {
+      type: UPDATE_CYCLE,
+      cycleId,
+      newCycleContent,
+  }
+}
+
 const deleteCycle = (cycleId) => {
    return {
       type: DELETE_CYCLE,
@@ -50,6 +57,7 @@ export default {
    incrementSelectedCycleIndex,
    decrementSelectedCycleIndex,
    addCycle,
+   updateCycle,
    deleteCycle,
    selectCycle,
 };
