@@ -6,7 +6,6 @@ import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 export default ({ route }) => {
   const exercises = useSelector((state) => state.exercises.exercises);
   const items = exercises.map((exercise) => ({ ...exercise, subtext: exercise.muscleGroups }));
-  const [isSortByMuscleGroup, setIsSortByMuscleGroup] = React.useState(false);
 
   const parseItemsByName = (items) => {
     // Sort names alphabetically
@@ -50,10 +49,9 @@ export default ({ route }) => {
   return (
     <ModalScreenWrapper>
       <ExerciseList 
-        items={isSortByMuscleGroup ? parseItemsByMuscleGroup(items) : parseItemsByName(items)} 
         onExercisesAdd={route.params.onExercisesAdd}
-        isSortByMuscleGroup = {isSortByMuscleGroup}
-        setIsSortByMuscleGroup = {setIsSortByMuscleGroup} 
+        parsedItemsName = { parseItemsByName(items) }
+        parsedItemsMuscleGroups = { parseItemsByMuscleGroup(items) }
       />
     </ModalScreenWrapper>
   );

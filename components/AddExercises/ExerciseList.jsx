@@ -3,7 +3,7 @@ import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
+import { TabRouter, useNavigation } from '@react-navigation/native';
 import ExerciseItem from './ExerciseItem';
 import SortByPopup from '../utils/SortByPopup';
 
@@ -46,60 +46,32 @@ const SortByButton = styled(SortByPopup)`
   margin: 0px 15px 0px 0px;
 `;
 
-// const parseItemsByName = (items) => {
-//   // Sort names alphabetically
-//   items.sort((a, b) => a.name.localeCompare(b.name));
-
-//   // Group by first letter of each name
-//   const bucketData = items.reduce((accumulator, item) => {
-//     const bucket = item.name[0].toUpperCase();
-
-//     // If this is the first time we've seen this letter, create a bucket
-//     if (!accumulator[bucket]) {
-//       accumulator[bucket] = [item];
-//     } else {
-//       accumulator[bucket].push(item);
-//     }
-
-//     return accumulator;
-//   }, {});
-//   return bucketData;
-// };
-
-// const parseItemsByMuscleGroup = (items) => {
-//   // Sort by muscle group
-//   items.sort((a, b) => a.muscleGroups.localeCompare(b.muscleGroups));
-//   const bucketData = items.reduce((accumulator, item) => {
-//     const bucket = item.muscleGroups;
-//     if(!accumulator[bucket]) {
-//       accumulator[bucket] = [item]
-//     } else {
-//       accumulator[bucket].push(item);
-//     }
-//     return accumulator;
-//   }, {})
-
-//   // Sort by name within each muscle group
-//   for (let muscle in bucketData) {
-//     bucketData[muscle].sort((a, b) => a.name.localeCompare(b.name));
-//   }
-  
-//   return bucketData;
-// };
-
 const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
 const ExerciseList = (props) => {
-  const { items, onExercisesAdd, isSortByMuscleGroup, setIsSortByMuscleGroup } = props;
-  // const parsedItems = parseItemsByName(items);
+  const { onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups } = props;
+  const [isSortByMuscleGroup, setIsSortByMuscleGroup] = React.useState(false);
+  const navigation = useNavigation();
   const [search, setSearch] = React.useState('');
-  const [filteredDataSource, setFilteredDataSource] = React.useState(items);
-  const [masterDataSource, setMasterDataSource] = React.useState(items);
+  const [filteredDataSource, setFilteredDataSource] = React.useState(parsedItemsName);
+  const [masterDataSource, setMasterDataSource] = React.useState(parsedItemsName);
   const [exerciseCount, setExerciseCount] = React.useState(0);
   const [addedExercises] = React.useState([]);
-  const navigation = useNavigation();
+
+  function toggleSort() {
+    console.log("-----------------")
+    console.log(isSortByMuscleGroup)
+    if(isSortByMuscleGroup) {
+      console.log("code is setting muscle groups")
+      setFilteredDataSource(parsedItemsMuscleGroups);
+      setMasterDataSource(parsedItemsMuscleGroups);
+    } else {
+      setFilteredDataSource(parsedItemsName);
+      setMasterDataSource(parsedItemsName);
+    }
+  }
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -132,6 +104,8 @@ const ExerciseList = (props) => {
     }
   };
 
+
+
   const renderCard = ({ item, index }) => (
     <ExerciseItem
       name={item.name}
@@ -140,7 +114,6 @@ const ExerciseList = (props) => {
       onPress={() => {
         const allExercises = { ...masterDataSource };
         // console.log(temp[item.muscleGroups][index]) !!! FOR MUSCLE GROUP ITEM ACCESS !!!
-        console.log(isSortByMuscleGroup)
         if(isSortByMuscleGroup) {
           const { selected } = allExercises[item.muscleGroups][index];
           allExercises[item.muscleGroups][index].selected = !selected;
@@ -151,7 +124,6 @@ const ExerciseList = (props) => {
             setExerciseCount(exerciseCount - 1);
             addedExercises.splice(addedExercises.indexOf(item), 1);
           }
-          console.log("should be sorting by muscle")
         } else {
           const { selected } = allExercises[item.name[0]][index];
           allExercises[item.name[0]][index].selected = !selected;
@@ -194,15 +166,12 @@ const ExerciseList = (props) => {
         <SortByButton
           options={[
             {
-              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { setIsSortByMuscleGroup(false) },
+              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { setIsSortByMuscleGroup(false); toggleSort(); },
             },
             {
-              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { setIsSortByMuscleGroup(true) },
+              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { setIsSortByMuscleGroup(true); toggleSort(); },
             }]}
             triggerSize = {28}
-            masterDataSource = {masterDataSource}
-            setMasterDataSource = {setMasterDataSource}
-
         />
         <AlphabetSectionList
           data={filteredDataSource}
