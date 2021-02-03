@@ -73,7 +73,7 @@ export default ({ navigation, route }) => {
           name: newCycle.name,
         }));
     }
-    navigation.navigate('Cycles');
+    navigation.goBack();
   };
 
   function CreateCycle() {
