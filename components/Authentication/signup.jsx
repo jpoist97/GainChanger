@@ -238,6 +238,7 @@ const Signup = ({ navigation }) => {
       name: user.displayName,
       selectedCycleId: '',
       selectedCycleIndex: 0,
+      pastWorkoutDates: [],
     };
 
     const userRef = db.collection('users').doc(user.uid);

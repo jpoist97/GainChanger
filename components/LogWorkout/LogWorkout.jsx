@@ -99,9 +99,12 @@ const LogWorkout = (props) => {
     dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
   };
 
+  const updatePastWorkoutDates = (completedDate) => {
+    userRef.update({ pastWorkoutDates: firebase.firestore.FieldValue.arrayUnion(completedDate) });
+  };
+
   const sendWorkoutLogToDB = () => {
     const workoutRecsRef = userRef.collection('workoutRecords');
-
     const newWorkoutLog = {
       workoutName: name,
       workoutId,
@@ -211,6 +214,7 @@ const LogWorkout = (props) => {
           alert('All sets must be completed to Finish');
         } else {
           sendWorkoutLogToDB();
+          updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`);
           if (isSelectedCycle) { incrementSelectedCycleIdx(); }
           navigation.goBack();
         }
