@@ -173,9 +173,18 @@ export default ({ navigation, route }) => {
       </View>
       <AddFinishButton onPress={() => {
         if (!name) {
-          alert('Please enter a workout name');
+          alert('Please enter a workout name.');
         } else if (itemState.length === 0) {
-          alert('Please add at least one exercise');
+          alert('Please add at least one exercise.');
+        } else if (!itemState.every((exercise) => {
+          // If sets is defined make sure it's greater than 0, otherwise if
+          // its undefined then we'll default to 3 so it's good to pass.
+          if (exercise.sets) {
+            return parseInt(exercise.sets) > 0;
+          }
+          return true;
+        })) {
+          alert('Exercises must have at least 1 set.');
         } else {
           const parsedItemState = parseItemStateToWorkout(itemState);
 
