@@ -125,7 +125,7 @@ const LogWorkout = (props) => {
     };
 
     userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); // updates workout doc
-    dispatch(actions.workouts.updateWorkoutPrev(workoutId, newWorkoutLog.exercises)); // rerenders workout to show update prev details
+    dispatch(actions.workouts.updateWorkoutExercises(workoutId, newWorkoutLog.exercises)); // rerenders workout to show update prev details
     workoutRecsRef.add(newWorkoutLog); // makes a new workoutRecord
   };
 
