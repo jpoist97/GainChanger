@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
@@ -51,37 +51,26 @@ const renderHeader = ({ section }) => (
 );
 
 const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups }) => {
-  //const [isSortByMuscleGroup, setIsSortByMuscleGroup] = React.useState(false);
   const [dataState, setDataState] = useState({isSortByMuscleGroup : false, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName})
-  // const isSortByMuscleGroup = React.useRef(false);
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
-  //const [filteredDataSource, setFilteredDataSource] = React.useState(parsedItemsName);
-  //const [masterDataSource, setMasterDataSource] = React.useState(parsedItemsName);
   const [exerciseCount, setExerciseCount] = useState(0);
   const [addedExercises] = useState([]);
 
-  function toggleSort() {
-    console.log("HELLO")
-    console.log(dataState.isSortByMuscleGroup)
-    if(dataState.isSortByMuscleGroup) {
-      console.log("CODE GOES HERE")
-      setDataState({...dataState, filteredDataSource: parsedItemsMuscleGroups, masterDataSource: parsedItemsMuscleGroups})
-      // setFilteredDataSource(parsedItemsMuscleGroups);
-      // setMasterDataSource(parsedItemsMuscleGroups);
-    } else {
-      setDataState({...dataState, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName})
-      // setFilteredDataSource(parsedItemsName);
-      // setMasterDataSource(parsedItemsName);
-    }
-  }
+  useEffect(() => {
+    console.log("post state" + dataState.isSortByMuscleGroup);
+  });
+
+  const handleSortByNamePress = () => {
+    setDataState({isSortByMuscleGroup: false, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName}); 
+  };
+
+  const handleSortByMuscleGroupPress = () => {
+    setDataState({isSortByMuscleGroup: true, filteredDataSource: parsedItemsMuscleGroups, masterDataSource: parsedItemsMuscleGroups}); 
+  };
 
   const searchFilterFunction = (text) => {
-    // Check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
       const firstLetter = text[0].toUpperCase();
       if (dataState.masterDataSource[firstLetter]) {
         const newData = dataState.masterDataSource[firstLetter].filter((item) => {
@@ -94,55 +83,52 @@ const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups
         const filteredData = {};
         filteredData[firstLetter] = newData;
         setDataState({...dataState, filteredDataSource: filteredData})
-        //setFilteredDataSource(filteredData);
         setSearch(text);
       } else {
         setDataState({...dataState, filteredDataSource: {}})
-        //setFilteredDataSource({});
         setSearch(text);
       }
     } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
       setDataState({...dataState, filteredDataSource: dataState.masterDataSource})
-      //setFilteredDataSource(masterDataSource);
       setSearch(text);
     }
   };
+
+  const handleCardPress = (item, index) => {
+    const allExercises = { ...dataState.masterDataSource };
+    if(dataState.isSortByMuscleGroup) {
+      const { selected } = allExercises[item.muscleGroups][index];
+      allExercises[item.muscleGroups][index].selected = !selected;
+      if (allExercises[item.muscleGroups][index].selected === true) {
+        setExerciseCount(exerciseCount + 1);
+        addedExercises.push(item);
+      } else {
+        setExerciseCount(exerciseCount - 1);
+        addedExercises.splice(addedExercises.indexOf(item), 1);
+      }
+    } else {
+      const { selected } = allExercises[item.name[0]][index];
+      allExercises[item.name[0]][index].selected = !selected;
+      if (allExercises[item.name[0]][index].selected === true) {
+        setExerciseCount(exerciseCount + 1);
+        addedExercises.push(item);
+      } else {
+        setExerciseCount(exerciseCount - 1);
+        addedExercises.splice(addedExercises.indexOf(item), 1);
+      }
+    }
+    setDataState({...dataState, masterDataSource: allExercises})
+  }
 
   const renderCard = ({ item, index }) => (
     <ExerciseItem
       name={item.name}
       subtext={item.subtext}
       selected={item.selected}
-      onPress={() => {
-        const allExercises = { ...dataState.masterDataSource };
-        if(isSortByMuscleGroup.current) {
-          const { selected } = allExercises[item.muscleGroups][index];
-          allExercises[item.muscleGroups][index].selected = !selected;
-          if (allExercises[item.muscleGroups][index].selected === true) {
-            setExerciseCount(exerciseCount + 1);
-            addedExercises.push(item);
-          } else {
-            setExerciseCount(exerciseCount - 1);
-            addedExercises.splice(addedExercises.indexOf(item), 1);
-          }
-        } else {
-          const { selected } = allExercises[item.name[0]][index];
-          allExercises[item.name[0]][index].selected = !selected;
-          if (allExercises[item.name[0]][index].selected === true) {
-            setExerciseCount(exerciseCount + 1);
-            addedExercises.push(item);
-          } else {
-            setExerciseCount(exerciseCount - 1);
-            addedExercises.splice(addedExercises.indexOf(item), 1);
-          }
-        }
-        setDataState({...dataState, masterDataSource: allExercises})
-        //setMasterDataSource(allExercises);
-      }}
+      onPress={() => handleCardPress(item, index)}
     />
   );
+
   return (
     <SafeAreaView style={{ height: '100%' }}>
       <Title>Exercises</Title>
@@ -170,10 +156,10 @@ const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups
         <SortByButton
           options={[
             {
-              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { setDataState({...dataState,isSortByMuscleGroup: false}); toggleSort(); },
+              icon: 'ALPHABET', text: 'Sort By Name', onPress: handleSortByNamePress,
             },
             {
-              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { setDataState({...dataState, isSortByMuscleGroup: true}); toggleSort(); },
+              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: handleSortByMuscleGroupPress,
             }]}
             triggerSize = {28}
         />
