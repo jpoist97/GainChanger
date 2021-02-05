@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
-import { TabRouter, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import ExerciseItem from './ExerciseItem';
 import SortByPopup from '../utils/SortByPopup';
 
@@ -56,10 +56,6 @@ const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups
   const [search, setSearch] = useState('');
   const [exerciseCount, setExerciseCount] = useState(0);
   const [addedExercises] = useState([]);
-
-  useEffect(() => {
-    console.log("post state" + dataState.isSortByMuscleGroup);
-  });
 
   const handleSortByNamePress = () => {
     setDataState({isSortByMuscleGroup: false, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName}); 
@@ -141,7 +137,6 @@ const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups
           Add (
           {exerciseCount}
           )
-          {' '}
         </Buttontext>
       </ButtonContainer>
       <View style={{ height: '92%'}}>
