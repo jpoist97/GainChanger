@@ -5,16 +5,16 @@ import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 
 export default ({ route }) => {
   const exercises = useSelector((state) => state.exercises.exercises);
-  const items = exercises.map((exercise) => ({ ...exercise, subtext: exercise.muscleGroups }));
+  const exerciseObjects = exercises.map((exercise) => ({ ...exercise, subtext: exercise.muscleGroups }));
 
   const parseItemsByName = (items) => {
     // Sort names alphabetically
     items.sort((a, b) => a.name.localeCompare(b.name));
-  
+
     // Group by first letter of each name
     const bucketData = items.reduce((accumulator, item) => {
       const bucket = item.name[0].toUpperCase();
-  
+
       // If this is the first time we've seen this letter, create a bucket
       if (!accumulator[bucket]) {
         accumulator[bucket] = [item];
@@ -31,27 +31,27 @@ export default ({ route }) => {
     items.sort((a, b) => a.muscleGroups.localeCompare(b.muscleGroups));
     const bucketData = items.reduce((accumulator, item) => {
       const bucket = item.muscleGroups;
-      if(!accumulator[bucket]) {
+      if (!accumulator[bucket]) {
         accumulator[bucket] = [item];
       } else {
         accumulator[bucket].push(item);
       }
       return accumulator;
     }, {});
-  
+
     // Sort by name within each muscle group
-    for (let muscle in bucketData) {
-      bucketData[muscle].sort((a, b) => a.name.localeCompare(b.name));
-    };
+    Object.keys(bucketData).forEach((key) => {
+      bucketData[key].sort((a, b) => a.name.localeCompare(b.name));
+    });
     return bucketData;
   };
 
   return (
     <ModalScreenWrapper>
-      <ExerciseList 
+      <ExerciseList
         onExercisesAdd={route.params.onExercisesAdd}
-        parsedItemsName = { parseItemsByName(items) }
-        parsedItemsMuscleGroups = { parseItemsByMuscleGroup(items) }
+        parsedItemsName={parseItemsByName(exerciseObjects)}
+        parsedItemsMuscleGroups={parseItemsByMuscleGroup(exerciseObjects)}
       />
     </ModalScreenWrapper>
   );

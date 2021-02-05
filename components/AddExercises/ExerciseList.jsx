@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, TouchableOpacity, Text, FlatList } from 'react-native';
+import {
+  SafeAreaView, View, TouchableOpacity, FlatList,
+} from 'react-native';
 import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
@@ -51,51 +53,51 @@ const renderHeader = ({ section }) => (
 );
 
 const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups }) => {
-  const [dataState, setDataState] = useState({isSortByMuscleGroup : false, filteredDataSource: [], masterDataSource: parsedItemsName})
+  const [dataState, setDataState] = useState({ isSortByMuscleGroup: false, filteredDataSource: [], masterDataSource: parsedItemsName });
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
   const [exerciseCount, setExerciseCount] = useState(0);
   const [addedExercises] = useState([]);
 
   const handleSortByNamePress = () => {
-    setDataState({isSortByMuscleGroup: false, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName}); 
+    setDataState({ isSortByMuscleGroup: false, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName });
   };
 
   const handleSortByMuscleGroupPress = () => {
-    setDataState({isSortByMuscleGroup: true, filteredDataSource: parsedItemsMuscleGroups, masterDataSource: parsedItemsMuscleGroups}); 
+    setDataState({ isSortByMuscleGroup: true, filteredDataSource: parsedItemsMuscleGroups, masterDataSource: parsedItemsMuscleGroups });
   };
 
   const searchFilterFunction = (text) => {
     if (text) {
       const filteredItems = [];
       const textData = text.toUpperCase();
-      let newData = []
-      for (var key in dataState.masterDataSource) {
-        newData = dataState.masterDataSource[key].filter((item) => {
+      Object.keys(dataState.masterDataSource).forEach((key) => {
+        const newData = dataState.masterDataSource[key].filter((item) => {
           const itemData = item.name
-          ? item.name.toUpperCase()
-          : '';
+            ? item.name.toUpperCase()
+            : '';
           return itemData.indexOf(textData) > -1;
         });
         if (newData) {
-          for (var each in newData) {
+          Object.keys(newData).forEach((each) => {
             if (newData[each]) {
-              filteredItems.push(newData[each])
+              filteredItems.push(newData[each]);
             }
-          }
+          });
         }
-      }
-      setDataState({...dataState, filteredDataSource: filteredItems});
+        filteredItems.sort((a, b) => a.name.localeCompare(b.name));
+      });
+      setDataState({ ...dataState, filteredDataSource: filteredItems });
       setSearch(text);
     } else {
-      setDataState({...dataState, filteredDataSource: dataState.masterDataSource})
+      setDataState({ ...dataState, filteredDataSource: dataState.masterDataSource });
       setSearch(text);
     }
   };
 
-  const handleCardPress = (item, index) => {
+  const handleUnfilteredCardPress = (item, index) => {
     const allExercises = { ...dataState.masterDataSource };
-    if(dataState.isSortByMuscleGroup) {
+    if (dataState.isSortByMuscleGroup) {
       const { selected } = allExercises[item.muscleGroups][index];
       allExercises[item.muscleGroups][index].selected = !selected;
       if (allExercises[item.muscleGroups][index].selected === true) {
@@ -116,15 +118,29 @@ const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups
         addedExercises.splice(addedExercises.indexOf(item), 1);
       }
     }
-    setDataState({...dataState, masterDataSource: allExercises})
-  }
+    setDataState({ ...dataState, masterDataSource: allExercises });
+  };
+
+  const handleFilteredCardPress = (item, index) => {
+    const filteredExercises = dataState.filteredDataSource;
+    const { selected } = filteredExercises[index];
+    filteredExercises[index].selected = !selected;
+    if (filteredExercises[index].selected === true) {
+      setExerciseCount(exerciseCount + 1);
+      addedExercises.push(item);
+    } else {
+      setExerciseCount(exerciseCount - 1);
+      addedExercises.splice(addedExercises.indexOf(item), 1);
+    }
+    setDataState({ ...dataState, filteredDataSource: filteredExercises });
+  };
 
   const renderCard = ({ item, index }) => (
     <ExerciseItem
       name={item.name}
       subtext={item.subtext}
       selected={item.selected}
-      onPress={() => handleCardPress(item, index)}
+      onPress={() => (search ? handleFilteredCardPress(item, index) : handleUnfilteredCardPress(item, index))}
     />
   );
 
@@ -142,7 +158,7 @@ const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups
           )
         </Buttontext>
       </ButtonContainer>
-      <View style={{ height: '92%'}}>
+      <View style={{ height: '92%' }}>
         <SearchBar
           placeholder="Type Here..."
           onChangeText={(text) => searchFilterFunction(text)}
@@ -159,21 +175,23 @@ const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups
             {
               icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: handleSortByMuscleGroupPress,
             }]}
-            triggerSize = {28}
+          triggerSize={28}
         />
-        {search ? 
-          <FlatList
-            data = {dataState.filteredDataSource}
-            keyExtractor={(item) => item.id}
-            renderItem = {renderCard}
-          />
-          :
-          <AlphabetSectionList
-            data={dataState.masterDataSource}
-            renderItem={renderCard}
-            renderSectionHeader={renderHeader}
-        />
-        }
+        {search
+          ? (
+            <FlatList
+              data={dataState.filteredDataSource}
+              keyExtractor={(item) => item.id}
+              renderItem={renderCard}
+            />
+          )
+          : (
+            <AlphabetSectionList
+              data={dataState.masterDataSource}
+              renderItem={renderCard}
+              renderSectionHeader={renderHeader}
+            />
+          )}
       </View>
     </SafeAreaView>
   );
