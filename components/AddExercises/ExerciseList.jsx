@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
@@ -50,27 +50,29 @@ const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
-const ExerciseList = (props) => {
-  const { onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups } = props;
+const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups }) => {
   //const [isSortByMuscleGroup, setIsSortByMuscleGroup] = React.useState(false);
-  const isSortByMuscleGroup = React.useRef(false);
+  const [dataState, setDataState] = useState({isSortByMuscleGroup : false, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName})
+  // const isSortByMuscleGroup = React.useRef(false);
   const navigation = useNavigation();
-  const [search, setSearch] = React.useState('');
-  const [filteredDataSource, setFilteredDataSource] = React.useState(parsedItemsName);
-  const [masterDataSource, setMasterDataSource] = React.useState(parsedItemsName);
-  const [exerciseCount, setExerciseCount] = React.useState(0);
-  const [addedExercises] = React.useState([]);
+  const [search, setSearch] = useState('');
+  //const [filteredDataSource, setFilteredDataSource] = React.useState(parsedItemsName);
+  //const [masterDataSource, setMasterDataSource] = React.useState(parsedItemsName);
+  const [exerciseCount, setExerciseCount] = useState(0);
+  const [addedExercises] = useState([]);
 
   function toggleSort() {
-    console.log("-----------------")
-    console.log(isSortByMuscleGroup.current)
-    if(isSortByMuscleGroup.current) {
-      console.log("code is setting muscle groups")
-      setFilteredDataSource(parsedItemsMuscleGroups);
-      setMasterDataSource(parsedItemsMuscleGroups);
+    console.log("HELLO")
+    console.log(dataState.isSortByMuscleGroup)
+    if(dataState.isSortByMuscleGroup) {
+      console.log("CODE GOES HERE")
+      setDataState({...dataState, filteredDataSource: parsedItemsMuscleGroups, masterDataSource: parsedItemsMuscleGroups})
+      // setFilteredDataSource(parsedItemsMuscleGroups);
+      // setMasterDataSource(parsedItemsMuscleGroups);
     } else {
-      setFilteredDataSource(parsedItemsName);
-      setMasterDataSource(parsedItemsName);
+      setDataState({...dataState, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName})
+      // setFilteredDataSource(parsedItemsName);
+      // setMasterDataSource(parsedItemsName);
     }
   }
 
@@ -81,8 +83,8 @@ const ExerciseList = (props) => {
       // Filter the masterDataSource
       // Update FilteredDataSource
       const firstLetter = text[0].toUpperCase();
-      if (masterDataSource[firstLetter]) {
-        const newData = masterDataSource[firstLetter].filter((item) => {
+      if (dataState.masterDataSource[firstLetter]) {
+        const newData = dataState.masterDataSource[firstLetter].filter((item) => {
           const itemData = item.name
             ? item.name.toUpperCase()
             : '';
@@ -91,16 +93,19 @@ const ExerciseList = (props) => {
         });
         const filteredData = {};
         filteredData[firstLetter] = newData;
-        setFilteredDataSource(filteredData);
+        setDataState({...dataState, filteredDataSource: filteredData})
+        //setFilteredDataSource(filteredData);
         setSearch(text);
       } else {
-        setFilteredDataSource({});
+        setDataState({...dataState, filteredDataSource: {}})
+        //setFilteredDataSource({});
         setSearch(text);
       }
     } else {
       // Inserted text is blank
       // Update FilteredDataSource with masterDataSource
-      setFilteredDataSource(masterDataSource);
+      setDataState({...dataState, filteredDataSource: dataState.masterDataSource})
+      //setFilteredDataSource(masterDataSource);
       setSearch(text);
     }
   };
@@ -111,8 +116,7 @@ const ExerciseList = (props) => {
       subtext={item.subtext}
       selected={item.selected}
       onPress={() => {
-        const allExercises = { ...masterDataSource };
-        // console.log(temp[item.muscleGroups][index]) !!! FOR MUSCLE GROUP ITEM ACCESS !!!
+        const allExercises = { ...dataState.masterDataSource };
         if(isSortByMuscleGroup.current) {
           const { selected } = allExercises[item.muscleGroups][index];
           allExercises[item.muscleGroups][index].selected = !selected;
@@ -134,7 +138,8 @@ const ExerciseList = (props) => {
             addedExercises.splice(addedExercises.indexOf(item), 1);
           }
         }
-        setMasterDataSource(allExercises);
+        setDataState({...dataState, masterDataSource: allExercises})
+        //setMasterDataSource(allExercises);
       }}
     />
   );
@@ -165,15 +170,15 @@ const ExerciseList = (props) => {
         <SortByButton
           options={[
             {
-              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { isSortByMuscleGroup.current = false; toggleSort(); },
+              icon: 'ALPHABET', text: 'Sort By Name', onPress: () => { setDataState({...dataState,isSortByMuscleGroup: false}); toggleSort(); },
             },
             {
-              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { isSortByMuscleGroup.current = true; toggleSort(); },
+              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: () => { setDataState({...dataState, isSortByMuscleGroup: true}); toggleSort(); },
             }]}
             triggerSize = {28}
         />
         <AlphabetSectionList
-          data={filteredDataSource}
+          data={dataState.filteredDataSource}
           renderItem={renderCard}
           renderSectionHeader={renderHeader}
         />
