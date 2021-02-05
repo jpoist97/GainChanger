@@ -122,6 +122,9 @@ export default () => {
 
       console.log('Home: Initialize Exercise store');
       dispatch(actions.exercises.initalizeExercises(exercises));
+
+      console.log('Home: Initialize Dates store');
+      dispatch(actions.dates.initializeRecordDates(userData.pastWorkoutDates));
     };
 
     initializeDatabase();

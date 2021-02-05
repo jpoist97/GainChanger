@@ -7,7 +7,7 @@ import AlphabetWorkoutList from './AlphabetWorkoutList';
 import PlusButton from '../utils/PlusButton';
 import CreateWorkout from '../CreateWorkout/CreateWorkout';
 
-const AddCycleButton = styled(PlusButton)`
+const AddWorkoutButton = styled(PlusButton)`
    position: absolute;
    bottom: 20px;
    right: 25px;
@@ -29,7 +29,7 @@ export default ({ navigation }) => {
     return (
       <SafeAreaView style={{ height: '100%' }}>
         <AlphabetWorkoutList items={items} />
-        <AddCycleButton title="Workout" size={18} onPress={() => navigation.navigate('Create Workout')} />
+        <AddWorkoutButton title="Workout" size={18} onPress={() => navigation.navigate('Create Workout')} />
       </SafeAreaView>
     );
   }
@@ -39,6 +39,7 @@ export default ({ navigation }) => {
       <Stack.Navigator initialRouteName="Workouts">
         <Stack.Screen name="Workouts" component={Workouts} options={{ headerShown: false }} />
         <Stack.Screen name="Create Workout" component={CreateWorkout} options={{ headerShown: false }} />
+        <Stack.Screen name="Edit Workout" component={CreateWorkout} options={{ headerShown: false }} />
       </Stack.Navigator>
     </SafeAreaView>
   );

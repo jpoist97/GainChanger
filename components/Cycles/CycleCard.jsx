@@ -51,7 +51,6 @@ const WorkoutCard = (props) => {
       <StyledEllipsisPopup
         options={[
           { icon: 'SELECT', text: 'Select Cycle', onPress: selectCycle },
-          { icon: 'EDIT', text: 'Edit Cycle', onPress: () => alert('Navigate to edit cycle screen') },
           {
             icon: 'DELETE',
             text: 'Delete Cycle',

@@ -75,6 +75,7 @@ const AlphabetWorkoutList = (props) => {
 
   const navigation = useNavigation();
   const selectedCycle = useSelector((state) => state.cycles.selectedCycle);
+  const allWorkouts = useSelector((state) => state.workouts.workouts);
   const dispatch = useDispatch();
   const parsedItems = parseItems(items);
 
@@ -90,6 +91,9 @@ const AlphabetWorkoutList = (props) => {
           } else {
             dispatch(actions.workouts.deleteWorkout(left.id));
           }
+        }}
+        editWorkout={() => {
+          navigation.navigate('Edit Workout', { editWorkout: _.find(allWorkouts, (workout) => workout.id === left.id), editing: true });
         }}
         id={left.id}
         color={COLORS[left.index % COLORS.length]}
@@ -107,6 +111,9 @@ const AlphabetWorkoutList = (props) => {
             } else {
               dispatch(actions.workouts.deleteWorkout(right.id));
             }
+          }}
+          editWorkout={() => {
+            navigation.navigate('Edit Workout', { editWorkout: _.find(allWorkouts, (workout) => workout.id === right.id), editing: true });
           }}
           id={right.id}
           color={COLORS[right.index % COLORS.length]}
