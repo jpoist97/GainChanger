@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import ExerciseList from './ExerciseList';
 import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 
-export default ({ route }) => {
+const AddExercises = ({ route }) => {
   const exercises = useSelector((state) => state.exercises.exercises);
   const exerciseObjects = exercises.map((exercise) => ({ ...exercise, subtext: exercise.muscleGroups }));
 
@@ -57,3 +58,12 @@ export default ({ route }) => {
     </ModalScreenWrapper>
   );
 };
+
+AddExercises.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      onExercisesAdd: PropTypes.func.isRequired,
+    }),
+  }).isRequired,
+};
+export default AddExercises;

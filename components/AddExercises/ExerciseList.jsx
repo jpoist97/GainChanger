@@ -179,11 +179,6 @@ const ExerciseList = ({
   );
 };
 ExerciseList.propTypes = {
-  route: PropTypes.shape({
-    params: PropTypes.shape({
-      onExercisesAdd: PropTypes.func.isRequired,
-    }),
-  }).isRequired,
   parsedItemsName: PropTypes.object,
   parsedItemsMuscleGroups: PropTypes.object,
   exerciseObjects: PropTypes.array,
