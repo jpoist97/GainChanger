@@ -52,7 +52,7 @@ const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
-const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups }) => {
+const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups, exerciseObjects }) => {
   const [dataState, setDataState] = useState({ isSortByMuscleGroup: false, filteredDataSource: [], masterDataSource: parsedItemsName });
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
@@ -69,25 +69,15 @@ const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups
 
   const searchFilterFunction = (text) => {
     if (text) {
-      const filteredItems = [];
       const textData = text.toUpperCase();
-      Object.keys(dataState.masterDataSource).forEach((key) => {
-        const newData = dataState.masterDataSource[key].filter((item) => {
-          const itemData = item.name
-            ? item.name.toUpperCase()
-            : '';
-          return itemData.indexOf(textData) > -1;
-        });
-        if (newData) {
-          Object.keys(newData).forEach((each) => {
-            if (newData[each]) {
-              filteredItems.push(newData[each]);
-            }
-          });
-        }
-        filteredItems.sort((a, b) => a.name.localeCompare(b.name));
+      const newData = exerciseObjects.filter((item) => {
+        const itemData = item.name
+          ? item.name.toUpperCase()
+          : '';
+        return itemData.indexOf(textData) > -1;
       });
-      setDataState({ ...dataState, filteredDataSource: filteredItems });
+      newData.sort((a,b) => a.name.localeCompare(b.name));
+      setDataState({...dataState, filteredDataSource: newData});
       setSearch(text);
     } else {
       setDataState({ ...dataState, filteredDataSource: dataState.masterDataSource });

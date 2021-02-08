@@ -52,6 +52,7 @@ export default ({ route }) => {
         onExercisesAdd={route.params.onExercisesAdd}
         parsedItemsName={parseItemsByName(exerciseObjects)}
         parsedItemsMuscleGroups={parseItemsByMuscleGroup(exerciseObjects)}
+        exerciseObjects = {exerciseObjects}
       />
     </ModalScreenWrapper>
   );
