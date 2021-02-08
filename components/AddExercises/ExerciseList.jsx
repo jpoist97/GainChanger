@@ -1,10 +1,14 @@
-import * as React from 'react';
-import { SafeAreaView, View, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import {
+  SafeAreaView, View, TouchableOpacity, FlatList,
+} from 'react-native';
 import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 import ExerciseItem from './ExerciseItem';
+import SortByPopup from '../utils/SortByPopup';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -36,70 +40,81 @@ const Buttontext = styled.Text`
   font-size: 18px;
 `;
 
-const parseItems = (items) => {
-  // Sort names alphabetically
-  items.sort((a, b) => a.name.localeCompare(b.name));
-
-  // Group by first letter of each name
-  const bucketData = items.reduce((accumulator, item) => {
-    const bucket = item.name[0].toUpperCase();
-
-    // If this is the first time we've seen this letter, create a bucket
-    if (!accumulator[bucket]) {
-      accumulator[bucket] = [item];
-    } else {
-      accumulator[bucket].push(item);
-    }
-
-    return accumulator;
-  }, {});
-  return bucketData;
-};
+const SortByButton = styled(SortByPopup)`
+  position: absolute;
+  right: 15px;
+  top: 22px;
+  height: 35px;
+  width: 35px;
+  margin: 0px 15px 0px 0px;
+`;
 
 const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
-const ExerciseList = (props) => {
-  const { items, onExercisesAdd } = props;
-
-  const parsedItems = parseItems(items);
-  const [search, setSearch] = React.useState('');
-  const [filteredDataSource, setFilteredDataSource] = React.useState(parsedItems);
-  const [masterDataSource, setMasterDataSource] = React.useState(parsedItems);
-  const [exerciseCount, setExerciseCount] = React.useState(0);
-  const [addedExercises] = React.useState([]);
+const ExerciseList = ({
+  onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups, exerciseObjects,
+}) => {
+  const [dataState, setDataState] = useState({ isSortByMuscleGroup: false, filteredDataSource: [], masterDataSource: parsedItemsName });
   const navigation = useNavigation();
+  const [search, setSearch] = useState('');
+  const [exerciseCount, setExerciseCount] = useState(0);
+  const [addedExercises] = useState([]);
+
+  const handleSortByNamePress = () => {
+    setDataState({ isSortByMuscleGroup: false, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName });
+  };
+
+  const handleSortByMuscleGroupPress = () => {
+    setDataState({ isSortByMuscleGroup: true, filteredDataSource: parsedItemsMuscleGroups, masterDataSource: parsedItemsMuscleGroups });
+  };
 
   const searchFilterFunction = (text) => {
-    // Check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
-      const firstLetter = text[0].toUpperCase();
-      if (masterDataSource[firstLetter]) {
-        const newData = masterDataSource[firstLetter].filter((item) => {
-          const itemData = item.name
-            ? item.name.toUpperCase()
-            : '';
-          const textData = text.toUpperCase();
-          return itemData.indexOf(textData) > -1;
-        });
-        const filteredData = {};
-        filteredData[firstLetter] = newData;
-        setFilteredDataSource(filteredData);
-        setSearch(text);
-      } else {
-        setFilteredDataSource({});
-        setSearch(text);
-      }
+      const textData = text.toUpperCase();
+      const newData = exerciseObjects.filter((item) => {
+        const itemData = item.name
+          ? item.name.toUpperCase()
+          : '';
+        return itemData.indexOf(textData) > -1;
+      });
+      newData.sort((a, b) => a.name.localeCompare(b.name));
+      setDataState({ ...dataState, filteredDataSource: newData });
+      setSearch(text);
     } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
-      setFilteredDataSource(masterDataSource);
+      setDataState({ ...dataState, filteredDataSource: dataState.masterDataSource });
       setSearch(text);
     }
+  };
+
+  const handleUnfilteredCardPress = (item, index) => {
+    const allExercises = { ...dataState.masterDataSource };
+    const selectedGroup = dataState.isSortByMuscleGroup ? item.muscleGroups : item.name[0];
+    const { selected } = allExercises[selectedGroup][index];
+    allExercises[selectedGroup][index].selected = !selected;
+    if (allExercises[selectedGroup][index].selected === true) {
+      setExerciseCount(exerciseCount + 1);
+      addedExercises.push(item);
+    } else {
+      setExerciseCount(exerciseCount - 1);
+      addedExercises.splice(addedExercises.indexOf(item), 1);
+    }
+    setDataState({ ...dataState, masterDataSource: allExercises });
+  };
+
+  const handleFilteredCardPress = (item, index) => {
+    const filteredExercises = dataState.filteredDataSource;
+    const { selected } = filteredExercises[index];
+    filteredExercises[index].selected = !selected;
+    if (filteredExercises[index].selected === true) {
+      setExerciseCount(exerciseCount + 1);
+      addedExercises.push(item);
+    } else {
+      setExerciseCount(exerciseCount - 1);
+      addedExercises.splice(addedExercises.indexOf(item), 1);
+    }
+    setDataState({ ...dataState, filteredDataSource: filteredExercises });
   };
 
   const renderCard = ({ item, index }) => (
@@ -107,21 +122,10 @@ const ExerciseList = (props) => {
       name={item.name}
       subtext={item.subtext}
       selected={item.selected}
-      onPress={() => {
-        const temp = { ...masterDataSource };
-        const { selected } = temp[item.name[0]][index];
-        temp[item.name[0]][index].selected = !selected;
-        setMasterDataSource(temp);
-        if (temp[item.name[0]][index].selected === true) {
-          setExerciseCount(exerciseCount + 1);
-          addedExercises.push(item);
-        } else {
-          setExerciseCount(exerciseCount - 1);
-          addedExercises.splice(addedExercises.indexOf(item), 1);
-        }
-      }}
+      onPress={() => (search ? handleFilteredCardPress(item, index) : handleUnfilteredCardPress(item, index))}
     />
   );
+
   return (
     <SafeAreaView style={{ height: '100%' }}>
       <Title>Exercises</Title>
@@ -134,7 +138,6 @@ const ExerciseList = (props) => {
           Add (
           {exerciseCount}
           )
-          {' '}
         </Buttontext>
       </ButtonContainer>
       <View style={{ height: '92%' }}>
@@ -144,16 +147,46 @@ const ExerciseList = (props) => {
           onClear={() => searchFilterFunction('')}
           value={search}
           platform="ios"
-          containerStyle={{ backgroundColor: '#f2f2f2' }}
+          containerStyle={{ backgroundColor: '#f2f2f2', width: '82%' }}
         />
-        <AlphabetSectionList
-          data={filteredDataSource}
-          renderItem={renderCard}
-          renderSectionHeader={renderHeader}
+        <SortByButton
+          options={[
+            {
+              icon: 'ALPHABET', text: 'Sort By Name', onPress: handleSortByNamePress,
+            },
+            {
+              icon: 'RUNNING', text: 'Sort By Muscle Group', onPress: handleSortByMuscleGroupPress,
+            }]}
+          triggerSize={28}
         />
+        {search
+          ? (
+            <FlatList
+              data={dataState.filteredDataSource}
+              keyExtractor={(item) => item.id}
+              renderItem={renderCard}
+            />
+          )
+          : (
+            <AlphabetSectionList
+              data={dataState.masterDataSource}
+              renderItem={renderCard}
+              renderSectionHeader={renderHeader}
+            />
+          )}
       </View>
     </SafeAreaView>
   );
 };
+ExerciseList.propTypes = {
+  parsedItemsName: PropTypes.object,
+  parsedItemsMuscleGroups: PropTypes.object,
+  exerciseObjects: PropTypes.array,
+};
 
+ExerciseList.defaultProps = {
+  parsedItemsName: {},
+  parsedItemsMuscleGroups: {},
+  exerciseObjects: [],
+};
 export default ExerciseList;
