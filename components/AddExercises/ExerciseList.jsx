@@ -6,6 +6,7 @@ import styled from 'styled-components/native';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 import ExerciseItem from './ExerciseItem';
 import SortByPopup from '../utils/SortByPopup';
 
@@ -89,26 +90,15 @@ const ExerciseList = ({
 
   const handleUnfilteredCardPress = (item, index) => {
     const allExercises = { ...dataState.masterDataSource };
-    if (dataState.isSortByMuscleGroup) {
-      const { selected } = allExercises[item.muscleGroups][index];
-      allExercises[item.muscleGroups][index].selected = !selected;
-      if (allExercises[item.muscleGroups][index].selected === true) {
-        setExerciseCount(exerciseCount + 1);
-        addedExercises.push(item);
-      } else {
-        setExerciseCount(exerciseCount - 1);
-        addedExercises.splice(addedExercises.indexOf(item), 1);
-      }
+    const selectedGroup = dataState.isSortByMuscleGroup ? item.muscleGroups : item.name[0];
+    const { selected } = allExercises[selectedGroup][index];
+    allExercises[selectedGroup][index].selected = !selected;
+    if (allExercises[selectedGroup][index].selected === true) {
+      setExerciseCount(exerciseCount + 1);
+      addedExercises.push(item);
     } else {
-      const { selected } = allExercises[item.name[0]][index];
-      allExercises[item.name[0]][index].selected = !selected;
-      if (allExercises[item.name[0]][index].selected === true) {
-        setExerciseCount(exerciseCount + 1);
-        addedExercises.push(item);
-      } else {
-        setExerciseCount(exerciseCount - 1);
-        addedExercises.splice(addedExercises.indexOf(item), 1);
-      }
+      setExerciseCount(exerciseCount - 1);
+      addedExercises.splice(addedExercises.indexOf(item), 1);
     }
     setDataState({ ...dataState, masterDataSource: allExercises });
   };
@@ -188,5 +178,20 @@ const ExerciseList = ({
     </SafeAreaView>
   );
 };
+ExerciseList.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      onExercisesAdd: PropTypes.func.isRequired,
+    }),
+  }).isRequired,
+  parsedItemsName: PropTypes.object,
+  parsedItemsMuscleGroups: PropTypes.object,
+  exerciseObjects: PropTypes.array,
+};
 
+ExerciseList.defaultProps = {
+  parsedItemsName: {},
+  parsedItemsMuscleGroups: {},
+  exerciseObjects: [],
+};
 export default ExerciseList;
