@@ -52,7 +52,9 @@ const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
-const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups, exerciseObjects }) => {
+const ExerciseList = ({
+  onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups, exerciseObjects,
+}) => {
   const [dataState, setDataState] = useState({ isSortByMuscleGroup: false, filteredDataSource: [], masterDataSource: parsedItemsName });
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
@@ -76,8 +78,8 @@ const ExerciseList = ({ onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups
           : '';
         return itemData.indexOf(textData) > -1;
       });
-      newData.sort((a,b) => a.name.localeCompare(b.name));
-      setDataState({...dataState, filteredDataSource: newData});
+      newData.sort((a, b) => a.name.localeCompare(b.name));
+      setDataState({ ...dataState, filteredDataSource: newData });
       setSearch(text);
     } else {
       setDataState({ ...dataState, filteredDataSource: dataState.masterDataSource });
