@@ -125,6 +125,9 @@ export default () => {
 
       console.log('Home: Initialize Dates store');
       dispatch(actions.dates.initializeRecordDates(userData.pastWorkoutDates));
+
+      console.log('Home: Initialize Progress store');
+      dispatch(actions.progress.initalizeProgressStore(userData.totalWeightLifted, userData.totalWorkoutsPerformed, userData.weightPersonalRecord));
     };
 
     initializeDatabase();
