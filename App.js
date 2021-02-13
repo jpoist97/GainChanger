@@ -22,6 +22,7 @@ import LogWorkout from './components/LogWorkout/LogWorkout';
 import Login from './components/Authentication/login';
 import AddExercises from './components/AddExercises/AddExercises';
 import AddWorkouts from './components/AddWorkouts/AddWorkouts';
+import SelectChartExercise from './components/SelectChartExercise/SelectChartExercise';
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -108,6 +109,7 @@ const App = () => {
               <RootStack.Screen name="Log Workout" component={LogWorkout} options={{ headerShown: false }} />
               <RootStack.Screen name = "Add Exercises" component = {AddExercises} options = {{headerShown: false }} />
               <RootStack.Screen name = "Add Workouts" component = {AddWorkouts} options = {{headerShown: false }} />
+              <RootStack.Screen name = "Select Chart Exercise" component = {SelectChartExercise} options = {{headerShown: false }} />
             </RootStack.Navigator>
           </NavigationContainer>
         </PaperProvider>

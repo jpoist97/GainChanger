@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { COLORS } from '../../constants/index';
 import styled from 'styled-components';
+import { useNavigation } from '@react-navigation/native';
 
 const tempData = [
   {
@@ -72,15 +73,28 @@ export default (props) => {
   const [exerciseState, setExerciseState] = useState({
     selectedExerciseId: '',
     selectedExerciseName: 'Select an Exercise',
-    exerciseData: tempData,
   });
+
+  // Get exerciseData from the store
+  const exerciseData = tempData;
+
+  const navigation = useNavigation();
+
+  const setSelectedExercise = (exerciseId, exerciseName) => {
+    setExerciseState({
+      selectedExerciseId: exerciseId,
+      selectedExerciseName: exerciseName,
+    });
+  };
 
   return (
     <ExerciseChartContainer>
       <TwoColumnView>
         <ExerciseName>{exerciseState.selectedExerciseName}</ExerciseName>
         <SelectExerciseButton>
-          <Buttontext>
+          <Buttontext onPress={() => {
+            navigation.navigate('Select Chart Exercise', { onExerciseSelect: setSelectedExercise, selectedExerciseId: exerciseState.selectedExerciseId, })
+          }}>
             Select Exercise
           </Buttontext>
         </SelectExerciseButton>
@@ -92,7 +106,7 @@ export default (props) => {
           labels: ['1/2/21', '', '', '', '2/6/21'],
           datasets: [
             {
-              data: exerciseState.exerciseData.map((exerciseInfo) => exerciseInfo.weight),
+              data: exerciseData.map((exerciseInfo) => exerciseInfo.weight),
             },
           ],
         }}
