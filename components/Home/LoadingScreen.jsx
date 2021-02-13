@@ -78,7 +78,7 @@ const retrieveExercises = async (dbRef) => {
   return exercises;
 };
 
-const LoadingScreen = ({navigation}) => {
+export default ({navigation}) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const initializeDatabase = async () => {
@@ -110,10 +110,10 @@ const LoadingScreen = ({navigation}) => {
 
       console.log('Home: Initialize Exercise store');
       dispatch(actions.exercises.initalizeExercises(exercises));
-      navigation.navigate('Root');
 
       console.log('Home: Initialize Dates store');
       dispatch(actions.dates.initializeRecordDates(userData.pastWorkoutDates));
+      navigation.navigate('Root');
     };
 
     initializeDatabase();
@@ -131,10 +131,8 @@ const LoadingScreen = ({navigation}) => {
   </View>);
 };
 
-LoadingScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-export default LoadingScreen;
+// LoadingScreen.propTypes = {
+//   navigation: PropTypes.shape({
+//     navigate: PropTypes.func.isRequired,
+//   }).isRequired,
+// };
