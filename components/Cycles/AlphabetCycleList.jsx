@@ -60,7 +60,6 @@ const AlphabetCycleList = (props) => {
   const { items, selectedCycle } = props;
 
   const parsedItems = parseItems(items, selectedCycle);
-
   const renderCard = ({ item }) => (
     <CycleCard
       name={item.name}
@@ -75,6 +74,19 @@ const AlphabetCycleList = (props) => {
       }}
       deleteCycle={() => {
         dispatch(actions.cycles.deleteCycle(item.id));
+        const currentUser = firebase.auth().currentUser.uid;
+
+        const cycleRef = firebase.firestore()
+          .collection('users')
+          .doc(currentUser)
+          .collection('cycles')
+          .doc(item.id);
+
+        cycleRef.delete().then(() => {
+          console.log('Document successfully deleted!');
+        }).catch((error) => {
+          console.error('Error removing document: ', error);
+        });
       }}
       onPress={item.onPress}
       color={item.color || COLORS[item.index % COLORS.length]}

@@ -87,7 +87,9 @@ const Login = ({ navigation }) => {
       .then(() => {
         setDisableButton(false);
         clearFields();
-        navigation.navigate('Root');
+        navigation.navigate('LoadingScreen');
+        clearFields();
+        setDisableButton(false);
       })
       .catch((error) => {
         setDisableButton(false);
@@ -130,6 +132,7 @@ const Login = ({ navigation }) => {
         placeholder="Email"
         selectionColor="#A192FF"
         textContentType="emailAddress"
+        autoCorrect={false}
         value={email}
         onChangeText={(text) => setEmail(text)}
       />

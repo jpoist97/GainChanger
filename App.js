@@ -22,6 +22,7 @@ import LogWorkout from './components/LogWorkout/LogWorkout';
 import Login from './components/Authentication/login';
 import AddExercises from './components/AddExercises/AddExercises';
 import AddWorkouts from './components/AddWorkouts/AddWorkouts';
+import LoadingScreen from './components/Home/LoadingScreen';
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -91,6 +92,7 @@ const App = () => {
 
   const TabStackScreen = () => (
     <Stack.Navigator initialRouteName={startupScreen}>
+      <Stack.Screen name="LoadingScreen" component={LoadingScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
       <Stack.Screen name="Root" component={Root} options={{ headerShown: false }} />

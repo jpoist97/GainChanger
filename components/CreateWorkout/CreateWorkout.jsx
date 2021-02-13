@@ -2,8 +2,9 @@ import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as firebase from 'firebase';
+import _ from 'lodash';
 import FinishButton from '../utils/FinishButton';
 import PlusButton from '../utils/PlusButton';
 import AdjustExercisesList from './AdjustExercisesList';
@@ -37,9 +38,60 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default ({ navigation }) => {
-  const [name, setName] = React.useState('');
-  const [itemState, setItemState] = React.useState([]);
+const getExercise = (exercises, exerciseId) => _.find(exercises, (exercise) => exercise.id === exerciseId);
+
+const parseItemStateToWorkout = (itemState) => {
+  // Get two unique muscleGroups
+  const allMuscleGroups = itemState.map((item) => item.muscleGroups);
+  const workoutMuscleGroups = _.uniq(allMuscleGroups);
+  const topMuscleGroups = workoutMuscleGroups.slice(0, 2).join(' ');
+
+  return {
+    muscleGroups: topMuscleGroups,
+    exercises: itemState.map((item) => {
+      const setArr = [];
+      const sets = item.sets || 3;
+      for (let i = 0; i < sets; i += 1) {
+        if (item.isReps) {
+          setArr.push({ weight: null, reps: item.reps || 10 });
+        } else {
+          setArr.push({ weight: null, time: item.seconds || 60 });
+        }
+      }
+      return {
+        sets: setArr,
+        exerciseId: item.id,
+      };
+    }),
+  };
+};
+
+export default ({ navigation, route }) => {
+  const isEditing = _.get(route, ['params', 'editing'], false);
+  const editWorkout = _.get(route, ['params', 'editWorkout'], undefined);
+
+  const exercises = useSelector((state) => state.exercises.exercises);
+
+  const parseWorkoutExercises = (exercise, index) => {
+    const reps = _.get(exercise, ['sets', '0', 'reps'], '').toString();
+    const seconds = _.get(exercise, ['sets', '0', 'time'], '').toString();
+
+    const matchingExercise = getExercise(exercises, exercise.exerciseId);
+
+    return {
+      color: COLORS[index % COLORS.length],
+      id: exercise.exerciseId,
+      name: matchingExercise.name,
+      muscleGroups: matchingExercise.muscleGroups,
+      sets: exercise.sets.length.toString(),
+      reps,
+      seconds,
+      isReps: !!reps,
+    };
+  };
+
+  const [name, setName] = React.useState(_.get(editWorkout, ['name'], ''));
+  const [itemState, setItemState] = React.useState(editWorkout ? editWorkout.exercises.map(parseWorkoutExercises) : []);
   const dispatch = useDispatch();
 
   const setReps = (index) => (reps) => {
@@ -101,6 +153,7 @@ export default ({ navigation }) => {
       ...newWorkout,
       id: workoutDoc.id,
     }));
+
     navigation.goBack();
   };
 
@@ -120,36 +173,35 @@ export default ({ navigation }) => {
       </View>
       <AddFinishButton onPress={() => {
         if (!name) {
-          alert('Please enter a workout name');
+          alert('Please enter a workout name.');
         } else if (itemState.length === 0) {
-          alert('Please add at least one exercise');
-        } else {
-          let { muscleGroups } = itemState[0];
-          if (itemState.length >= 2) { // for showing top 2 muscle groups
-            muscleGroups += ' ';
-            muscleGroups += itemState[1].muscleGroups;
+          alert('Please add at least one exercise.');
+        } else if (!itemState.every((exercise) => {
+          // If sets is defined make sure it's greater than 0, otherwise if
+          // its undefined then we'll default to 3 so it's good to pass.
+          if (exercise.sets) {
+            return parseInt(exercise.sets) > 0;
           }
-          const newWorkout = {
-            name,
-            lastPerformed: 'n/a',
-            muscleGroups,
-            exercises: itemState.map((item) => {
-              const setArr = [];
-              const sets = item.sets || 3;
-              for (let i = 0; i < sets; i += 1) {
-                if (item.isReps) {
-                  setArr.push({ weight: null, reps: item.reps || 10 });
-                } else {
-                  setArr.push({ weight: null, time: item.seconds || 60 });
-                }
-              }
-              return {
-                sets: setArr,
-                exerciseId: item.id,
-              };
-            }),
-          };
-          createNewWorkout(newWorkout, dispatch);
+          return true;
+        })) {
+          alert('Exercises must have at least 1 set.');
+        } else {
+          const parsedItemState = parseItemStateToWorkout(itemState);
+
+          if (isEditing) {
+            dispatch(actions.workouts.updateWorkout(editWorkout.id, {
+              ...parsedItemState,
+              name,
+            }));
+
+            navigation.goBack();
+          } else {
+            createNewWorkout({
+              ...parsedItemState,
+              name,
+              lastPerformed: 'n/a',
+            });
+          }
         }
       }}
       />

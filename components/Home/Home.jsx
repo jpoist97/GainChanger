@@ -6,12 +6,12 @@ import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import * as firebase from 'firebase';
-import { toDate, differenceInCalendarDays } from 'date-fns';
+// import { toDate, differenceInCalendarDays } from 'date-fns';
 import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import 'firebase/firestore';
 import actions from '../../actions/index';
-import HomeScreen from './HomeScreen';
+// import HomeScreen from './LoadingScreen';
 import { COLORS } from '../../constants/index';
 
 const WelcomeTitle = styled.Text`
@@ -21,114 +21,118 @@ const WelcomeTitle = styled.Text`
   width: 50%;
 `;
 
-const retrieveUsers = async (userRef) => {
-  const userDoc = await userRef.get();
-  return userDoc.data();
-};
+// const retrieveUsers = async (userRef) => {
+//   const userDoc = await userRef.get();
+//   return userDoc.data();
+// };
 
-const retrieveWorkouts = async (userRef) => {
-  const workouts = [];
-  const workoutRef = userRef.collection('workouts');
-  const workoutSnapshot = await workoutRef.get();
+// const retrieveWorkouts = async (userRef) => {
+//   const workouts = [];
+//   const workoutRef = userRef.collection('workouts');
+//   const workoutSnapshot = await workoutRef.get();
 
-  workoutSnapshot.forEach((doc) => {
-    const {
-      exercises, name, lastPerformed, muscleGroups,
-    } = doc.data();
-    const dateDiff = differenceInCalendarDays(new Date(), toDate(lastPerformed.seconds * 1000));
+//   workoutSnapshot.forEach((doc) => {
+//     const {
+//       exercises, name, lastPerformed, muscleGroups,
+//     } = doc.data();
+//     const dateDiff = differenceInCalendarDays(new Date(), toDate(lastPerformed.seconds * 1000));
 
-    if (exercises && name && muscleGroups) {
-      workouts.push({
-        id: doc.id,
-        name,
-        exercises,
-        muscleGroups,
-        lastPerformed: dateDiff,
-      });
-    }
-  });
+//     if (exercises && name && muscleGroups) {
+//       workouts.push({
+//         id: doc.id,
+//         name,
+//         exercises,
+//         muscleGroups,
+//         lastPerformed: dateDiff,
+//       });
+//     }
+//   });
 
-  return workouts;
-};
+//   return workouts;
+// };
 
-const retrieveCycles = async (userRef) => {
-  const cycles = [];
-  const cycleRef = userRef.collection('cycles');
-  const cycleSnapshot = await cycleRef.get();
+// const retrieveCycles = async (userRef) => {
+//   const cycles = [];
+//   const cycleRef = userRef.collection('cycles');
+//   const cycleSnapshot = await cycleRef.get();
 
-  cycleSnapshot.forEach((doc) => {
-    const { workoutIds, name } = doc.data();
+//   cycleSnapshot.forEach((doc) => {
+//     const { workoutIds, name } = doc.data();
 
-    if (workoutIds && name) {
-      cycles.push({
-        id: doc.id,
-        name,
-        workouts: workoutIds,
-      });
-    }
-  });
+//     if (workoutIds && name) {
+//       cycles.push({
+//         id: doc.id,
+//         name,
+//         workouts: workoutIds,
+//       });
+//     }
+//   });
 
-  return cycles;
-};
+//   return cycles;
+// };
 
-const retrieveExercises = async (dbRef) => {
-  const exercises = [];
-  const exerciseRef = dbRef.collection('exercises');
-  const exerciseSnapshot = await exerciseRef.get();
+// const retrieveExercises = async (dbRef) => {
+//   const exercises = [];
+//   const exerciseRef = dbRef.collection('exercises');
+//   const exerciseSnapshot = await exerciseRef.get();
 
-  exerciseSnapshot.forEach((doc) => {
-    const { name, muscleGroups } = doc.data();
+//   exerciseSnapshot.forEach((doc) => {
+//     const { name, muscleGroups } = doc.data();
 
-    if (name && muscleGroups) {
-      exercises.push({
-        id: doc.id,
-        name,
-        muscleGroups: muscleGroups.join(', '),
-      });
-    }
-  });
+//     if (name && muscleGroups) {
+//       exercises.push({
+//         id: doc.id,
+//         name,
+//         muscleGroups,
+//       });
+//     }
+//   });
 
-  return exercises;
-};
+//   return exercises;
+// };
 
 export default () => {
-  const [showSplash, setShowSplash] = React.useState(true);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const initializeDatabase = async () => {
-      // Get the current logged in user id
-      const currentUser = firebase.auth().currentUser.uid;
+  // const [showSplash, setShowSplash] = React.useState(true);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   const initializeDatabase = async () => {
+  //     // Get the current logged in user id
+  //     const currentUser = firebase.auth().currentUser.uid;
 
-      const dbRef = firebase.firestore();
-      const userRef = dbRef.collection('users').doc(currentUser);
+  //     const dbRef = firebase.firestore();
+  //     const userRef = dbRef.collection('users').doc(currentUser);
 
-      // Retrieve firestore data in parallel
-      const firestoreResponse = await Promise.all([
-        retrieveUsers(userRef),
-        retrieveWorkouts(userRef),
-        retrieveCycles(userRef),
-        retrieveExercises(dbRef),
-      ]);
-      const [userData, workouts, cycles, exercises] = firestoreResponse;
+  //     // Retrieve firestore data in parallel
+  //     const firestoreResponse = await Promise.all([
+  //       retrieveUsers(userRef),
+  //       retrieveWorkouts(userRef),
+  //       retrieveCycles(userRef),
+  //       retrieveExercises(dbRef),
+  //     ]);
+  //     const [userData, workouts, cycles, exercises] = firestoreResponse;
 
-      // Initialize redux store
-      console.log('Home: Initializing Workout store');
-      dispatch(actions.workouts.initializeWorkouts(workouts));
+  //     // Initialize redux store
+  //     console.log('Home: Initializing Workout store');
+  //     dispatch(actions.workouts.initializeWorkouts(workouts));
 
-      console.log('Home: Initializing Cycles store');
-      dispatch(actions.cycles.initializeCycles(
-        cycles,
-        userData.selectedCycleId,
-        userData.selectedCycleIndex,
-      ));
+  //     console.log('Home: Initializing Cycles store');
+  //     dispatch(actions.cycles.initializeCycles(
+  //       cycles,
+  //       userData.selectedCycleId,
+  //       userData.selectedCycleIndex,
+  //     ));
 
-      console.log('Home: Initialize Exercise store');
-      dispatch(actions.exercises.initalizeExercises(exercises));
-      setShowSplash(false);
-    };
+  //     console.log('Home: Initialize Exercise store');
+  //     dispatch(actions.exercises.initalizeExercises(exercises));
 
-    initializeDatabase();
-  }, []);
+
+  //     console.log('Home: Initialize Dates store');
+  //     dispatch(actions.dates.initializeRecordDates(userData.pastWorkoutDates));
+  //     setShowSplash(false);
+  //   };
+
+  //   initializeDatabase();
+  // }, []);
 
   const welcomeName = firebase.auth().currentUser.displayName;
 
@@ -168,7 +172,6 @@ export default () => {
     cycleDetails = selectedCycle.workouts.map((workoutId) => _.find(workouts, (workout) => workout.id === workoutId));
   }
 
-  if (!showSplash) {
     return (
       <SafeAreaView>
         <Image
@@ -191,6 +194,7 @@ export default () => {
           leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
           rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
+          cycleLength={cycleDetails && cycleDetails.length}
           isCycleSelected={cycleDetails !== undefined}
         />
           <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />
@@ -199,5 +203,3 @@ export default () => {
     );
   }
 
-  return <HomeScreen />;
-};

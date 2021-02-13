@@ -37,7 +37,7 @@ const ArrowButton = styled(AntDesign)`
 
 const CurrentCycle = (props) => {
   const {
-    color, subtext, name, leftPress, rightPress, id, isCycleSelected,
+    color, subtext, name, leftPress, rightPress, id, cycleLength, isCycleSelected,
   } = props;
 
   const navigation = useNavigation();
@@ -65,7 +65,9 @@ const CurrentCycle = (props) => {
         </TouchableOpacity>
         <StyledView onPress={() => {
           if (isCycleSelected) {
-            navigation.navigate('Log Workout', { workoutId: id });
+            navigation.navigate('Log Workout', {
+              workoutId: id, isSelectedCycle: true, cycleLength,
+            });
           } else {
             navigation.navigate('Cycles');
           }

@@ -89,3 +89,23 @@ export async function deleteCycleDocument(cycleId) {
    const userRef = getUserRef();
    return await userRef.collection('cycles').doc(cycleId).delete();
 }
+
+
+export async function updateWorkoutDocument(workoutId, newWorkoutContent) {
+   const userRef = getUserRef();
+   return await userRef.collection('workouts').doc(workoutId).update(newWorkoutContent);
+}
+
+
+// Code used to update the exercise format in firestore 
+// export async function modifyWorkoutExercises() {
+//    const exerciseRef = firebase.firestore().collection('exercises');
+
+//    const exerciseSnapshot = await exerciseRef.get();
+
+//    exerciseSnapshot.forEach((exerciseDoc) => {
+//       exerciseRef.doc(exerciseDoc.id).update({
+//          muscleGroups: exerciseDoc.data().muscleGroups[0]
+//       })
+//    })
+// }
