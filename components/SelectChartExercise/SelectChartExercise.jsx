@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import ExerciseList from './ExerciseList';
 import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 
-const SelectChartExercise = (props) => {
-   const { onExerciseSelect, selectedExerciseId } = props.route.params;
+const SelectChartExercise = ({ route }) => {
+  const { onExerciseSelect, selectedExerciseId } = route;
 
   const exercises = useSelector((state) => state.exercises.exercises);
   const exerciseObjects = exercises.map((exercise) => ({ ...exercise, subtext: exercise.muscleGroups }));
@@ -19,8 +19,9 @@ const SelectChartExercise = (props) => {
     const bucketData = items.reduce((accumulator, item) => {
       const bucket = item.name[0].toUpperCase();
 
-      if(selectedExerciseId && item.id === selectedExerciseId) {
-         item.selected = true;
+      if (selectedExerciseId && item.id === selectedExerciseId) {
+        // eslint-disable-next-line no-param-reassign
+        item.selected = true;
       }
 
       // If this is the first time we've seen this letter, create a bucket
@@ -53,13 +54,5 @@ SelectChartExercise.propTypes = {
     }),
   }).isRequired,
 };
-
-SelectChartExercise.defaultProps = {
-   route: {
-      params: {
-         selectedExerciseId: '',
-      }
-   }
-}
 
 export default SelectChartExercise;

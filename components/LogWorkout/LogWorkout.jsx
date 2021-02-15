@@ -68,6 +68,7 @@ const LogWorkout = (props) => {
   const exerciseStore = useSelector((state) => state.exercises.exercises);
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
+  const progressState = useSelector((state) => state.progress.profileStats);
   const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
 
   const { name } = selectedWorkout;
@@ -129,6 +130,38 @@ const LogWorkout = (props) => {
     userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); // updates workout doc
     dispatch(actions.workouts.updateWorkoutExercises(workoutId, newWorkoutLog.exercises)); // rerenders workout to show update prev details
     workoutRecsRef.add(newWorkoutLog); // makes a new workoutRecord
+  };
+
+  const updateUserProgress = () => {
+    let { weightPersonalRecord } = progressState;
+    let { totalWeightLifted } = progressState;
+
+    const exerciseRecords = [];
+
+    exerciseState.forEach((exerciseDetails) => {
+      let bestExerciseWeight = 0;
+
+      exerciseDetails.sets.forEach((setDetails) => {
+        const weight = parseInt(setDetails.weight || setDetails.prevWeight || '0');
+        const duration = parseInt(setDetails.duration || setDetails.prevDuration);
+        if (weight > weightPersonalRecord) {
+          weightPersonalRecord = weight;
+        }
+        if (weight > bestExerciseWeight) {
+          bestExerciseWeight = weight;
+        }
+        totalWeightLifted += weight * duration;
+      });
+
+      exerciseRecords.push({
+        weight: bestExerciseWeight,
+        date: firebase.firestore.FieldValue.serverTimestamp(),
+        exerciseId: exerciseDetails.id,
+      });
+    });
+
+    dispatch(actions.progress.updateProgressStats(totalWeightLifted, progressState.totalWorkoutsPerformed + 1, weightPersonalRecord));
+    dispatch(actions.progress.addNewExerciseRecords(exerciseRecords));
   };
 
   const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {
@@ -214,7 +247,8 @@ const LogWorkout = (props) => {
         } else {
           sendWorkoutLogToDB();
           updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`);
-          dispatch(actions.progress.updateProgressStats(10, 10, 10));
+
+          updateUserProgress();
           if (isSelectedCycle) { incrementSelectedCycleIdx(); }
           navigation.goBack();
         }

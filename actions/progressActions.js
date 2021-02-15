@@ -1,5 +1,5 @@
-import { INITIALIZE_USER_PROGRESS, UPDATE_USER_PROGRESS } from '../constants/index';
-import { updateUserProgress } from '../api';
+import { INITIALIZE_USER_PROGRESS, UPDATE_USER_PROGRESS, SET_EXERCISE_RECORDS, START_LOADING_EXERCISE_RECORDS } from '../constants/index';
+import { updateUserProgress, retrieveExerciseRecords, postExerciseRecords, } from '../api';
 
 const initalizeProgressStore = (totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord) => {
    return {
@@ -11,7 +11,7 @@ const initalizeProgressStore = (totalWeightLifted, totalWorkoutsPerformed, weigh
 };
 
 const updateProgressStats = (totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord) => {
-   return async (dispatch) =>{
+   return async (dispatch) => {
       updateUserProgress(totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord);
 
       dispatch({
@@ -23,7 +23,38 @@ const updateProgressStats = (totalWeightLifted, totalWorkoutsPerformed, weightPe
    } 
 };
 
+// const startLoadingExerciseRecords = () => {
+//    return {
+//       type: START_LOADING_EXERCISE_RECORDS,
+//    }
+// }
+
+const fetchExerciseRecords = (exerciseId) => {
+   return async (dispatch) => {
+      dispatch({
+         type: START_LOADING_EXERCISE_RECORDS,
+      });
+
+      const exerciseRecords = await retrieveExerciseRecords(exerciseId);
+
+      dispatch({
+         type: SET_EXERCISE_RECORDS,
+         exerciseId, 
+         exerciseRecords,
+      })
+   }
+}
+
+const addNewExerciseRecords = (exerciseRecords) => {
+   return async (dispatch) => {
+      await postExerciseRecords(exerciseRecords);
+   }
+}
+
+
 export default {
    initalizeProgressStore,
    updateProgressStats,
+   fetchExerciseRecords,
+   addNewExerciseRecords,
 };

@@ -3,38 +3,13 @@ import {
   LineChart,
 } from 'react-native-chart-kit';
 import {
-  Text, View, Alert, SafeAreaView, StyleSheet, Dimensions, TouchableOpacity,
+  Text, View, Dimensions, TouchableOpacity,
 } from 'react-native';
-import { COLORS } from '../../constants/index';
 import styled from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
-
-const tempData = [
-  {
-    date: '2/1/21',
-    exerciseId: 'CHEST press',
-    reps: 10,
-    weight: 100,
-  },
-  {
-    date: '2/2/21',
-    exerciseId: 'CHEST press',
-    reps: 10,
-    weight: 110,
-  },
-  {
-    date: '2/3/21',
-    exerciseId: 'CHEST press',
-    reps: 10,
-    weight: 120,
-  },
-  {
-    date: '2/4/21',
-    exerciseId: 'CHEST press',
-    reps: 10,
-    weight: 130,
-  },
-];
+import { useSelector } from 'react-redux';
+import _ from 'lodash';
+import { toDate, format } from 'date-fns';
 
 const ExerciseChartContainer = styled(View)`
   width: 100%;  
@@ -69,14 +44,20 @@ const Buttontext = styled.Text`
   font-size: 16px;
 `;
 
-export default (props) => {
+export default () => {
   const [exerciseState, setExerciseState] = useState({
     selectedExerciseId: '',
     selectedExerciseName: 'Select an Exercise',
   });
 
+  const exerciseRecords = useSelector((state) => state.progress.exerciseRecords);
+  const loading = useSelector((state) => state.progress.loading);
+  // If we get undefined for exerciseData, then don't show the damn graph
+  const exerciseData = _.get(exerciseRecords, exerciseState.selectedExerciseId, []);
+  console.log(exerciseData.map((exerciseInfo) => exerciseInfo.weight));
+
   // Get exerciseData from the store
-  const exerciseData = tempData;
+  // const exerciseData = tempData;
 
   const navigation = useNavigation();
 
@@ -93,54 +74,58 @@ export default (props) => {
         <ExerciseName>{exerciseState.selectedExerciseName}</ExerciseName>
         <SelectExerciseButton>
           <Buttontext onPress={() => {
-            navigation.navigate('Select Chart Exercise', { onExerciseSelect: setSelectedExercise, selectedExerciseId: exerciseState.selectedExerciseId, })
-          }}>
+            navigation.navigate('Select Chart Exercise', { onExerciseSelect: setSelectedExercise, selectedExerciseId: exerciseState.selectedExerciseId });
+          }}
+          >
             Select Exercise
           </Buttontext>
         </SelectExerciseButton>
       </TwoColumnView>
 
-      <LineChart
-        onDataPointClick={(value) => { console.log(value); }}
-        data={{
-          labels: ['1/2/21', '', '', '', '2/6/21'],
-          datasets: [
-            {
-              data: exerciseData.map((exerciseInfo) => exerciseInfo.weight),
+      {/* eslint-disable-next-line no-nested-ternary */}
+      { loading ? <Text>Loading</Text> : (exerciseData && exerciseData.length > 0 ? (
+        <LineChart
+          onDataPointClick={(value) => { console.log(value); }}
+          data={{
+            labels: exerciseData.map((exerciseInfo, index) => {
+              if (index === 0 || index === exerciseData.length - 1) {
+                return format(toDate(exerciseInfo.date.seconds * 1000), 'MM-dd-yyyy');
+              }
+              return '';
+            }),
+            datasets: [
+              {
+                data: exerciseData.map((exerciseInfo) => exerciseInfo.weight),
+              },
+            ],
+          }}
+          width={Dimensions.get('window').width - 20} // from react-native
+          height={400}
+          yAxisSuffix=""
+          fromZero
+          chartConfig={{
+            backgroundGradientFrom: '#1E2923',
+            backgroundGradientFromOpacity: 0,
+            backgroundGradientTo: '#08130D',
+            backgroundGradientToOpacity: 0,
+            fillShadowGradient: '#F8E3FC',
+            fillShadowGradientOpacity: 0.8,
+            color: () => 'rgba(133, 92, 248)',
+            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            style: {
+              borderRadius: 16,
             },
-          ],
-        }}
-        width={Dimensions.get('window').width - 20} // from react-native
-        height={400}
-          // yAxisLabel="$"
-        yAxisSuffix=""
-        fromZero
-        yAxisInterval={1} // optional, defaults to 1
-        chartConfig={{
-          //  backgroundColor: COLORS[1],
-          // #855cf8
-          backgroundGradientFrom: '#1E2923',
-          backgroundGradientFromOpacity: 0,
-          backgroundGradientTo: '#08130D',
-          backgroundGradientToOpacity: 0,
-          fillShadowGradient: '#F8E3FC',
-          fillShadowGradientOpacity: 0.8,
-          decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => 'rgba(133, 92, 248)',
-          labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          style: {
+            propsForDots: {
+              r: '4',
+            },
+          }}
+          style={{
+            marginVertical: 8,
             borderRadius: 16,
-          },
-          propsForDots: {
-            r: '4',
-          },
-        }}
-        //   bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
+          }}
+        />
+      ) : <Text>No Data for said exercise</Text>)}
+
     </ExerciseChartContainer>
   );
 };

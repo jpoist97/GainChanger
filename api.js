@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { orderBy } from 'lodash';
 
 /**
  * Helper function that returns a reference to the current logged in user in 
@@ -104,4 +105,30 @@ export async function updateUserProgress(totalWeightLifted, totalWorkoutsPerform
       totalWorkoutsPerformed,
       weightPersonalRecord,
    });
+}
+
+export async function retrieveExerciseRecords(exerciseId) {
+   const execiseRecordsRef = getUserRef().collection('exerciseRecords');
+   console.log(`getting exerciseRecords for ${exerciseId}`);
+
+   const querySnapshot = await execiseRecordsRef.where('exerciseId', '==', exerciseId).orderBy('date').get();
+   // const querySnapshot = await execiseRecordsRef.orderBy('date').get();
+   
+   const results = [];
+   querySnapshot.forEach((doc) => {
+      console.log("RETREIVED");
+      console.log(doc.data());
+      results.push(doc.data());
+   });
+
+   return results;
+}
+
+export async function postExerciseRecords(exerciseRecords) {
+   const execiseRecordsRef = getUserRef().collection('exerciseRecords');
+
+   console.log('POSTING EXERCISE RECORDS');
+   const dbPostPromises = exerciseRecords.map((record) => execiseRecordsRef.add(record));
+   
+   await Promise.all(dbPostPromises);
 }
