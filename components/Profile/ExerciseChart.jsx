@@ -109,6 +109,8 @@ export default () => {
         )
         : (exerciseData && exerciseData.length > 0 ? (
           <LineChart
+          // TODO: Display a modal or popup when a datapoint is clicked
+          // Might need to use renderDotContent to ake dots menu triggers
             onDataPointClick={(value) => { console.log(value); }}
             segments={5}
             data={{
