@@ -5,7 +5,7 @@ import ExerciseList from './ExerciseList';
 import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 
 const SelectChartExercise = ({ route }) => {
-  const { onExerciseSelect, selectedExerciseId } = route;
+  const { onExerciseSelect, selectedExerciseId } = route.params;
 
   const exercises = useSelector((state) => state.exercises.exercises);
   const exerciseObjects = exercises.map((exercise) => ({ ...exercise, subtext: exercise.muscleGroups }));
@@ -39,7 +39,7 @@ const SelectChartExercise = ({ route }) => {
     <ModalScreenWrapper>
       <ExerciseList
         onExerciseSelect={onExerciseSelect}
-        parsedItemsName={parseItemsByName(exerciseObjects)}
+        parsedItems={parseItemsByName(exerciseObjects)}
         exerciseObjects={exerciseObjects}
       />
     </ModalScreenWrapper>
