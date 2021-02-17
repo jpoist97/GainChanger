@@ -1,4 +1,4 @@
-import { INITIALIZE_EXERCISES } from '../constants/index';
+import { INITIALIZE_EXERCISES, ADD_CUSTOM_EXERCISE } from '../constants/index';
 
 const initialState = {
    exercises: [],
@@ -11,6 +11,14 @@ const exerciseReducer = (state = initialState, action) => {
          return {
             exercises: [...action.exercises]
          };
+      case ADD_CUSTOM_EXERCISE:
+        console.log(`Adding custom exercise ${action.exercises.name}`);
+        const newExercises = [...state.exercises];
+        newExercises.push(action.exercises);
+        return {
+            ...state,
+            exercises: newExercises,
+        };
       default:
          return state;
    }

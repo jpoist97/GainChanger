@@ -1,4 +1,4 @@
-import { INITIALIZE_EXERCISES } from '../constants/index';
+import { INITIALIZE_EXERCISES, ADD_CUSTOM_EXERCISE } from '../constants/index';
 
 const initalizeExercises = (exercises) => {
    return {
@@ -7,6 +7,15 @@ const initalizeExercises = (exercises) => {
    }
 }
 
+const addCustomExercise = (exercises) => {
+  return {
+     type: ADD_CUSTOM_EXERCISE,
+     exercises,
+  }
+}
+
+
 export default {
    initalizeExercises,
+   addCustomExercise
 };

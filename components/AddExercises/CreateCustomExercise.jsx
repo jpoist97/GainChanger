@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import {
-  TouchableOpacity, Button,
+  TouchableOpacity,
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { AntDesign } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import RNPickerSelect from 'react-native-picker-select';
 import * as firebase from 'firebase';
+import actions from '../../actions/index';
 
 const Name = styled.Text`
 font-family: 'Montserrat_600SemiBold';
@@ -48,10 +51,29 @@ width: 40%;
 padding: 6px;
 `;
 
+const StyledButton = styled.TouchableOpacity`
+  background-color: #A192FF;
+  height: 35px;
+  width: 87%;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 4px;
+  margin-bottom: 12px;
+`;
+const ButtonText = styled.Text`
+  color: white;
+  font-family: 'Montserrat_600SemiBold';
+  font-size: 14px;
+`;
+
 const CreateCustomExercise = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [workoutName, setWorkoutName] = React.useState('');
   const [muscleGroup, setMuscleGroup] = React.useState('');
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const createCustomExercise = async (exercise) => {
     const currentUser = firebase.auth().currentUser.uid;
@@ -59,10 +81,16 @@ const CreateCustomExercise = () => {
       .collection('users')
       .doc(currentUser)
       .collection('customExercises');
-    await customExerciseRef.add(exercise);
+    const ExerciseDoc = await customExerciseRef.add(exercise);
+    dispatch(actions.exercises.addCustomExercise({
+      muscleGroups: muscleGroup,
+      name: workoutName,
+      id: ExerciseDoc.id,
+    }));
     setIsExpanded(false);
     setMuscleGroup('');
     setWorkoutName('');
+    navigation.navigate('Create Workout');
   };
 
   return (
@@ -116,22 +144,25 @@ const CreateCustomExercise = () => {
             />
           </SelectWrapper>
         </Container>
-        <Button
+        <StyledButton
+          mode="contained"
           title="Create Workout"
           onPress={() => {
             if (!workoutName) {
               alert('Please enter a workout name');
-            } else if (!workoutName) {
+            } else if (!muscleGroup) {
               alert('Please select a muscle group');
             } else {
               const exercise = {
                 name: workoutName,
                 muscleGroups: muscleGroup,
               };
-              createCustomExercise(exercise);
+              createCustomExercise(exercise, dispatch);
             }
           }}
-        />
+        >
+          <ButtonText>Create New Exercise</ButtonText>
+        </StyledButton>
       </Collapsible>
     </TouchableOpacity>
   );

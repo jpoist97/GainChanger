@@ -74,10 +74,26 @@ const retrieveExercises = async (dbRef) => {
   const exercises = [];
   const exerciseRef = dbRef.collection('exercises');
   const exerciseSnapshot = await exerciseRef.get();
+  const currentUser = firebase.auth().currentUser.uid;
+  const customExerciseRef = firebase.firestore().collection('users')
+    .doc(currentUser)
+    .collection('customExercises');
+  const customExerciseSnapshot = await customExerciseRef.get();
 
   exerciseSnapshot.forEach((doc) => {
     const { name, muscleGroups } = doc.data();
 
+    if (name && muscleGroups) {
+      exercises.push({
+        id: doc.id,
+        name,
+        muscleGroups,
+      });
+    }
+  });
+
+  customExerciseSnapshot.forEach((doc) => {
+    const { name, muscleGroups } = doc.data();
     if (name && muscleGroups) {
       exercises.push({
         id: doc.id,

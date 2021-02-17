@@ -17,6 +17,7 @@ export const PURGE_WORKOUT = 'PURGE_WORKOUT'
 
 // Exercises
 export const INITIALIZE_EXERCISES = 'INITIALIZE_EXERCISES';
+export const ADD_CUSTOM_EXERCISE = 'ADD_CUSTOM_EXERCISE';
 
 // Past Workout Dates
 export const INITIALIZE_DATES = 'INITIALIZE_DATES';
