@@ -23,12 +23,6 @@ const updateProgressStats = (totalWeightLifted, totalWorkoutsPerformed, weightPe
    } 
 };
 
-// const startLoadingExerciseRecords = () => {
-//    return {
-//       type: START_LOADING_EXERCISE_RECORDS,
-//    }
-// }
-
 const fetchExerciseRecords = (exerciseId) => {
    return async (dispatch) => {
       dispatch({
@@ -45,16 +39,8 @@ const fetchExerciseRecords = (exerciseId) => {
    }
 }
 
-const addNewExerciseRecords = (exerciseRecords) => {
-   return async (dispatch) => {
-      await postExerciseRecords(exerciseRecords);
-   }
-}
-
-
 export default {
    initalizeProgressStore,
    updateProgressStats,
    fetchExerciseRecords,
-   addNewExerciseRecords,
 };

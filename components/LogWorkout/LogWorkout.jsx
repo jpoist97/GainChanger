@@ -12,6 +12,7 @@ import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
 import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX } from '../../constants/index';
 import actions from '../../actions/index';
+import { postExerciseRecords } from '../../api';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -68,7 +69,7 @@ const LogWorkout = (props) => {
   const exerciseStore = useSelector((state) => state.exercises.exercises);
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
-  const progressState = useSelector((state) => state.progress.profileStats);
+  const profileStats = useSelector((state) => state.progress.profileStats);
   const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
 
   const { name } = selectedWorkout;
@@ -133,8 +134,8 @@ const LogWorkout = (props) => {
   };
 
   const updateUserProgress = () => {
-    let { weightPersonalRecord } = progressState;
-    let { totalWeightLifted } = progressState;
+    let { weightPersonalRecord } = profileStats;
+    let { totalWeightLifted } = profileStats;
 
     const exerciseRecords = [];
 
@@ -160,8 +161,8 @@ const LogWorkout = (props) => {
       });
     });
 
-    dispatch(actions.progress.updateProgressStats(totalWeightLifted, progressState.totalWorkoutsPerformed + 1, weightPersonalRecord));
-    dispatch(actions.progress.addNewExerciseRecords(exerciseRecords));
+    dispatch(actions.progress.updateProgressStats(totalWeightLifted, profileStats.totalWorkoutsPerformed + 1, weightPersonalRecord));
+    postExerciseRecords(exerciseRecords);
   };
 
   const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {

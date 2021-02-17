@@ -63,7 +63,6 @@ const ExerciseList = ({ onExerciseSelect, parsedItems, exerciseObjects }) => {
       selected={item.selected}
       onPress={() => {
         onExerciseSelect(item.id, item.name);
-        // TODO: dispatch exerciseRecord action with item.id IF not already initialized
         if (!exerciseRecords[item.id]) {
           dispatch(actions.progress.fetchExerciseRecords(item.id));
         }
