@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Image, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
 import _ from 'lodash';
 import * as firebase from 'firebase';
-import PropTypes from 'prop-types';
 import { toDate, differenceInCalendarDays } from 'date-fns';
 import 'firebase/firestore';
 import actions from '../../actions/index';
@@ -120,19 +120,16 @@ export default ({navigation}) => {
   }, []);
   
   return (
-  <View style={{ alignItems: 'center', marginTop: 210 }}>
-    <Image
+    <View style={{ flex: 1, alignItems: 'center', marginTop: 255 }}>
+    <Animatable.View animation="rotate" iterationCount="infinite">
+      <Image
       source={require('../../assets/logo.png')}
-      // style={{
-      //   width: 300,
-      //   height: 700,
-      // }}
-    />
-  </View>);
+      style={{
+        width: 310,
+        height: 310,
+      }}
+      />
+    </Animatable.View>
+    </View>
+  );
 };
-
-// LoadingScreen.propTypes = {
-//   navigation: PropTypes.shape({
-//     navigate: PropTypes.func.isRequired,
-//   }).isRequired,
-// };

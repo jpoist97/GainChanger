@@ -13,6 +13,7 @@ import 'firebase/firestore';
 import actions from '../../actions/index';
 // import HomeScreen from './LoadingScreen';
 import { COLORS } from '../../constants/index';
+import * as Animatable from 'react-native-animatable';
 
 const WelcomeTitle = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -177,14 +178,18 @@ export default () => {
         <Image
           source={require('../../assets/logo.png')}
           style={{
-            width: 215, height: 215, position: 'absolute', right: 10, top: 20,
+            width: 215, height: 215, 
+            position: 'absolute', right: 10, top: 20,
           }} />
-      <View style={{ marginBottom: '10%', marginTop: '5%' }}>
-        <WelcomeTitle>Hello</WelcomeTitle>
+      <View style={{ marginBottom: '10%', marginTop: '5%', marginLeft: '5%'}}>
+      <Animatable.Text animation="bounceIn" iterationCount={1}>
+        <WelcomeTitle>Hello</WelcomeTitle> </Animatable.Text>
+        <Animatable.Text animation="bounceIn" iterationCount={1}>
         <WelcomeTitle numberOfLines={1}>
           {welcomeName}
           !
         </WelcomeTitle>
+        </Animatable.Text>
       </View>
       <View style={{ height: '50%', marginBottom: '25%' }}>
         <CurrentCycle
