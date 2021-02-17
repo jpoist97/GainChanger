@@ -12,43 +12,43 @@ import * as firebase from 'firebase';
 import actions from '../../actions/index';
 
 const Name = styled.Text`
-font-family: 'Montserrat_600SemiBold';
-font-size: 16px;
-margin-left: 8px;
-margin-bottom: 10px;
-padding: 4px;
+  font-family: 'Montserrat_600SemiBold';
+  font-size: 16px;
+  margin-left: 8px;
+  margin-bottom: 10px;
+  padding: 4px;
 `;
 
 const IconButton = styled(AntDesign)`
-position: absolute;
-right: 10px;
-top: 0px;
-height: 25px;
-width: 25px;
-margin: 0px 25px 0px 0px;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  height: 25px;
+  width: 25px;
+  margin: 0px 25px 0px 0px;
 `;
 
 const Container = styled.View`
-flex-direction: row;
-align-items: center;
-justify-content: space-evenly; 
-height: 50px; 
-width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly; 
+  height: 50px; 
+  width: 100%;
 `;
 
 const WorkoutNameInput = styled.TextInput`
-font-size: 14px;
-borderBottomWidth: 1px;
-width: 40%;
-padding: 6px;
+  font-size: 14px;
+  borderBottomWidth: 1px;
+  width: 40%;
+  padding: 6px;
 `;
 
 const SelectWrapper = styled.View`
-font-family: 'Montserrat_600SemiBold';
-font-size: 24px;
-borderBottomWidth: 1px;
-width: 40%;
-padding: 6px;
+  font-family: 'Montserrat_600SemiBold';
+  font-size: 24px;
+  borderBottomWidth: 1px;
+  width: 40%;
+  padding: 6px;
 `;
 
 const StyledButton = styled.TouchableOpacity`
