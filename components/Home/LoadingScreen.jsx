@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Image, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
-import _ from 'lodash';
 import * as firebase from 'firebase';
 import { toDate, differenceInCalendarDays } from 'date-fns';
 import 'firebase/firestore';
@@ -78,7 +77,7 @@ const retrieveExercises = async (dbRef) => {
   return exercises;
 };
 
-export default ({navigation}) => {
+export default ({ navigation }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const initializeDatabase = async () => {
@@ -118,18 +117,18 @@ export default ({navigation}) => {
 
     initializeDatabase();
   }, []);
-  
+
   return (
     <View style={{ flex: 1, alignItems: 'center', marginTop: 255 }}>
-    <Animatable.View animation="rotate" iterationCount="infinite">
-      <Image
-      source={require('../../assets/logo.png')}
-      style={{
-        width: 310,
-        height: 310,
-      }}
-      />
-    </Animatable.View>
+      <Animatable.View animation="rotate" iterationCount="infinite">
+        <Image
+          source={require('../../assets/logo.png')}
+          style={{
+            width: 310,
+            height: 310,
+          }}
+        />
+      </Animatable.View>
     </View>
   );
 };
