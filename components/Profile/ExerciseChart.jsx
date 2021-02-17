@@ -110,6 +110,7 @@ export default () => {
         : (exerciseData && exerciseData.length > 0 ? (
           <LineChart
             onDataPointClick={(value) => { console.log(value); }}
+            segments={5}
             data={{
               labels: exerciseData.map((exerciseInfo, index) => {
                 if (index === 0 || index === exerciseData.length - 1) {
