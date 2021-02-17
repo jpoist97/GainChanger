@@ -12,6 +12,7 @@ import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
 import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX } from '../../constants/index';
 import actions from '../../actions/index';
+import ProgressBar from 'react-native-progress/Bar';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -86,6 +87,7 @@ const LogWorkout = (props) => {
   const initialExerciseState = parseExercises(exercises);
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
+  const [progressState, setProgressState] = useState(0);
 
   const currentUser = firebase.auth().currentUser.uid;
   // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
@@ -182,6 +184,12 @@ const LogWorkout = (props) => {
       setExerciseState(newExercise);
     }
   };
+  const calculateTotalSets = () => {
+    let totalSets = 0;
+    selectedWorkout["exercises"].forEach((exercise) => {
+      totalSets += exercise["sets"].length
+    });
+  };
 
   const renderExerciseDetail = ({ item, index }) => (
     <ExerciseDetails
@@ -220,6 +228,10 @@ const LogWorkout = (props) => {
         }
       }}
       />
+      <ProgressBar 
+        progress = {progressState} 
+        width = {200} 
+        color = {"#CAB0FF"} />
       <KeyboardAwareFlatList
         style={{ height: '100%' }}
         data={exerciseState}
