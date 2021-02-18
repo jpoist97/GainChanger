@@ -97,15 +97,37 @@ export async function updateWorkoutDocument(workoutId, newWorkoutContent) {
 }
 
 
-// Code used to update the exercise format in firestore 
-// export async function modifyWorkoutExercises() {
-//    const exerciseRef = firebase.firestore().collection('exercises');
+export async function updateUserProgress(totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord) {
+   const userRef = getUserRef();
+   return await userRef.update({
+      totalWeightLifted,
+      totalWorkoutsPerformed,
+      weightPersonalRecord,
+   });
+}
 
-//    const exerciseSnapshot = await exerciseRef.get();
+export async function retrieveExerciseRecords(exerciseId) {
+   const execiseRecordsRef = getUserRef().collection('exerciseRecords');
+   console.log(`getting exerciseRecords for ${exerciseId}`);
 
-//    exerciseSnapshot.forEach((exerciseDoc) => {
-//       exerciseRef.doc(exerciseDoc.id).update({
-//          muscleGroups: exerciseDoc.data().muscleGroups[0]
-//       })
-//    })
-// }
+   const querySnapshot = await execiseRecordsRef.where('exerciseId', '==', exerciseId).get();
+   
+   const results = [];
+   querySnapshot.forEach((doc) => {
+      results.push(doc.data());
+   });
+
+   // Can do this in firestore query, but we'd have to set up a new index each
+   // time a user is created.
+   results.sort((a, b) => a.date.seconds - b.date.seconds);
+
+   return results;
+}
+
+export async function postExerciseRecords(exerciseRecords) {
+   const execiseRecordsRef = getUserRef().collection('exerciseRecords');
+
+   const dbPostPromises = exerciseRecords.map((record) => execiseRecordsRef.add(record));
+   
+   await Promise.all(dbPostPromises);
+}

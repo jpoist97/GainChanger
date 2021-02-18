@@ -87,7 +87,7 @@ const Login = ({ navigation }) => {
       .then(() => {
         setDisableButton(false);
         clearFields();
-        navigation.navigate('Root');
+        navigation.navigate('LoadingScreen');
         clearFields();
         setDisableButton(false);
       })
