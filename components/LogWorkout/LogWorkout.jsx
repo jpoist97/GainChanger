@@ -12,6 +12,7 @@ import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
 import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX } from '../../constants/index';
 import actions from '../../actions/index';
+import { postExerciseRecords } from '../../api';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -68,6 +69,7 @@ const LogWorkout = (props) => {
   const exerciseStore = useSelector((state) => state.exercises.exercises);
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
+  const profileStats = useSelector((state) => state.progress.profileStats);
   const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
 
   const { name } = selectedWorkout;
@@ -88,7 +90,6 @@ const LogWorkout = (props) => {
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
 
   const currentUser = firebase.auth().currentUser.uid;
-  // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
 
   const dbRef = firebase.firestore();
   const userRef = dbRef.collection('users').doc(currentUser);
@@ -131,6 +132,38 @@ const LogWorkout = (props) => {
     userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); // updates workout doc
     dispatch(actions.workouts.updateWorkoutExercises(workoutId, newWorkoutLog.exercises)); // rerenders workout to show update prev details
     workoutRecsRef.add(newWorkoutLog); // makes a new workoutRecord
+  };
+
+  const updateUserProgress = () => {
+    let { weightPersonalRecord } = profileStats;
+    let { totalWeightLifted } = profileStats;
+
+    const exerciseRecords = [];
+
+    exerciseState.forEach((exerciseDetails) => {
+      let bestExerciseWeight = 0;
+
+      exerciseDetails.sets.forEach((setDetails) => {
+        const weight = parseInt(setDetails.weight || setDetails.prevWeight || '0');
+        const duration = parseInt(setDetails.duration || setDetails.prevDuration);
+        if (weight > weightPersonalRecord) {
+          weightPersonalRecord = weight;
+        }
+        if (weight > bestExerciseWeight) {
+          bestExerciseWeight = weight;
+        }
+        totalWeightLifted += weight * duration;
+      });
+
+      exerciseRecords.push({
+        weight: bestExerciseWeight,
+        date: firebase.firestore.FieldValue.serverTimestamp(),
+        exerciseId: exerciseDetails.id,
+      });
+    });
+
+    dispatch(actions.progress.updateProgressStats(totalWeightLifted, profileStats.totalWorkoutsPerformed + 1, weightPersonalRecord));
+    postExerciseRecords(exerciseRecords);
   };
 
   const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {
@@ -216,6 +249,8 @@ const LogWorkout = (props) => {
         } else {
           sendWorkoutLogToDB();
           updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`);
+
+          updateUserProgress();
           if (isSelectedCycle) { incrementSelectedCycleIdx(); }
           navigation.goBack();
         }

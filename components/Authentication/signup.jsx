@@ -239,6 +239,9 @@ const Signup = ({ navigation }) => {
       selectedCycleId: '',
       selectedCycleIndex: 0,
       pastWorkoutDates: [],
+      totalWorkoutsPerformed: 0,
+      totalWeightLifted: 0,
+      weightPersonalRecord: 0,
     };
 
     const userRef = db.collection('users').doc(user.uid);

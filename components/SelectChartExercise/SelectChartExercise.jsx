@@ -4,17 +4,25 @@ import PropTypes from 'prop-types';
 import ExerciseList from './ExerciseList';
 import ModalScreenWrapper from '../utils/ModalScreenWrapper';
 
-const AddExercises = ({ route }) => {
+const SelectChartExercise = ({ route }) => {
+  const { onExerciseSelect, selectedExerciseId } = route.params;
+
   const exercises = useSelector((state) => state.exercises.exercises);
   const exerciseObjects = exercises.map((exercise) => ({ ...exercise, subtext: exercise.muscleGroups }));
 
   const parseItemsByName = (items) => {
     // Sort names alphabetically
     items.sort((a, b) => a.name.localeCompare(b.name));
+    console.log(items[0].id);
 
     // Group by first letter of each name
     const bucketData = items.reduce((accumulator, item) => {
       const bucket = item.name[0].toUpperCase();
+
+      if (selectedExerciseId && item.id === selectedExerciseId) {
+        // eslint-disable-next-line no-param-reassign
+        item.selected = true;
+      }
 
       // If this is the first time we've seen this letter, create a bucket
       if (!accumulator[bucket]) {
@@ -27,43 +35,24 @@ const AddExercises = ({ route }) => {
     return bucketData;
   };
 
-  const parseItemsByMuscleGroup = (items) => {
-    // Sort by muscle group
-    items.sort((a, b) => a.muscleGroups.localeCompare(b.muscleGroups));
-    const bucketData = items.reduce((accumulator, item) => {
-      const bucket = item.muscleGroups;
-      if (!accumulator[bucket]) {
-        accumulator[bucket] = [item];
-      } else {
-        accumulator[bucket].push(item);
-      }
-      return accumulator;
-    }, {});
-
-    // Sort by name within each muscle group
-    Object.keys(bucketData).forEach((key) => {
-      bucketData[key].sort((a, b) => a.name.localeCompare(b.name));
-    });
-    return bucketData;
-  };
-
   return (
     <ModalScreenWrapper>
       <ExerciseList
-        onExercisesAdd={route.params.onExercisesAdd}
-        parsedItemsName={parseItemsByName(exerciseObjects)}
-        parsedItemsMuscleGroups={parseItemsByMuscleGroup(exerciseObjects)}
+        onExerciseSelect={onExerciseSelect}
+        parsedItems={parseItemsByName(exerciseObjects)}
         exerciseObjects={exerciseObjects}
       />
     </ModalScreenWrapper>
   );
 };
 
-AddExercises.propTypes = {
+SelectChartExercise.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
-      onExercisesAdd: PropTypes.func.isRequired,
+      onExerciseSelect: PropTypes.func.isRequired,
+      selectedExerciseId: PropTypes.string,
     }),
   }).isRequired,
 };
-export default AddExercises;
+
+export default SelectChartExercise;
