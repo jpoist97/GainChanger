@@ -101,6 +101,7 @@ const LogWorkout = (props) => {
 
   const updatePastWorkoutDates = (completedDate) => {
     userRef.update({ pastWorkoutDates: firebase.firestore.FieldValue.arrayUnion(completedDate) });
+    dispatch(actions.dates.addRecordDate(completedDate));
   };
 
   const sendWorkoutLogToDB = () => {

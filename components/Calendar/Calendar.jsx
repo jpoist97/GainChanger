@@ -50,16 +50,13 @@ const CalendarView = () => {
 
   const dispatch = useDispatch();
 
-  const filterRecords = (date, records) => records.filter((e) => e.date === date);
-
   // TODO: change redux stuff to a map of date strings to workout records
 
   const getDateRecords = async (user, currentDate) => {
-    const recordCheck = filterRecords(currentDate, workoutRecords);
-    if (recordCheck.length > 0) {
+    if (workoutRecords[currentDate]) {
       console.log('Record found in redux.');
       setShowWorkout(true);
-      setExercises(recordCheck);
+      setExercises(workoutRecords[currentDate]);
     } else {
       const recordsRef = user.collection('workoutRecords');
       const workoutRecordSnapshot = await recordsRef.where('date', '==', currentDate).get();
