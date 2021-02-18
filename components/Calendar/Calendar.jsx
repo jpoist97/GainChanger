@@ -140,6 +140,7 @@ const CalendarView = () => {
           data={exercises}
           keyExtractor={(item, index) => item.name + item.date + index.toString()}
           renderItem={({ item, index }) => {
+            console.log(item);
             const isReps = 'reps' in item.sets[0];
             return (
               <CalendarWorkoutCard color={COLORS[index % COLORS.length]} name={item.name} sets={item.sets} isReps={isReps} />
