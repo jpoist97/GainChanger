@@ -8,10 +8,10 @@
 ## Overview
 Gainchanger is a student project thats main motivation was to create a product that we would use. During this time, we noticed that the workout apps that already exist were cramped, costly, and hard to use. After weeks of user-research, planning, prototyping and competitor analysis; we set out to improve the workout app experience and create the best workout app on the market. With that goal in mind, we created an easy to use app allows for users to create workouts, combine these workouts into cycles, view their workout history, access graphs that show overall progress, and a bunch of other features. 
 
-#### Vision Statement
+### Vision Statement
 We strive to help gym-goers and athletes plan, organize, and track their workouts so that they can easily see their progress and motivate them to reach new personal records!
 
-#### Meet the Team
+### Meet the Team
 
 <p float="left">
   <a href="https://github.com/jpoist97" target="_blank"><img src="https://avatars3.githubusercontent.com/u/42504462?s=460&u=fbe279fd5e77ba14a01b2679da9970e49f5a989e&v=4" width="150" /></a>
@@ -31,14 +31,14 @@ We strive to help gym-goers and athletes plan, organize, and track their workout
 
 ## Set-up Instructions
 ### Setting up the Development Environment
-1. clone the repository with ``` git clone https://github.com/jpoist97/GainChanger.git ```
-2. navigate to the projects root
+1. Clone the repository with ``` git clone https://github.com/jpoist97/GainChanger.git ```
+2. Navigate to the projects root
 3. Run ```npm i``` (to install all of the project dependencies)
 4. Install the Expo Go app on your phone. 
-5. run ```npm start```
+5. Run ```npm start```
 
 ### Setting up the Testing Environment
-1. navigate to the projects root
+1. Navigate to the projects root
 2. Run ```npm test``` to test the enitre codebase
 3. Run ```npm test -- fileName.jsx`` to test a single file
 
