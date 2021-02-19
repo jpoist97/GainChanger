@@ -4,10 +4,10 @@ import { Calendar } from 'react-native-calendars';
 import styled from 'styled-components';
 import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import actions from '../../actions';
 import { DAYS, MONTHS, COLORS } from '../../constants/index';
-import { format } from 'date-fns';
 
 const DayTitle = styled.Text`
   font-family: 'Montserrat_500Medium';
@@ -20,8 +20,6 @@ const DayTitle = styled.Text`
 const NoWorkoutText = styled(DayTitle)`
   font-size: 24px;
 `;
-
-const today = `${format(new Date(), 'yyyy-MM-dd').toString()}`;
 
 function formatDate(date) {
   return `${DAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate() + 1}`;
@@ -125,7 +123,7 @@ const CalendarView = () => {
       }}
       />
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
-        <DayTitle>{firstRun.current ? "No date selected" : selectedDate}</DayTitle>
+        <DayTitle>{firstRun.current ? 'No date selected' : selectedDate}</DayTitle>
       </View>
       {showWorkout ? (
         <FlatList

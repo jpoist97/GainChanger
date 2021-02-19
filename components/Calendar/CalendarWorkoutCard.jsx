@@ -89,9 +89,8 @@ const CalendarWorkoutCard = (props) => {
           const quantity = item.reps ? item.reps : item.time;
           return (
             <SetRow index={index + 1} lbs={item.weight} reps={quantity} />
-          )
-        }
-        }
+          );
+        }}
       />
     </Container>
   );
