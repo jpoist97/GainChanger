@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import RNPickerSelect from 'react-native-picker-select';
-import * as firebase from 'firebase';
 import actions from '../../actions/index';
 import * as api from '../../api';
 
