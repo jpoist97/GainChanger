@@ -16,7 +16,7 @@ import ProgressBar from 'react-native-progress/Bar';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
-  top: 85px;
+  top: 80px;
   right: 20px;
 `;
 
@@ -24,6 +24,10 @@ const TitleText = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 24px;
   margin: 15px 15px;
+`;
+
+const StyledProgressBar = styled(ProgressBar)`
+  margin: 5px 15px 10px 15px;
 `;
 
 const parseExercises = (exercises) => exercises.map((exercise) => {
@@ -87,7 +91,6 @@ const LogWorkout = (props) => {
   const initialExerciseState = parseExercises(exercises);
 
   const [exerciseState, setExerciseState] = useState(initialExerciseState);
-  const [progressState, setProgressState] = useState(0);
 
   const currentUser = firebase.auth().currentUser.uid;
   // const currentUser = '68w6wWz8l5QJO3tDukh1fRXWYjD2';
@@ -184,11 +187,19 @@ const LogWorkout = (props) => {
       setExerciseState(newExercise);
     }
   };
-  const calculateTotalSets = () => {
-    let totalSets = 0;
-    selectedWorkout["exercises"].forEach((exercise) => {
-      totalSets += exercise["sets"].length
+
+  const calculateProgress = () => {
+    let completedSetCount = 0;
+    let totalSetCount = 0;
+    exerciseState.forEach((exercise) => {
+      totalSetCount += exercise["sets"].length;
+      exercise["sets"].forEach((set) => {
+        if (set["completed"] === true) {
+          completedSetCount += 1;
+        };
+      });
     });
+    return completedSetCount/totalSetCount;
   };
 
   const renderExerciseDetail = ({ item, index }) => (
@@ -228,10 +239,13 @@ const LogWorkout = (props) => {
         }
       }}
       />
-      <ProgressBar 
-        progress = {progressState} 
-        width = {200} 
-        color = {"#CAB0FF"} />
+      <StyledProgressBar 
+        progress = {calculateProgress()} 
+        width = {385} 
+        height = {10}
+        borderRadius = {5}
+        borderColor = {"#6D8DFF"}
+        color = {"#6D8DFF"} />
       <KeyboardAwareFlatList
         style={{ height: '100%' }}
         data={exerciseState}
