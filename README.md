@@ -3,13 +3,13 @@
 ## Installing the app
 (Include a link apk that will download the app on their phone)
 (This app is optimized for iPhone X and later)
+(include some screenshots of the app?)
 
 ## Overview
-Gainchanger is a student project thats main motivation was to create a product that we would use. We quickly fell in love with the idea to improve upon the workout apps that already existed; as they are cramped, costly, and hard to use. 
-...Improve this
+Gainchanger is a student project thats main motivation was to create a product that we would use. During this time, we noticed that the workout apps that already exist were cramped, costly, and hard to use. After weeks of user-research, planning, prototyping and competitor analysis; we set out to improve the workout app experience and create the best workout app on the market. With that goal in mind, we created an easy to use app allows for users to create workouts, combine these workouts into cycles, view their workout history, access graphs that show overall progress, and a bunch of other features. 
 
 #### Vision Statement
-We strive to help gym-goers and athletes plan, organize, and track their workouts so that they can easily see their progress and motivate them to reach new personal records
+We strive to help gym-goers and athletes plan, organize, and track their workouts so that they can easily see their progress and motivate them to reach new personal records!
 
 #### Meet the Team
 
@@ -38,6 +38,9 @@ We strive to help gym-goers and athletes plan, organize, and track their workout
 5. run ```npm start```
 
 ### Setting up the Testing Environment
+1. navigate to the projects root
+2. Run ```npm test``` to test the enitre codebase
+3. Run ```npm test -- fileName.jsx`` to test a single file
 
 
 ### Style Guilde
