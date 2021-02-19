@@ -244,7 +244,6 @@ const LogWorkout = (props) => {
         width={385}
         height={10}
         borderRadius={5}
-        borderColor="#6D8DFF"
         color="#6D8DFF"
       />
       <KeyboardAwareFlatList
