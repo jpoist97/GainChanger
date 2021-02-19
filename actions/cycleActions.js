@@ -1,4 +1,5 @@
-import { INITIALIZE_CYCLES, INCREMENT_SELECTED_CYCLE_INDEX, DECREMENT_SELECTED_CYCLE_INDEX, SET_SELECTED_CYCLE_DETAILS, ADD_CYCLE, UPDATE_CYCLE, DELETE_CYCLE, SELECT_NEW_CYCLE } from '../constants/index';
+import { INITIALIZE_CYCLES, SET_SELECTED_CYCLE_INDEX, ADD_CYCLE, UPDATE_CYCLE, DELETE_CYCLE, SELECT_NEW_CYCLE } from '../constants/index';
+import * as api from '../api';
 
 const initializeCycles = (cycles, selectedCycleId, selectedCycleIndex) => {
    return {
@@ -9,18 +10,31 @@ const initializeCycles = (cycles, selectedCycleId, selectedCycleIndex) => {
    };
 };
 
-const incrementSelectedCycleIndex = (selectedCycleLength) => {
-   return {
-      type: INCREMENT_SELECTED_CYCLE_INDEX,
-      cycleLength: selectedCycleLength,
+const incrementSelectedCycleIndex = (currentIndex, selectedCycleLength) => {
+   return (dispatch) => {
+      const newSelectedCycleIndex = (currentIndex + 1) % selectedCycleLength;
+
+      api.updateSelectedCycleIndex(newSelectedCycleIndex);
+   
+      dispatch({
+         type: SET_SELECTED_CYCLE_INDEX,
+         selectedCycleIndex: newSelectedCycleIndex,
+      });
    }
 }
 
-const decrementSelectedCycleIndex = (selectedCycleLength) => {
-   return {
-      type: DECREMENT_SELECTED_CYCLE_INDEX,
-      cycleLength: selectedCycleLength,
+const decrementSelectedCycleIndex = (currentIndex, selectedCycleLength) => {
+   return (dispatch) => {
+      const newSelectedCycleIndex = currentIndex === 0 ? selectedCycleLength - 1 : currentIndex - 1;
+
+      api.updateSelectedCycleIndex(newSelectedCycleIndex);
+   
+      dispatch({
+         type: SET_SELECTED_CYCLE_INDEX,
+         selectedCycleIndex: newSelectedCycleIndex,
+      });
    }
+
 }
 
 const addCycle = (cycle) => {

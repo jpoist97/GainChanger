@@ -135,3 +135,11 @@ export async function postExerciseRecords(exerciseRecords) {
    
    await Promise.all(dbPostPromises);
 }
+
+export async function updateSelectedCycleIndex(newIndex) {
+   const userRef = getUserRef();
+
+   await userRef.update({
+      selectedCycleIndex: newIndex,
+   });
+}

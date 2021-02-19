@@ -10,7 +10,7 @@ import { format } from 'date-fns';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
-import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX } from '../../constants/index';
+import { COLORS } from '../../constants/index';
 import actions from '../../actions/index';
 import { postExerciseRecords } from '../../api';
 
@@ -94,11 +94,6 @@ const LogWorkout = (props) => {
   const dbRef = firebase.firestore();
   const userRef = dbRef.collection('users').doc(currentUser);
   const dispatch = useDispatch();
-
-  const incrementSelectedCycleIdx = () => {
-    userRef.update({ selectedCycleIndex: (cycleIdx + 1) % cycleLength });
-    dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
-  };
 
   const updatePastWorkoutDates = (completedDate) => {
     userRef.update({ pastWorkoutDates: firebase.firestore.FieldValue.arrayUnion(completedDate) });
@@ -250,7 +245,7 @@ const LogWorkout = (props) => {
           updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`);
 
           updateUserProgress();
-          if (isSelectedCycle) { incrementSelectedCycleIdx(); }
+          if (isSelectedCycle) { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleIdx, cycleLength)); }
           navigation.goBack();
         }
       }}
