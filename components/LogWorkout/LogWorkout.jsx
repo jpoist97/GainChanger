@@ -7,12 +7,12 @@ import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
+import ProgressBar from 'react-native-progress/Bar';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
 import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX } from '../../constants/index';
 import actions from '../../actions/index';
-import ProgressBar from 'react-native-progress/Bar';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -192,14 +192,14 @@ const LogWorkout = (props) => {
     let completedSetCount = 0;
     let totalSetCount = 0;
     exerciseState.forEach((exercise) => {
-      totalSetCount += exercise["sets"].length;
-      exercise["sets"].forEach((set) => {
-        if (set["completed"] === true) {
+      totalSetCount += exercise.sets.length;
+      exercise.sets.forEach((set) => {
+        if (set.completed === true) {
           completedSetCount += 1;
-        };
+        }
       });
     });
-    return completedSetCount/totalSetCount;
+    return completedSetCount / totalSetCount;
   };
 
   const renderExerciseDetail = ({ item, index }) => (
@@ -239,13 +239,14 @@ const LogWorkout = (props) => {
         }
       }}
       />
-      <StyledProgressBar 
-        progress = {calculateProgress()} 
-        width = {385} 
-        height = {10}
-        borderRadius = {5}
-        borderColor = {"#6D8DFF"}
-        color = {"#6D8DFF"} />
+      <StyledProgressBar
+        progress={calculateProgress()}
+        width={385}
+        height={10}
+        borderRadius={5}
+        borderColor="#6D8DFF"
+        color="#6D8DFF"
+      />
       <KeyboardAwareFlatList
         style={{ height: '100%' }}
         data={exerciseState}
