@@ -45,6 +45,7 @@ const CalendarView = () => {
   const [exercises, setExercises] = React.useState([]);
   const [markedDates, setMarkedDates] = React.useState(createCalendarMarkedDates(pastWorkoutDates));
   const [showWorkout, setShowWorkout] = React.useState(false);
+  const firstRun = React.useRef(true);
 
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser.uid;
@@ -53,6 +54,7 @@ const CalendarView = () => {
   const dispatch = useDispatch();
 
   const getDateRecords = async (user, currentDate) => {
+    firstRun.current = false;
     if (workoutRecords[currentDate]) {
       console.log('Record found in redux.');
       setShowWorkout(true);
@@ -123,7 +125,7 @@ const CalendarView = () => {
       }}
       />
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
-        <DayTitle>{selectedDate}</DayTitle>
+        <DayTitle>{firstRun.current ? "No date selected" : selectedDate}</DayTitle>
       </View>
       {showWorkout ? (
         <FlatList
