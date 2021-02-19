@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import actions from '../../actions';
 import { DAYS, MONTHS, COLORS } from '../../constants/index';
+import { format } from 'date-fns';
 
 const DayTitle = styled.Text`
   font-family: 'Montserrat_500Medium';
@@ -50,8 +51,6 @@ const CalendarView = () => {
 
   const dispatch = useDispatch();
 
-  // TODO: change redux stuff to a map of date strings to workout records
-
   const getDateRecords = async (user, currentDate) => {
     if (workoutRecords[currentDate]) {
       console.log('Record found in redux.');
@@ -70,18 +69,11 @@ const CalendarView = () => {
       workoutRecordSnapshot.forEach((doc) => {
         const data = doc.data();
         const exerciseRecord = data.exercises;
-        const { date } = data;
-
         const workoutSets = [];
 
         exerciseRecord.forEach((record) => {
-          const loggableData = {
-            name: record.exerciseName,
-            sets: record.sets,
-            date,
-          };
-          workoutSets.push(loggableData);
-          dispatch(actions.records.addWorkoutRecord(loggableData));
+          workoutSets.push(record);
+          dispatch(actions.records.addWorkoutRecord(record, currentDate));
         });
         setExercises(workoutSets);
       });
@@ -140,10 +132,9 @@ const CalendarView = () => {
           data={exercises}
           keyExtractor={(item, index) => item.name + item.date + index.toString()}
           renderItem={({ item, index }) => {
-            console.log(item);
             const isReps = 'reps' in item.sets[0];
             return (
-              <CalendarWorkoutCard color={COLORS[index % COLORS.length]} name={item.name} sets={item.sets} isReps={isReps} />
+              <CalendarWorkoutCard color={COLORS[index % COLORS.length]} name={item.exerciseName} sets={item.sets} isReps={isReps} />
             );
           }}
         />

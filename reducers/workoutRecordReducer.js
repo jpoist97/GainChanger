@@ -1,4 +1,5 @@
 import { ADD_WORKOUT_RECORD } from '../constants/index';
+import { format } from 'date-fns';
 
 const initialState = {
    records: {},
@@ -7,19 +8,14 @@ const initialState = {
 const recordReducer = (state = initialState, action) => {
    switch(action.type) {
         case ADD_WORKOUT_RECORD:
-            console.log(`Adding workout record to store with name: ${action.record.name}`);
-            const {name, sets, date} = action.record;
-            const newRecord = {
-                "name":name,
-                "sets":sets,
-            }
+            console.log(`Adding workout record to store with name: ${action.record.exerciseName}`);
+            const record = action.record;
+            const date = action.date;
             const prevRecords = {...state.records};
             if (prevRecords[date]) {
-                const existingRecord = [...prevRecords[date]];
-                existingRecord.push(newRecord)
-                prevRecords[date] = existingRecord;
+                prevRecords[date] = [...prevRecords[date], record];
             } else {
-                prevRecords[date] = [newRecord];
+                prevRecords[date] = [record];
             }
             return {
                 records: prevRecords,
