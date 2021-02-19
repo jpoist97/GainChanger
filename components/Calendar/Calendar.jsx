@@ -21,6 +21,8 @@ const NoWorkoutText = styled(DayTitle)`
   font-size: 24px;
 `;
 
+const today = `${format(new Date(), 'yyyy-MM-dd').toString()}`;
+
 function formatDate(date) {
   return `${DAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate() + 1}`;
 }
@@ -43,7 +45,6 @@ const CalendarView = () => {
   const [exercises, setExercises] = React.useState([]);
   const [markedDates, setMarkedDates] = React.useState(createCalendarMarkedDates(pastWorkoutDates));
   const [showWorkout, setShowWorkout] = React.useState(false);
-  const firstRun = React.useRef(true);
 
   const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser.uid;
@@ -108,9 +109,6 @@ const CalendarView = () => {
           }
           setMarkedDates(allDates);
 
-          if (firstRun.current) {
-            firstRun.current = false;
-          }
           const formattedDate = formatDate(new Date(date.dateString));
           if (selectedDate !== formattedDate) {
             setExercises([]);
@@ -125,7 +123,7 @@ const CalendarView = () => {
       }}
       />
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
-        {firstRun.current ? <DayTitle>No date selected</DayTitle> : <DayTitle>{selectedDate}</DayTitle>}
+        <DayTitle>{selectedDate}</DayTitle>
       </View>
       {showWorkout ? (
         <FlatList

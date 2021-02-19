@@ -128,7 +128,10 @@ const LogWorkout = (props) => {
       lastPerformed: newWorkoutLog.date,
       exercises: newWorkoutLog.exercises,
     };
-
+    // add each exercise record to the local store for today's date
+    newWorkoutLog.exercises.forEach((exercise) => {
+      dispatch(actions.records.addWorkoutRecord(exercise, newWorkoutLog.date));
+    });
     userRef.collection('workouts').doc(workoutId).update(newWorkoutDoc); // updates workout doc
     dispatch(actions.workouts.updateWorkoutExercises(workoutId, newWorkoutLog.exercises)); // rerenders workout to show update prev details
     workoutRecsRef.add(newWorkoutLog); // makes a new workoutRecord
