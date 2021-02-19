@@ -12,9 +12,9 @@ const exerciseReducer = (state = initialState, action) => {
             exercises: [...action.exercises]
          };
       case ADD_CUSTOM_EXERCISE:
-        console.log(`Adding custom exercise ${action.exercises.name}`);
+        console.log(`Adding custom exercise ${action.exercise.name}`);
         const newExercises = [...state.exercises];
-        newExercises.push(action.exercises);
+        newExercises.push(action.exercise);
         return {
             ...state,
             exercises: newExercises,

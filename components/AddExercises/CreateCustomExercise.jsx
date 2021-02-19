@@ -10,6 +10,7 @@ import styled from 'styled-components/native';
 import RNPickerSelect from 'react-native-picker-select';
 import * as firebase from 'firebase';
 import actions from '../../actions/index';
+import * as api from '../../api';
 
 const Name = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -76,12 +77,7 @@ const CreateCustomExercise = () => {
   const navigation = useNavigation();
 
   const createCustomExercise = async (exercise) => {
-    const currentUser = firebase.auth().currentUser.uid;
-    const customExerciseRef = firebase.firestore()
-      .collection('users')
-      .doc(currentUser)
-      .collection('customExercises');
-    const ExerciseDoc = await customExerciseRef.add(exercise);
+    const ExerciseDoc = await api.addCustomExercise(exercise);
     dispatch(actions.exercises.addCustomExercise({
       muscleGroups: muscleGroup,
       name: workoutName,
@@ -128,13 +124,13 @@ const CreateCustomExercise = () => {
               }}
               value={muscleGroup}
               items={[
-                { label: 'Arms', value: 'Arms' },
                 { label: 'Back', value: 'Back' },
                 { label: 'Biceps', value: 'Biceps' },
                 { label: 'Calves', value: 'Calves' },
                 { label: 'Cardio', value: 'Cardio' },
                 { label: 'Chest', value: 'Chest' },
                 { label: 'Core', value: 'Core' },
+                { label: 'Forearms', value: 'Forearms' },
                 { label: 'Full Body', value: 'Full Body' },
                 { label: 'Legs', value: 'Legs' },
                 { label: 'Olympic', value: 'Olympic' },

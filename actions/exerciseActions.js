@@ -7,13 +7,16 @@ const initalizeExercises = (exercises) => {
    }
 }
 
-const addCustomExercise = (exercises) => {
-  return {
+const addCustomExercise = (exercise) => {
+  return (dispatch) => {
+    console.log('Adding custom Exercise')
+
+    dispatch({
      type: ADD_CUSTOM_EXERCISE,
-     exercises,
+     exercise,
+    });
   }
 }
-
 
 export default {
    initalizeExercises,

@@ -78,6 +78,10 @@ export async function deleteWorkoutDocument(workoutId) {
    return await userRef.collection('workouts').doc(workoutId).delete();
 }
 
+export async function addCustomExercise(exercise) {
+  const userRef = getUserRef();
+  return await userRef.collection('customExercises').add(exercise);
+}
 
 /**
  * Deletes the given cycle from Firestore. Only deletes the cycle document
