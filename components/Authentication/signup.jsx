@@ -171,7 +171,7 @@ const Signup = ({ navigation }) => {
   const [validEmail, setValidEmail] = React.useState(false);
   const [password, setPassword] = React.useState('');
   const [validPassword, setValidPassword] = React.useState(false);
-  const [hidePassword, setHidePassword] = React.useState(true);
+  const [hidePassword, setHidePassword] = React.useState(false);
   const isFirstRunName = React.useRef(true);
   const isFirstRunEmail = React.useRef(true);
   const isFirstRunPassword = React.useRef(true);
