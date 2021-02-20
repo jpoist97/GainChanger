@@ -7,6 +7,7 @@ import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
+import ProgressBar from 'react-native-progress/Bar';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
@@ -16,7 +17,7 @@ import { postExerciseRecords } from '../../api';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
-  top: 85px;
+  top: 80px;
   right: 20px;
 `;
 
@@ -24,6 +25,10 @@ const TitleText = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 24px;
   margin: 15px 15px;
+`;
+
+const StyledProgressBar = styled(ProgressBar)`
+  margin: 5px 15px 10px 15px;
 `;
 
 const parseExercises = (exercises) => exercises.map((exercise) => {
@@ -211,6 +216,20 @@ const LogWorkout = (props) => {
     }
   };
 
+  const calculateProgress = () => {
+    let completedSetCount = 0;
+    let totalSetCount = 0;
+    exerciseState.forEach((exercise) => {
+      totalSetCount += exercise.sets.length;
+      exercise.sets.forEach((set) => {
+        if (set.completed === true) {
+          completedSetCount += 1;
+        }
+      });
+    });
+    return completedSetCount / totalSetCount;
+  };
+
   const renderExerciseDetail = ({ item, index }) => (
     <ExerciseDetails
       name={item.name}
@@ -249,6 +268,13 @@ const LogWorkout = (props) => {
           navigation.goBack();
         }
       }}
+      />
+      <StyledProgressBar
+        progress={calculateProgress()}
+        width={385}
+        height={10}
+        borderRadius={5}
+        color="#6D8DFF"
       />
       <KeyboardAwareFlatList
         style={{ height: '100%' }}
