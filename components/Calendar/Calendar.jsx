@@ -4,7 +4,6 @@ import { Calendar } from 'react-native-calendars';
 import styled from 'styled-components';
 import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { format } from 'date-fns';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import actions from '../../actions';
 import { DAYS, MONTHS, COLORS } from '../../constants/index';
