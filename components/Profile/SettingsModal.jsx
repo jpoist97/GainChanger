@@ -134,7 +134,7 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-              <SettingLabel disabled={!settingState.enableRestNotifications}>Rest notification timer:</SettingLabel>
+              <SettingLabel disabled={!settingState.enableRestNotifications}>Rest Notification Timer:</SettingLabel>
               <SettingTextInput
                 disabled={!settingState.enableRestNotifications}
                 editable={settingState.enableRestNotifications}
