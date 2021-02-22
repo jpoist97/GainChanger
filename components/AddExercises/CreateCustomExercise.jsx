@@ -112,6 +112,7 @@ const CreateCustomExercise = () => {
             onChangeText={(text) => setWorkoutName(text)}
             value={workoutName}
             placeholder="Workout Name"
+            maxLength={25}
           />
 
           <SelectWrapper>
