@@ -8,6 +8,7 @@ const initialState = {
 const settingsReducer = (state = initialState, action) => {
    switch(action.type) {
       case UPDATE_USER_SETTINGS:
+         console.log(action);
 
          return {
             ...state,

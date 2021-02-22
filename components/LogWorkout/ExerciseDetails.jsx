@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import SetDetails from './SetDetails';
-import ExerciseDetailsHeader from './ExerciseDetailsHeader';
-import PlusButton from '../utils/PlusButton';
 import * as Notifications from 'expo-notifications';
 import { useSelector } from 'react-redux';
 import * as Haptics from 'expo-haptics';
+import SetDetails from './SetDetails';
+import ExerciseDetailsHeader from './ExerciseDetailsHeader';
+import PlusButton from '../utils/PlusButton';
 
 const ExerciseName = styled.Text`
   font-family: 'Montserrat_500Medium'
@@ -34,18 +34,16 @@ const ExerciseDetails = (props) => {
   const {
     items, updateDuration, updateWeight, updateCompleted, onSetAdd, onSetDelete, name, color, type,
   } = props;
+  const settings = useSelector((state) => state.settings);
 
-  // Update to be using redux
-  const restTime = 70;
-
-  const scheduleNotification = async (timeout) => {
+  const scheduleNotification = async () => {
     await Notifications.cancelAllScheduledNotificationsAsync();
 
     const content = {
-      title: 'Rest finished, start your next set',
-    }
-    Notifications.scheduleNotificationAsync({ content, trigger: { seconds: timeout }});
-  }
+      title: 'Rest finished, time for your next set!',
+    };
+    Notifications.scheduleNotificationAsync({ content, trigger: { seconds: settings.restNotificationTimer } });
+  };
 
   return (
     <Container style={{ backgroundColor: color }}>
@@ -61,10 +59,12 @@ const ExerciseDetails = (props) => {
           onWeightChange={updateWeight(index)}
           onCompletedPress={() => {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-            if(!set.completed) {
-              scheduleNotification(restTime);
+
+            // Don't schedule a notification if it is the last set
+            if (settings.enableRestNotifications && !set.completed && index !== items.length - 1) {
+              scheduleNotification();
             }
-            
+
             const updateHandler = updateCompleted(index);
             updateHandler();
           }}
