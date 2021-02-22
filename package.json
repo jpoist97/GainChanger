@@ -55,7 +55,9 @@
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "expo-notifications": "~0.7.2",
+    "expo-haptics": "~8.3.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

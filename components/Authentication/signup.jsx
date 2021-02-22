@@ -242,6 +242,10 @@ const Signup = ({ navigation }) => {
       totalWorkoutsPerformed: 0,
       totalWeightLifted: 0,
       weightPersonalRecord: 0,
+      settings: {
+        enableRestNotifications: false,
+        restNotificationTimer: 60,
+      },
     };
 
     const userRef = db.collection('users').doc(user.uid);

@@ -4,6 +4,9 @@ import styled from 'styled-components/native';
 import SetDetails from './SetDetails';
 import ExerciseDetailsHeader from './ExerciseDetailsHeader';
 import PlusButton from '../utils/PlusButton';
+import * as Notifications from 'expo-notifications';
+import { useSelector } from 'react-redux';
+import * as Haptics from 'expo-haptics';
 
 const ExerciseName = styled.Text`
   font-family: 'Montserrat_500Medium'
@@ -32,6 +35,18 @@ const ExerciseDetails = (props) => {
     items, updateDuration, updateWeight, updateCompleted, onSetAdd, onSetDelete, name, color, type,
   } = props;
 
+  // Update to be using redux
+  const restTime = 70;
+
+  const scheduleNotification = async (timeout) => {
+    await Notifications.cancelAllScheduledNotificationsAsync();
+
+    const content = {
+      title: 'Rest finished, start your next set',
+    }
+    Notifications.scheduleNotificationAsync({ content, trigger: { seconds: timeout }});
+  }
+
   return (
     <Container style={{ backgroundColor: color }}>
       <ExerciseName>{name}</ExerciseName>
@@ -44,7 +59,15 @@ const ExerciseDetails = (props) => {
           duration={set.duration}
           onDurationChange={updateDuration(index)}
           onWeightChange={updateWeight(index)}
-          onCompletedPress={updateCompleted(index)}
+          onCompletedPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            if(!set.completed) {
+              scheduleNotification(restTime);
+            }
+            
+            const updateHandler = updateCompleted(index);
+            updateHandler();
+          }}
           onSetDelete={onSetDelete(index)}
           completed={set.completed}
           setNumber={index + 1}
