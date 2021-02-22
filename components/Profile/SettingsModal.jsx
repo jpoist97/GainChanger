@@ -124,7 +124,6 @@ const SettingsModal = (props) => {
               <SettingLabel>Enable Notifications:</SettingLabel>
               <Switch
                 onValueChange={() => {
-                  console.log('Value changing update the store');
                   setSettingState({
                     ...settingState,
                     enableRestNotifications: !settingState.enableRestNotifications,
