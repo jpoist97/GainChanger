@@ -8,6 +8,7 @@ import 'firebase/firestore';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Dimensions } from 'react-native';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -178,6 +179,7 @@ const Signup = ({ navigation }) => {
   const [disableButton, setDisableButton] = React.useState(false);
 
   const db = firebase.firestore();
+  const imgDimension = Dimensions.get('window').width * .6;
 
   function ValidateEmail(mail) {
     // eslint-disable-next-line
@@ -301,7 +303,7 @@ const Signup = ({ navigation }) => {
       <Title>GainChanger</Title>
       <SubTitle>Signup</SubTitle>
       <Image
-        style={{ width: 250, height: 250 }}
+        style={{ width: imgDimension, height:imgDimension }}
         source={require('../../assets/logo.png')}
       />
       <InputLine

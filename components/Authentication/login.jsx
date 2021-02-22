@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Dimensions } from 'react-native';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -67,6 +68,8 @@ const Login = ({ navigation }) => {
   const [hidePassword, setHidePassword] = React.useState(true);
   const [disableButton, setDisableButton] = React.useState(false);
 
+  const imgDimension = Dimensions.get('window').width * .6;
+
   function ValidateEmail(mail) {
     // eslint-disable-next-line
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -125,7 +128,7 @@ const Login = ({ navigation }) => {
       <Title>GainChanger</Title>
       <SubTitle>Login</SubTitle>
       <Image
-        style={{ width: 250, height: 250 }}
+        style={{ width: imgDimension, height: imgDimension }}
         source={require('../../assets/logo.png')}
       />
       <InputLine
