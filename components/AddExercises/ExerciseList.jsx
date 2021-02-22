@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import ExerciseItem from './ExerciseItem';
 import SortByPopup from '../utils/SortByPopup';
+import CreateCustomExercise from './CreateCustomExercise';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -159,6 +160,7 @@ const ExerciseList = ({
             }]}
           triggerSize={28}
         />
+        <CreateCustomExercise />
         {search
           ? (
             <FlatList

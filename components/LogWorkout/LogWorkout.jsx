@@ -7,15 +7,16 @@ import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
+import ProgressBar from 'react-native-progress/Bar';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
-import { COLORS, INCREMENT_SELECTED_CYCLE_INDEX } from '../../constants/index';
+import { COLORS } from '../../constants/index';
 import actions from '../../actions/index';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
-  top: 85px;
+  top: 80px;
   right: 20px;
 `;
 
@@ -23,6 +24,10 @@ const TitleText = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 24px;
   margin: 15px 15px;
+`;
+
+const StyledProgressBar = styled(ProgressBar)`
+  margin: 5px 15px 10px 15px;
 `;
 
 const parseExercises = (exercises) => exercises.map((exercise) => {
@@ -93,11 +98,6 @@ const LogWorkout = (props) => {
   const dbRef = firebase.firestore();
   const userRef = dbRef.collection('users').doc(currentUser);
   const dispatch = useDispatch();
-
-  const incrementSelectedCycleIdx = () => {
-    userRef.update({ selectedCycleIndex: (cycleIdx + 1) % cycleLength });
-    dispatch({ type: INCREMENT_SELECTED_CYCLE_INDEX, cycleLength });
-  };
 
   const updatePastWorkoutDates = (completedDate) => {
     userRef.update({ pastWorkoutDates: firebase.firestore.FieldValue.arrayUnion(completedDate) });
@@ -215,6 +215,20 @@ const LogWorkout = (props) => {
     }
   };
 
+  const calculateProgress = () => {
+    let completedSetCount = 0;
+    let totalSetCount = 0;
+    exerciseState.forEach((exercise) => {
+      totalSetCount += exercise.sets.length;
+      exercise.sets.forEach((set) => {
+        if (set.completed === true) {
+          completedSetCount += 1;
+        }
+      });
+    });
+    return completedSetCount / totalSetCount;
+  };
+
   const renderExerciseDetail = ({ item, index }) => (
     <ExerciseDetails
       name={item.name}
@@ -249,10 +263,17 @@ const LogWorkout = (props) => {
           updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`);
 
           updateUserProgress();
-          if (isSelectedCycle) { incrementSelectedCycleIdx(); }
+          if (isSelectedCycle) { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleIdx, cycleLength)); }
           navigation.goBack();
         }
       }}
+      />
+      <StyledProgressBar
+        progress={calculateProgress()}
+        width={385}
+        height={10}
+        borderRadius={5}
+        color="#6D8DFF"
       />
       <KeyboardAwareFlatList
         style={{ height: '100%' }}

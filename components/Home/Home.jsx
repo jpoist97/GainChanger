@@ -90,8 +90,8 @@ export default () => {
           name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
           subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
           color={cycleDetails && COLORS[cycles.selectedCycleIndex % COLORS.length]}
-          leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycleDetails.length)); }}
-          rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleDetails.length)); }}
+          leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycles.selectedCycleIndex, cycleDetails.length)); }}
+          rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycles.selectedCycleIndex, cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}
           cycleLength={cycleDetails && cycleDetails.length}
           isCycleSelected={cycleDetails !== undefined}
