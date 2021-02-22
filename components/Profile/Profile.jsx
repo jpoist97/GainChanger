@@ -3,7 +3,7 @@ import { SafeAreaView, View } from 'react-native';
 import styled from 'styled-components';
 import ExerciseChart from './ExerciseChart';
 import ProfileStats from './ProfileStats';
-import SettingsPopup from './SettingsPopup';
+import SettingsModal from './SettingsModal';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -22,7 +22,7 @@ export default () => (
   <SafeAreaView>
     <TopRow>
       <Title>Profile</Title>
-      <SettingsPopup triggerSize={25} />
+      <SettingsModal triggerSize={25} />
     </TopRow>
     <ProfileStats />
     <ExerciseChart />
