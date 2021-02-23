@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   View, Image, Alert,
+  Dimensions,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -8,7 +9,6 @@ import 'firebase/firestore';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Dimensions } from 'react-native';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -179,7 +179,7 @@ const Signup = ({ navigation }) => {
   const [disableButton, setDisableButton] = React.useState(false);
 
   const db = firebase.firestore();
-  const imgDimension = Dimensions.get('window').width * .6;
+  const imgDimension = Dimensions.get('window').width * 0.6;
 
   function ValidateEmail(mail) {
     // eslint-disable-next-line
@@ -303,7 +303,7 @@ const Signup = ({ navigation }) => {
       <Title>GainChanger</Title>
       <SubTitle>Signup</SubTitle>
       <Image
-        style={{ width: imgDimension, height:imgDimension }}
+        style={{ width: imgDimension, height: imgDimension }}
         source={require('../../assets/logo.png')}
       />
       <InputLine

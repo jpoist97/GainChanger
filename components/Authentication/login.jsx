@@ -1,13 +1,13 @@
 import * as React from 'react';
 import {
   View, Image, Alert,
+  Dimensions,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Dimensions } from 'react-native';
 
 const Title = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -68,7 +68,7 @@ const Login = ({ navigation }) => {
   const [hidePassword, setHidePassword] = React.useState(true);
   const [disableButton, setDisableButton] = React.useState(false);
 
-  const imgDimension = Dimensions.get('window').width * .6;
+  const imgDimension = Dimensions.get('window').width * 0.6;
 
   function ValidateEmail(mail) {
     // eslint-disable-next-line
