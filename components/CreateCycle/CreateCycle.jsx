@@ -52,17 +52,17 @@ export default ({ navigation, route }) => {
     setWorkouts(workoutList);
   }
 
-  function removeWorkout(name) {
+  function removeWorkout(workoutName) {
     if (workouts.length === 1) {
-      alert("Cannot delete last workout");
+      alert('Cannot delete last workout');
       return;
     }
-    for (let i = 0; i < workouts.length; i++) {
-      if (workouts[i].name == name) {
+    for (let i = 0; i < workouts.length; i += 1) {
+      if (workouts[i].name === workoutName) {
         workouts.splice(i, 1);
       }
     }
-    if (!isNewCycle) { 
+    if (!isNewCycle) {
       // Makes sure selectedCycleIndex decreases if number of workouts in cycle decreases
       dispatch(actions.cycles.decrementSelectedCycleIndex(cycles.selectedCycleIndex, cycleDetails.length));
     }

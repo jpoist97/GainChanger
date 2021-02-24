@@ -6,7 +6,7 @@ import { COLORS } from '../../constants';
 
 const DraggableWorkoutList = (props) => {
   const {
-    workouts, passWorkoutList, removeWorkout
+    workouts, passWorkoutList, removeWorkout,
   } = props;
 
   const [workoutList, setWorkoutList] = React.useState(workouts);
