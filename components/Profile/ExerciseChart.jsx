@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { toDate, format } from 'date-fns';
 import { COLORS } from '../../constants/index';
 
 const ExerciseChartContainer = styled(View)`
@@ -30,7 +29,7 @@ const TwoColumnView = styled(View)`
 
 const ExerciseName = styled(Text)`
   font-family: 'Montserrat_600SemiBold';
-  font-size: 20px;
+  font-size: ${(props) => (props.longText ? 16 : 20)}px;
 `;
 
 const SelectExerciseButton = styled(TouchableOpacity)`
@@ -90,7 +89,7 @@ export default () => {
   return (
     <ExerciseChartContainer>
       <TwoColumnView>
-        <ExerciseName>{exerciseState.selectedExerciseName || 'Select an Exercise'}</ExerciseName>
+        <ExerciseName longText={exerciseState.selectedExerciseName && exerciseState.selectedExerciseName.length >= 20}>{exerciseState.selectedExerciseName || 'Select an Exercise'}</ExerciseName>
         <SelectExerciseButton>
           <Buttontext onPress={() => {
             navigation.navigate('Select Chart Exercise', { onExerciseSelect: setSelectedExercise, selectedExerciseId: exerciseState.selectedExerciseId });
@@ -116,7 +115,7 @@ export default () => {
             data={{
               labels: exerciseData.map((exerciseInfo, index) => {
                 if (index === 0 || index === exerciseData.length - 1) {
-                  return format(toDate(exerciseInfo.date.seconds * 1000), 'MM-dd-yyyy');
+                  return exerciseInfo.date;
                 }
                 return '';
               }),
