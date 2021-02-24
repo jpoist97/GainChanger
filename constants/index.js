@@ -32,7 +32,6 @@ export const START_LOADING_EXERCISE_RECORDS = 'START_LOADING_EXERCISE_RECORDS';
 export const SET_EXERCISE_RECORDS = 'SET_EXERCISE_RECORDS';
 
 // Misc
-// This includes the unique selected cycle color, should prob be moved
 export const COLORS = {
   'default': ['#CAB0FF', '#9D8DFF', '#6D8DFF', '#4457BC'],
   'aqua': ['#4EC9DA', '#65C6BE', '#7DD8FF', '#86DDB4'],

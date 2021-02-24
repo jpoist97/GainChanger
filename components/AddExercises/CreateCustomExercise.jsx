@@ -12,6 +12,8 @@ import actions from '../../actions/index';
 import * as api from '../../api';
 import { COLORS } from '../../constants/index';
 
+const colorScheme = 'default';
+
 const Name = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 16px;
@@ -53,7 +55,7 @@ const SelectWrapper = styled.View`
 `;
 
 const StyledButton = styled.TouchableOpacity`
-  background-color: ${COLORS[props => props.color || 'default'][1]};
+  background-color: ${COLORS[colorScheme][1]};
   height: 35px;
   width: 87%;
   border-radius: 12px;
@@ -75,8 +77,6 @@ const CreateCustomExercise = () => {
   const [muscleGroup, setMuscleGroup] = React.useState('');
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const colorScheme = 'default';
 
   const createCustomExercise = async (exercise) => {
     const ExerciseDoc = await api.addCustomExercise(exercise);

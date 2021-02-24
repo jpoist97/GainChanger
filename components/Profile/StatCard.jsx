@@ -63,7 +63,7 @@ StatCard.propTypes = {
 StatCard.defaultProps = {
   width: '45%',
   height: '110px',
-  color: COLORS[0],
+  color: COLORS['default'][0],
   subtext: '',
   textSize: 30,
   subtextSize: 15,

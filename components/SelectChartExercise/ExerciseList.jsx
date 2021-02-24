@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import ExerciseItem from './ExerciseItem';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -17,11 +18,13 @@ const Title = styled.Text`
   margin: 15px 5%;
 `;
 
+const colorScheme = 'default';
+
 const SectionHeader = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 20px;
   padding-left: 2%;
-  background-color: #CAB0FF;
+  background-color: ${COLORS[colorScheme][0]};
   color: #EFEFEF;
 `;
 
@@ -35,7 +38,6 @@ const ExerciseList = ({ onExerciseSelect, parsedItems, exerciseObjects }) => {
   const [search, setSearch] = useState('');
   const exerciseRecords = useSelector((state) => state.progress.exerciseRecords);
   const dispatch = useDispatch();
-
   // Dispatch the action to load exerciseRecords on Press of the exercise Card
 
   const searchFilterFunction = (text) => {

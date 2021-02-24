@@ -37,6 +37,7 @@ const CalendarView = () => {
   const stateStart = `${DAYS[startDate.getDay()]}, ${MONTHS[startDate.getMonth()]} ${startDate.getDate()}`;
   const pastWorkoutDates = useSelector((state) => state.dates.dates);
   const workoutRecords = useSelector((state) => state.records.records);
+  const colorScheme = 'default';
 
   const [selectedDate, setselectedDate] = React.useState(stateStart);
   const [exercises, setExercises] = React.useState([]);
@@ -51,8 +52,6 @@ const CalendarView = () => {
   const dispatch = useDispatch();
 
   const filterRecords = (date, records) => records.filter((e) => e.date === date);
-
-  // TODO: change redux stuff to a map of date strings to workout records
 
   const getDateRecords = async (user, currentDate) => {
     const recordCheck = filterRecords(currentDate, workoutRecords);
@@ -100,9 +99,9 @@ const CalendarView = () => {
         theme={{
           backgroundColor: '#f2f2f2',
           calendarBackground: '#f2f2f2',
-          todayTextColor: '#cab0ff',
-          dotColor: '#cab0ff',
-          arrowColor: '#cab0ff',
+          todayTextColor: COLORS[colorScheme][0],
+          dotColor: COLORS[colorScheme][0],
+          arrowColor: COLORS[colorScheme][0],
           monthTextColor: 'black',
           textDayFontFamily: 'Montserrat_500Medium',
           textMonthFontFamily: 'Montserrat_600SemiBold',
@@ -113,9 +112,9 @@ const CalendarView = () => {
         onDayPress={(date) => {
           const allDates = createCalendarMarkedDates(pastWorkoutDates);
           if (allDates[date.dateString]) {
-            allDates[date.dateString] = { selected: true, marked: allDates[date.dateString].marked, selectedColor: '#cab0ff' };
+            allDates[date.dateString] = { selected: true, marked: allDates[date.dateString].marked, selectedColor: COLORS[colorScheme][0] };
           } else {
-            allDates[date.dateString] = { selected: true, marked: false, selectedColor: '#cab0ff' };
+            allDates[date.dateString] = { selected: true, marked: false, selectedColor: COLORS[colorScheme][0] };
           }
           setMarkedDates(allDates);
 
@@ -145,7 +144,7 @@ const CalendarView = () => {
           renderItem={({ item, index }) => {
             const isReps = 'reps' in item.sets[0];
             return (
-              <CalendarWorkoutCard color={COLORS[index % COLORS.length]} name={item.name} sets={item.sets} isReps={isReps} />
+              <CalendarWorkoutCard color={COLORS[colorScheme][index % (COLORS[colorScheme].length - 1)]} name={item.name} sets={item.sets} isReps={isReps} />
             );
           }}
         />
