@@ -271,7 +271,7 @@ const Signup = ({ navigation }) => {
               .then(() => {
                 setDisableButton(false);
                 clearFields();
-                navigation.navigate('Root');
+                navigation.navigate('LoadingScreen');
               })
               .catch((error) => {
                 setDisableButton(false);
