@@ -60,6 +60,8 @@ const AlphabetCycleList = (props) => {
   const { items, selectedCycle } = props;
 
   const parsedItems = parseItems(items, selectedCycle);
+  const colorScheme = 'default';
+
   const renderCard = ({ item }) => (
     <CycleCard
       name={item.name}
@@ -89,7 +91,7 @@ const AlphabetCycleList = (props) => {
         });
       }}
       onPress={item.onPress}
-      color={item.color || COLORS[item.index % COLORS.length]}
+      color={item.color || COLORS[colorScheme][item.index % (COLORS[colorScheme].length - 1)]}
     />
   );
 

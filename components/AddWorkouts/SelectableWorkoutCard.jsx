@@ -6,6 +6,7 @@ import {
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
+import { COLORS } from '../../constants';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -36,6 +37,8 @@ const SelectableWorkoutCard = (props) => {
     color, subtext, name, onPress, selected, displayAddButton,
   } = props;
 
+  const colorScheme = 'default'; 
+
   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
       width: 40%;
@@ -55,7 +58,7 @@ const SelectableWorkoutCard = (props) => {
         <AddButton
           name={selected ? 'checkcircle' : 'checkcircleo'}
           size={28}
-          color="#CAB0FF"
+          color={COLORS[colorScheme][0]}
         />
       ) : <View />}
       <Subtext>{subtext}</Subtext>

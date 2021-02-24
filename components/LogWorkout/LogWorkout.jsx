@@ -76,6 +76,7 @@ const LogWorkout = (props) => {
   const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
   const profileStats = useSelector((state) => state.progress.profileStats);
   const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
+  const colorScheme = 'default';
 
   const { name } = selectedWorkout;
 
@@ -85,7 +86,7 @@ const LogWorkout = (props) => {
     return {
       ...exerciseObj,
       name: matchingExercise.name,
-      color: COLORS[index % 3],
+      color: COLORS[colorScheme][index % 3],
     };
   });
 

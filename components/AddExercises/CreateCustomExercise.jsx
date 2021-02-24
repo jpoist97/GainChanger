@@ -10,6 +10,7 @@ import styled from 'styled-components/native';
 import RNPickerSelect from 'react-native-picker-select';
 import actions from '../../actions/index';
 import * as api from '../../api';
+import { COLORS } from '../../constants/index';
 
 const Name = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -52,7 +53,7 @@ const SelectWrapper = styled.View`
 `;
 
 const StyledButton = styled.TouchableOpacity`
-  background-color: #A192FF;
+  background-color: ${COLORS[props => props.color || 'default'][1]};
   height: 35px;
   width: 87%;
   border-radius: 12px;
@@ -75,6 +76,8 @@ const CreateCustomExercise = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const colorScheme = 'default';
+
   const createCustomExercise = async (exercise) => {
     const ExerciseDoc = await api.addCustomExercise(exercise);
     dispatch(actions.exercises.addCustomExercise({
@@ -96,14 +99,14 @@ const CreateCustomExercise = () => {
           <IconButton
             name="up"
             size={24}
-            color="#CAB0FF"
+            color={COLORS[colorScheme][0]}
           />
         )
         : (
           <IconButton
             name="down"
             size={24}
-            color="#CAB0FF"
+            color={COLORS[colorScheme][0]}
           />
         )}
       <Collapsible collapsed={!isExpanded}>
@@ -142,6 +145,7 @@ const CreateCustomExercise = () => {
         <StyledButton
           mode="contained"
           title="Create Workout"
+          color={colorScheme}
           onPress={() => {
             if (!workoutName) {
               alert('Please enter a workout name');

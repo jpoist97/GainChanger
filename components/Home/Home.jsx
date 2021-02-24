@@ -27,6 +27,8 @@ export default () => {
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
 
+  const colorScheme = 'default';
+
   // Parse the database response into workoutList
   const workoutList = workouts.map((workout) => ({
     name: workout.name,
@@ -89,7 +91,7 @@ export default () => {
         <CurrentCycle
           name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
           subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
-          color={cycleDetails && COLORS[cycles.selectedCycleIndex % COLORS.length]}
+          color={cycleDetails && COLORS[colorScheme][cycles.selectedCycleIndex % (COLORS[colorScheme].length - 1)]}
           leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycles.selectedCycleIndex, cycleDetails.length)); }}
           rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycles.selectedCycleIndex, cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}

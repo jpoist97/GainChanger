@@ -19,6 +19,8 @@ const WorkoutSwipeList = (props) => {
   const { items } = props;
   const navigation = useNavigation();
 
+  const colorScheme = 'default';
+
   const renderCard = ({ item, index }) => (
     <SkinnyWorkoutCard
       name={item.name}
@@ -26,7 +28,7 @@ const WorkoutSwipeList = (props) => {
       onIconPress={item.onIconPress}
       onPress={() => navigation.navigate('Log Workout', { workoutId: item.id })}
       key={item.id}
-      color={COLORS[index % COLORS.length]}
+      color={COLORS[colorScheme][index % (COLORS[colorScheme].length - 1)]}
     />
   );
 

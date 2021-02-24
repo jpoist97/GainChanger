@@ -10,6 +10,7 @@ const DraggableWorkoutList = (props) => {
   } = props;
 
   const [workoutList, setWorkoutList] = React.useState(workouts);
+  const colorScheme = 'default';
 
   React.useEffect(() => {
     passWorkoutList(workoutList);
@@ -20,7 +21,7 @@ const DraggableWorkoutList = (props) => {
       drag={drag}
       name={item.name}
       muscleGroups={item.muscleGroups}
-      color={COLORS[index % COLORS.length]}
+      color={COLORS[colorScheme][index % (COLORS[colorScheme].length - 1)]}
       exercises={item.exercises}
     />
   );

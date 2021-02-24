@@ -72,6 +72,8 @@ export default ({ navigation, route }) => {
 
   const exercises = useSelector((state) => state.exercises.exercises);
 
+  const colorScheme = 'default';
+
   const parseWorkoutExercises = (exercise, index) => {
     const reps = _.get(exercise, ['sets', '0', 'reps'], '').toString();
     const seconds = _.get(exercise, ['sets', '0', 'time'], '').toString();
@@ -79,7 +81,7 @@ export default ({ navigation, route }) => {
     const matchingExercise = getExercise(exercises, exercise.exerciseId);
 
     return {
-      color: COLORS[index % COLORS.length],
+      color: COLORS[colorScheme][index % (COLORS[colorScheme].length - 1)],
       id: exercise.exerciseId,
       name: matchingExercise.name,
       muscleGroups: matchingExercise.muscleGroups,
