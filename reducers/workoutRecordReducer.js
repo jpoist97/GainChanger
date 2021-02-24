@@ -1,5 +1,4 @@
 import { ADD_WORKOUT_RECORD } from '../constants/index';
-import { format } from 'date-fns';
 
 const initialState = {
    records: {},
