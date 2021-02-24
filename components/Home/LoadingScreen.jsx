@@ -132,6 +132,9 @@ export default ({ navigation }) => {
       console.log('Home: Initialize Progress store');
       dispatch(actions.progress.initalizeProgressStore(userData.totalWeightLifted, userData.totalWorkoutsPerformed, userData.weightPersonalRecord));
 
+      console.log('Home: Initialize Settings store');
+      dispatch(actions.settings.initializeSettings(userData.settings));
+
       navigation.navigate('Root');
     };
 

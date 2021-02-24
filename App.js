@@ -24,6 +24,16 @@ import AddExercises from './components/AddExercises/AddExercises';
 import AddWorkouts from './components/AddWorkouts/AddWorkouts';
 import SelectChartExercise from './components/SelectChartExercise/SelectChartExercise';
 import LoadingScreen from './components/Home/LoadingScreen';
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldSetBadge: true,
+    };
+  },
+});
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();

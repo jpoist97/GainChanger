@@ -18,17 +18,18 @@ const SelectChartExercise = ({ route }) => {
     // Group by first letter of each name
     const bucketData = items.reduce((accumulator, item) => {
       const bucket = item.name[0].toUpperCase();
+      const parsedItem = item;
 
-      if (selectedExerciseId && item.id === selectedExerciseId) {
+      if (selectedExerciseId && parsedItem.id === selectedExerciseId) {
         // eslint-disable-next-line no-param-reassign
-        item.selected = true;
+        parsedItem.selected = true;
       }
 
       // If this is the first time we've seen this letter, create a bucket
       if (!accumulator[bucket]) {
-        accumulator[bucket] = [item];
+        accumulator[bucket] = [parsedItem];
       } else {
-        accumulator[bucket].push(item);
+        accumulator[bucket].push(parsedItem);
       }
       return accumulator;
     }, {});

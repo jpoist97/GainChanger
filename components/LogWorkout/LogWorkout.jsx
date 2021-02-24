@@ -13,7 +13,6 @@ import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
 import { COLORS } from '../../constants/index';
 import actions from '../../actions/index';
-import { postExerciseRecords } from '../../api';
 
 const StyledFinishButton = styled(FinishButton)`
   position: absolute;
@@ -163,7 +162,7 @@ const LogWorkout = (props) => {
     });
 
     dispatch(actions.progress.updateProgressStats(totalWeightLifted, profileStats.totalWorkoutsPerformed + 1, weightPersonalRecord));
-    postExerciseRecords(exerciseRecords);
+    dispatch(actions.progress.postNewExerciseRecords(exerciseRecords));
   };
 
   const curryUpdateDuration = (exerciseIndex) => (setIndex) => (duration) => {

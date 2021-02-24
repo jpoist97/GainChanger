@@ -1,9 +1,9 @@
-import { INITIALIZE_USER_PROGRESS, UPDATE_USER_PROGRESS, SET_EXERCISE_RECORDS, START_LOADING_EXERCISE_RECORDS } from '../constants/index';
+import { UPDATE_USER_PROGRESS, SET_EXERCISE_RECORDS, START_LOADING_EXERCISE_RECORDS, ADD_NEW_EXERCISE_RECORDS } from '../constants/index';
 import { updateUserProgress, retrieveExerciseRecords, postExerciseRecords, } from '../api';
 
 const initalizeProgressStore = (totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord) => {
    return {
-      type: INITIALIZE_USER_PROGRESS,
+      type: UPDATE_USER_PROGRESS,
       totalWeightLifted,
       totalWorkoutsPerformed,
       weightPersonalRecord,
@@ -39,8 +39,20 @@ const fetchExerciseRecords = (exerciseId) => {
    }
 }
 
+const postNewExerciseRecords = (exerciseRecords) => {
+   return async (dispatch) => {
+      postExerciseRecords(exerciseRecords);
+
+      dispatch({
+         type: ADD_NEW_EXERCISE_RECORDS,
+         exerciseRecords,
+      })
+   }
+}
+
 export default {
    initalizeProgressStore,
    updateProgressStats,
    fetchExerciseRecords,
+   postNewExerciseRecords,
 };

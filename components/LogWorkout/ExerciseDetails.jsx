@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import * as Notifications from 'expo-notifications';
+import { useSelector } from 'react-redux';
+import * as Haptics from 'expo-haptics';
 import SetDetails from './SetDetails';
 import ExerciseDetailsHeader from './ExerciseDetailsHeader';
 import PlusButton from '../utils/PlusButton';
@@ -31,6 +34,16 @@ const ExerciseDetails = (props) => {
   const {
     items, updateDuration, updateWeight, updateCompleted, onSetAdd, onSetDelete, name, color, type,
   } = props;
+  const settings = useSelector((state) => state.settings);
+
+  const scheduleNotification = async () => {
+    await Notifications.cancelAllScheduledNotificationsAsync();
+
+    const content = {
+      title: 'Rest finished, time for your next set!',
+    };
+    Notifications.scheduleNotificationAsync({ content, trigger: { seconds: settings.restNotificationTimer } });
+  };
 
   return (
     <Container style={{ backgroundColor: color }}>
@@ -44,7 +57,17 @@ const ExerciseDetails = (props) => {
           duration={set.duration}
           onDurationChange={updateDuration(index)}
           onWeightChange={updateWeight(index)}
-          onCompletedPress={updateCompleted(index)}
+          onCompletedPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+            // Don't schedule a notification if it is the last set
+            if (settings.enableRestNotifications && !set.completed && index !== items.length - 1) {
+              scheduleNotification();
+            }
+
+            const updateHandler = updateCompleted(index);
+            updateHandler();
+          }}
           onSetDelete={onSetDelete(index)}
           completed={set.completed}
           setNumber={index + 1}
