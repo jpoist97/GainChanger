@@ -31,6 +31,9 @@ export const START_LOADING_EXERCISE_RECORDS = 'START_LOADING_EXERCISE_RECORDS';
 export const SET_EXERCISE_RECORDS = 'SET_EXERCISE_RECORDS';
 export const ADD_NEW_EXERCISE_RECORDS = 'ADD_NEW_EXERCISE_RECORDS';
 
+// Settings
+export const UPDATE_USER_SETTINGS = 'UPDATE_USER_SETTINGS';
+
 // Misc
 export const COLORS = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];
 export const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
