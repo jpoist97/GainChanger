@@ -6,7 +6,7 @@ import { COLORS } from '../../constants';
 
 const DraggableWorkoutList = (props) => {
   const {
-    workouts, passWorkoutList,
+    workouts, passWorkoutList, removeWorkout
   } = props;
 
   const [workoutList, setWorkoutList] = React.useState(workouts);
@@ -18,6 +18,7 @@ const DraggableWorkoutList = (props) => {
   const renderCard = ({ item, index, drag }) => (
     <ExpandableWorkoutCard
       drag={drag}
+      removeWorkout={removeWorkout}
       name={item.name}
       muscleGroups={item.muscleGroups}
       color={COLORS[index % COLORS.length]}

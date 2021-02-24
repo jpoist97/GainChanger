@@ -1,5 +1,6 @@
 import { IconButton } from 'react-native-paper';
 import styled from 'styled-components/native';
+import { Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ExercisesView from './ExerciesView';
@@ -24,7 +25,7 @@ const ExpandableWorkoutCard = (props) => {
   const [icon, setIcon] = React.useState('chevron-down');
 
   const {
-    name, muscleGroups, color, exercises, drag,
+    name, muscleGroups, color, exercises, drag, removeWorkout
   } = props;
 
   const FullBody = styled.TouchableOpacity`
@@ -40,7 +41,7 @@ const ExpandableWorkoutCard = (props) => {
 
   function showDetail() {
     if (icon === 'chevron-down') {
-      setIcon('chevron-up');
+      setIcon('trash-can-outline');
     } else {
       setIcon('chevron-down');
     }
@@ -58,6 +59,14 @@ const ExpandableWorkoutCard = (props) => {
         icon={icon}
         color="white"
         size={25}
+        onPress={() => {
+          if (icon === 'trash-can-outline') {
+            removeWorkout(name);
+            showDetail();
+          } else {
+            showDetail();
+          }
+        }}
         style={{ position: 'absolute', alignSelf: 'flex-end', marginTop: 0 }}
       />
       {!showDetailed && <SubTitle>{muscleGroups}</SubTitle>}

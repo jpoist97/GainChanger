@@ -3,7 +3,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as firebase from 'firebase';
 import DraggableWorkoutList from './DraggableWorkoutList';
 import FinishButton from '../utils/FinishButton';
@@ -45,10 +45,28 @@ export default ({ navigation, route }) => {
   const [workouts, setWorkouts] = React.useState(cycleDetails);
   const dispatch = useDispatch();
 
+  const cycles = useSelector((state) => state.cycles);
   const Stack = createStackNavigator();
 
   function updateOrder(workoutList) {
     setWorkouts(workoutList);
+  }
+
+  function removeWorkout(name) {
+    if (workouts.length === 1) {
+      alert("Cannot delete last workout");
+      return;
+    }
+    for (let i = 0; i < workouts.length; i++) {
+      if (workouts[i].name == name) {
+        workouts.splice(i, 1);
+      }
+    }
+    if (!isNewCycle) { 
+      // Makes sure selectedCycleIndex decreases if number of workouts in cycle decreases
+      dispatch(actions.cycles.decrementSelectedCycleIndex(cycles.selectedCycleIndex, cycleDetails.length));
+    }
+    updateOrder(workouts);
   }
 
   const createNewCycle = async (newCycle) => {
@@ -82,6 +100,7 @@ export default ({ navigation, route }) => {
         <DraggableWorkoutList
           passWorkoutList={updateOrder}
           workouts={workouts}
+          removeWorkout={removeWorkout}
         />
         <AddCycleButton
           title=" Add Workouts "
