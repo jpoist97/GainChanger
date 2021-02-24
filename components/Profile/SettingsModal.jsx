@@ -86,6 +86,10 @@ const SettingTextInput = styled(TextInput)`
   font-size: 16px;
   color: ${(props) => (props.disabled ? 'darkgray' : 'black')}
   margin-right: 10px;
+  background-color: #EFEFEF;
+  text-align: center;
+  width: 55px;
+  border-radius: 5px;
 `;
 
 const SettingsModal = (props) => {
@@ -99,16 +103,24 @@ const SettingsModal = (props) => {
     restNotificationTimer: `${settings.restNotificationTimer}`,
   });
 
+  const attemptModalClose = () => {
+    // If changes were made
+    if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer) {
+      Alert.alert('You have unsaved changes, please discard or save them!');
+    } else {
+      setModalVisible(!modalVisible);
+    }
+  };
+
   return (
     <View>
       <Modal
         animationType="slide"
         transparent
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(!modalVisible)}
       >
 
-        <CenterView onPress={() => setModalVisible(!modalVisible)}>
+        <CenterView onPress={attemptModalClose}>
           <ModalView onPress={() => {
             setModalVisible(modalVisible);
             Keyboard.dismiss();
@@ -134,20 +146,28 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-              <SettingLabel disabled={!settingState.enableRestNotifications}>Rest Notification Timer:</SettingLabel>
-              <SettingTextInput
-                disabled={!settingState.enableRestNotifications}
-                editable={settingState.enableRestNotifications}
-                value={settingState.restNotificationTimer}
-                placeholder={`${settings.restNotificationTimer}`}
-                keyboardType="numeric"
-                onChangeText={(text) => {
-                  setSettingState({
-                    ...settingState,
-                    restNotificationTimer: text,
-                  });
-                }}
-              />
+              <SettingLabel disabled={!settingState.enableRestNotifications}>Notification Timer:</SettingLabel>
+              <View style={{
+                display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+              }}
+              >
+                <SettingTextInput
+                  disabled={!settingState.enableRestNotifications}
+                  editable={settingState.enableRestNotifications}
+                  value={settingState.restNotificationTimer}
+                  placeholder={`${settings.restNotificationTimer}`}
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    setSettingState({
+                      ...settingState,
+                      restNotificationTimer: text,
+                    });
+                  }}
+                  maxLength={3}
+                />
+                <SettingLabel disabled={!settingState.enableRestNotifications}>Secs</SettingLabel>
+              </View>
+
             </TwinView>
 
             <SubTitle>Color Theme</SubTitle>
@@ -173,12 +193,27 @@ const SettingsModal = (props) => {
             <StyledButton onPress={() => {
               dispatch(actions.settings.updateSettings({
                 ...settingState,
-                restNotificationTimer: parseInt(settingState.restNotificationTimer),
+                restNotificationTimer: parseInt(settingState.restNotificationTimer) || settings.restNotificationTimer,
               }));
+
+              setSettingState({
+                ...settingState,
+                restNotificationTimer: settingState.restNotificationTimer || `${settings.restNotificationTimer}`,
+              });
+
               setModalVisible(!modalVisible);
             }}
             >
               <Buttontext>Save Changes</Buttontext>
+            </StyledButton>
+            <StyledButton onPress={() => {
+              setSettingState({
+                ...settings,
+                restNotificationTimer: `${settings.restNotificationTimer}`,
+              });
+            }}
+            >
+              <Buttontext style={{ color: 'red' }}>Discard Changes</Buttontext>
             </StyledButton>
           </ModalView>
         </CenterView>
