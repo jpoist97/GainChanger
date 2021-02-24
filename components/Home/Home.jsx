@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView, Image, View,
 } from 'react-native';
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import * as firebase from 'firebase';
 import * as Animatable from 'react-native-animatable';
+import * as Permissions from 'expo-permissions';
 import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import 'firebase/firestore';
@@ -26,6 +27,18 @@ export default () => {
 
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
+
+  // Request notifications on app first load
+  useEffect(() => {
+    const checkPermissions = async () => {
+      const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+
+      if (status !== 'granted') {
+        Permissions.askAsync(Permissions.NOTIFICATIONS);
+      }
+    };
+    checkPermissions();
+  }, []);
 
   // Parse the database response into workoutList
   const workoutList = workouts.map((workout) => ({

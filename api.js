@@ -143,3 +143,17 @@ export async function updateSelectedCycleIndex(newIndex) {
       selectedCycleIndex: newIndex,
    });
 }
+
+/**
+ * Function that updates the user settings. THIS FUNCTION NEEDS THE ENTIRE
+ * SETTINGS OBJECT, OTHERWISE IT WILL WIPE OUT OLD SETTINGS
+ * 
+ * @param {Settings} settings 
+ */
+export async function updateUserSettings(settings) {
+   const userRef = getUserRef();
+
+   await userRef.update({
+      settings,
+   })
+}

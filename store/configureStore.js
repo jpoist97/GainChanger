@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import pastWorkoutDateReducer from '../reducers/pastWorkoutDatesReducer';
 import workoutRecordReducer from '../reducers/workoutRecordReducer'
 import progressReducer from '../reducers/progressReducer';
+import settingsReducer from '../reducers/settingsReducer';
 
 const rootReducer = combineReducers({ 
    workouts: workoutReducer, 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
    dates: pastWorkoutDateReducer,
    records: workoutRecordReducer,
    progress: progressReducer,
+   settings: settingsReducer,
 });
 
 const configureStore = () => {
