@@ -9,6 +9,7 @@ import CycleCard from './CycleCard';
 import actions from '../../actions/index';
 import { COLORS } from '../../constants/index';
 import 'firebase/firestore';
+import { color } from 'react-native-reanimated';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -28,7 +29,7 @@ const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
-const parseItems = (items, selectedCycle) => {
+const parseItems = (items, selectedCycle, colorTheme) => {
   // Sort names alphabetically
   items.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -50,7 +51,7 @@ const parseItems = (items, selectedCycle) => {
     }
 
     return accumulator;
-  }, (selectedCycle ? { 'Selected Cycle': [{ ...selectedCycle, color: '#4457BC' }] } : {}));
+  }, (selectedCycle ? { 'Selected Cycle': [{ ...selectedCycle, color: colorTheme }] } : {}));
 
   return bucketData;
 };
@@ -59,8 +60,8 @@ const AlphabetCycleList = (props) => {
   const dispatch = useDispatch();
   const { items, selectedCycle } = props;
 
-  const parsedItems = parseItems(items, selectedCycle);
   const colorTheme = useSelector((state) => state.settings.colorTheme);
+  const parsedItems = parseItems(items, selectedCycle, COLORS[colorTheme][3]);
 
   const renderCard = ({ item }) => (
     <CycleCard

@@ -46,13 +46,15 @@ const CalendarView = () => {
   const filterRecords = (date, records) => records.filter((e) => e.date === date);
 
   React.useEffect(() => {
-    setMarkedDates(createCalendarMarkedDates(pastWorkoutDates));
+    console.log("CHANGING MARKS");
+    setMarkedDates(createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]));
+    console.log(markedDates);
   }, [colorTheme]);
 
-  const createCalendarMarkedDates = (dates) => {
+  const createCalendarMarkedDates = (dates, color) => {
     const marks = {};
     dates.forEach((date) => {
-      marks[date] = { marked: true, selectedColor: COLORS[colorTheme][0] };
+      marks[date] = { marked: true, selectedColor: color };
     });
     return marks;
   }
@@ -114,13 +116,14 @@ const CalendarView = () => {
         }}
         markedDates={markedDates}
         onDayPress={(date) => {
-          const allDates = createCalendarMarkedDates(pastWorkoutDates);
+          const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
           if (allDates[date.dateString]) {
             allDates[date.dateString] = { selected: true, marked: allDates[date.dateString].marked, selectedColor: COLORS[colorTheme][0] };
           } else {
             allDates[date.dateString] = { selected: true, marked: false, selectedColor: COLORS[colorTheme][0] };
           }
           setMarkedDates(allDates);
+          console.log(markedDates);
 
           if (firstRun.current) {
             firstRun.current = false;
