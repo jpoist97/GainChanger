@@ -50,16 +50,12 @@ const CalendarView = () => {
 
   const dispatch = useDispatch();
 
-  const filterRecords = (date, records) => records.filter((e) => e.date === date);
-
-  // TODO: change redux stuff to a map of date strings to workout records
-
   const getDateRecords = async (user, currentDate) => {
-    const recordCheck = filterRecords(currentDate, workoutRecords);
-    if (recordCheck.length > 0) {
+    firstRun.current = false;
+    if (workoutRecords[currentDate]) {
       console.log('Record found in redux.');
       setShowWorkout(true);
-      setExercises(recordCheck);
+      setExercises(workoutRecords[currentDate]);
     } else {
       const recordsRef = user.collection('workoutRecords');
       const workoutRecordSnapshot = await recordsRef.where('date', '==', currentDate).get();
@@ -73,18 +69,11 @@ const CalendarView = () => {
       workoutRecordSnapshot.forEach((doc) => {
         const data = doc.data();
         const exerciseRecord = data.exercises;
-        const { date } = data;
-
         const workoutSets = [];
 
         exerciseRecord.forEach((record) => {
-          const loggableData = {
-            name: record.exerciseName,
-            sets: record.sets,
-            date,
-          };
-          workoutSets.push(loggableData);
-          dispatch(actions.records.addWorkoutRecord(loggableData));
+          workoutSets.push(record);
+          dispatch(actions.records.addWorkoutRecord(record, currentDate));
         });
         setExercises(workoutSets);
       });
@@ -119,9 +108,6 @@ const CalendarView = () => {
           }
           setMarkedDates(allDates);
 
-          if (firstRun.current) {
-            firstRun.current = false;
-          }
           const formattedDate = formatDate(new Date(date.dateString));
           if (selectedDate !== formattedDate) {
             setExercises([]);
@@ -136,7 +122,7 @@ const CalendarView = () => {
       }}
       />
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
-        {firstRun.current ? <DayTitle>No date selected</DayTitle> : <DayTitle>{selectedDate}</DayTitle>}
+        <DayTitle>{firstRun.current ? 'No date selected' : selectedDate}</DayTitle>
       </View>
       {showWorkout ? (
         <FlatList
@@ -145,7 +131,7 @@ const CalendarView = () => {
           renderItem={({ item, index }) => {
             const isReps = 'reps' in item.sets[0];
             return (
-              <CalendarWorkoutCard color={COLORS[index % COLORS.length]} name={item.name} sets={item.sets} isReps={isReps} />
+              <CalendarWorkoutCard color={COLORS[index % COLORS.length]} name={item.exerciseName} sets={item.sets} isReps={isReps} />
             );
           }}
         />

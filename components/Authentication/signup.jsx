@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   View, Image, Alert,
+  Dimensions,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -178,6 +179,7 @@ const Signup = ({ navigation }) => {
   const [disableButton, setDisableButton] = React.useState(false);
 
   const db = firebase.firestore();
+  const imgDimension = Dimensions.get('window').width * 0.6;
 
   function ValidateEmail(mail) {
     // eslint-disable-next-line
@@ -305,7 +307,7 @@ const Signup = ({ navigation }) => {
       <Title>GainChanger</Title>
       <SubTitle>Signup</SubTitle>
       <Image
-        style={{ width: 250, height: 250 }}
+        style={{ width: imgDimension, height: imgDimension }}
         source={require('../../assets/logo.png')}
       />
       <InputLine
