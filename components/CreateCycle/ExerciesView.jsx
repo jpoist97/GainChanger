@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import React from 'react';
-import _ from 'lodash';
+import _, { parseInt } from 'lodash';
 
 const ExercisesView = (props) => {
   const { exercises } = props;
@@ -69,7 +69,7 @@ const ExercisesView = (props) => {
       </RowHeader>
       <FlatList
         data={parsedExercises}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => item.id + index.toString()}
         renderItem={({ item }) => (
           <RowContent>
             <WorkoutViewText style={{ marginLeft: 10 }}>{item.name}</WorkoutViewText>

@@ -20,33 +20,30 @@ const NoWorkoutText = styled(DayTitle)`
   font-size: 24px;
 `;
 
-function formatDate(date) {
-  return `${DAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate() + 1}`;
-}
-
 const CalendarView = () => {
-  const startDate = new Date();
-  const stateStart = `${DAYS[startDate.getDay()]}, ${MONTHS[startDate.getMonth()]} ${startDate.getDate()}`;
   const pastWorkoutDates = useSelector((state) => state.dates.dates);
   const workoutRecords = useSelector((state) => state.records.records);
   const colorTheme = useSelector((state) => state.settings.colorTheme);
 
-  const [selectedDate, setselectedDate] = React.useState(stateStart);
+  const [selectedDate, setselectedDate] = React.useState("No date selected.");
   const [exercises, setExercises] = React.useState([]);
   const [markedDates, setMarkedDates] = React.useState({});
   const [showWorkout, setShowWorkout] = React.useState(false);
-  const firstRun = React.useRef(true);
 
-  const db = firebase.firestore();
   const currentUser = firebase.auth().currentUser.uid;
-  const userRef = db.collection('users').doc(currentUser);
+  const userRef = firebase.firestore().collection('users').doc(currentUser);
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    //not working
     setMarkedDates(createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]));
+    setExercises([]);
+    setselectedDate('No date selected.');
   }, [colorTheme]);
+
+  const formatDate = (date) =>{
+    return `${DAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate() + 1}`;
+  }
 
   const createCalendarMarkedDates = (dates, color) => {
     const marks = {};
@@ -57,10 +54,9 @@ const CalendarView = () => {
   };
 
   const getDateRecords = async (user, currentDate) => {
-    firstRun.current = false;
+    setShowWorkout(true);
     if (workoutRecords[currentDate]) {
       console.log('Record found in redux.');
-      setShowWorkout(true);
       setExercises(workoutRecords[currentDate]);
     } else {
       const recordsRef = user.collection('workoutRecords');
@@ -70,7 +66,6 @@ const CalendarView = () => {
         setShowWorkout(false);
         return;
       }
-      setShowWorkout(true);
 
       workoutRecordSnapshot.forEach((doc) => {
         const data = doc.data();
@@ -158,7 +153,7 @@ const CalendarView = () => {
       }}
       />
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
-        <DayTitle>{firstRun.current ? 'No date selected' : selectedDate}</DayTitle>
+        <DayTitle>{selectedDate}</DayTitle>
       </View>
       {showWorkout ? (
         <FlatList
