@@ -7,6 +7,7 @@ import pastWorkoutDateReducer from '../reducers/pastWorkoutDatesReducer';
 import workoutRecordReducer from '../reducers/workoutRecordReducer'
 import progressReducer from '../reducers/progressReducer';
 import settingsReducer from '../reducers/settingsReducer';
+import loadingReducer from '../reducers/loadingReducer';
 
 const rootReducer = combineReducers({ 
    workouts: workoutReducer, 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
    records: workoutRecordReducer,
    progress: progressReducer,
    settings: settingsReducer,
+   loading: loadingReducer,
 });
 
 const configureStore = () => {

@@ -182,6 +182,7 @@ const SettingsModal = (props) => {
               onPress={async () => {
                 try {
                   await firebase.auth().signOut();
+                  dispatch(actions.loading.resetLoadStore());
                   navigation.navigate('Login');
                 } catch (err) {
                   Alert.alert('Could not be signed out', err);

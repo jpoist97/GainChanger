@@ -1,10 +1,20 @@
-import { INITIALIZE_EXERCISES, ADD_CUSTOM_EXERCISE } from '../constants/index';
+import { INITIALIZE_EXERCISES, ADD_CUSTOM_EXERCISE, COMPLETE_EXERCISE_LOAD } from '../constants/index';
+import * as api from '../api';
 
 const initalizeExercises = (exercises) => {
-   return {
-      type: INITIALIZE_EXERCISES,
-      exercises,
+   return async (dispatch) => {
+      const exercises = await api.fetchExercises();
+
+      dispatch({
+         type: INITIALIZE_EXERCISES,
+         exercises,
+      });
+
+      dispatch({
+         type: COMPLETE_EXERCISE_LOAD,
+      })
    }
+
 }
 
 const addCustomExercise = (exercise) => {
