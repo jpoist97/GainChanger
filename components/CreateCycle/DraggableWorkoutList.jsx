@@ -18,7 +18,7 @@ const DraggableWorkoutList = (props) => {
   const renderCard = ({ item, index, drag }) => (
     <ExpandableWorkoutCard
       drag={drag}
-      removeWorkout={removeWorkout}
+      removeWorkout={removeWorkout(index)}
       name={item.name}
       muscleGroups={item.muscleGroups}
       color={COLORS[index % COLORS.length]}

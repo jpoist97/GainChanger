@@ -60,7 +60,7 @@ const ExpandableWorkoutCard = (props) => {
         size={25}
         onPress={() => {
           if (icon === 'trash-can-outline') {
-            removeWorkout(name);
+            removeWorkout();
             showDetail();
           } else {
             showDetail();

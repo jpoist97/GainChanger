@@ -52,22 +52,18 @@ export default ({ navigation, route }) => {
     setWorkouts(workoutList);
   }
 
-  function removeWorkout(workoutName) {
+  function removeWorkout(index) {
     if (workouts.length === 1) {
       alert('Cannot delete last workout');
-      return;
+    } else if (cycleID === cycles.selectedCycle.id) {
+      alert('Cannot delete workout from currently selected cycle');
+    } else {
+      workouts.splice(index, 1);
+      updateOrder(workouts);
     }
-    for (let i = 0; i < workouts.length; i += 1) {
-      if (workouts[i].name === workoutName) {
-        workouts.splice(i, 1);
-      }
-    }
-    if (!isNewCycle) {
-      // Makes sure selectedCycleIndex decreases if number of workouts in cycle decreases
-      dispatch(actions.cycles.decrementSelectedCycleIndex(cycles.selectedCycleIndex, cycleDetails.length));
-    }
-    updateOrder(workouts);
   }
+
+  const curryRemoveWorkout = (index) => () => removeWorkout(index);
 
   const createNewCycle = async (newCycle) => {
     const currentUser = firebase.auth().currentUser.uid;
@@ -100,7 +96,7 @@ export default ({ navigation, route }) => {
         <DraggableWorkoutList
           passWorkoutList={updateOrder}
           workouts={workouts}
-          removeWorkout={removeWorkout}
+          removeWorkout={curryRemoveWorkout}
         />
         <AddCycleButton
           title=" Add Workouts "
