@@ -18,19 +18,22 @@ const Title = styled.Text`
   margin: 15px 5%;
 `;
 
-const colorScheme = 'default';
-
 const SectionHeader = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 20px;
   padding-left: 2%;
-  background-color: ${COLORS[colorScheme][0]};
+  background-color: ${(props) => props.color};
   color: #EFEFEF;
 `;
 
-const renderHeader = ({ section }) => (
-  <SectionHeader>{section.title}</SectionHeader>
-);
+const renderHeader = ({ section }) => {
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
+
+  return (
+    <SectionHeader color={colorTheme}>{section.title}</SectionHeader>
+  )
+};
+
 
 const ExerciseList = ({ onExerciseSelect, parsedItems, exerciseObjects }) => {
   const [dataState, setDataState] = useState({ filteredDataSource: [], masterDataSource: parsedItems });

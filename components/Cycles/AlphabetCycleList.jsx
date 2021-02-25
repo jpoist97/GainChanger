@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as firebase from 'firebase';
 import CycleCard from './CycleCard';
 import actions from '../../actions/index';
@@ -60,7 +60,7 @@ const AlphabetCycleList = (props) => {
   const { items, selectedCycle } = props;
 
   const parsedItems = parseItems(items, selectedCycle);
-  const colorScheme = 'default';
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   const renderCard = ({ item }) => (
     <CycleCard
@@ -91,7 +91,7 @@ const AlphabetCycleList = (props) => {
         });
       }}
       onPress={item.onPress}
-      color={item.color || COLORS[colorScheme][item.index % (COLORS[colorScheme].length - 1)]}
+      color={item.color || COLORS[colorTheme][item.index % (COLORS[colorTheme].length - 1)]}
     />
   );
 

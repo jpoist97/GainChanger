@@ -27,8 +27,7 @@ export default () => {
 
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
-
-  const colorScheme = 'default';
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
   
   // Request notifications on app first load
   useEffect(() => {
@@ -104,7 +103,7 @@ export default () => {
         <CurrentCycle
           name={cycleDetails && cycleDetails[cycles.selectedCycleIndex].name}
           subtext={cycleDetails && cycleDetails[cycles.selectedCycleIndex].muscleGroups}
-          color={cycleDetails && COLORS[colorScheme][cycles.selectedCycleIndex % (COLORS[colorScheme].length - 1)]}
+          color={cycleDetails && COLORS[colorTheme][cycles.selectedCycleIndex % (COLORS[colorTheme].length - 1)]}
           leftPress={() => { dispatch(actions.cycles.decrementSelectedCycleIndex(cycles.selectedCycleIndex, cycleDetails.length)); }}
           rightPress={() => { dispatch(actions.cycles.incrementSelectedCycleIndex(cycles.selectedCycleIndex, cycleDetails.length)); }}
           id={cycleDetails && selectedCycle.workouts[cycles.selectedCycleIndex]}

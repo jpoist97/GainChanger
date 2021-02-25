@@ -21,15 +21,15 @@ const DoubleCardContainer = styled(View)`
 
 const ProfileStats = () => {
   const profileStats = useSelector((state) => state.progress.profileStats);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
   const { totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord } = profileStats;
-  const colorScheme = 'default';
 
   return (
     <ProfileStatsContainer>
-      <StatCard text={`${totalWeightLifted}`} subtext="All-time lbs. Lifted" width="90%" textSize={40} subtextSize={20} color={COLORS[colorScheme][0]} />
+      <StatCard text={`${totalWeightLifted}`} subtext="All-time lbs. Lifted" width="90%" textSize={40} subtextSize={20} color={COLORS[colorTheme][0]} />
       <DoubleCardContainer>
-        <StatCard text={`${totalWorkoutsPerformed}`} subtext="Workouts Performed" width="47%" color={COLORS[colorScheme][1]} />
-        <StatCard text={`${weightPersonalRecord}`} subtext="Heaviest Lift" titleUnits="lbs." width="47%" color={COLORS[colorScheme][2]} />
+        <StatCard text={`${totalWorkoutsPerformed}`} subtext="Workouts Performed" width="47%" color={COLORS[colorTheme][1]} />
+        <StatCard text={`${weightPersonalRecord}`} subtext="Heaviest Lift" titleUnits="lbs." width="47%" color={COLORS[colorTheme][2]} />
       </DoubleCardContainer>
     </ProfileStatsContainer>
   );

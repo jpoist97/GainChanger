@@ -75,9 +75,8 @@ export default () => {
 
   const exerciseRecords = useSelector((state) => state.progress.exerciseRecords);
   const loading = useSelector((state) => state.progress.loading);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
   const exerciseData = _.get(exerciseRecords, exerciseState.selectedExerciseId, []);
-
-  const colorScheme = 'default';
 
   const navigation = useNavigation();
 
@@ -105,7 +104,7 @@ export default () => {
       { loading
         ? (
           <SpinnerContainer>
-            <ActivityIndicator color={COLORS[colorScheme][0]} size="large" />
+            <ActivityIndicator color={COLORS[colorTheme][0]} size="large" />
           </SpinnerContainer>
         )
         : (exerciseData && exerciseData.length > 0 ? (

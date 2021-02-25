@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import SkinnyWorkoutCard from './SkinnyWorkoutCard';
 import { COLORS } from '../../constants/index';
+import { useSelector } from 'react-redux';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -19,7 +20,7 @@ const WorkoutSwipeList = (props) => {
   const { items } = props;
   const navigation = useNavigation();
 
-  const colorScheme = 'default';
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   const renderCard = ({ item, index }) => (
     <SkinnyWorkoutCard
@@ -28,7 +29,7 @@ const WorkoutSwipeList = (props) => {
       onIconPress={item.onIconPress}
       onPress={() => navigation.navigate('Log Workout', { workoutId: item.id })}
       key={item.id}
-      color={COLORS[colorScheme][index % (COLORS[colorScheme].length - 1)]}
+      color={COLORS[colorTheme][index % (COLORS[colorTheme].length - 1)]}
     />
   );
 

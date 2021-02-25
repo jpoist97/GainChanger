@@ -3,6 +3,7 @@ import { UPDATE_USER_SETTINGS } from '../constants/index';
 const initialState = {
    enableRestNotifications: false,
    restNotificationTimer: 60,
+   colorTheme: 'default',
 }
 
 const settingsReducer = (state = initialState, action) => {

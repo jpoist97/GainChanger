@@ -96,7 +96,7 @@ const AddWorkouts = (props) => {
   const [workoutsList, setWorkoutsList] = React.useState(parsedItems);
   const [addedWorkouts] = React.useState([]);
 
-  const colorScheme = 'default';
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   const renderCard = ({ item: { left, right }, index }) => (
     <WorkoutCardPair>
@@ -118,7 +118,7 @@ const AddWorkouts = (props) => {
         }}
         selected={left.selected}
         displayAddButton={left.displayAddButton}
-        color={COLORS[colorScheme][left.index % (COLORS[colorScheme].length - 1)]}
+        color={COLORS[colorTheme][left.index % (COLORS[colorTheme].length - 1)]}
         key={left.name + left.subtext}
       />
 
@@ -141,7 +141,7 @@ const AddWorkouts = (props) => {
             }
           }}
           displayAddButton={right.displayAddButton}
-          color={COLORS[colorScheme][right.index % (COLORS[colorScheme].length - 1)]}
+          color={COLORS[colorTheme][right.index % (COLORS[colorTheme].length - 1)]}
           key={right.name + right.subtext}
         />
       ) : (

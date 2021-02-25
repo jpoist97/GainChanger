@@ -9,6 +9,7 @@ import {
 import Proptypes from 'prop-types';
 import styled from 'styled-components/native';
 import { COLORS } from '../../constants';
+import { useSelector } from 'react-redux';
 
 const ICON_MAP = {
   RUNNING: (<FontAwesome5 name="running" size={12} color="black" />),
@@ -27,7 +28,7 @@ const IconWrapper = styled.View`
 const SortByPopup = (props) => {
   const { style, options, triggerSize } = props;
 
-  const colorScheme = 'default';
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   return (
     <Menu style={style}>
@@ -35,7 +36,7 @@ const SortByPopup = (props) => {
         <FontAwesome5
           name="sort-amount-down"
           size={triggerSize}
-          color={COLORS[colorScheme][0]}
+          color={COLORS[colorTheme][0]}
         />
       </MenuTrigger>
       <MenuOptions customStyles={{

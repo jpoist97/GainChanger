@@ -74,8 +74,8 @@ const LogWorkout = (props) => {
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
   const profileStats = useSelector((state) => state.progress.profileStats);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
   const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
-  const colorScheme = 'default';
 
   const { name } = selectedWorkout;
 
@@ -85,7 +85,7 @@ const LogWorkout = (props) => {
     return {
       ...exerciseObj,
       name: matchingExercise.name,
-      color: COLORS[colorScheme][index % 3],
+      color: COLORS[colorTheme][index % 3],
     };
   });
 
@@ -274,7 +274,7 @@ const LogWorkout = (props) => {
         width={385}
         height={10}
         borderRadius={5}
-        color="#6D8DFF"
+        color={COLORS[colorTheme][2]}
       />
       <KeyboardAwareFlatList
         style={{ height: '100%' }}

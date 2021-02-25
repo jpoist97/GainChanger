@@ -4,15 +4,13 @@ import {
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { AntDesign } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import RNPickerSelect from 'react-native-picker-select';
 import actions from '../../actions/index';
 import * as api from '../../api';
 import { COLORS } from '../../constants/index';
-
-const colorScheme = 'default';
 
 const Name = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -55,7 +53,7 @@ const SelectWrapper = styled.View`
 `;
 
 const StyledButton = styled.TouchableOpacity`
-  background-color: ${COLORS[colorScheme][1]};
+  background-color: ${(props) => props.color};
   height: 35px;
   width: 87%;
   border-radius: 12px;
@@ -76,6 +74,7 @@ const CreateCustomExercise = () => {
   const [workoutName, setWorkoutName] = React.useState('');
   const [muscleGroup, setMuscleGroup] = React.useState('');
   const dispatch = useDispatch();
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
   const navigation = useNavigation();
 
   const createCustomExercise = async (exercise) => {
@@ -99,14 +98,14 @@ const CreateCustomExercise = () => {
           <IconButton
             name="up"
             size={24}
-            color={COLORS[colorScheme][0]}
+            color={COLORS[colorTheme][0]}
           />
         )
         : (
           <IconButton
             name="down"
             size={24}
-            color={COLORS[colorScheme][0]}
+            color={COLORS[colorTheme][0]}
           />
         )}
       <Collapsible collapsed={!isExpanded}>
@@ -146,7 +145,7 @@ const CreateCustomExercise = () => {
         <StyledButton
           mode="contained"
           title="Create Workout"
-          color={colorScheme}
+          color={COLORS[colorTheme][0]}
           onPress={() => {
             if (!workoutName) {
               alert('Please enter a workout name');

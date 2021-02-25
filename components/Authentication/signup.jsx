@@ -245,6 +245,7 @@ const Signup = ({ navigation }) => {
       settings: {
         enableRestNotifications: false,
         restNotificationTimer: 60,
+        colorTheme: 'default',
       },
     };
 

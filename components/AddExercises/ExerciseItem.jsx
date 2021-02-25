@@ -3,6 +3,8 @@ import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
+import { COLORS } from '../../constants';
+import { useSelector } from 'react-redux';
 
 const Exercise = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -30,6 +32,8 @@ const ExerciseItem = (props) => {
     name, subtext, selected, onPress,
   } = props;
 
+  const colorTheme = useSelector(state => state.settings.colorTheme);
+
   return (
     <TouchableOpacity
       style={{
@@ -46,7 +50,7 @@ const ExerciseItem = (props) => {
       <AddButton
         name={selected ? 'pluscircle' : 'pluscircleo'}
         size={22}
-        color="#CAB0FF"
+        color={COLORS[colorTheme][0]}
         onPress={onPress}
       />
 
