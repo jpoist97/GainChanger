@@ -3,8 +3,8 @@ import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
-import { COLORS } from '../../constants';
 import { useSelector } from 'react-redux';
+import { COLORS } from '../../constants';
 
 const Exercise = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -32,7 +32,7 @@ const ExerciseItem = (props) => {
     name, subtext, selected, onPress,
   } = props;
 
-  const colorTheme = useSelector(state => state.settings.colorTheme);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   return (
     <TouchableOpacity

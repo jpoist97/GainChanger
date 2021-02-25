@@ -28,7 +28,7 @@ export default () => {
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
   const colorTheme = useSelector((state) => state.settings.colorTheme);
-  
+
   // Request notifications on app first load
   useEffect(() => {
     const checkPermissions = async () => {

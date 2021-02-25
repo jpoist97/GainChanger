@@ -7,10 +7,10 @@ import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import ExerciseItem from './ExerciseItem';
 import SortByPopup from '../utils/SortByPopup';
 import CreateCustomExercise from './CreateCustomExercise';
-import { useSelector } from 'react-redux';
 import { COLORS } from '../../constants';
 
 const Title = styled.Text`
@@ -60,7 +60,7 @@ const ExerciseList = ({
   const [search, setSearch] = useState('');
   const [exerciseCount, setExerciseCount] = useState(0);
   const [addedExercises] = useState([]);
-  const colorTheme = useSelector(state => state.settings.colorTheme);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   const renderHeader = ({ section }) => (
     <SectionHeader backgroundColor={COLORS[colorTheme][0]}>{section.title}</SectionHeader>

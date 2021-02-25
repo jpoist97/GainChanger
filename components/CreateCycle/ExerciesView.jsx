@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import React from 'react';
-import _, { parseInt } from 'lodash';
+import _ from 'lodash';
 
 const ExercisesView = (props) => {
   const { exercises } = props;

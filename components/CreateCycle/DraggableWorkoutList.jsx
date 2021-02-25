@@ -1,9 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+import { useSelector } from 'react-redux';
 import ExpandableWorkoutCard from './ExpandableWorkoutCard';
 import { COLORS } from '../../constants';
-import { useSelector } from 'react-redux';
 
 const DraggableWorkoutList = (props) => {
   const {

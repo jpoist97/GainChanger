@@ -8,8 +8,8 @@ import {
 } from '@expo/vector-icons';
 import Proptypes from 'prop-types';
 import styled from 'styled-components/native';
-import { COLORS } from '../../constants';
 import { useSelector } from 'react-redux';
+import { COLORS } from '../../constants';
 
 const ICON_MAP = {
   RUNNING: (<FontAwesome5 name="running" size={12} color="black" />),

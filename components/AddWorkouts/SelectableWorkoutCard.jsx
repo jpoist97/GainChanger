@@ -6,8 +6,6 @@ import {
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
-import { COLORS } from '../../constants';
-import { useSelector } from 'react-redux';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -37,8 +35,6 @@ const SelectableWorkoutCard = (props) => {
   const {
     color, subtext, name, onPress, selected, displayAddButton,
   } = props;
-
-  const colorTheme = useSelector((state) => state.settings.colorThem); 
 
   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};

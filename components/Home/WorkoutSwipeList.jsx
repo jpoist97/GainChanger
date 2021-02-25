@@ -5,9 +5,9 @@ import {
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import SkinnyWorkoutCard from './SkinnyWorkoutCard';
 import { COLORS } from '../../constants/index';
-import { useSelector } from 'react-redux';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';

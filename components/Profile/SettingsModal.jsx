@@ -39,7 +39,7 @@ const ColorButton = styled(TouchableOpacity)`
   background-color: #000000;
   padding: 1px;
   border-color: orange;
-  border-width: ${(props) => props.selected ? '2px' : '0px'};
+  border-width: ${(props) => (props.selected ? '2px' : '0px')};
   margin: 5px;
 `;
 
@@ -117,13 +117,13 @@ const SettingsModal = (props) => {
   };
 
   const updateColorTheme = (theme) => {
-    //update selected color in local settings state
+    // update selected color in local settings state
     setSelectedColor(theme);
     setSettingState({
       ...settingState,
       colorTheme: theme,
     });
-  }
+  };
 
   return (
     <View>
@@ -184,10 +184,10 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <SubTitle>Color Theme</SubTitle>
-            <ColorButton selected={selectedColor === 'aqua'} onPress={() => { updateColorTheme('aqua') }}>
+            <ColorButton selected={selectedColor === 'aqua'} onPress={() => { updateColorTheme('aqua'); }}>
               <Image source={require('../../assets/blue.png')} />
             </ColorButton>
-            <ColorButton selected={selectedColor === 'default'} onPress={() => { updateColorTheme('default') }}>
+            <ColorButton selected={selectedColor === 'default'} onPress={() => { updateColorTheme('default'); }}>
               <Image source={require('../../assets/purple.png')} />
             </ColorButton>
             <StyledButton

@@ -25,7 +25,7 @@ const CalendarView = () => {
   const workoutRecords = useSelector((state) => state.records.records);
   const colorTheme = useSelector((state) => state.settings.colorTheme);
 
-  const [selectedDate, setselectedDate] = React.useState("No date selected.");
+  const [selectedDate, setselectedDate] = React.useState('No date selected.');
   const [exercises, setExercises] = React.useState([]);
   const [markedDates, setMarkedDates] = React.useState({});
   const [showWorkout, setShowWorkout] = React.useState(false);
@@ -35,23 +35,21 @@ const CalendarView = () => {
 
   const dispatch = useDispatch();
 
+  const createCalendarMarkedDates = (dates, color) => {
+    const marks = {};
+    dates.forEach((date) => {
+      marks[date] = { marked: true, selectedColor: color };
+    });
+    return marks;
+  };
+
   React.useEffect(() => {
     setMarkedDates(createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]));
     setExercises([]);
     setselectedDate('No date selected.');
   }, [colorTheme]);
 
-  const formatDate = (date) =>{
-    return `${DAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate() + 1}`;
-  }
-
-  const createCalendarMarkedDates = (dates, color) => {
-    const marks = {};
-    dates.forEach((date) => {
-        marks[date] = { marked: true, selectedColor: color };
-    });
-    return marks;
-  };
+  const formatDate = (date) => `${DAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate() + 1}`;
 
   const getDateRecords = async (user, currentDate) => {
     setShowWorkout(true);
@@ -83,39 +81,42 @@ const CalendarView = () => {
 
   return (
     <View style={{ justifyContent: 'center', height: '100%' }}>
-    {colorTheme == 'default' &&
+      {colorTheme === 'default'
+    && (
     <Calendar
-        style={{
-          marginTop: 50,
-        }}
-        theme={{
-          backgroundColor: '#f2f2f2',
-          calendarBackground: '#f2f2f2',
-          todayTextColor: COLORS['default'][0],
-          dotColor: COLORS['default'][0],
-          arrowColor: COLORS['default'][0],
-          monthTextColor: 'black',
-          textDayFontFamily: 'Montserrat_500Medium',
-          textMonthFontFamily: 'Montserrat_600SemiBold',
-          textDayHeaderFontFamily: 'Montserrat_500Medium',
-          textDayFontSize: 14,
-        }}
-        markedDates={markedDates}
-        onDayPress={(date) => {
-          const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
-          allDates[date.dateString] = { marked: allDates[date.dateString] ? allDates[date.dateString].marked : false, selectedColor: COLORS[colorTheme][0], selected: true };
-          setMarkedDates(allDates);
+      style={{
+        marginTop: 50,
+      }}
+      theme={{
+        backgroundColor: '#f2f2f2',
+        calendarBackground: '#f2f2f2',
+        todayTextColor: COLORS.default[0],
+        dotColor: COLORS.default[0],
+        arrowColor: COLORS.default[0],
+        monthTextColor: 'black',
+        textDayFontFamily: 'Montserrat_500Medium',
+        textMonthFontFamily: 'Montserrat_600SemiBold',
+        textDayHeaderFontFamily: 'Montserrat_500Medium',
+        textDayFontSize: 14,
+      }}
+      markedDates={markedDates}
+      onDayPress={(date) => {
+        const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
+        allDates[date.dateString] = { marked: allDates[date.dateString] ? allDates[date.dateString].marked : false, selectedColor: COLORS[colorTheme][0], selected: true };
+        setMarkedDates(allDates);
 
-          const formattedDate = formatDate(new Date(date.dateString));
-          if (selectedDate !== formattedDate) {
-            setExercises([]);
-            setselectedDate(formattedDate);
-            getDateRecords(userRef, date.dateString);
-          }
-        }}
-        enableSwipeMonths
-      /> 
-      }{colorTheme == 'aqua' &&
+        const formattedDate = formatDate(new Date(date.dateString));
+        if (selectedDate !== formattedDate) {
+          setExercises([]);
+          setselectedDate(formattedDate);
+          getDateRecords(userRef, date.dateString);
+        }
+      }}
+      enableSwipeMonths
+    />
+    )}
+      {colorTheme === 'aqua'
+      && (
       <Calendar
         style={{
           marginTop: 50,
@@ -123,9 +124,9 @@ const CalendarView = () => {
         theme={{
           backgroundColor: '#f2f2f2',
           calendarBackground: '#f2f2f2',
-          todayTextColor: COLORS['aqua'][0],
-          dotColor: COLORS['aqua'][0],
-          arrowColor: COLORS['aqua'][0],
+          todayTextColor: COLORS.aqua[0],
+          dotColor: COLORS.aqua[0],
+          arrowColor: COLORS.aqua[0],
           monthTextColor: 'black',
           textDayFontFamily: 'Montserrat_500Medium',
           textMonthFontFamily: 'Montserrat_600SemiBold',
@@ -147,7 +148,7 @@ const CalendarView = () => {
         }}
         enableSwipeMonths
       />
-      }
+      )}
       <View style={{
         width: '90%', alignSelf: 'center', height: 2, backgroundColor: '#e5e5e5', marginTop: 25,
       }}

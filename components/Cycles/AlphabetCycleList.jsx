@@ -9,7 +9,6 @@ import CycleCard from './CycleCard';
 import actions from '../../actions/index';
 import { COLORS } from '../../constants/index';
 import 'firebase/firestore';
-import { color } from 'react-native-reanimated';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
