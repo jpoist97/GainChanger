@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   View, Image, Alert,
+  Dimensions,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import firebase from 'firebase';
@@ -67,6 +68,8 @@ const Login = ({ navigation }) => {
   const [hidePassword, setHidePassword] = React.useState(true);
   const [disableButton, setDisableButton] = React.useState(false);
 
+  const imgDimension = Dimensions.get('window').width * 0.6;
+
   function ValidateEmail(mail) {
     // eslint-disable-next-line
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -125,7 +128,7 @@ const Login = ({ navigation }) => {
       <Title>GainChanger</Title>
       <SubTitle>Login</SubTitle>
       <Image
-        style={{ width: 250, height: 250 }}
+        style={{ width: imgDimension, height: imgDimension }}
         source={require('../../assets/logo.png')}
       />
       <InputLine

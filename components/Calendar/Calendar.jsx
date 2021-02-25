@@ -43,28 +43,25 @@ const CalendarView = () => {
 
   const dispatch = useDispatch();
 
-  const filterRecords = (date, records) => records.filter((e) => e.date === date);
-
   React.useEffect(() => {
-    console.log("CHANGING MARKS");
+    //not working
     setMarkedDates(createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]));
-    console.log(markedDates);
   }, [colorTheme]);
 
   const createCalendarMarkedDates = (dates, color) => {
     const marks = {};
     dates.forEach((date) => {
-      marks[date] = { marked: true, selectedColor: color };
+        marks[date] = { marked: true, selectedColor: color };
     });
     return marks;
-  }
+  };
 
   const getDateRecords = async (user, currentDate) => {
-    const recordCheck = filterRecords(currentDate, workoutRecords);
-    if (recordCheck.length > 0) {
+    firstRun.current = false;
+    if (workoutRecords[currentDate]) {
       console.log('Record found in redux.');
       setShowWorkout(true);
-      setExercises(recordCheck);
+      setExercises(workoutRecords[currentDate]);
     } else {
       const recordsRef = user.collection('workoutRecords');
       const workoutRecordSnapshot = await recordsRef.where('date', '==', currentDate).get();
@@ -78,18 +75,11 @@ const CalendarView = () => {
       workoutRecordSnapshot.forEach((doc) => {
         const data = doc.data();
         const exerciseRecord = data.exercises;
-        const { date } = data;
-
         const workoutSets = [];
 
         exerciseRecord.forEach((record) => {
-          const loggableData = {
-            name: record.exerciseName,
-            sets: record.sets,
-            date,
-          };
-          workoutSets.push(loggableData);
-          dispatch(actions.records.addWorkoutRecord(loggableData));
+          workoutSets.push(record);
+          dispatch(actions.records.addWorkoutRecord(record, currentDate));
         });
         setExercises(workoutSets);
       });
@@ -98,16 +88,17 @@ const CalendarView = () => {
 
   return (
     <View style={{ justifyContent: 'center', height: '100%' }}>
-      <Calendar
+    {colorTheme == 'default' &&
+    <Calendar
         style={{
           marginTop: 50,
         }}
         theme={{
           backgroundColor: '#f2f2f2',
           calendarBackground: '#f2f2f2',
-          todayTextColor: COLORS[colorTheme][0],
-          dotColor: COLORS[colorTheme][0],
-          arrowColor: COLORS[colorTheme][0],
+          todayTextColor: COLORS['default'][0],
+          dotColor: COLORS['default'][0],
+          arrowColor: COLORS['default'][0],
           monthTextColor: 'black',
           textDayFontFamily: 'Montserrat_500Medium',
           textMonthFontFamily: 'Montserrat_600SemiBold',
@@ -117,17 +108,41 @@ const CalendarView = () => {
         markedDates={markedDates}
         onDayPress={(date) => {
           const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
-          if (allDates[date.dateString]) {
-            allDates[date.dateString] = { selected: true, marked: allDates[date.dateString].marked, selectedColor: COLORS[colorTheme][0] };
-          } else {
-            allDates[date.dateString] = { selected: true, marked: false, selectedColor: COLORS[colorTheme][0] };
-          }
+          allDates[date.dateString] = { marked: allDates[date.dateString] ? allDates[date.dateString].marked : false, selectedColor: COLORS[colorTheme][0], selected: true };
           setMarkedDates(allDates);
-          console.log(markedDates);
 
-          if (firstRun.current) {
-            firstRun.current = false;
+          const formattedDate = formatDate(new Date(date.dateString));
+          if (selectedDate !== formattedDate) {
+            setExercises([]);
+            setselectedDate(formattedDate);
+            getDateRecords(userRef, date.dateString);
           }
+        }}
+        enableSwipeMonths
+      /> 
+      }{colorTheme == 'aqua' &&
+      <Calendar
+        style={{
+          marginTop: 50,
+        }}
+        theme={{
+          backgroundColor: '#f2f2f2',
+          calendarBackground: '#f2f2f2',
+          todayTextColor: COLORS['aqua'][0],
+          dotColor: COLORS['aqua'][0],
+          arrowColor: COLORS['aqua'][0],
+          monthTextColor: 'black',
+          textDayFontFamily: 'Montserrat_500Medium',
+          textMonthFontFamily: 'Montserrat_600SemiBold',
+          textDayHeaderFontFamily: 'Montserrat_500Medium',
+          textDayFontSize: 14,
+        }}
+        markedDates={markedDates}
+        onDayPress={(date) => {
+          const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
+          allDates[date.dateString] = { marked: allDates[date.dateString] ? allDates[date.dateString].marked : false, selectedColor: COLORS[colorTheme][0], selected: true };
+          setMarkedDates(allDates);
+
           const formattedDate = formatDate(new Date(date.dateString));
           if (selectedDate !== formattedDate) {
             setExercises([]);
@@ -137,12 +152,13 @@ const CalendarView = () => {
         }}
         enableSwipeMonths
       />
+      }
       <View style={{
         width: '90%', alignSelf: 'center', height: 2, backgroundColor: '#e5e5e5', marginTop: 25,
       }}
       />
       <View style={{ justifyContent: 'flex-start', width: '100%', paddingLeft: 20 }}>
-        {firstRun.current ? <DayTitle>No date selected</DayTitle> : <DayTitle>{selectedDate}</DayTitle>}
+        <DayTitle>{firstRun.current ? 'No date selected' : selectedDate}</DayTitle>
       </View>
       {showWorkout ? (
         <FlatList
@@ -157,7 +173,7 @@ const CalendarView = () => {
         />
       ) : (
         <View style={{
-          flex: 1, widht: '100%', alignItems: 'center', justifyContent: 'center',
+          flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center',
         }}
         >
           <NoWorkoutText>No workout performed</NoWorkoutText>
