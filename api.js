@@ -1,5 +1,10 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { toDate, differenceInCalendarDays } from 'date-fns';
+
+// --------------------------------------------------------------------------
+// Database References
+// --------------------------------------------------------------------------
 
 /**
  * Helper function that returns a reference to the current logged in user in 
@@ -15,21 +20,60 @@ const getUserRef = () => {
 
 
 /**
- * Function that returns all of the cycles that contain a specific workout
- * specified by workoutId. Returns an array of cycleIds.
- * 
- * @param {String} workoutId 
+ * Helper function that returns a reference to the Firestore database.
  */
-export async function getCycleIdsContainingWorkout(workoutId) {
-   const matchingCycles = [];
+const getDBRef = () => {
+   return firebase.firestore();
+}
+
+
+// --------------------------------------------------------------------------
+// Workouts
+// --------------------------------------------------------------------------
+
+/**
+ * Function that retrieves all workouts for a user in Firebase. Returns an
+ * array of workout objects.
+ */
+export async function fetchWorkouts() {
    const userRef = getUserRef();
 
-   const querySnapshot = await userRef.collection('cycles').where('workoutIds', 'array-contains', workoutId).get();
-   querySnapshot.forEach((doc) => {
-      matchingCycles.push(doc.id);
+   const workouts = [];
+   const workoutRef = userRef.collection('workouts');
+   const workoutSnapshot = await workoutRef.get();
+   
+   workoutSnapshot.forEach((doc) => {
+      const {
+         exercises, name, lastPerformed, muscleGroups,
+      } = doc.data();
+      const dateDiff = differenceInCalendarDays(new Date(), toDate(lastPerformed.seconds * 1000));
+   
+      if (exercises && name && muscleGroups) {
+         workouts.push({
+         id: doc.id,
+         name,
+         exercises,
+         muscleGroups,
+         lastPerformed: dateDiff,
+         });
+      }
    });
+   
+   return workouts;
+}
 
-   return matchingCycles;
+
+/**
+ * Function that updates a workout document in Firestore. Takes in the workoutId
+ * of the desired workout and a PartialWorkout object that represents all of the
+ * fields that need to be updated in the workout document.
+ * 
+ * @param {String} workoutId 
+ * @param {PartialWorkout} newWorkoutContent 
+ */
+export async function updateWorkoutDocument(workoutId, newWorkoutContent) {
+   const userRef = getUserRef();
+   return await userRef.collection('workouts').doc(workoutId).update(newWorkoutContent);
 }
 
 
@@ -78,10 +122,37 @@ export async function deleteWorkoutDocument(workoutId) {
    return await userRef.collection('workouts').doc(workoutId).delete();
 }
 
-export async function addCustomExercise(exercise) {
-  const userRef = getUserRef();
-  return await userRef.collection('customExercises').add(exercise);
-}
+
+// --------------------------------------------------------------------------
+// Cycles
+// --------------------------------------------------------------------------
+
+/**
+ * Function that retrieves all of the cycles for the logged in user. Returns
+ * an array of cycles objects.
+ */
+export async function fetchCycles() {
+   const userRef = getUserRef();
+
+   const cycles = [];
+   const cycleRef = userRef.collection('cycles');
+   const cycleSnapshot = await cycleRef.get();
+
+   cycleSnapshot.forEach((doc) => {
+      const { workoutIds, name } = doc.data();
+
+      if (workoutIds && name) {
+         cycles.push({
+            id: doc.id,
+            name,
+            workouts: workoutIds,
+         });
+      }
+   });
+
+   return cycles;
+};
+
 
 /**
  * Deletes the given cycle from Firestore. Only deletes the cycle document
@@ -95,12 +166,148 @@ export async function deleteCycleDocument(cycleId) {
 }
 
 
-export async function updateWorkoutDocument(workoutId, newWorkoutContent) {
+/**
+ * Function that returns all of the cycles that contain a specific workout
+ * specified by workoutId. Returns an array of cycleIds.
+ * 
+ * @param {String} workoutId 
+ */
+export async function getCycleIdsContainingWorkout(workoutId) {
+   const matchingCycles = [];
    const userRef = getUserRef();
-   return await userRef.collection('workouts').doc(workoutId).update(newWorkoutContent);
+
+   const querySnapshot = await userRef.collection('cycles').where('workoutIds', 'array-contains', workoutId).get();
+   querySnapshot.forEach((doc) => {
+      matchingCycles.push(doc.id);
+   });
+
+   return matchingCycles;
 }
 
 
+// --------------------------------------------------------------------------
+// Exercises
+// --------------------------------------------------------------------------
+
+/**
+ * Function that retrieves both custom and shared exercises for the logged in user.
+ * Returns an array of exercise objects.
+ */
+export async function fetchExercises() {
+   const exerciseResponses = await Promise.all([fetchSharedExercises(), fetchCustomExercises()]);
+
+   return [...exerciseResponses[0], ...exerciseResponses[1]];
+}
+
+
+/**
+ * Helper function that retrieves all shared exercises from Firestore and
+ * returns them in an array of exercise objects.
+ */
+async function fetchSharedExercises() {
+   const sharedExercises = [];
+
+   const dbRef = getDBRef();
+   const exerciseRef = dbRef.collection('exercises');
+   const exerciseSnapshot = await exerciseRef.get();
+ 
+   exerciseSnapshot.forEach((doc) => {
+     const { name, muscleGroups } = doc.data();
+ 
+     if (name && muscleGroups) {
+      sharedExercises.push({
+         id: doc.id,
+         name,
+         muscleGroups,
+       });
+     }
+   });
+
+   return sharedExercises;
+}
+
+
+/**
+ * Helper function that retrieves all custom exercises for the logged in user.
+ * Returns them in an array of exercises.
+ */
+async function fetchCustomExercises() {
+   const customExercises = [];
+   const userRef = getUserRef();
+
+   const customExerciseRef = userRef.collection('customExercises');
+   const customExerciseSnapshot = await customExerciseRef.get();
+
+   customExerciseSnapshot.forEach((doc) => {
+      const { name, muscleGroups } = doc.data();
+      if (name && muscleGroups) {
+         customExercises.push({
+            id: doc.id,
+            name,
+            muscleGroups,
+         });
+      }
+   });
+
+   return customExercises;
+}
+
+
+/**
+ * Function that adds a new custom exercise to the logged in user's collection
+ * in Firestore. Takes in the new exercise object to add.
+ * 
+ * @param {Exercise} exercise 
+ */
+export async function addCustomExercise(exercise) {
+  const userRef = getUserRef();
+  return await userRef.collection('customExercises').add(exercise);
+}
+
+
+// --------------------------------------------------------------------------
+// User Document
+// --------------------------------------------------------------------------
+
+/**
+ * Function that retrieves the user document for the currently logged in user.
+ * Returns the user document as an object.
+ */
+export async function fetchUserDoc() {
+   const userRef = getUserRef();
+   const userDoc = await userRef.get();
+
+   return userDoc.data();
+}
+
+
+/**
+ * Function that updates the logged in user's selectedCycleIndex in Firestore.
+ * Returns nothing.
+ * 
+ * @param {Number} newIndex 
+ */
+export async function updateSelectedCycleIndex(newIndex) {
+   const userRef = getUserRef();
+
+   await userRef.update({
+      selectedCycleIndex: newIndex,
+   });
+}
+
+
+
+// --------------------------------------------------------------------------
+// User Progress
+// --------------------------------------------------------------------------
+
+/**
+ * Function that updates the currently logged in user's progress stats.
+ * 
+ * @param {Number} totalWeightLifted 
+ * @param {Number} totalWorkoutsPerformed 
+ * @param {Number} weightPersonalRecord 
+ */
 export async function updateUserProgress(totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord) {
    const userRef = getUserRef();
    return await userRef.update({
@@ -110,6 +317,13 @@ export async function updateUserProgress(totalWeightLifted, totalWorkoutsPerform
    });
 }
 
+
+/**
+ * Function that retrieves exercise records for a given exerciseId from the
+ * currently logged in user's Firestore.
+ * 
+ * @param {String} exerciseId 
+ */
 export async function retrieveExerciseRecords(exerciseId) {
    const execiseRecordsRef = getUserRef().collection('exerciseRecords');
    console.log(`getting exerciseRecords for ${exerciseId}`);
@@ -128,6 +342,12 @@ export async function retrieveExerciseRecords(exerciseId) {
    return results;
 }
 
+/**
+ * Function that takes in an array of ExerciseRecord objects and adds them
+ * all to Firestore.
+ * 
+ * @param {[ExerciseRecords]} exerciseRecords 
+ */
 export async function postExerciseRecords(exerciseRecords) {
    const execiseRecordsRef = getUserRef().collection('exerciseRecords');
 
@@ -136,13 +356,11 @@ export async function postExerciseRecords(exerciseRecords) {
    await Promise.all(dbPostPromises);
 }
 
-export async function updateSelectedCycleIndex(newIndex) {
-   const userRef = getUserRef();
 
-   await userRef.update({
-      selectedCycleIndex: newIndex,
-   });
-}
+// --------------------------------------------------------------------------
+// Settings
+// --------------------------------------------------------------------------
+
 
 /**
  * Function that updates the user settings. THIS FUNCTION NEEDS THE ENTIRE

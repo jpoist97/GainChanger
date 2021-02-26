@@ -1,14 +1,26 @@
-import { INITIALIZE_CYCLES, SET_SELECTED_CYCLE_INDEX, ADD_CYCLE, UPDATE_CYCLE, DELETE_CYCLE, SELECT_NEW_CYCLE } from '../constants/index';
+import { INITIALIZE_CYCLES, SET_SELECTED_CYCLE_INDEX, ADD_CYCLE, UPDATE_CYCLE, DELETE_CYCLE, SELECT_NEW_CYCLE, COMPLETE_CYCLE_LOAD } from '../constants/index';
 import * as api from '../api';
 
-const initializeCycles = (cycles, selectedCycleId, selectedCycleIndex) => {
-   return {
-      type: INITIALIZE_CYCLES,
-      cycles,
-      selectedCycleId,
-      selectedCycleIndex,
-   };
+const initializeCycles = (selectedCycleId, selectedCycleIndex) => {
+   return async (dispatch) => {
+      const cycles = await api.fetchCycles();
+
+      dispatch({
+         type: INITIALIZE_CYCLES,
+         cycles,
+         selectedCycleId,
+         selectedCycleIndex,
+      });
+
+      dispatch({
+         type: COMPLETE_CYCLE_LOAD,
+      })
+   }
 };
+
+const initializeSelectedCycleInfo = (selectedCycleId, selectedCycleIndex) => {
+
+}
 
 const incrementSelectedCycleIndex = (currentIndex, selectedCycleLength) => {
    return (dispatch) => {
