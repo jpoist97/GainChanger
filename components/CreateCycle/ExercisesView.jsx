@@ -69,11 +69,10 @@ const ExercisesView = (props) => {
       </RowHeader>
       <FlatList
         data={parsedExercises}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => item.id + index.toString()}
         renderItem={({ item }) => (
           <RowContent>
             <WorkoutViewText style={{ marginLeft: 10 }}>{item.name}</WorkoutViewText>
-            {/* TODO: center the sets x reps around the x so double digit numbers dont look bad */}
             <WorkoutViewText>{`${item.sets.length}x${item.sets[0].reps || item.sets[0].time}`}</WorkoutViewText>
             <WorkoutViewText>{`${item.sets[0].weight} lbs.`}</WorkoutViewText>
           </RowContent>

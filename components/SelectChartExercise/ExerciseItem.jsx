@@ -3,6 +3,8 @@ import { TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { FontAwesome } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+import { COLORS } from '../../constants';
 
 const Exercise = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -26,6 +28,8 @@ const AddButton = styled(FontAwesome)`
 `;
 
 const ExerciseItem = (props) => {
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
+
   const {
     name, subtext, selected, onPress,
   } = props;
@@ -48,7 +52,7 @@ const ExerciseItem = (props) => {
           <AddButton
             name="circle"
             size={22}
-            color="#CAB0FF"
+            color={COLORS[colorTheme][0]}
             onPress={onPress}
           />
         ) : <View />}

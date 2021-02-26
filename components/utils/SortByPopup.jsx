@@ -8,6 +8,8 @@ import {
 } from '@expo/vector-icons';
 import Proptypes from 'prop-types';
 import styled from 'styled-components/native';
+import { useSelector } from 'react-redux';
+import { COLORS } from '../../constants';
 
 const ICON_MAP = {
   RUNNING: (<FontAwesome5 name="running" size={12} color="black" />),
@@ -26,13 +28,15 @@ const IconWrapper = styled.View`
 const SortByPopup = (props) => {
   const { style, options, triggerSize } = props;
 
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
+
   return (
     <Menu style={style}>
       <MenuTrigger>
         <FontAwesome5
           name="sort-amount-down"
           size={triggerSize}
-          color="#CAB0FF"
+          color={COLORS[colorTheme][0]}
         />
       </MenuTrigger>
       <MenuOptions customStyles={{

@@ -55,7 +55,7 @@ const SelectableWorkoutCard = (props) => {
         <AddButton
           name={selected ? 'checkcircle' : 'checkcircleo'}
           size={28}
-          color="#CAB0FF"
+          color={color}
         />
       ) : <View />}
       <Subtext>{subtext}</Subtext>

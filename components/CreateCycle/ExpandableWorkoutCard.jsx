@@ -2,7 +2,7 @@ import { IconButton } from 'react-native-paper';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ExercisesView from './ExerciesView';
+import ExercisesView from './ExercisesView';
 
 const CycleTitle = styled.Text`
    color: #FFFFFF;
@@ -51,7 +51,6 @@ const ExpandableWorkoutCard = (props) => {
     <FullBody
       onLongPress={drag}
       onPress={showDetail}
-      style={{ backgroundColor: color }}
     >
       <CycleTitle>{name}</CycleTitle>
       <IconButton
