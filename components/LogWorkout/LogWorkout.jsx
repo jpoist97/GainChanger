@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import ProgressBar from 'react-native-progress/Bar';
+import ConfettiCannon from 'react-native-confetti-cannon';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
@@ -75,6 +76,8 @@ const LogWorkout = (props) => {
   const cycleIdx = useSelector((state) => state.cycles.selectedCycleIndex);
   const profileStats = useSelector((state) => state.progress.profileStats);
   const selectedWorkout = _.find(workouts, (workout) => workout.id === workoutId);
+
+  const confettiRef = useRef();
 
   const { name } = selectedWorkout;
 
@@ -233,6 +236,12 @@ const LogWorkout = (props) => {
     return completedSetCount / totalSetCount;
   };
 
+  const triggerConfetti = () => {
+    if (confettiRef) {
+      confettiRef.current.start();
+    }
+  };
+
   const renderExerciseDetail = ({ item, index }) => (
     <ExerciseDetails
       name={item.name}
@@ -263,12 +272,13 @@ const LogWorkout = (props) => {
         if (!completed) {
           alert('All sets must be completed to Finish');
         } else {
+          triggerConfetti();
           sendWorkoutLogToDB();
           updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`);
 
           updateUserProgress();
           if (isSelectedCycle) { dispatch(actions.cycles.incrementSelectedCycleIndex(cycleIdx, cycleLength)); }
-          navigation.goBack();
+          setTimeout(() => { navigation.goBack(); }, 2750);
         }
       }}
       />
@@ -287,6 +297,14 @@ const LogWorkout = (props) => {
         keyboardOpeningTime={100}
         // this is for a react navigation bug making it not smooth scroll
         extraHeight={-64}
+      />
+      <ConfettiCannon
+        count={200}
+        origin={{ x: -10, y: 0 }}
+        autoStart={false}
+        ref={confettiRef}
+        explosionSpeed={250}
+        fallSpeed={2500}
       />
     </ModalWapper>
   );
