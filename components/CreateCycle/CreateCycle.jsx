@@ -3,7 +3,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as firebase from 'firebase';
 import DraggableWorkoutList from './DraggableWorkoutList';
 import FinishButton from '../utils/FinishButton';
@@ -45,11 +45,25 @@ export default ({ navigation, route }) => {
   const [workouts, setWorkouts] = React.useState(cycleDetails);
   const dispatch = useDispatch();
 
+  const cycles = useSelector((state) => state.cycles);
   const Stack = createStackNavigator();
 
   function updateOrder(workoutList) {
     setWorkouts(workoutList);
   }
+
+  function removeWorkout(index) {
+    if (workouts.length === 1) {
+      alert('Cannot delete last workout');
+    } else if (cycleID === cycles.selectedCycle.id) {
+      alert('Cannot delete workout from currently selected cycle');
+    } else {
+      workouts.splice(index, 1);
+      updateOrder(workouts);
+    }
+  }
+
+  const curryRemoveWorkout = (index) => () => removeWorkout(index);
 
   const createNewCycle = async (newCycle) => {
     const currentUser = firebase.auth().currentUser.uid;
@@ -82,6 +96,7 @@ export default ({ navigation, route }) => {
         <DraggableWorkoutList
           passWorkoutList={updateOrder}
           workouts={workouts}
+          removeWorkout={curryRemoveWorkout}
         />
         <AddCycleButton
           title=" Add Workouts "
