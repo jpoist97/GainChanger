@@ -45,6 +45,10 @@ export const COLORS = {
   'default': ['#CAB0FF', '#9D8DFF', '#6D8DFF', '#4457BC'],
   'aqua': ['#4EC9DA', '#65C6BE', '#7DD8FF', '#86DDB4'],
 };
+export const LOGOS = {
+  'default' : require('../../assets/logo.png'),
+  'aqua' : require('../../assets/blueicon.png'),
+};
 
 export const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',

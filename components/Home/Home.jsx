@@ -12,7 +12,7 @@ import CurrentCycle from './CurrentCycle';
 import WorkoutSwipeList from './WorkoutSwipeList';
 import 'firebase/firestore';
 import actions from '../../actions/index';
-import { COLORS } from '../../constants/index';
+import { COLORS, LOGOS } from '../../constants/index';
 
 const WelcomeTitle = styled.Text`
   font-family: 'Montserrat_700Bold';
@@ -28,6 +28,8 @@ export default () => {
   const workouts = useSelector((state) => state.workouts.workouts);
   const cycles = useSelector((state) => state.cycles);
   const colorTheme = useSelector((state) => state.settings.colorTheme);
+
+  const imgPath = LOGOS[colorTheme];
 
   // Request notifications on app first load
   useEffect(() => {
@@ -67,7 +69,6 @@ export default () => {
     });
     return workoutList.slice(0, 5);
   };
-
   const selectedCycle = (cycles.selectedCycleId !== undefined) && _.find(cycles.cycles, (cycle) => cycle.id === cycles.selectedCycleId);
   let cycleDetails;
   if (!cycles.selectedCycleDetails && selectedCycle) {
@@ -77,7 +78,7 @@ export default () => {
   return (
     <SafeAreaView>
       <Image
-        source={require('../../assets/logo.png')}
+        source={imgPath}
         style={{
           width: 215,
           height: 215,
