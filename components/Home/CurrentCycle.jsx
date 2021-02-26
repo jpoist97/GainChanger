@@ -6,6 +6,7 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+import * as Animatable from 'react-native-animatable';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -63,6 +64,7 @@ const CurrentCycle = (props) => {
             color="#CAB0FF"
           />
         </TouchableOpacity>
+        <Animatable.View style={{width: '100%', height:'100%'}}>
         <StyledView onPress={() => {
           if (isCycleSelected) {
             navigation.navigate('Log Workout', {
@@ -76,6 +78,7 @@ const CurrentCycle = (props) => {
           <NameText>{name}</NameText>
           <Subtext>{subtext}</Subtext>
         </StyledView>
+        </Animatable.View>
         <TouchableOpacity onPress={rightPress} disabled={!isCycleSelected}>
           <ArrowButton
             name="right"
