@@ -13,12 +13,14 @@ import actions from '../../actions/index';
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 24px;
-  margin-top: 20px;
+  margin-top: 5px;
 `;
 
 const SubTitle = styled.Text`
   font-family: 'Montserrat_600SemiBold';
-  font-size: 20px;
+  font-size: 18px;
+  padding-bottom: 5px;
+  padding-top: 7px;
 `;
 
 const Buttontext = styled.Text`
@@ -26,7 +28,7 @@ const Buttontext = styled.Text`
   font-size: 16px;
 `;
 
-const StyledButton = styled(TouchableOpacity)`
+const StyledButton = styled(Pressable)`
    background-color: #E2E2E2;
    border-radius: 20px;
    padding: 5px;
@@ -39,27 +41,24 @@ const ColorButton = styled(TouchableOpacity)`
   background-color: #000000;
   padding: 1px;
   border-color: #000000;
-  margin: 5px;
+  margin: 1px;
 `;
 
 const CenterView = styled(TouchableOpacity)`
   display: flex;
   margin-top: 10px;
-  justify-content: center;
   align-items: center;
-  padding: 160px;
-  padding-top: 130px;
-
+  padding-top: 160px;
 `;
 
 const ModalView = styled(TouchableOpacity)`
   height: 500px;
   width: 350px;
-  margin: 10px;
+  margin: 20px;
   background-color: white;
   border-radius: 20px;
-  padding: 15px;
-  align-items: center;
+  padding-left: 20px;
+  padding-top: 13px;
   shadow-color: #000;
   box-shadow: 0px 2px 4px;
   shadow-opacity: 0.25;
@@ -79,6 +78,7 @@ const TwinView = styled(View)`
 const SettingLabel = styled(Text)`
   font-family: 'Montserrat_500Medium';
   font-size: 16px;
+  padding-bottom: 10px;
   color: ${(props) => (props.disabled ? 'darkgray' : 'black')};
 `;
 
@@ -128,11 +128,10 @@ const SettingsModal = (props) => {
             Keyboard.dismiss();
           }}
           >
+            <Title>Settings</Title>
             <Pressable onPress={() => setModalVisible(false)}>
               <Ionicons name="ios-close" size={triggerSize} color="black" />
             </Pressable>
-
-            <Title>Settings</Title>
             <SubTitle>Rest Notifications</SubTitle>
             <TwinView>
               <SettingLabel>Enable Notifications:</SettingLabel>
@@ -172,12 +171,18 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <SubTitle>Color Theme</SubTitle>
-            <ColorButton onPress={() => { alert('clicked blue'); }}>
-              <Image source={require('../../assets/blue.png')} />
+            <TwinView>
+            <ColorButton onPress={() => { alert('clicked blue'); }} style={{width: 132, height: 32,}} >
+              <Image source={require('../../assets/blue.png')} 
+                style={{width: 130, height: 30,}} 
+               />
             </ColorButton>
-            <ColorButton onPress={() => { alert('clicked purple'); }}>
-              <Image source={require('../../assets/purple.png')} />
+            <ColorButton onPress={() => { alert('clicked purple'); }} style={{width: 132, height: 32,}}>
+              <Image source={require('../../assets/purple.png')}
+              style={{width: 130, height: 30,}} 
+            />
             </ColorButton>
+            </TwinView>
             <StyledButton
               onPress={async () => {
                 try {
@@ -217,7 +222,6 @@ const SettingsModal = (props) => {
             >
               <Buttontext style={{ color: 'red' }}>Discard Changes</Buttontext>
             </StyledButton>
-
           </ModalView>
         </CenterView>
       </Modal>
