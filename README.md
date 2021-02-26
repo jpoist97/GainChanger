@@ -47,3 +47,15 @@ We strive to help gym-goers and athletes plan, organize, and track their workout
 
 ### Style Guide
 [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript)
+
+### Static Code Analysis Report 
+TODO: 
+
+### Unit Test Location
+TODO: 
+
+### User Testing
+TODO: (Link to some user testing)
+
+### Continuous Integration 
+https://www.travis-ci.com/github/jpoist97/GainChanger
