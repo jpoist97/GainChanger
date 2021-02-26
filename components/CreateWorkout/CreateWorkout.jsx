@@ -71,6 +71,7 @@ export default ({ navigation, route }) => {
   const editWorkout = _.get(route, ['params', 'editWorkout'], undefined);
 
   const exercises = useSelector((state) => state.exercises.exercises);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   const parseWorkoutExercises = (exercise, index) => {
     const reps = _.get(exercise, ['sets', '0', 'reps'], '').toString();
@@ -79,7 +80,7 @@ export default ({ navigation, route }) => {
     const matchingExercise = getExercise(exercises, exercise.exerciseId);
 
     return {
-      color: COLORS[index % COLORS.length],
+      color: COLORS[colorTheme][index % (COLORS[colorTheme].length - 1)],
       id: exercise.exerciseId,
       name: matchingExercise.name,
       muscleGroups: matchingExercise.muscleGroups,
@@ -130,7 +131,7 @@ export default ({ navigation, route }) => {
     newItems.push(...selectedExercises.map((exercise) => ({ ...exercise, isReps: true })));
     const newExercise = newItems.map((item, index) => ({
       ...item,
-      color: COLORS[index % COLORS.length],
+      color: COLORS[colorTheme][index % (COLORS[colorTheme].length - 1)],
     }));
     setItemState(newExercise);
   };

@@ -6,6 +6,8 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+import { COLORS } from '../../constants';
 
 const NameText = styled.Text`
    color: #EFEFEF;
@@ -32,7 +34,7 @@ const Subtext = styled.Text`
 const ArrowButton = styled(AntDesign)`
    height: 30px;
    width: 28px;
-   color: #6D8DFF;
+   color: ${(props) => props.backgroundColor};
 `;
 
 const CurrentCycle = (props) => {
@@ -41,6 +43,7 @@ const CurrentCycle = (props) => {
   } = props;
 
   const navigation = useNavigation();
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
@@ -60,7 +63,7 @@ const CurrentCycle = (props) => {
           <ArrowButton
             name="left"
             size={28}
-            color="#CAB0FF"
+            backgroundColor={COLORS[colorTheme][0]}
           />
         </TouchableOpacity>
         <StyledView onPress={() => {
@@ -80,7 +83,7 @@ const CurrentCycle = (props) => {
           <ArrowButton
             name="right"
             size={28}
-            color="#CAB0FF"
+            backgroundColor={COLORS[colorTheme][0]}
           />
         </TouchableOpacity>
       </View>

@@ -7,9 +7,11 @@ import AlphabetSectionList from 'react-native-alphabet-sectionlist';
 import { SearchBar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import ExerciseItem from './ExerciseItem';
 import SortByPopup from '../utils/SortByPopup';
 import CreateCustomExercise from './CreateCustomExercise';
+import { COLORS } from '../../constants';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -21,7 +23,7 @@ const SectionHeader = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 20px;
   padding-left: 2%;
-  background-color: #CAB0FF;
+  background-color: ${(props) => props.backgroundColor};
   color: #EFEFEF;
 `;
 
@@ -50,10 +52,6 @@ const SortByButton = styled(SortByPopup)`
   margin: 0px 15px 0px 0px;
 `;
 
-const renderHeader = ({ section }) => (
-  <SectionHeader>{section.title}</SectionHeader>
-);
-
 const ExerciseList = ({
   onExercisesAdd, parsedItemsName, parsedItemsMuscleGroups, exerciseObjects,
 }) => {
@@ -62,6 +60,11 @@ const ExerciseList = ({
   const [search, setSearch] = useState('');
   const [exerciseCount, setExerciseCount] = useState(0);
   const [addedExercises] = useState([]);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
+
+  const renderHeader = ({ section }) => (
+    <SectionHeader backgroundColor={COLORS[colorTheme][0]}>{section.title}</SectionHeader>
+  );
 
   const handleSortByNamePress = () => {
     setDataState({ isSortByMuscleGroup: false, filteredDataSource: parsedItemsName, masterDataSource: parsedItemsName });

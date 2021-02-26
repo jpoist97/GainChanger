@@ -38,7 +38,8 @@ const StyledButton = styled(TouchableOpacity)`
 const ColorButton = styled(TouchableOpacity)`
   background-color: #000000;
   padding: 1px;
-  border-color: #000000;
+  border-color: orange;
+  border-width: ${(props) => (props.selected ? '2px' : '0px')};
   margin: 5px;
 `;
 
@@ -102,15 +103,26 @@ const SettingsModal = (props) => {
   const [settingState, setSettingState] = useState({
     enableRestNotifications: settings.enableRestNotifications,
     restNotificationTimer: `${settings.restNotificationTimer}`,
+    colorTheme: settings.colorTheme,
   });
+  const [selectedColor, setSelectedColor] = useState(settings.colorTheme);
 
   const attemptModalClose = () => {
     // If changes were made
-    if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer) {
+    if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer || settings.colorTheme !== settingState.colorTheme) {
       Alert.alert('You have unsaved changes, please discard or save them!');
     } else {
       setModalVisible(!modalVisible);
     }
+  };
+
+  const updateColorTheme = (theme) => {
+    // update selected color in local settings state
+    setSelectedColor(theme);
+    setSettingState({
+      ...settingState,
+      colorTheme: theme,
+    });
   };
 
   return (
@@ -172,10 +184,10 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <SubTitle>Color Theme</SubTitle>
-            <ColorButton onPress={() => { alert('clicked blue'); }}>
+            <ColorButton selected={selectedColor === 'aqua'} onPress={() => { updateColorTheme('aqua'); }}>
               <Image source={require('../../assets/blue.png')} />
             </ColorButton>
-            <ColorButton onPress={() => { alert('clicked purple'); }}>
+            <ColorButton selected={selectedColor === 'default'} onPress={() => { updateColorTheme('default'); }}>
               <Image source={require('../../assets/purple.png')} />
             </ColorButton>
             <StyledButton
@@ -195,6 +207,7 @@ const SettingsModal = (props) => {
               dispatch(actions.settings.updateSettings({
                 ...settingState,
                 restNotificationTimer: parseInt(settingState.restNotificationTimer) || settings.restNotificationTimer,
+                colorTheme: settingState.colorTheme,
               }));
 
               setSettingState({

@@ -8,11 +8,14 @@ import Profile from './components/Profile/Profile';
 import Workouts from './components/Workouts/Workouts';
 import Cycles from './components/Cycles/Cycles';
 import { Entypo } from '@expo/vector-icons';
+import { COLORS } from './constants';
+import { useSelector } from 'react-redux';
 
 export default ({navigation}) => {
 
   const Tab = createBottomTabNavigator();
 
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
     return (
 
@@ -37,7 +40,7 @@ export default ({navigation}) => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#8643FF',
+        activeTintColor: COLORS[colorTheme][1],
         inactiveTintColor: 'gray',
       }}>
       <Tab.Screen name="Home" component={Home} />

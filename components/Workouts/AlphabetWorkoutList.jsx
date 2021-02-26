@@ -76,6 +76,7 @@ const AlphabetWorkoutList = (props) => {
   const navigation = useNavigation();
   const selectedCycle = useSelector((state) => state.cycles.selectedCycle);
   const allWorkouts = useSelector((state) => state.workouts.workouts);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
   const dispatch = useDispatch();
   const parsedItems = parseItems(items);
 
@@ -96,7 +97,7 @@ const AlphabetWorkoutList = (props) => {
           navigation.navigate('Edit Workout', { editWorkout: _.find(allWorkouts, (workout) => workout.id === left.id), editing: true });
         }}
         id={left.id}
-        color={COLORS[left.index % COLORS.length]}
+        color={COLORS[colorTheme][left.index % (COLORS[colorTheme].length - 1)]}
         key={left.name + left.subtext}
         onPress={() => { navigation.navigate('Log Workout', { workoutId: left.id }); }}
       />
@@ -116,7 +117,7 @@ const AlphabetWorkoutList = (props) => {
             navigation.navigate('Edit Workout', { editWorkout: _.find(allWorkouts, (workout) => workout.id === right.id), editing: true });
           }}
           id={right.id}
-          color={COLORS[right.index % COLORS.length]}
+          color={COLORS[colorTheme][right.index % (COLORS[colorTheme].length - 1)]}
           key={right.name + right.subtext}
           onPress={() => { navigation.navigate('Log Workout', { workoutId: right.id }); }}
         />

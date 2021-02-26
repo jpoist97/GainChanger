@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+import { useSelector } from 'react-redux';
 import ExpandableWorkoutCard from './ExpandableWorkoutCard';
 import { COLORS } from '../../constants';
 
@@ -10,6 +11,7 @@ const DraggableWorkoutList = (props) => {
   } = props;
 
   const [workoutList, setWorkoutList] = React.useState(workouts);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   React.useEffect(() => {
     passWorkoutList(workoutList);
@@ -21,7 +23,7 @@ const DraggableWorkoutList = (props) => {
       removeWorkout={removeWorkout(index)}
       name={item.name}
       muscleGroups={item.muscleGroups}
-      color={COLORS[index % COLORS.length]}
+      color={COLORS[colorTheme][index % (COLORS[colorTheme].length - 1)]}
       exercises={item.exercises}
     />
   );
