@@ -28,7 +28,6 @@ const AddButton = styled(FontAwesome)`
 `;
 
 const ExerciseItem = (props) => {
-
   const colorTheme = useSelector((state) => state.settings.colorTheme);
 
   const {

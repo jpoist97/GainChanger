@@ -35,12 +35,9 @@ const ExerciseList = ({ onExerciseSelect, parsedItems, exerciseObjects }) => {
   const dispatch = useDispatch();
   // Dispatch the action to load exerciseRecords on Press of the exercise Card
 
-  const renderHeader = ({ section }) => {
-
-    return (
-      <SectionHeader color={COLORS[colorTheme][0]}>{section.title}</SectionHeader>
-    );
-  };
+  const renderHeader = ({ section }) => (
+    <SectionHeader color={COLORS[colorTheme][0]}>{section.title}</SectionHeader>
+  );
 
   const searchFilterFunction = (text) => {
     if (text) {

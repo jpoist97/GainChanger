@@ -321,7 +321,7 @@ const Signup = ({ navigation }) => {
       />
       {validName ? <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Name must be longer than 1 character.</ErrorText></View> : <ViewFiller />}
       <InputLine
-        autoCapitalize='none'
+        autoCapitalize="none"
         placeholder="Email"
         selectionColor="#A192FF"
         textContentType="emailAddress"
@@ -334,7 +334,7 @@ const Signup = ({ navigation }) => {
       }}
       >
         <InputLine
-          autoCapitalize='none'
+          autoCapitalize="none"
           placeholder="Password"
           selectionColor="#A192FF"
           textContentType="password"
