@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import ExerciseItem from './ExerciseItem';
 import actions from '../../actions/index';
+import { COLORS } from '../../constants';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -25,21 +26,21 @@ const SectionHeader = styled.Text`
   color: #EFEFEF;
 `;
 
-const renderHeader = ({ section }) => {
-  const colorTheme = useSelector((state) => state.settings.colorTheme);
-
-  return (
-    <SectionHeader color={colorTheme}>{section.title}</SectionHeader>
-  );
-};
-
 const ExerciseList = ({ onExerciseSelect, parsedItems, exerciseObjects }) => {
   const [dataState, setDataState] = useState({ filteredDataSource: [], masterDataSource: parsedItems });
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
   const exerciseRecords = useSelector((state) => state.progress.exerciseRecords);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
   const dispatch = useDispatch();
   // Dispatch the action to load exerciseRecords on Press of the exercise Card
+
+  const renderHeader = ({ section }) => {
+
+    return (
+      <SectionHeader color={COLORS[colorTheme][0]}>{section.title}</SectionHeader>
+    );
+  };
 
   const searchFilterFunction = (text) => {
     if (text) {
