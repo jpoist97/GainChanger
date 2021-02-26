@@ -321,6 +321,7 @@ const Signup = ({ navigation }) => {
       />
       {validName ? <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Name must be longer than 1 character.</ErrorText></View> : <ViewFiller />}
       <InputLine
+        autoCapitalize='none'
         placeholder="Email"
         selectionColor="#A192FF"
         textContentType="emailAddress"
@@ -333,6 +334,7 @@ const Signup = ({ navigation }) => {
       }}
       >
         <InputLine
+          autoCapitalize='none'
           placeholder="Password"
           selectionColor="#A192FF"
           textContentType="password"
@@ -341,7 +343,7 @@ const Signup = ({ navigation }) => {
           style={{ width: '100%', marginBottom: 0 }}
           onChangeText={(text) => setPassword(text)}
         />
-        <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
+        <ShowText onPress={() => setHidePassword(!hidePassword)}>{hidePassword ? 'Show' : 'Hide'}</ShowText>
       </View>
       {validPassword ? <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Password must be more than 6 characters.</ErrorText></View> : <ViewFiller />}
       {!disableButton

@@ -132,6 +132,7 @@ const Login = ({ navigation }) => {
         source={require('../../assets/logo.png')}
       />
       <InputLine
+        autoCapitalize='none'
         placeholder="Email"
         selectionColor="#A192FF"
         textContentType="emailAddress"
@@ -145,6 +146,7 @@ const Login = ({ navigation }) => {
       }}
       >
         <InputLine
+          autoCapitalize="none"
           placeholder="Password"
           selectionColor="#A192FF"
           textContentType="password"
@@ -153,7 +155,7 @@ const Login = ({ navigation }) => {
           style={{ marginBottom: 0 }}
           onChangeText={(text) => setPassword(text)}
         />
-        <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
+        <ShowText onPress={() => setHidePassword(!hidePassword)}>{hidePassword ? "Show" : "Hide"}</ShowText>
       </View>
       <View style={{ width: '80%', flexDirection: 'row' }}>
         <Button
