@@ -34,7 +34,7 @@ const Subtext = styled.Text`
 const ArrowButton = styled(AntDesign)`
    height: 30px;
    width: 28px;
-   color: #6D8DFF;
+   color: ${(props) => props.backgroundColor};
 `;
 
 const CurrentCycle = (props) => {
@@ -63,7 +63,7 @@ const CurrentCycle = (props) => {
           <ArrowButton
             name="left"
             size={28}
-            color={COLORS[colorTheme][0]}
+            backgroundColor={COLORS[colorTheme][0]}
           />
         </TouchableOpacity>
         <StyledView onPress={() => {
@@ -83,7 +83,7 @@ const CurrentCycle = (props) => {
           <ArrowButton
             name="right"
             size={28}
-            color={COLORS[colorTheme][0]}
+            backgroundColor={COLORS[colorTheme][0]}
           />
         </TouchableOpacity>
       </View>
