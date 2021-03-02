@@ -75,7 +75,7 @@ const pushWorkout = {
   lastPerformed: 'N/A',
   exercises: [
     {
-      exerciseId: '6peaHJkFD27icchxAJzD',
+      exerciseId: '6peaHJkFD27icchxAJzD', // Bench Press
       sets: [
         { reps: 12, weight: null },
         { reps: 12, weight: null },
@@ -83,19 +83,29 @@ const pushWorkout = {
       ],
     },
     {
-      exerciseId: '5kSGnmeQOtKHZCX3Omka',
+      exerciseId: 'XzkLscitllVWr1sRrMAk', // Shoulder Press
       sets: [
         { reps: 10, weight: null },
         { reps: 10, weight: null },
         { reps: 10, weight: null },
+        { reps: 8, weight: null },
       ],
     },
     {
-      exerciseId: 'C9QDiFEpKx0oZhqdLymp',
+      exerciseId: 'Tc6wqpA533v2umzEGLx6', // Push Ups
+      sets: [
+        { reps: 20, weight: null },
+        { reps: 15, weight: null },
+        { reps: 20, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'fk3IABKT2FeCBgdAzl40', // Overhead Press
       sets: [
         { reps: 10, weight: null },
         { reps: 10, weight: null },
         { reps: 10, weight: null },
+        { reps: 8, weight: null },
       ],
     },
   ],
@@ -107,15 +117,7 @@ const pullWorkout = {
   lastPerformed: 'N/A',
   exercises: [
     {
-      exerciseId: '6zvctw4Ii0dHgBX1eQe6',
-      sets: [
-        { time: 10, weight: null },
-        { time: 10, weight: null },
-        { time: 10, weight: null },
-      ],
-    },
-    {
-      exerciseId: 'An8hwIGvJrMMphdxubUs',
+      exerciseId: 'qNBHPtkEW3PclBZ3j5GW', // Bent Over Row
       sets: [
         { reps: 10, weight: null },
         { reps: 10, weight: null },
@@ -123,11 +125,27 @@ const pullWorkout = {
       ],
     },
     {
-      exerciseId: 'X9HKNuWTf5zTHqpobfxS',
+      exerciseId: 'KsrS05QfDkBOCQhMQ0Te', // Pull Ups
       sets: [
-        { reps: 12, weight: null },
-        { reps: 12, weight: null },
-        { reps: 12, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'VVwdHYCl6Nec5pYCfibk', // Pullover
+      sets: [
+        { reps: 8, weight: null },
+        { reps: 8, weight: null },
+        { reps: 8, weight: null },
+      ],
+    },
+    {
+      exerciseId: '6zvctw4Ii0dHgBX1eQe6', // Incline Curl
+      sets: [
+        { time: 45, weight: null },
+        { time: 60, weight: null },
+        { time: 40, weight: null },
       ],
     },
   ],
@@ -135,36 +153,45 @@ const pullWorkout = {
 
 const legsWorkout = {
   name: 'Legs',
-  muscleGroups: 'Quads Glutes',
+  muscleGroups: 'Quads Calves',
   lastPerformed: 'N/A',
   exercises: [
     {
-      exerciseId: '31ROy02NIqplIBvXoaeB',
+      exerciseId: 'OjxfnxDzbhQJ11ZAWx6D', // Jump Rope
       sets: [
-        { time: 10, weight: null },
-        { time: 10, weight: null },
-        { time: 10, weight: null },
+        { time: 60, weight: null },
+        { time: 120, weight: null },
+        { time: 60, weight: null },
       ],
     },
     {
-      exerciseId: '2TvJvGO8CuxXzxk1D2Si',
+      exerciseId: 'mEphuc9OhKGE9uLJojWM', // Calf Raise
       sets: [
-        { reps: 10, weight: null },
-        { reps: 10, weight: null },
-        { reps: 10, weight: null },
+        { reps: 20, weight: null },
+        { reps: 20, weight: null },
+        { reps: 20, weight: null },
+        { reps: 15, weight: null },
       ],
     },
     {
-      exerciseId: 'XzkLscitllVWr1sRrMAk',
+      exerciseId: 'dqQE9Pbzb7HJFDULu3fH', // Hip Adducter
+      sets: [
+        { reps: 15, weight: null },
+        { reps: 15, weight: null },
+        { reps: 15, weight: null },
+        { reps: 15, weight: null },
+      ],
+    },
+    {
+      exerciseId: '31ROy02NIqplIBvXoaeB', // Squat
       sets: [
         { reps: 10, weight: null },
         { reps: 10, weight: null },
-        { reps: 10, weight: null },
+        { reps: 8, weight: null },
       ],
     },
   ],
 };
-
 const Signup = ({ navigation }) => {
   const [name, setName] = React.useState('');
   const [validName, setValidName] = React.useState(false);
@@ -247,6 +274,7 @@ const Signup = ({ navigation }) => {
       settings: {
         enableRestNotifications: false,
         restNotificationTimer: 60,
+        colorTheme: 'default',
       },
     };
 
@@ -320,6 +348,7 @@ const Signup = ({ navigation }) => {
       />
       {validName ? <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Name must be longer than 1 character.</ErrorText></View> : <ViewFiller />}
       <InputLine
+        autoCapitalize="none"
         placeholder="Email"
         selectionColor="#A192FF"
         textContentType="emailAddress"
@@ -332,6 +361,7 @@ const Signup = ({ navigation }) => {
       }}
       >
         <InputLine
+          autoCapitalize="none"
           placeholder="Password"
           selectionColor="#A192FF"
           textContentType="password"
@@ -340,7 +370,7 @@ const Signup = ({ navigation }) => {
           style={{ width: '100%', marginBottom: 0 }}
           onChangeText={(text) => setPassword(text)}
         />
-        <ShowText onPress={() => setHidePassword(!hidePassword)}>Show</ShowText>
+        <ShowText onPress={() => setHidePassword(!hidePassword)}>{hidePassword ? 'Show' : 'Hide'}</ShowText>
       </View>
       {validPassword ? <View style={{ paddingLeft: 15, width: '80%', flexDirection: 'row' }}><ErrorText>Password must be more than 6 characters.</ErrorText></View> : <ViewFiller />}
       {!disableButton

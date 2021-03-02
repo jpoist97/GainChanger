@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as firebase from 'firebase';
 import CycleCard from './CycleCard';
 import actions from '../../actions/index';
@@ -28,7 +28,7 @@ const renderHeader = ({ section }) => (
   <SectionHeader>{section.title}</SectionHeader>
 );
 
-const parseItems = (items, selectedCycle) => {
+const parseItems = (items, selectedCycle, colorTheme) => {
   // Sort names alphabetically
   items.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -50,7 +50,7 @@ const parseItems = (items, selectedCycle) => {
     }
 
     return accumulator;
-  }, (selectedCycle ? { 'Selected Cycle': [{ ...selectedCycle, color: '#4457BC' }] } : {}));
+  }, (selectedCycle ? { 'Selected Cycle': [{ ...selectedCycle, color: colorTheme }] } : {}));
 
   return bucketData;
 };
@@ -59,7 +59,9 @@ const AlphabetCycleList = (props) => {
   const dispatch = useDispatch();
   const { items, selectedCycle } = props;
 
-  const parsedItems = parseItems(items, selectedCycle);
+  const colorTheme = useSelector((state) => state.settings.colorTheme);
+  const parsedItems = parseItems(items, selectedCycle, COLORS[colorTheme][3]);
+
   const renderCard = ({ item }) => (
     <CycleCard
       name={item.name}
@@ -89,7 +91,7 @@ const AlphabetCycleList = (props) => {
         });
       }}
       onPress={item.onPress}
-      color={item.color || COLORS[item.index % COLORS.length]}
+      color={item.color || COLORS[colorTheme][item.index % (COLORS[colorTheme].length - 1)]}
     />
   );
 

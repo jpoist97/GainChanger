@@ -86,7 +86,7 @@ const CalendarWorkoutCard = (props) => {
         data={sets}
         keyExtractor={(item, index) => item.exerciseID + index.toString()}
         renderItem={({ item, index }) => {
-          const quantity = item.reps ? item.reps : item.time;
+          const quantity = isReps ? item.reps : item.time;
           return (
             <SetRow index={index + 1} lbs={item.weight} reps={quantity} />
           );

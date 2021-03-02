@@ -5,15 +5,24 @@ import {
    PURGE_WORKOUT, 
    DELETE_CYCLE, 
    UPDATE_WORKOUT, 
-   UPDATE_WORKOUT_EXERCISES 
+   UPDATE_WORKOUT_EXERCISES,
+   COMPLETE_WORKOUT_LOAD,
 } from '../constants/index';
 import * as api from '../api';
 
-const initializeWorkouts = (workouts) => {
-   return {
-      type: INITIALIZE_WORKOUTS,
-      workouts,
+const initializeWorkouts = () => {
+   return async (dispatch) => {
+      const workouts = await api.fetchWorkouts();
+
+      dispatch({
+         type: INITIALIZE_WORKOUTS,
+         workouts,
+      })
+      dispatch({
+         type: COMPLETE_WORKOUT_LOAD,
+      })
    }
+
 }
 
 const addWorkout = (workout) => {

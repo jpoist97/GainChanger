@@ -34,8 +34,18 @@ export const ADD_NEW_EXERCISE_RECORDS = 'ADD_NEW_EXERCISE_RECORDS';
 // Settings
 export const UPDATE_USER_SETTINGS = 'UPDATE_USER_SETTINGS';
 
+// Loading
+export const COMPLETE_WORKOUT_LOAD = 'COMPLETE_WORKOUT_LOAD';
+export const COMPLETE_CYCLE_LOAD = 'COMPLETE_CYCLE_LOAD';
+export const COMPLETE_EXERCISE_LOAD = 'COMPLETE_EXERCISE_LOAD';
+export const RESET_LOAD_STORE = 'RESET_LOAD_STORE';
+
 // Misc
-export const COLORS = ['#CAB0FF', '#9D8DFF', '#6D8DFF'];
+export const COLORS = {
+  'default': ['#CAB0FF', '#9D8DFF', '#6D8DFF', '#4457BC'],
+  'aqua': ['#4EC9DA', '#65C6BE', '#7DD8FF', '#86DDB4'],
+};
+
 export const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
   'August', 'September', 'October', 'November', 'December'];

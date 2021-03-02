@@ -40,10 +40,12 @@ const Buttontext = styled.Text`
 const ColorButton = styled(TouchableOpacity)`
   background-color: #000000;
   padding: 1px;
-  border-color: #000000;
   margin: 1px;
   margin-top: 8px;
   margin-bottom: 10px;
+  border-color: #000000;
+  border-width: ${(props) => (props.selected ? '4px' : '0px')};
+  margin: 5px;
 `;
 
 const CenterView = styled(TouchableOpacity)`
@@ -104,7 +106,9 @@ const SettingsModal = (props) => {
   const [settingState, setSettingState] = useState({
     enableRestNotifications: settings.enableRestNotifications,
     restNotificationTimer: `${settings.restNotificationTimer}`,
+    colorTheme: settings.colorTheme,
   });
+  const [selectedColor, setSelectedColor] = useState(settings.colorTheme);
 
   const saveChanges = () => {
     dispatch(actions.settings.updateSettings({
@@ -146,6 +150,15 @@ const SettingsModal = (props) => {
     } else {
       setModalVisible(!modalVisible);
     }
+  };
+
+  const updateColorTheme = (theme) => {
+    // update selected color in local settings state
+    setSelectedColor(theme);
+    setSettingState({
+      ...settingState,
+      colorTheme: theme,
+    });
   };
 
   return (
@@ -209,13 +222,13 @@ const SettingsModal = (props) => {
 
             <SubTitle>Color Theme</SubTitle>
             <TwinView>
-              <ColorButton onPress={() => { alert('clicked blue'); }} style={{ width: 132, height: 32 }}>
+              <ColorButton selected={selectedColor === 'aqua'} onPress={() => { updateColorTheme('aqua'); }} style={{ width: 132, height: 32 }}>
                 <Image
                   source={require('../../assets/blue.png')}
                   style={{ width: 130, height: 30 }}
                 />
               </ColorButton>
-              <ColorButton onPress={() => { alert('clicked purple'); }} style={{ width: 132, height: 32 }}>
+              <ColorButton selected={selectedColor === 'default'} onPress={() => { updateColorTheme('default'); }} style={{ width: 132, height: 32 }}>
                 <Image
                   source={require('../../assets/purple.png')}
                   style={{ width: 130, height: 30 }}
@@ -250,6 +263,7 @@ const SettingsModal = (props) => {
               onPress={async () => {
                 try {
                   await firebase.auth().signOut();
+                  dispatch(actions.loading.resetLoadStore());
                   navigation.navigate('Login');
                 } catch (err) {
                   Alert.alert('Could not be signed out', err);
