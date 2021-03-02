@@ -9,18 +9,28 @@ import firebase from 'firebase';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from '../../actions/index';
+import FinishButton from '../utils/FinishButton';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 24px;
-  margin-top: 5px;
 `;
 
 const SubTitle = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 18px;
   padding-bottom: 5px;
-  padding-top: 7px;
+  padding-top: 20px;
+`;
+
+const StyledButton = styled(TouchableOpacity)`
+   background-color: #E2E2E2;
+   border-radius: 20px;
+   padding: 5px;
+   padding-left: 15px;
+   padding-right: 15px;
+   margin-bottom: 12px;
+   margin-top: 15px;
 `;
 
 const Buttontext = styled.Text`
@@ -28,20 +38,13 @@ const Buttontext = styled.Text`
   font-size: 16px;
 `;
 
-const StyledButton = styled(Pressable)`
-   background-color: #E2E2E2;
-   border-radius: 20px;
-   padding: 5px;
-   padding-left: 15px;
-   padding-right: 15px;
-   margin: 10px;
-`;
-
 const ColorButton = styled(TouchableOpacity)`
   background-color: #000000;
   padding: 1px;
   border-color: #000000;
   margin: 1px;
+  margin-top: 8px;
+  margin-bottom: 10px;
 `;
 
 const CenterView = styled(TouchableOpacity)`
@@ -104,10 +107,43 @@ const SettingsModal = (props) => {
     restNotificationTimer: `${settings.restNotificationTimer}`,
   });
 
+  const saveChanges = () => {
+    dispatch(actions.settings.updateSettings({
+      ...settingState,
+      restNotificationTimer: parseInt(settingState.restNotificationTimer) || settings.restNotificationTimer,
+    }));
+
+    setSettingState({
+      ...settingState,
+      restNotificationTimer: settingState.restNotificationTimer || `${settings.restNotificationTimer}`,
+    });
+
+    setModalVisible(!modalVisible);
+    console.log('SAVED');
+  };
+
+  const discardChanges = () => {
+    setSettingState({
+      ...settings,
+      restNotificationTimer: `${settings.restNotificationTimer}`,
+    });
+    setModalVisible(!modalVisible);
+    console.log('discard');
+  };
+
   const attemptModalClose = () => {
     // If changes were made
     if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer) {
-      Alert.alert('You have unsaved changes, please discard or save them!');
+      Alert.alert('Unsaved Changes', 'You have unsaved changes, do you want to keep or discard them?', [{
+        text: 'Keep',
+        onPress: () => { saveChanges(); },
+      },
+      {
+        text: 'Discard',
+        onPress: () => { discardChanges(); },
+
+      },
+      ]);
     } else {
       setModalVisible(!modalVisible);
     }
@@ -128,10 +164,12 @@ const SettingsModal = (props) => {
             Keyboard.dismiss();
           }}
           >
-            <Title>Settings</Title>
-            <Pressable onPress={() => setModalVisible(false)}>
-              <Ionicons name="ios-close" size={triggerSize} color="black" />
-            </Pressable>
+            <TwinView>
+              <Title style={{ marginTop: -5 }}>Settings</Title>
+              <Pressable onPress={() => setModalVisible(false)}>
+                <Ionicons name="ios-close" size={30} color="black" onPress={attemptModalClose} style={{ marginTop: -10, marginRight: -5 }} />
+              </Pressable>
+            </TwinView>
             <SubTitle>Rest Notifications</SubTitle>
             <TwinView>
               <SettingLabel>Enable Notifications:</SettingLabel>
@@ -172,18 +210,42 @@ const SettingsModal = (props) => {
 
             <SubTitle>Color Theme</SubTitle>
             <TwinView>
-            <ColorButton onPress={() => { alert('clicked blue'); }} style={{width: 132, height: 32,}} >
-              <Image source={require('../../assets/blue.png')} 
-                style={{width: 130, height: 30,}} 
+              <ColorButton onPress={() => { alert('clicked blue'); }} style={{ width: 132, height: 32 }}>
+                <Image
+                  source={require('../../assets/blue.png')}
+                  style={{ width: 130, height: 30 }}
+                />
+              </ColorButton>
+              <ColorButton onPress={() => { alert('clicked purple'); }} style={{ width: 132, height: 32 }}>
+                <Image
+                  source={require('../../assets/purple.png')}
+                  style={{ width: 130, height: 30 }}
+                />
+              </ColorButton>
+            </TwinView>
+
+            <TwinView>
+            <ColorButton onPress={() => { alert('clicked red'); }} style={{width: 132, height: 32,}} >
+              <Image source={require('../../assets/red.png')}
+                style={{width: 130, height: 30,}}
                />
             </ColorButton>
-            <ColorButton onPress={() => { alert('clicked purple'); }} style={{width: 132, height: 32,}}>
-              <Image source={require('../../assets/purple.png')}
-              style={{width: 130, height: 30,}} 
+            <ColorButton onPress={() => { alert('clicked multi'); }} style={{width: 132, height: 32,}}>
+              <Image source={require('../../assets/multi.png')}
+              style={{width: 130, height: 30,}}
             />
             </ColorButton>
             </TwinView>
+
             <StyledButton
+              style={{ width: 145 }}
+              onPress={() => { saveChanges(); }}
+            >
+              <Buttontext>Save Changes</Buttontext>
+            </StyledButton>
+            
+            <StyledButton
+              style={{ width: 107 }}
               onPress={async () => {
                 try {
                   await firebase.auth().signOut();
@@ -196,32 +258,7 @@ const SettingsModal = (props) => {
             >
               <Buttontext>Log Out</Buttontext>
             </StyledButton>
-            <StyledButton onPress={() => {
-              dispatch(actions.settings.updateSettings({
-                ...settingState,
-                restNotificationTimer: parseInt(settingState.restNotificationTimer) || settings.restNotificationTimer,
-              }));
 
-              setSettingState({
-                ...settingState,
-                restNotificationTimer: settingState.restNotificationTimer || `${settings.restNotificationTimer}`,
-              });
-
-              setModalVisible(!modalVisible);
-            }}
-            >
-              <Buttontext>Save Changes</Buttontext>
-            </StyledButton>
-
-            <StyledButton onPress={() => {
-              setSettingState({
-                ...settings,
-                restNotificationTimer: `${settings.restNotificationTimer}`,
-              });
-            }}
-            >
-              <Buttontext style={{ color: 'red' }}>Discard Changes</Buttontext>
-            </StyledButton>
           </ModalView>
         </CenterView>
       </Modal>
