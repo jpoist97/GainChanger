@@ -9,7 +9,6 @@ import firebase from 'firebase';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from '../../actions/index';
-import FinishButton from '../utils/FinishButton';
 
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
@@ -225,16 +224,18 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-            <ColorButton onPress={() => { alert('clicked red'); }} style={{width: 132, height: 32,}} >
-              <Image source={require('../../assets/red.png')}
-                style={{width: 130, height: 30,}}
-               />
-            </ColorButton>
-            <ColorButton onPress={() => { alert('clicked multi'); }} style={{width: 132, height: 32,}}>
-              <Image source={require('../../assets/multi.png')}
-              style={{width: 130, height: 30,}}
-            />
-            </ColorButton>
+              <ColorButton onPress={() => { alert('clicked red'); }} style={{ width: 132, height: 32 }}>
+                <Image
+                  source={require('../../assets/red.png')}
+                  style={{ width: 130, height: 30 }}
+                />
+              </ColorButton>
+              <ColorButton onPress={() => { alert('clicked multi'); }} style={{ width: 132, height: 32 }}>
+                <Image
+                  source={require('../../assets/multi.png')}
+                  style={{ width: 130, height: 30 }}
+                />
+              </ColorButton>
             </TwinView>
 
             <StyledButton
@@ -243,7 +244,7 @@ const SettingsModal = (props) => {
             >
               <Buttontext>Save Changes</Buttontext>
             </StyledButton>
-            
+
             <StyledButton
               style={{ width: 107 }}
               onPress={async () => {
