@@ -8,7 +8,7 @@
     "eject": "expo eject",
     "lint": "eslint --ext .js,.jsx ./components --quiet",
     "lint-autofix": "eslint --ext .js,.jsx ./components --quiet --fix",
-    "test": "jest --collectCoverage"
+    "test": "jest"
   },
   "dependencies": {
     "@expo-google-fonts/montserrat": "^0.1.0",
