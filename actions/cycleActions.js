@@ -18,10 +18,6 @@ const initializeCycles = (selectedCycleId, selectedCycleIndex) => {
    }
 };
 
-const initializeSelectedCycleInfo = (selectedCycleId, selectedCycleIndex) => {
-
-}
-
 const incrementSelectedCycleIndex = (currentIndex, selectedCycleLength) => {
    return (dispatch) => {
       const newSelectedCycleIndex = (currentIndex + 1) % selectedCycleLength;
