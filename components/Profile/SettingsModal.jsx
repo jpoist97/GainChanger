@@ -108,7 +108,6 @@ const SettingsModal = (props) => {
     restNotificationTimer: `${settings.restNotificationTimer}`,
     colorTheme: settings.colorTheme,
   });
-  const [selectedColor, setSelectedColor] = useState(settings.colorTheme);
 
   const saveChanges = () => {
     dispatch(actions.settings.updateSettings({
@@ -122,7 +121,6 @@ const SettingsModal = (props) => {
     });
 
     setModalVisible(!modalVisible);
-    console.log('SAVED');
   };
 
   const discardChanges = () => {
@@ -131,7 +129,6 @@ const SettingsModal = (props) => {
       restNotificationTimer: `${settings.restNotificationTimer}`,
     });
     setModalVisible(!modalVisible);
-    console.log('discard');
   };
 
   const attemptModalClose = () => {
@@ -139,26 +136,17 @@ const SettingsModal = (props) => {
     if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer) {
       Alert.alert('Unsaved Changes', 'You have unsaved changes, do you want to keep or discard them?', [{
         text: 'Keep',
-        onPress: () => { saveChanges(); },
+        onPress: saveChanges,
       },
       {
         text: 'Discard',
-        onPress: () => { discardChanges(); },
-
+        onPress: discardChanges,
       },
+
       ]);
     } else {
       setModalVisible(!modalVisible);
     }
-  };
-
-  const updateColorTheme = (theme) => {
-    // update selected color in local settings state
-    setSelectedColor(theme);
-    setSettingState({
-      ...settingState,
-      colorTheme: theme,
-    });
   };
 
   return (
@@ -222,13 +210,25 @@ const SettingsModal = (props) => {
 
             <SubTitle>Color Theme</SubTitle>
             <TwinView>
-              <ColorButton selected={selectedColor === 'aqua'} onPress={() => { updateColorTheme('aqua'); }} style={{ width: 132, height: 32 }}>
+              <ColorButton selected={settingState.colorTheme === 'aqua'} 
+                onPress={ () => 
+                {setSettingState({
+                  ...settingState,
+                  colorTheme: theme,
+                })}} 
+                style={{ width: 132, height: 32 }}>
                 <Image
                   source={require('../../assets/blue.png')}
                   style={{ width: 130, height: 30 }}
                 />
               </ColorButton>
-              <ColorButton selected={selectedColor === 'default'} onPress={() => { updateColorTheme('default'); }} style={{ width: 132, height: 32 }}>
+              <ColorButton selected={settingState.colorTheme === 'default'} 
+                onPress={ () => 
+                {setSettingState({
+                  ...settingState,
+                  colorTheme: theme,
+                })}}  
+                style={{ width: 132, height: 32 }}>
                 <Image
                   source={require('../../assets/purple.png')}
                   style={{ width: 130, height: 30 }}
@@ -237,13 +237,25 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-              <ColorButton onPress={() => { alert('clicked red'); }} style={{ width: 132, height: 32 }}>
+              <ColorButton selected={settingState.colorTheme === 'red'} 
+                onPress={ () => 
+                {setSettingState({
+                  ...settingState,
+                  colorTheme: theme,
+                })}}  
+                style={{ width: 132, height: 32 }}>
                 <Image
                   source={require('../../assets/red.png')}
                   style={{ width: 130, height: 30 }}
                 />
               </ColorButton>
-              <ColorButton onPress={() => { alert('clicked multi'); }} style={{ width: 132, height: 32 }}>
+              <ColorButton selected={settingState.colorTheme === 'multi'} 
+                onPress={ () => 
+                {setSettingState({
+                  ...settingState,
+                  colorTheme: theme,
+                })}}   
+                style={{ width: 132, height: 32 }}>
                 <Image
                   source={require('../../assets/multi.png')}
                   style={{ width: 130, height: 30 }}
