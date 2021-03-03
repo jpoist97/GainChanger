@@ -13,6 +13,7 @@ import {
 
 jest.mock('../../api.js', () => ({
     fetchWorkouts: jest.fn(),
+    updateWorkoutDocument: jest.fn(),
 }));
 
 const mockDispatch = jest.fn();
@@ -71,6 +72,7 @@ describe('workoutActions tests', () => {
             // Arrange
             const testWorkoutId = 'test-workout-id';
             const newWorkoutContent = workouts;
+
 
             // Act
             const thunkFunction = workoutActions.updateWorkout(testWorkoutId, newWorkoutContent);
