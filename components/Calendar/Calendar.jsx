@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import actions from '../../actions';
 import { DAYS, MONTHS, COLORS } from '../../constants/index';
-import { color } from 'react-native-reanimated';
 
 const DayTitle = styled.Text`
   font-family: 'Montserrat_500Medium';
@@ -186,7 +185,7 @@ const CalendarView = () => {
       />
       )}
 
-{colorTheme === 'multi'
+      {colorTheme === 'multi'
       && (
       <Calendar
         style={{
@@ -220,7 +219,6 @@ const CalendarView = () => {
         enableSwipeMonths
       />
       )}
-
 
       <View style={{
         width: '90%', alignSelf: 'center', height: 2, backgroundColor: '#e5e5e5', marginTop: 25,
