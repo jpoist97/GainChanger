@@ -46,8 +46,8 @@ export const COLORS = {
   'aqua': ['#4EC9DA', '#65C6BE', '#7DD8FF', '#86DDB4'],
 };
 export const LOGOS = {
-  'default' : require('../../assets/logo.png'),
-  'aqua' : require('../../assets/blueicon.png'),
+  'default' : require('../assets/logo.png'),
+  'aqua' : require('../assets/blueicon.png'),
 };
 
 export const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
