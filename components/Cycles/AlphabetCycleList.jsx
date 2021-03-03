@@ -92,6 +92,7 @@ const AlphabetCycleList = (props) => {
       }}
       onPress={item.onPress}
       color={item.color || COLORS[colorTheme][item.index % (COLORS[colorTheme].length - 1)]}
+      isSelectedCycle={item.id === selectedCycle.id}
     />
   );
 
