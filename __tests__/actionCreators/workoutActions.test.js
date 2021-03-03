@@ -1,4 +1,3 @@
-import { it } from 'date-fns/locale';
 import workoutActions from '../../actions/workoutActions';
 import * as api from '../../api';
 import { 
