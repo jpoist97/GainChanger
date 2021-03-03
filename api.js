@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import { toDate, differenceInCalendarDays } from 'date-fns';
+import { parse, differenceInCalendarDays } from 'date-fns';
 
 // --------------------------------------------------------------------------
 // Database References
@@ -46,7 +46,7 @@ export async function fetchWorkouts() {
       const {
          exercises, name, lastPerformed, muscleGroups,
       } = doc.data();
-      const dateDiff = differenceInCalendarDays(new Date(), toDate(lastPerformed.seconds * 1000));
+      const dateDiff = differenceInCalendarDays(new Date(), parse(lastPerformed, 'yyyy-MM-dd', new Date()));
    
       if (exercises && name && muscleGroups) {
          workouts.push({

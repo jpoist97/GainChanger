@@ -60,7 +60,7 @@ export default () => {
       return (a.lastPerformed > b.lastPerformed ? 1 : -1);
     });
     workoutList.forEach((workout) => {
-      if (Number.isNaN(workout.lastPerformed)) {
+      if (Number.isNaN(workout.lastPerformed) || workout.lastPerformed === 'n/a') {
         /* eslint-disable no-param-reassign */
         workout.subtext = 'Try for first time!';
       }
