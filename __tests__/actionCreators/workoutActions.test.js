@@ -3,12 +3,8 @@ import * as api from '../../api';
 import { 
     ADD_WORKOUT, 
     INITIALIZE_WORKOUTS, 
-    DELETE_WORKOUT, 
-    PURGE_WORKOUT, 
-    DELETE_CYCLE, 
     UPDATE_WORKOUT, 
     UPDATE_WORKOUT_EXERCISES,
-    COMPLETE_WORKOUT_LOAD,
 } from '../../constants/index';
 
 jest.mock('../../api.js', () => ({
@@ -21,7 +17,6 @@ const mockDispatch = jest.fn();
 const workouts = [
 { exercises: [{exerciseId: 'exercise1', exerciseName: 'Push Press', sets: {}}], lastPerformed: '2021-02-19', muscleGroups: 'Chest', name: 'Push'},
 { exercises: [{exerciseId: 'exercise2', exerciseName: 'Chest Press', sets: {}}], lastPerformed: '2021-02-18', muscleGroups: 'Chest', name: 'Push2'}]
-
 
 
 afterEach(() => {
