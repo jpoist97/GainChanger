@@ -8,10 +8,10 @@ const initializeRecordDates = (dates) => {
 }
 
 const addRecordDate = (date) => {
-    return {
-        type: ADD_WORKOUT_RECORD_DATE,
-        date,
-    }
+   return {
+      type: ADD_WORKOUT_RECORD_DATE,
+      date,
+   }
 }
 
 export default {
