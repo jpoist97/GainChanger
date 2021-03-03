@@ -130,9 +130,8 @@ const SettingsModal = (props) => {
 
   const attemptModalClose = () => {
     // If changes were made
-    if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer ||
-        settings.colorTheme != settingState.colorTheme) 
-      {
+    if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer
+        || settings.colorTheme !== settingState.colorTheme) {
       Alert.alert('Unsaved Changes', 'You have unsaved changes, do you want to keep or discard them?', [{
         text: 'Keep',
         onPress: saveChanges,
@@ -184,8 +183,9 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-              <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 7}}>
-                Notification Timer:</SettingLabel>
+              <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 7 }}>
+                Notification Timer:
+              </SettingLabel>
               <View style={{
                 display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
               }}
@@ -204,31 +204,37 @@ const SettingsModal = (props) => {
                   }}
                   maxLength={3}
                 />
-                <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 8}}>Secs</SettingLabel>
+                <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 8 }}>Secs</SettingLabel>
               </View>
             </TwinView>
 
             <SubTitle>Color Theme</SubTitle>
             <TwinView>
-              <ColorButton selected={settingState.colorTheme === 'aqua'} 
-                onPress={ () => 
-                {setSettingState({
-                  ...settingState,
-                  colorTheme: 'aqua',
-                })}} 
-                style={{ width: '45%', height: 32 }}>
+              <ColorButton
+                selected={settingState.colorTheme === 'aqua'}
+                onPress={() => {
+                  setSettingState({
+                    ...settingState,
+                    colorTheme: 'aqua',
+                  });
+                }}
+                style={{ width: '45%', height: 32 }}
+              >
                 <Image
                   source={require('../../assets/blue.png')}
                   style={{ width: '100%', height: '100%' }}
                 />
               </ColorButton>
-              <ColorButton selected={settingState.colorTheme === 'default'} 
-                onPress={ () => 
-                {setSettingState({
-                  ...settingState,
-                  colorTheme: 'default',
-                })}}  
-                style={{ width: '45%', height: 32 }}>
+              <ColorButton
+                selected={settingState.colorTheme === 'default'}
+                onPress={() => {
+                  setSettingState({
+                    ...settingState,
+                    colorTheme: 'default',
+                  });
+                }}
+                style={{ width: '45%', height: 32 }}
+              >
                 <Image
                   source={require('../../assets/purple.png')}
                   style={{ width: '100%', height: '100%' }}
@@ -237,25 +243,31 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-              <ColorButton selected={settingState.colorTheme === 'red'} 
-                onPress={ () => 
-                {setSettingState({
-                  ...settingState,
-                  colorTheme: 'red',
-                })}}  
-                style={{ width: '45%', height: 32 }}>
+              <ColorButton
+                selected={settingState.colorTheme === 'red'}
+                onPress={() => {
+                  setSettingState({
+                    ...settingState,
+                    colorTheme: 'red',
+                  });
+                }}
+                style={{ width: '45%', height: 32 }}
+              >
                 <Image
                   source={require('../../assets/red.png')}
                   style={{ width: '100%', height: '100%' }}
                 />
               </ColorButton>
-              <ColorButton selected={settingState.colorTheme === 'multi'} 
-                onPress={ () => 
-                {setSettingState({
-                  ...settingState,
-                  colorTheme: 'multi',
-                })}}   
-                style={{ width: '45%', height: 32 }}>
+              <ColorButton
+                selected={settingState.colorTheme === 'multi'}
+                onPress={() => {
+                  setSettingState({
+                    ...settingState,
+                    colorTheme: 'multi',
+                  });
+                }}
+                style={{ width: '45%', height: 32 }}
+              >
                 <Image
                   source={require('../../assets/multi.png')}
                   style={{ width: '100%', height: '100%' }}

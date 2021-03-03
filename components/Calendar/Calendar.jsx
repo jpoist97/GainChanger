@@ -150,7 +150,7 @@ const CalendarView = () => {
       />
       )}
 
-    {colorTheme === 'red'
+      {colorTheme === 'red'
     && (
     <Calendar
       style={{
@@ -185,7 +185,7 @@ const CalendarView = () => {
     />
     )}
 
-  {colorTheme === 'multi'
+      {colorTheme === 'multi'
     && (
     <Calendar
       style={{
