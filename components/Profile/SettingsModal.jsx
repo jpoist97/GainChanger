@@ -28,8 +28,8 @@ const StyledButton = styled(TouchableOpacity)`
    padding: 5px;
    padding-left: 15px;
    padding-right: 15px;
-   margin-bottom: 12px;
-   margin-top: 15px;
+   margin-bottom: 5px;
+   margin-top: 20px;
 `;
 
 const Buttontext = styled.Text`
@@ -56,7 +56,7 @@ const CenterView = styled(TouchableOpacity)`
 `;
 
 const ModalView = styled(TouchableOpacity)`
-  height: 500px;
+  height: 470px;
   width: 350px;
   margin: 20px;
   background-color: white;
@@ -122,7 +122,6 @@ const SettingsModal = (props) => {
     });
 
     setModalVisible(!modalVisible);
-    console.log('SAVED');
   };
 
   const discardChanges = () => {
@@ -131,7 +130,6 @@ const SettingsModal = (props) => {
       restNotificationTimer: `${settings.restNotificationTimer}`,
     });
     setModalVisible(!modalVisible);
-    console.log('discard');
   };
 
   const attemptModalClose = () => {
@@ -197,7 +195,7 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-              <SettingLabel disabled={!settingState.enableRestNotifications}>Notification Timer:</SettingLabel>
+              <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 7 }}>Notification Timer:</SettingLabel>
               <View style={{
                 display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
               }}
@@ -216,7 +214,7 @@ const SettingsModal = (props) => {
                   }}
                   maxLength={3}
                 />
-                <SettingLabel disabled={!settingState.enableRestNotifications}>Secs</SettingLabel>
+                <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 7 }}>Secs</SettingLabel>
               </View>
             </TwinView>
 
@@ -237,13 +235,13 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-              <ColorButton onPress={() => { alert('clicked red'); }} style={{ width: 132, height: 32 }}>
+              <ColorButton selected={selectedColor === 'red'} onPress={() => { updateColorTheme('red'); }} style={{ width: 132, height: 32 }}>
                 <Image
                   source={require('../../assets/red.png')}
                   style={{ width: 130, height: 30 }}
                 />
               </ColorButton>
-              <ColorButton onPress={() => { alert('clicked multi'); }} style={{ width: 132, height: 32 }}>
+              <ColorButton selected={selectedColor === 'multi'} onPress={() => { updateColorTheme('multi'); }} style={{ width: 132, height: 32 }}>
                 <Image
                   source={require('../../assets/multi.png')}
                   style={{ width: 130, height: 30 }}

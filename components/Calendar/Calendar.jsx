@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CalendarWorkoutCard from './CalendarWorkoutCard';
 import actions from '../../actions';
 import { DAYS, MONTHS, COLORS } from '../../constants/index';
+import { color } from 'react-native-reanimated';
 
 const DayTitle = styled.Text`
   font-family: 'Montserrat_500Medium';
@@ -149,6 +150,78 @@ const CalendarView = () => {
         enableSwipeMonths
       />
       )}
+
+      {colorTheme === 'red'
+      && (
+      <Calendar
+        style={{
+          marginTop: 50,
+        }}
+        theme={{
+          backgroundColor: '#f2f2f2',
+          calendarBackground: '#f2f2f2',
+          todayTextColor: COLORS.red[0],
+          dotColor: COLORS.red[0],
+          arrowColor: COLORS.red[0],
+          monthTextColor: 'black',
+          textDayFontFamily: 'Montserrat_500Medium',
+          textMonthFontFamily: 'Montserrat_600SemiBold',
+          textDayHeaderFontFamily: 'Montserrat_500Medium',
+          textDayFontSize: 14,
+        }}
+        markedDates={markedDates}
+        onDayPress={(date) => {
+          const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
+          allDates[date.dateString] = { marked: allDates[date.dateString] ? allDates[date.dateString].marked : false, selectedColor: COLORS[colorTheme][0], selected: true };
+          setMarkedDates(allDates);
+
+          const formattedDate = formatDate(new Date(date.dateString));
+          if (selectedDate !== formattedDate) {
+            setExercises([]);
+            setselectedDate(formattedDate);
+            getDateRecords(userRef, date.dateString);
+          }
+        }}
+        enableSwipeMonths
+      />
+      )}
+
+{colorTheme === 'multi'
+      && (
+      <Calendar
+        style={{
+          marginTop: 50,
+        }}
+        theme={{
+          backgroundColor: '#f2f2f2',
+          calendarBackground: '#f2f2f2',
+          todayTextColor: COLORS.multi[0],
+          dotColor: COLORS.multi[0],
+          arrowColor: COLORS.multi[0],
+          monthTextColor: 'black',
+          textDayFontFamily: 'Montserrat_500Medium',
+          textMonthFontFamily: 'Montserrat_600SemiBold',
+          textDayHeaderFontFamily: 'Montserrat_500Medium',
+          textDayFontSize: 14,
+        }}
+        markedDates={markedDates}
+        onDayPress={(date) => {
+          const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
+          allDates[date.dateString] = { marked: allDates[date.dateString] ? allDates[date.dateString].marked : false, selectedColor: COLORS[colorTheme][0], selected: true };
+          setMarkedDates(allDates);
+
+          const formattedDate = formatDate(new Date(date.dateString));
+          if (selectedDate !== formattedDate) {
+            setExercises([]);
+            setselectedDate(formattedDate);
+            getDateRecords(userRef, date.dateString);
+          }
+        }}
+        enableSwipeMonths
+      />
+      )}
+
+
       <View style={{
         width: '90%', alignSelf: 'center', height: 2, backgroundColor: '#e5e5e5', marginTop: 25,
       }}
