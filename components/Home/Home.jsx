@@ -80,11 +80,11 @@ export default () => {
       <Image
         source={imgPath}
         style={{
-          width: 215,
-          height: 215,
+          width: 230,
+          height: 230,
           position: 'absolute',
           right: 10,
-          top: 20,
+          top: 10,
         }}
       />
       <View style={{ marginBottom: '10%', marginTop: '5%', marginLeft: '5%' }}>

@@ -28,8 +28,7 @@ const StyledButton = styled(TouchableOpacity)`
    padding: 5px;
    padding-left: 15px;
    padding-right: 15px;
-   margin-bottom: 12px;
-   margin-top: 15px;
+   margin-top: 25px;
 `;
 
 const Buttontext = styled.Text`
@@ -37,26 +36,24 @@ const Buttontext = styled.Text`
   font-size: 16px;
 `;
 
-const ColorButton = styled(TouchableOpacity)`
-  background-color: #000000;
-  padding: 1px;
-  margin: 1px;
+const ColorButton = styled(Pressable)`
   margin-top: 8px;
   margin-bottom: 10px;
   border-color: #000000;
-  border-width: ${(props) => (props.selected ? '4px' : '0px')};
-  margin: 5px;
+  border-width: ${(props) => (props.selected ? '2px' : '0px')};
+  margin: 4px;
 `;
 
-const CenterView = styled(TouchableOpacity)`
+const CenterView = styled(Pressable)`
   display: flex;
   margin-top: 10px;
   align-items: center;
   padding-top: 160px;
+  padding-bottom: 100px;
 `;
 
-const ModalView = styled(TouchableOpacity)`
-  height: 500px;
+const ModalView = styled(Pressable)`
+  height: 470px;
   width: 350px;
   margin: 20px;
   background-color: white;
@@ -133,7 +130,9 @@ const SettingsModal = (props) => {
 
   const attemptModalClose = () => {
     // If changes were made
-    if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer) {
+    if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer ||
+        settings.colorTheme != settingState.colorTheme) 
+      {
       Alert.alert('Unsaved Changes', 'You have unsaved changes, do you want to keep or discard them?', [{
         text: 'Keep',
         onPress: saveChanges,
@@ -185,7 +184,8 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-              <SettingLabel disabled={!settingState.enableRestNotifications}>Notification Timer:</SettingLabel>
+              <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 7}}>
+                Notification Timer:</SettingLabel>
               <View style={{
                 display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
               }}
@@ -204,7 +204,7 @@ const SettingsModal = (props) => {
                   }}
                   maxLength={3}
                 />
-                <SettingLabel disabled={!settingState.enableRestNotifications}>Secs</SettingLabel>
+                <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 8}}>Secs</SettingLabel>
               </View>
             </TwinView>
 
@@ -214,24 +214,24 @@ const SettingsModal = (props) => {
                 onPress={ () => 
                 {setSettingState({
                   ...settingState,
-                  colorTheme: theme,
+                  colorTheme: 'aqua',
                 })}} 
-                style={{ width: 132, height: 32 }}>
+                style={{ width: '45%', height: 32 }}>
                 <Image
                   source={require('../../assets/blue.png')}
-                  style={{ width: 130, height: 30 }}
+                  style={{ width: '100%', height: '100%' }}
                 />
               </ColorButton>
               <ColorButton selected={settingState.colorTheme === 'default'} 
                 onPress={ () => 
                 {setSettingState({
                   ...settingState,
-                  colorTheme: theme,
+                  colorTheme: 'default',
                 })}}  
-                style={{ width: 132, height: 32 }}>
+                style={{ width: '45%', height: 32 }}>
                 <Image
                   source={require('../../assets/purple.png')}
-                  style={{ width: 130, height: 30 }}
+                  style={{ width: '100%', height: '100%' }}
                 />
               </ColorButton>
             </TwinView>
@@ -241,24 +241,24 @@ const SettingsModal = (props) => {
                 onPress={ () => 
                 {setSettingState({
                   ...settingState,
-                  colorTheme: theme,
+                  colorTheme: 'red',
                 })}}  
-                style={{ width: 132, height: 32 }}>
+                style={{ width: '45%', height: 32 }}>
                 <Image
                   source={require('../../assets/red.png')}
-                  style={{ width: 130, height: 30 }}
+                  style={{ width: '100%', height: '100%' }}
                 />
               </ColorButton>
               <ColorButton selected={settingState.colorTheme === 'multi'} 
                 onPress={ () => 
                 {setSettingState({
                   ...settingState,
-                  colorTheme: theme,
+                  colorTheme: 'multi',
                 })}}   
-                style={{ width: 132, height: 32 }}>
+                style={{ width: '45%', height: 32 }}>
                 <Image
                   source={require('../../assets/multi.png')}
-                  style={{ width: 130, height: 30 }}
+                  style={{ width: '100%', height: '100%' }}
                 />
               </ColorButton>
             </TwinView>

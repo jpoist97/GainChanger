@@ -102,7 +102,7 @@ CurrentCycle.propTypes = {
 };
 
 CurrentCycle.defaultProps = {
-  color: '#CAB0FF',
+  color: '#CFCFCF',
   name: 'Set a cycle',
   subtext: '',
   id: undefined,

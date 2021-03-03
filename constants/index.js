@@ -43,11 +43,16 @@ export const RESET_LOAD_STORE = 'RESET_LOAD_STORE';
 // Misc
 export const COLORS = {
   'default': ['#CAB0FF', '#9D8DFF', '#6D8DFF', '#4457BC'],
-  'aqua': ['#4EC9DA', '#65C6BE', '#7DD8FF', '#86DDB4'],
+  'aqua': ['#86DDB4', '#65C6BE', '#4EC9DA', '#7DD8FF'],
+  'red' : ['#FF965B', '#F0D548', '#FF5656', '#F9A8A8'],
+  'multi': [ '#9EDF6D', '#FF7777', '#78D4F5', '#FF814A']
+
 };
 export const LOGOS = {
   'default' : require('../assets/logo.png'),
   'aqua' : require('../assets/blueicon.png'),
+  'red' : require('../assets/redicon.png'),
+  'multi' : require('../assets/multiicon.png'),
 };
 
 export const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
