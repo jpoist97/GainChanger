@@ -1,7 +1,7 @@
 import { INITIALIZE_EXERCISES, ADD_CUSTOM_EXERCISE, COMPLETE_EXERCISE_LOAD } from '../constants/index';
 import * as api from '../api';
 
-const initalizeExercises = (exercises) => {
+const initalizeExercises = () => {
    return async (dispatch) => {
       const exercises = await api.fetchExercises();
 
