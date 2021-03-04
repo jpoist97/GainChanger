@@ -44,17 +44,6 @@ const testExercises = [
 
 describe('workoutRecordReducer tests', () => {
 
-    const action = {
-        type: ADD_WORKOUT_RECORD,
-        record: {
-            date: '2021-03-03',
-            exercises: testExercises,
-            workoutId: 'id',
-            workoutName: 'Legs',
-        },
-        date: '2021-03-03',
-    };
-
     it('should return the initial state', () => {
 
         const expectedInitialState = {
@@ -65,50 +54,65 @@ describe('workoutRecordReducer tests', () => {
 
         expect(initialState).toEqual(expectedInitialState);
     });
-    it('should handle ADD_WORKOUT_RECORD with empty state', () => {
+    
+    describe('should test ADD_WORKOUT_RECORD', () => {
 
-        const workoutRecordState = workoutRecordReducer(undefined, action);
-
-        expect(workoutRecordState).toEqual({
-            records: {
-                '2021-03-03': [{
-                    date: '2021-03-03',
-                    exercises: testExercises,
-                    workoutId: 'id',
-                    workoutName: 'Legs',
-                }],
+        const action = {
+            type: ADD_WORKOUT_RECORD,
+            record: {
+                date: '2021-03-03',
+                exercises: testExercises,
+                workoutId: 'id',
+                workoutName: 'Legs',
             },
-        });
-    })
+            date: '2021-03-03',
+        };
 
-    it('should handle ADD_WORKOUT_RECORD for existing date', () => {
-        
-        const workoutRecordState = workoutRecordReducer({
-            records: {
-                '2021-03-03': [{
-                    date: '2021-03-03',
-                    exercises: testExercises,
-                    workoutId: 'id1',
-                    workoutName: 'Legs1',
-                }],
-            },
-        }, action);
+        it('should test adding workout to empty state', () => {
 
-        expect(workoutRecordState).toEqual({
-            records: {
-                '2021-03-03': [{
-                    date: '2021-03-03',
-                    exercises: testExercises,
-                    workoutId: 'id1',
-                    workoutName: 'Legs1',
+            const workoutRecordState = workoutRecordReducer(undefined, action);
+    
+            expect(workoutRecordState).toEqual({
+                records: {
+                    '2021-03-03': [{
+                        date: '2021-03-03',
+                        exercises: testExercises,
+                        workoutId: 'id',
+                        workoutName: 'Legs',
+                    }],
                 },
-                {
-                    date: '2021-03-03',
-                    exercises: testExercises,
-                    workoutId: 'id',
-                    workoutName: 'Legs',
-                }],
-            },
+            });
         })
+    
+        it('should adding workout record for existing date', () => {
+            
+            const workoutRecordState = workoutRecordReducer({
+                records: {
+                    '2021-03-03': [{
+                        date: '2021-03-03',
+                        exercises: testExercises,
+                        workoutId: 'id1',
+                        workoutName: 'Legs1',
+                    }],
+                },
+            }, action);
+    
+            expect(workoutRecordState).toEqual({
+                records: {
+                    '2021-03-03': [{
+                        date: '2021-03-03',
+                        exercises: testExercises,
+                        workoutId: 'id1',
+                        workoutName: 'Legs1',
+                    },
+                    {
+                        date: '2021-03-03',
+                        exercises: testExercises,
+                        workoutId: 'id',
+                        workoutName: 'Legs',
+                    }],
+                },
+            })
+        });
     });
 });
