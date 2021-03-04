@@ -42,16 +42,6 @@ describe('exerciseReducer tests', () => {
     describe('ADD_CUSTOM_EXERCISE tests', () => {
       it('should add a custom exercise to exercise list ', () => {
          // Arrange
-
-         const action = {
-            type: ADD_CUSTOM_EXERCISE,
-            exercise: {
-              id: 'customExercise-1', 
-              name: 'Frog Squats', 
-              muscleGroups: 'Legs'
-             }
-         };
-
          const expectedExercises = [
           { id: 'exercise-1', name: 'Bicep Curls', muscleGroups: 'Arms Chest'},
           { id: 'exercise-2', name: 'Leg Curls', muscleGroups: 'Legs'},
@@ -70,7 +60,6 @@ describe('exerciseReducer tests', () => {
            }});
  
          // Assert
-         console.log("B-------", exerciseState);
          expect(exerciseState).toEqual({
           exercises: expectedExercises,
         });
