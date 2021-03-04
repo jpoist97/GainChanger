@@ -37,8 +37,6 @@ const ExerciseDetails = (props) => {
   const settings = useSelector((state) => state.settings);
 
   const scheduleNotification = async () => {
-    await Notifications.cancelAllScheduledNotificationsAsync();
-
     const content = {
       title: 'Rest finished, time for your next set!',
     };
@@ -57,12 +55,13 @@ const ExerciseDetails = (props) => {
           duration={set.duration}
           onDurationChange={updateDuration(index)}
           onWeightChange={updateWeight(index)}
-          onCompletedPress={() => {
+          onCompletedPress={async () => {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            await Notifications.cancelAllScheduledNotificationsAsync();
 
             // Don't schedule a notification if it is the last set
             if (settings.enableRestNotifications && !set.completed && index !== items.length - 1) {
-              scheduleNotification();
+              await scheduleNotification();
             }
 
             const updateHandler = updateCompleted(index);
