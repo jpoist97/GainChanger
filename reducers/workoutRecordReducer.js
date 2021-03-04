@@ -7,7 +7,7 @@ const initialState = {
 const recordReducer = (state = initialState, action) => {
    switch(action.type) {
         case ADD_WORKOUT_RECORD:
-            console.log(`Adding workout record to store with name: ${action.record.exerciseName}`);
+            console.log(`Adding workout record to store with name: ${action.record.workoutName}`);
             const record = action.record;
             const date = action.date;
             const prevRecords = {...state.records};
@@ -17,6 +17,7 @@ const recordReducer = (state = initialState, action) => {
                 prevRecords[date] = [record];
             }
             return {
+                ...state,
                 records: prevRecords,
             };
         default:
