@@ -1,7 +1,16 @@
 import settingsActions from '../../actions/settingsActions';
+import * as api from '../../api';
 import { UPDATE_USER_SETTINGS } from '../../constants/index';
 
+jest.mock('../../api.js', () => ({
+   updateUserSettings: jest.fn()
+}));
+
 const mockDispatch = jest.fn();
+
+afterEach(() => {
+   jest.clearAllMocks();
+});
 
 describe('settingsActions tests', () => {
     describe('initialize settings tests', () => {
@@ -33,6 +42,7 @@ describe('settingsActions tests', () => {
              type: UPDATE_USER_SETTINGS,
              newUserSettings,
            })
+           expect(api.updateUserSettings).toHaveBeenCalled();
         });
      });
  });

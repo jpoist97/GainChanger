@@ -18,7 +18,6 @@ const workouts = [
 { exercises: [{exerciseId: 'exercise1', exerciseName: 'Push Press', sets: {}}], lastPerformed: '2021-02-19', muscleGroups: 'Chest', name: 'Push'},
 { exercises: [{exerciseId: 'exercise2', exerciseName: 'Chest Press', sets: {}}], lastPerformed: '2021-02-18', muscleGroups: 'Chest', name: 'Push2'}]
 
-
 afterEach(() => {
     jest.clearAllMocks();
 });
