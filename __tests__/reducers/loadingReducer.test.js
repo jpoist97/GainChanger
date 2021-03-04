@@ -80,9 +80,6 @@ describe('loadingReducer tests', () => {
       // Arrange
       const action = {
         type: RESET_LOAD_STORE,
-        cyclesLoaded: false,
-        workoutsLoaded: false,
-        exercisesLoaded: false,
       };
 
      const expectedInitialState = {
