@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import ProgressBar from 'react-native-progress/Bar';
 import ConfettiCannon from 'react-native-confetti-cannon';
+import * as Notifications from 'expo-notifications';
 import ExerciseDetails from './ExerciseDetails';
 import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
@@ -274,6 +275,7 @@ const LogWorkout = (props) => {
           alert('All sets must be completed to Finish');
         } else {
           triggerConfetti();
+          Notifications.cancelAllScheduledNotificationsAsync();
           sendWorkoutLogToDB();
           updatePastWorkoutDates(`${format(new Date(), 'yyyy-MM-dd').toString()}`);
 

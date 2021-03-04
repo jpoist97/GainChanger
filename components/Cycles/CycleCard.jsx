@@ -30,9 +30,9 @@ const StyledEllipsisPopup = styled(EllipsisPopup)`
    width: 25px;
 `;
 
-const WorkoutCard = (props) => {
+const CycleCard = (props) => {
   const {
-    color, subtext, name, onPress, deleteCycle, selectCycle,
+    color, subtext, name, onPress, deleteCycle, selectCycle, isSelectedCycle,
   } = props;
 
   const StyledView = styled(TouchableOpacity)`
@@ -54,15 +54,21 @@ const WorkoutCard = (props) => {
           {
             icon: 'DELETE',
             text: 'Delete Cycle',
-            onPress: () => Alert.alert('Delete Confirmation', `Are you sure you want to delete ${name}?`, [{
-              text: 'Cancel',
-              style: 'cancel',
+            onPress: () => {
+              if (isSelectedCycle) {
+                Alert.alert('Cannot delete the selected cycle.');
+              } else {
+                Alert.alert('Delete Confirmation', `Are you sure you want to delete ${name}?`, [{
+                  text: 'Cancel',
+                  style: 'cancel',
+                },
+                {
+                  text: 'Delete',
+                  style: 'destructive',
+                  onPress: deleteCycle,
+                }]);
+              }
             },
-            {
-              text: 'Delete',
-              style: 'destructive',
-              onPress: deleteCycle,
-            }]),
           }]}
       />
       <Subtext>{subtext}</Subtext>
@@ -70,21 +76,23 @@ const WorkoutCard = (props) => {
   );
 };
 
-WorkoutCard.propTypes = {
+CycleCard.propTypes = {
   color: PropTypes.string,
   subtext: PropTypes.string,
   name: PropTypes.string.isRequired,
   onPress: PropTypes.func,
   deleteCycle: PropTypes.func,
   selectCycle: PropTypes.func,
+  isSelectedCycle: PropTypes.bool,
 };
 
-WorkoutCard.defaultProps = {
+CycleCard.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
   onPress: () => {},
   deleteCycle: () => {},
   selectCycle: () => {},
+  isSelectedCycle: false,
 };
 
-export default WorkoutCard;
+export default CycleCard;
