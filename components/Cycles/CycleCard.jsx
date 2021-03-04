@@ -56,7 +56,7 @@ const CycleCard = (props) => {
             text: 'Delete Cycle',
             onPress: () => {
               if (isSelectedCycle) {
-                Alert.alert('Cannot delete the selected cycle, please select a different cycle and try again.');
+                Alert.alert('Cannot delete the selected cycle.');
               } else {
                 Alert.alert('Delete Confirmation', `Are you sure you want to delete ${name}?`, [{
                   text: 'Cancel',
