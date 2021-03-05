@@ -49,10 +49,10 @@ We strive to help gym-goers and athletes plan, organize, and track their workout
 [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript)
 
 ### Static Code Analysis Report 
-TODO: 
+https://sonarcloud.io/project/issues?id=jpoist97_GainChanger&resolved=false&types=BUG
 
 ### Unit Test Location
-TODO: 
+https://github.com/jpoist97/GainChanger/tree/main/__tests__
 
 ### User Testing
 TODO: (Link to some user testing)
