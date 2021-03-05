@@ -85,11 +85,9 @@ const CalendarWorkoutCard = (props) => {
       <FlatList
         data={sets}
         keyExtractor={(item, index) => item.exerciseID + index.toString()}
-        renderItem={({ item, index }) => {
-          return (
-            <SetRow index={index + 1} lbs={item.weight || 'N/A'} reps={item.reps || item.time} />
-          );
-        }}
+        renderItem={({ item, index }) => (
+          <SetRow index={index + 1} lbs={item.weight || 'N/A'} reps={item.reps || item.time} />
+        )}
       />
     </Container>
   );
