@@ -203,7 +203,7 @@ const CalendarView = () => {
           renderItem={({ item, index }) => {
             const isReps = 'reps' in item.sets[0];
             return (
-              <CalendarWorkoutCard color={COLORS[colorTheme][index % (COLORS[colorTheme].length - 1)]} name={item.name} sets={item.sets} isReps={isReps} />
+              <CalendarWorkoutCard color={COLORS[colorTheme][index % (COLORS[colorTheme].length - 1)]} name={item.exerciseName} sets={item.sets} isReps={isReps} />
             );
           }}
         />

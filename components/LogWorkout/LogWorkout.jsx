@@ -120,7 +120,7 @@ const LogWorkout = (props) => {
         exerciseName: exercise.name,
         sets: exercise.sets.map((set) => {
           const parsedSet = {
-            weight: (set.prevWeight === 'n/a' && set.weight === '') ? null : parseInt(set.weight) || parseInt(set.prevWeight),
+            weight: (set.prevWeight === 'n/a' && set.weight === '') ? null : parseFloat(set.weight) || parseFloat(set.prevWeight),
           };
           _.set(parsedSet, exercise.type === 'REPS' ? ['reps'] : ['time'], parseInt(set.duration) || parseInt(set.prevDuration));
           return parsedSet;
@@ -151,7 +151,7 @@ const LogWorkout = (props) => {
       let bestExerciseWeight = 0;
 
       exerciseDetails.sets.forEach((setDetails) => {
-        const weight = parseInt(setDetails.weight || setDetails.prevWeight || '0');
+        const weight = parseFloat(setDetails.weight || setDetails.prevWeight || '0');
         const duration = parseInt(setDetails.duration || setDetails.prevDuration);
         if (weight > weightPersonalRecord) {
           weightPersonalRecord = weight;
