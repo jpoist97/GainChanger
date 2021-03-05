@@ -79,6 +79,19 @@ const CalendarView = () => {
     }
   };
 
+  const onDayPress = (date) => {
+    const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
+    allDates[date.dateString] = { marked: allDates[date.dateString] ? allDates[date.dateString].marked : false, selectedColor: COLORS[colorTheme][0], selected: true };
+    setMarkedDates(allDates);
+
+    const formattedDate = formatDate(new Date(date.dateString));
+    if (selectedDate !== formattedDate) {
+      setExercises([]);
+      setselectedDate(formattedDate);
+      getDateRecords(userRef, date.dateString);
+    }
+  };
+
   return (
     <View style={{ justifyContent: 'center', height: '100%' }}>
       {colorTheme === 'default'
@@ -100,18 +113,7 @@ const CalendarView = () => {
         textDayFontSize: 14,
       }}
       markedDates={markedDates}
-      onDayPress={(date) => {
-        const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
-        allDates[date.dateString] = { marked: allDates[date.dateString] ? allDates[date.dateString].marked : false, selectedColor: COLORS[colorTheme][0], selected: true };
-        setMarkedDates(allDates);
-
-        const formattedDate = formatDate(new Date(date.dateString));
-        if (selectedDate !== formattedDate) {
-          setExercises([]);
-          setselectedDate(formattedDate);
-          getDateRecords(userRef, date.dateString);
-        }
-      }}
+      onDayPress={(date) => onDayPress(date)}
       enableSwipeMonths
     />
     )}
@@ -134,21 +136,59 @@ const CalendarView = () => {
           textDayFontSize: 14,
         }}
         markedDates={markedDates}
-        onDayPress={(date) => {
-          const allDates = createCalendarMarkedDates(pastWorkoutDates, COLORS[colorTheme][0]);
-          allDates[date.dateString] = { marked: allDates[date.dateString] ? allDates[date.dateString].marked : false, selectedColor: COLORS[colorTheme][0], selected: true };
-          setMarkedDates(allDates);
-
-          const formattedDate = formatDate(new Date(date.dateString));
-          if (selectedDate !== formattedDate) {
-            setExercises([]);
-            setselectedDate(formattedDate);
-            getDateRecords(userRef, date.dateString);
-          }
-        }}
+        onDayPress={(date) => onDayPress(date)}
         enableSwipeMonths
       />
       )}
+
+      {colorTheme === 'red'
+    && (
+    <Calendar
+      style={{
+        marginTop: 50,
+      }}
+      theme={{
+        backgroundColor: '#f2f2f2',
+        calendarBackground: '#f2f2f2',
+        todayTextColor: COLORS.red[0],
+        dotColor: COLORS.red[0],
+        arrowColor: COLORS.red[0],
+        monthTextColor: 'black',
+        textDayFontFamily: 'Montserrat_500Medium',
+        textMonthFontFamily: 'Montserrat_600SemiBold',
+        textDayHeaderFontFamily: 'Montserrat_500Medium',
+        textDayFontSize: 14,
+      }}
+      markedDates={markedDates}
+      onDayPress={(date) => onDayPress(date)}
+      enableSwipeMonths
+    />
+    )}
+
+      {colorTheme === 'multi'
+    && (
+    <Calendar
+      style={{
+        marginTop: 50,
+      }}
+      theme={{
+        backgroundColor: '#f2f2f2',
+        calendarBackground: '#f2f2f2',
+        todayTextColor: COLORS.multi[0],
+        dotColor: COLORS.multi[0],
+        arrowColor: COLORS.multi[0],
+        monthTextColor: 'black',
+        textDayFontFamily: 'Montserrat_500Medium',
+        textMonthFontFamily: 'Montserrat_600SemiBold',
+        textDayHeaderFontFamily: 'Montserrat_500Medium',
+        textDayFontSize: 14,
+      }}
+      markedDates={markedDates}
+      onDayPress={(date) => onDayPress(date)}
+      enableSwipeMonths
+    />
+    )}
+
       <View style={{
         width: '90%', alignSelf: 'center', height: 2, backgroundColor: '#e5e5e5', marginTop: 25,
       }}
