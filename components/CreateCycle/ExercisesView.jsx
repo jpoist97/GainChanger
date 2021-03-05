@@ -73,7 +73,7 @@ const ExercisesView = (props) => {
         renderItem={({ item }) => (
           <RowContent>
             <WorkoutViewText style={{ marginLeft: 10 }}>{item.name}</WorkoutViewText>
-            <WorkoutViewText>{`${item.sets.length}x${item.sets[0].reps || item.sets[0].time}` + (item.sets[0].reps ? ' reps' : ' secs')}</WorkoutViewText>
+            <WorkoutViewText>{`${item.sets.length}x${item.sets[0].reps || item.sets[0].time}${item.sets[0].reps ? ' reps' : ' secs'}`}</WorkoutViewText>
             <WorkoutViewText>{`${item.sets[0].weight || 'N/A'} lbs.`}</WorkoutViewText>
           </RowContent>
         )}
