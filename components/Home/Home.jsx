@@ -111,7 +111,7 @@ export default () => {
           cycleLength={cycleDetails && cycleDetails.length}
           isCycleSelected={cycleDetails !== undefined}
         />
-        <WorkoutSwipeList items={filterWorkoutListForDisplay(workoutList)} style={{ marginLeft: '10%' }} />
+        <WorkoutSwipeList items={filterWorkoutListForDisplay()} style={{ marginLeft: '10%' }} />
       </View>
     </SafeAreaView>
   );

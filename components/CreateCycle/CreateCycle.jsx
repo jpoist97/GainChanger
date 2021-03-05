@@ -136,7 +136,7 @@ export default ({ navigation, route }) => {
             name,
             workoutIds: workouts.map((workout) => workout.id),
           };
-          createNewCycle(newCycle, dispatch);
+          createNewCycle(newCycle);
         }
       }}
       />

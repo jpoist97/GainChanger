@@ -49,7 +49,7 @@ const ExercisesView = (props) => {
 
   const storeExercises = useSelector((state) => state.exercises.exercises);
 
-  const parseExercises = () => exercises.map((exercise) => {
+  const parseExercises = (exerciseList) => exerciseList.map((exercise) => {
     const matchingExercise = _.find(storeExercises, (exerciseObj) => exercise.exerciseId === exerciseObj.id);
 
     return {
@@ -74,7 +74,7 @@ const ExercisesView = (props) => {
           <RowContent>
             <WorkoutViewText style={{ marginLeft: 10 }}>{item.name}</WorkoutViewText>
             <WorkoutViewText>{`${item.sets.length}x${item.sets[0].reps || item.sets[0].time}`}</WorkoutViewText>
-            <WorkoutViewText>{`${item.sets[0].weight} lbs.`}</WorkoutViewText>
+            <WorkoutViewText>{`${item.sets[0].weight || 'N/A'} lbs.`}</WorkoutViewText>
           </RowContent>
         )}
       />

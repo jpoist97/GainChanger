@@ -156,7 +156,7 @@ const CreateCustomExercise = () => {
                 name: workoutName,
                 muscleGroups: muscleGroup,
               };
-              createCustomExercise(exercise, dispatch);
+              createCustomExercise(exercise);
             }
           }}
         >
