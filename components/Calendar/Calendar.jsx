@@ -90,7 +90,7 @@ const CalendarView = () => {
       setselectedDate(formattedDate);
       getDateRecords(userRef, date.dateString);
     }
-  }
+  };
 
   return (
     <View style={{ justifyContent: 'center', height: '100%' }}>
