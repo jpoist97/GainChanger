@@ -42,6 +42,8 @@ const ColorButton = styled(Pressable)`
   border-color: #000000;
   border-width: ${(props) => (props.selected ? '2px' : '0px')};
   margin: 4px;
+  width: 45%;
+  height: 32px;
 `;
 
 const CenterView = styled(Pressable)`
@@ -218,7 +220,6 @@ const SettingsModal = (props) => {
                     colorTheme: 'aqua',
                   });
                 }}
-                style={{ width: '45%', height: 32 }}
               >
                 <Image
                   source={require('../../assets/blue.png')}
@@ -233,7 +234,6 @@ const SettingsModal = (props) => {
                     colorTheme: 'default',
                   });
                 }}
-                style={{ width: '45%', height: 32 }}
               >
                 <Image
                   source={require('../../assets/purple.png')}
@@ -251,7 +251,6 @@ const SettingsModal = (props) => {
                     colorTheme: 'red',
                   });
                 }}
-                style={{ width: '45%', height: 32 }}
               >
                 <Image
                   source={require('../../assets/red.png')}
@@ -266,7 +265,6 @@ const SettingsModal = (props) => {
                     colorTheme: 'multi',
                   });
                 }}
-                style={{ width: '45%', height: 32 }}
               >
                 <Image
                   source={require('../../assets/multi.png')}
