@@ -13,17 +13,13 @@ import actions from '../../actions/index';
 const Title = styled.Text`
   font-family: 'Montserrat_600SemiBold';
   font-size: 24px;
-  margin-top: 20px;
 `;
 
 const SubTitle = styled.Text`
   font-family: 'Montserrat_600SemiBold';
-  font-size: 20px;
-`;
-
-const Buttontext = styled.Text`
-  font-family: 'Montserrat_500Medium';
-  font-size: 16px;
+  font-size: 18px;
+  padding-bottom: 5px;
+  padding-top: 20px;
 `;
 
 const StyledButton = styled(TouchableOpacity)`
@@ -32,35 +28,40 @@ const StyledButton = styled(TouchableOpacity)`
    padding: 5px;
    padding-left: 15px;
    padding-right: 15px;
-   margin: 10px;
+   margin-top: 25px;
 `;
 
-const ColorButton = styled(TouchableOpacity)`
-  background-color: #000000;
-  padding: 1px;
-  border-color: orange;
+const Buttontext = styled.Text`
+  font-family: 'Montserrat_500Medium';
+  font-size: 16px;
+`;
+
+const ColorButton = styled(Pressable)`
+  margin-top: 8px;
+  margin-bottom: 10px;
+  border-color: #000000;
   border-width: ${(props) => (props.selected ? '2px' : '0px')};
-  margin: 5px;
+  margin: 4px;
+  width: 45%;
+  height: 32px;
 `;
 
-const CenterView = styled(TouchableOpacity)`
+const CenterView = styled(Pressable)`
   display: flex;
   margin-top: 10px;
-  justify-content: center;
   align-items: center;
-  padding: 160px;
-  padding-top: 130px;
-
+  padding-top: 160px;
+  padding-bottom: 100px;
 `;
 
-const ModalView = styled(TouchableOpacity)`
-  height: 500px;
+const ModalView = styled(Pressable)`
+  height: 470px;
   width: 350px;
-  margin: 10px;
+  margin: 20px;
   background-color: white;
   border-radius: 20px;
-  padding: 15px;
-  align-items: center;
+  padding-left: 20px;
+  padding-top: 13px;
   shadow-color: #000;
   box-shadow: 0px 2px 4px;
   shadow-opacity: 0.25;
@@ -80,6 +81,7 @@ const TwinView = styled(View)`
 const SettingLabel = styled(Text)`
   font-family: 'Montserrat_500Medium';
   font-size: 16px;
+  padding-bottom: 10px;
   color: ${(props) => (props.disabled ? 'darkgray' : 'black')};
 `;
 
@@ -105,24 +107,46 @@ const SettingsModal = (props) => {
     restNotificationTimer: `${settings.restNotificationTimer}`,
     colorTheme: settings.colorTheme,
   });
-  const [selectedColor, setSelectedColor] = useState(settings.colorTheme);
+
+  const saveChanges = () => {
+    dispatch(actions.settings.updateSettings({
+      ...settingState,
+      restNotificationTimer: parseInt(settingState.restNotificationTimer) || settings.restNotificationTimer,
+    }));
+
+    setSettingState({
+      ...settingState,
+      restNotificationTimer: settingState.restNotificationTimer || `${settings.restNotificationTimer}`,
+    });
+
+    setModalVisible(!modalVisible);
+  };
+
+  const discardChanges = () => {
+    setSettingState({
+      ...settings,
+      restNotificationTimer: `${settings.restNotificationTimer}`,
+    });
+    setModalVisible(!modalVisible);
+  };
 
   const attemptModalClose = () => {
     // If changes were made
-    if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer || settings.colorTheme !== settingState.colorTheme) {
-      Alert.alert('You have unsaved changes, please discard or save them!');
+    if (settings.enableRestNotifications !== settingState.enableRestNotifications || `${settings.restNotificationTimer}` !== settingState.restNotificationTimer
+        || settings.colorTheme !== settingState.colorTheme) {
+      Alert.alert('Unsaved Changes', 'You have unsaved changes, do you want to keep or discard them?', [{
+        text: 'Keep',
+        onPress: saveChanges,
+      },
+      {
+        text: 'Discard',
+        onPress: discardChanges,
+      },
+
+      ]);
     } else {
       setModalVisible(!modalVisible);
     }
-  };
-
-  const updateColorTheme = (theme) => {
-    // update selected color in local settings state
-    setSelectedColor(theme);
-    setSettingState({
-      ...settingState,
-      colorTheme: theme,
-    });
   };
 
   return (
@@ -140,11 +164,12 @@ const SettingsModal = (props) => {
             Keyboard.dismiss();
           }}
           >
-            <Pressable onPress={() => setModalVisible(false)}>
-              <Ionicons name="ios-close" size={triggerSize} color="black" />
-            </Pressable>
-
-            <Title>Settings</Title>
+            <TwinView>
+              <Title style={{ marginTop: -5 }}>Settings</Title>
+              <Pressable onPress={() => setModalVisible(false)}>
+                <Ionicons name="ios-close" size={30} color="black" onPress={attemptModalClose} style={{ marginTop: -10, marginRight: -5 }} />
+              </Pressable>
+            </TwinView>
             <SubTitle>Rest Notifications</SubTitle>
             <TwinView>
               <SettingLabel>Enable Notifications:</SettingLabel>
@@ -160,7 +185,9 @@ const SettingsModal = (props) => {
             </TwinView>
 
             <TwinView>
-              <SettingLabel disabled={!settingState.enableRestNotifications}>Notification Timer:</SettingLabel>
+              <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 7 }}>
+                Notification Timer:
+              </SettingLabel>
               <View style={{
                 display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
               }}
@@ -179,18 +206,82 @@ const SettingsModal = (props) => {
                   }}
                   maxLength={3}
                 />
-                <SettingLabel disabled={!settingState.enableRestNotifications}>Secs</SettingLabel>
+                <SettingLabel disabled={!settingState.enableRestNotifications} style={{ marginTop: 8 }}>Secs</SettingLabel>
               </View>
             </TwinView>
 
             <SubTitle>Color Theme</SubTitle>
-            <ColorButton selected={selectedColor === 'aqua'} onPress={() => { updateColorTheme('aqua'); }}>
-              <Image source={require('../../assets/blue.png')} />
-            </ColorButton>
-            <ColorButton selected={selectedColor === 'default'} onPress={() => { updateColorTheme('default'); }}>
-              <Image source={require('../../assets/purple.png')} />
-            </ColorButton>
+            <TwinView>
+              <ColorButton
+                selected={settingState.colorTheme === 'aqua'}
+                onPress={() => {
+                  setSettingState({
+                    ...settingState,
+                    colorTheme: 'aqua',
+                  });
+                }}
+              >
+                <Image
+                  source={require('../../assets/blue.png')}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </ColorButton>
+              <ColorButton
+                selected={settingState.colorTheme === 'default'}
+                onPress={() => {
+                  setSettingState({
+                    ...settingState,
+                    colorTheme: 'default',
+                  });
+                }}
+              >
+                <Image
+                  source={require('../../assets/purple.png')}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </ColorButton>
+            </TwinView>
+
+            <TwinView>
+              <ColorButton
+                selected={settingState.colorTheme === 'red'}
+                onPress={() => {
+                  setSettingState({
+                    ...settingState,
+                    colorTheme: 'red',
+                  });
+                }}
+              >
+                <Image
+                  source={require('../../assets/red.png')}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </ColorButton>
+              <ColorButton
+                selected={settingState.colorTheme === 'multi'}
+                onPress={() => {
+                  setSettingState({
+                    ...settingState,
+                    colorTheme: 'multi',
+                  });
+                }}
+              >
+                <Image
+                  source={require('../../assets/multi.png')}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </ColorButton>
+            </TwinView>
+
             <StyledButton
+              style={{ width: 145 }}
+              onPress={() => { saveChanges(); }}
+            >
+              <Buttontext>Save Changes</Buttontext>
+            </StyledButton>
+
+            <StyledButton
+              style={{ width: 107 }}
               onPress={async () => {
                 try {
                   await firebase.auth().signOut();
@@ -203,33 +294,6 @@ const SettingsModal = (props) => {
               }}
             >
               <Buttontext>Log Out</Buttontext>
-            </StyledButton>
-            <StyledButton onPress={() => {
-              dispatch(actions.settings.updateSettings({
-                ...settingState,
-                restNotificationTimer: parseInt(settingState.restNotificationTimer) || settings.restNotificationTimer,
-                colorTheme: settingState.colorTheme,
-              }));
-
-              setSettingState({
-                ...settingState,
-                restNotificationTimer: settingState.restNotificationTimer || `${settings.restNotificationTimer}`,
-              });
-
-              setModalVisible(!modalVisible);
-            }}
-            >
-              <Buttontext>Save Changes</Buttontext>
-            </StyledButton>
-
-            <StyledButton onPress={() => {
-              setSettingState({
-                ...settings,
-                restNotificationTimer: `${settings.restNotificationTimer}`,
-              });
-            }}
-            >
-              <Buttontext style={{ color: 'red' }}>Discard Changes</Buttontext>
             </StyledButton>
 
           </ModalView>
