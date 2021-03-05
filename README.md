@@ -42,7 +42,7 @@ We strive to help gym-goers and athletes plan, organize, and track their workout
 ### Setting up the Testing Environment
 1. Navigate to the projects root
 2. Run ```npm test``` to test the enitre codebase
-3. Run ```npm test fileName`` to test a single file
+3. Run ```npm test fileName``` to test a single file
 
 
 ### Style Guide
