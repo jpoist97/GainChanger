@@ -26,6 +26,8 @@ import SelectChartExercise from './components/SelectChartExercise/SelectChartExe
 import LoadingScreen from './components/Home/LoadingScreen';
 import * as Notifications from 'expo-notifications';
 
+console.disableYellowBox = true;
+
 Notifications.setNotificationHandler({
   handleNotification: async () => {
     return {
