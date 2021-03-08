@@ -55,6 +55,133 @@ export const LOGOS = {
   'multi' : require('../assets/multiicon.png'),
 };
 
+// Dates
 export const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
   'August', 'September', 'October', 'November', 'December'];
+
+// Initial workouts
+
+export const pushWorkout = {
+  name: 'Push',
+  muscleGroups: 'Chest Triceps Shoulders',
+  lastPerformed: 'N/A',
+  exercises: [
+    {
+      exerciseId: '6peaHJkFD27icchxAJzD', // Bench Press
+      sets: [
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
+        { reps: 12, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'XzkLscitllVWr1sRrMAk', // Shoulder Press
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 8, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'Tc6wqpA533v2umzEGLx6', // Push Ups
+      sets: [
+        { reps: 20, weight: null },
+        { reps: 15, weight: null },
+        { reps: 20, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'fk3IABKT2FeCBgdAzl40', // Overhead Press
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 8, weight: null },
+      ],
+    },
+  ],
+};
+
+export const pullWorkout = {
+  name: 'Pull',
+  muscleGroups: 'Back Biceps',
+  lastPerformed: 'N/A',
+  exercises: [
+    {
+      exerciseId: 'qNBHPtkEW3PclBZ3j5GW', // Bent Over Row
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'KsrS05QfDkBOCQhMQ0Te', // Pull Ups
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'VVwdHYCl6Nec5pYCfibk', // Pullover
+      sets: [
+        { reps: 8, weight: null },
+        { reps: 8, weight: null },
+        { reps: 8, weight: null },
+      ],
+    },
+    {
+      exerciseId: '6zvctw4Ii0dHgBX1eQe6', // Incline Curl
+      sets: [
+        { time: 45, weight: null },
+        { time: 60, weight: null },
+        { time: 40, weight: null },
+      ],
+    },
+  ],
+};
+
+export const legsWorkout = {
+  name: 'Legs',
+  muscleGroups: 'Quads Calves',
+  lastPerformed: 'N/A',
+  exercises: [
+    {
+      exerciseId: 'OjxfnxDzbhQJ11ZAWx6D', // Jump Rope
+      sets: [
+        { time: 60, weight: null },
+        { time: 120, weight: null },
+        { time: 60, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'mEphuc9OhKGE9uLJojWM', // Calf Raise
+      sets: [
+        { reps: 20, weight: null },
+        { reps: 20, weight: null },
+        { reps: 20, weight: null },
+        { reps: 15, weight: null },
+      ],
+    },
+    {
+      exerciseId: 'dqQE9Pbzb7HJFDULu3fH', // Hip Adducter
+      sets: [
+        { reps: 15, weight: null },
+        { reps: 15, weight: null },
+        { reps: 15, weight: null },
+        { reps: 15, weight: null },
+      ],
+    },
+    {
+      exerciseId: '31ROy02NIqplIBvXoaeB', // Squat
+      sets: [
+        { reps: 10, weight: null },
+        { reps: 10, weight: null },
+        { reps: 8, weight: null },
+      ],
+    },
+  ],
+};
