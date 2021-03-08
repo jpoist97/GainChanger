@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { AppLoading } from 'expo';
 import { MenuProvider } from 'react-native-popup-menu';
