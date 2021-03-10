@@ -95,8 +95,8 @@ CurrentCycle.propTypes = {
   color: PropTypes.string,
   subtext: PropTypes.string,
   name: PropTypes.string,
-  leftPress: PropTypes.func,
-  rightPress: PropTypes.func,
+  leftPress: PropTypes.func.isRequired,
+  rightPress: PropTypes.func.isRequired,
   id: PropTypes.string,
   isCycleSelected: PropTypes.bool.isRequired,
 };
@@ -106,8 +106,6 @@ CurrentCycle.defaultProps = {
   name: 'Set a cycle',
   subtext: '',
   id: undefined,
-  leftPress: () => {},
-  rightPress: () => {},
 };
 
 export default CurrentCycle;
