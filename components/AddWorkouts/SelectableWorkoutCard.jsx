@@ -69,7 +69,7 @@ SelectableWorkoutCard.propTypes = {
   name: PropTypes.string.isRequired,
   displayAddButton: PropTypes.bool,
   selected: PropTypes.bool,
-  onPress: PropTypes.func,
+  onPress: PropTypes.func.isRequired,
 
 };
 
@@ -78,7 +78,6 @@ SelectableWorkoutCard.defaultProps = {
   subtext: '',
   selected: false,
   displayAddButton: true,
-  onPress: () => {},
 };
 
 export default SelectableWorkoutCard;
