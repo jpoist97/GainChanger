@@ -67,7 +67,7 @@ const parseItems = (items) => {
   }, {});
 
   // Pair up each bucket of data
-  const pairedBucketData = _.mapValues(bucketData, (data) => {
+  return _.mapValues(bucketData, (data) => {
     const pairData = [];
 
     // If we go "out of bounds" here it will just make right undefined
@@ -76,8 +76,6 @@ const parseItems = (items) => {
     }
     return pairData;
   });
-
-  return pairedBucketData;
 };
 
 const renderHeader = ({ section }) => (

@@ -74,7 +74,6 @@ const AdjustExerciseCard = (props) => {
             }]}
         />
       ) : <View />}
-      {/* TODO: Delete should remove exercise from workout */}
       <ContentWrapper style={{ paddingTop: 3, paddingBottom: 3 }}>
         <StyledText style={{ marginLeft: '14%' }}>Sets</StyledText>
         { isReps

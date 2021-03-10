@@ -2,7 +2,7 @@ import * as React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Calendar from './components/Calendar/Calendar';
+import CalendarView from './components/Calendar/CalendarView';
 import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
 import Workouts from './components/Workouts/Workouts';
@@ -46,7 +46,7 @@ export default ({navigation}) => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Workouts" component={Workouts} />
       <Tab.Screen name="Cycles" component={Cycles} />
-      <Tab.Screen name="Calendar" component={Calendar} />
+      <Tab.Screen name="Calendar" component={CalendarView} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
     )

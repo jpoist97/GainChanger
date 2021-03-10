@@ -13,7 +13,7 @@ const AddExercises = ({ route }) => {
     items.sort((a, b) => a.name.localeCompare(b.name));
 
     // Group by first letter of each name
-    const bucketData = items.reduce((accumulator, item) => {
+    return items.reduce((accumulator, item) => {
       const bucket = item.name[0].toUpperCase();
 
       // If this is the first time we've seen this letter, create a bucket
@@ -24,7 +24,6 @@ const AddExercises = ({ route }) => {
       }
       return accumulator;
     }, {});
-    return bucketData;
   };
 
   const parseItemsByMuscleGroup = (items) => {

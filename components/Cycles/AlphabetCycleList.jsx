@@ -35,7 +35,7 @@ const parseItems = (items, selectedCycle, colorTheme) => {
   // The second argument here is the initial accumulator, if there is a
   // selected cycle we want that to be in the initial accumulator, if not
   // we want an empty object as the initial accumulator
-  const bucketData = items.reduce((accumulator, item, index) => {
+  return items.reduce((accumulator, item, index) => {
     const bucket = item.name[0].toUpperCase();
     const newItem = {
       ...item,
@@ -51,8 +51,6 @@ const parseItems = (items, selectedCycle, colorTheme) => {
 
     return accumulator;
   }, (selectedCycle ? { 'Selected Cycle': [{ ...selectedCycle, color: colorTheme }] } : {}));
-
-  return bucketData;
 };
 
 const AlphabetCycleList = (props) => {
