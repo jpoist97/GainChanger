@@ -62,13 +62,12 @@ ExerciseItem.propTypes = {
   subtext: PropTypes.string,
   name: PropTypes.string.isRequired,
   selected: PropTypes.bool,
-  onPress: PropTypes.func,
+  onPress: PropTypes.func.isRequired,
 };
 
 ExerciseItem.defaultProps = {
   subtext: '',
   selected: false,
-  onPress: () => {},
 };
 
 export default ExerciseItem;

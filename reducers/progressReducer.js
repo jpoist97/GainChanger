@@ -1,5 +1,4 @@
 import { UPDATE_USER_PROGRESS, SET_EXERCISE_RECORDS, START_LOADING_EXERCISE_RECORDS, ADD_NEW_EXERCISE_RECORDS } from '../constants/index';
-import _ from 'lodash';
 import { format, toDate } from 'date-fns';
 
 const initialState = {

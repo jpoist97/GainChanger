@@ -80,18 +80,15 @@ CycleCard.propTypes = {
   color: PropTypes.string,
   subtext: PropTypes.string,
   name: PropTypes.string.isRequired,
-  onPress: PropTypes.func,
-  deleteCycle: PropTypes.func,
-  selectCycle: PropTypes.func,
+  onPress: PropTypes.func.isRequired,
+  deleteCycle: PropTypes.func.isRequired,
+  selectCycle: PropTypes.func.isRequired,
   isSelectedCycle: PropTypes.bool,
 };
 
 CycleCard.defaultProps = {
   color: '#CAB0FF',
   subtext: '',
-  onPress: () => {},
-  deleteCycle: () => {},
-  selectCycle: () => {},
   isSelectedCycle: false,
 };
 
