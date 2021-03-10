@@ -39,6 +39,7 @@ const ExerciseDetails = (props) => {
   const scheduleNotification = async () => {
     const content = {
       title: 'Rest finished, time for your next set!',
+      sound: 'default',
     };
     Notifications.scheduleNotificationAsync({ content, trigger: { seconds: settings.restNotificationTimer } });
   };
