@@ -49,7 +49,9 @@ We strive to help gym-goers and athletes plan, organize, and track their workout
 [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript)
 
 ### Static Code Analysis Report 
-https://sonarcloud.io/project/issues?id=jpoist97_GainChanger&resolved=false&types=BUG
+https://sonarcloud.io/dashboard?id=jpoist97_GainChanger
+
+Although we were able to remove all bugs from our repository, we were unable to address all of the code smells. Some of the code smells directly conflicted with the way that redux reducers must be structured, meaning fixing those code smells would break our redux store. Some other code smells would require a large refactoring of code to fix, which we didn't want to do so close to the end of our project in fear of introducing new bugs to our code. Several of our other code smells also came from TODO comments we left in our code to keep track of features we have yet to complete. Looking towards the future, we definitely anticipate being able to get the number of code smells in our repository down, but as is, our code base is already really healthy.
 
 ### Unit Test Location
 https://github.com/jpoist97/GainChanger/tree/main/__tests__
