@@ -54,9 +54,12 @@ https://sonarcloud.io/project/issues?id=jpoist97_GainChanger&resolved=false&type
 ### Unit Test Location
 https://github.com/jpoist97/GainChanger/tree/main/__tests__
 
+<a href="https://ibb.co/kBWydwK"><img src="https://i.ibb.co/JtMdhGn/Screen-Shot-2021-03-10-at-11-14-15-AM.png" alt="Screen-Shot-2021-03-10-at-11-14-15-AM" width="400" border="0" /></a>
+
 ### User Testing
 Link to Form: https://forms.gle/evdC6h7fqdb1MNBL7
-Link to Results/Analysis: https://tinyurl.com/gainchangerusertesting
+
+Link to Analysis: https://tinyurl.com/gainchangerusertesting
 
 ### Continuous Integration 
 https://www.travis-ci.com/github/jpoist97/GainChanger
