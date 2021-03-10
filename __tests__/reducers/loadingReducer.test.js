@@ -2,13 +2,16 @@ import loadingReducer from '../../reducers/loadingReducer';
 
 import { COMPLETE_WORKOUT_LOAD, COMPLETE_CYCLE_LOAD, COMPLETE_EXERCISE_LOAD, RESET_LOAD_STORE, } from '../../constants/index';
 
-const expectedInitialState = {
-  cyclesLoaded: false,
-  workoutsLoaded: false,
-  exercisesLoaded: false,
- }
+
 
 describe('loadingReducer tests', () => {
+
+   const expectedInitialState = {
+      cyclesLoaded: false,
+      workoutsLoaded: false,
+      exercisesLoaded: false,
+     }
+
   it('should have proper initial state', () => {
      // Arrange
 
@@ -82,18 +85,18 @@ describe('loadingReducer tests', () => {
         type: RESET_LOAD_STORE,
       };
 
-     const expectedInitialState = {
+     const expectedInitialLoadState = {
       cyclesLoaded: true,
       workoutsLoaded: true,
       exercisesLoaded: true,
      }
 
        // Act
-       const loadingState = loadingReducer(expectedInitialState, action);
+       const loadingState = loadingReducer(expectedInitialLoadState, action);
 
        // Assert
        expect(loadingState).toEqual({
-          ...expectedInitialState,
+          ...expectedInitialLoadState,
           cyclesLoaded: false,
           workoutsLoaded: false,
           exercisesLoaded: false,

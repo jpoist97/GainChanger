@@ -4,9 +4,11 @@ import {
     ADD_WORKOUT, 
     DELETE_WORKOUT, 
     UPDATE_WORKOUT, 
-    UPDATE_WORKOUT_EXERCISES 
+    UPDATE_WORKOUT_EXERCISES,
+    pushWorkout, 
+    pullWorkout, 
+    legsWorkout
 } from '../../constants/index';
-import { pushWorkout, pullWorkout, legsWorkout } from '../../constants/index';
 
 describe('workoutReducer tests', () => {
 
@@ -134,13 +136,13 @@ describe('workoutReducer tests', () => {
 
         it('should attempt to update a non-existing workout', () => {
             
-            const action = {
+            const updateAction = {
                 type: UPDATE_WORKOUT, 
                 workoutId: 'z',
                 newWorkoutContent: pushWorkout,
             };
 
-            const workoutState = workoutReducer(fakestate, action);
+            const workoutState = workoutReducer(fakestate, updateAction);
 
             expect(workoutState).toEqual(fakestate);
         });

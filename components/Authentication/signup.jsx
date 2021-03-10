@@ -106,7 +106,7 @@ const Signup = ({ navigation }) => {
       isFirstRunName.current = false;
       return;
     }
-    setValidName(!((name.length > 1)));
+    setValidName(name.length <= 1);
   }, [name]);
 
   React.useEffect(() => {
@@ -122,7 +122,7 @@ const Signup = ({ navigation }) => {
       isFirstRunPassword.current = false;
       return;
     }
-    setValidPassword(!(password.length > 5));
+    setValidPassword(password.length <= 5);
   }, [password]);
 
   const logCycleData = async (workoutIDs, userRef) => {

@@ -13,9 +13,7 @@ import { parse, differenceInCalendarDays } from 'date-fns';
 const getUserRef = () => {
    const currentUser = firebase.auth().currentUser.uid;
    const dbRef = firebase.firestore();
-   const userRef = dbRef.collection('users').doc(currentUser);
-
-   return userRef;
+   return dbRef.collection('users').doc(currentUser);
 };
 
 
@@ -73,7 +71,7 @@ export async function fetchWorkouts() {
  */
 export async function updateWorkoutDocument(workoutId, newWorkoutContent) {
    const userRef = getUserRef();
-   return await userRef.collection('workouts').doc(workoutId).update(newWorkoutContent);
+   return userRef.collection('workouts').doc(workoutId).update(newWorkoutContent);
 }
 
 
@@ -119,7 +117,7 @@ export async function purgeWorkoutFromCycles(workoutId, cycleIds) {
  */
 export async function deleteWorkoutDocument(workoutId) {
    const userRef = getUserRef();
-   return await userRef.collection('workouts').doc(workoutId).delete();
+   return userRef.collection('workouts').doc(workoutId).delete();
 }
 
 
@@ -151,7 +149,7 @@ export async function fetchCycles() {
    });
 
    return cycles;
-};
+}
 
 
 /**
@@ -162,7 +160,7 @@ export async function fetchCycles() {
  */
 export async function deleteCycleDocument(cycleId) {
    const userRef = getUserRef();
-   return await userRef.collection('cycles').doc(cycleId).delete();
+   return userRef.collection('cycles').doc(cycleId).delete();
 }
 
 
@@ -261,7 +259,7 @@ async function fetchCustomExercises() {
  */
 export async function addCustomExercise(exercise) {
   const userRef = getUserRef();
-  return await userRef.collection('customExercises').add(exercise);
+  return userRef.collection('customExercises').add(exercise);
 }
 
 
@@ -310,7 +308,7 @@ export async function updateSelectedCycleIndex(newIndex) {
  */
 export async function updateUserProgress(totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord) {
    const userRef = getUserRef();
-   return await userRef.update({
+   return userRef.update({
       totalWeightLifted,
       totalWorkoutsPerformed,
       weightPersonalRecord,

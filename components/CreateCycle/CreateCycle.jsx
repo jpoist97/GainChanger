@@ -140,7 +140,6 @@ export default ({ navigation, route }) => {
         }
       }}
       />
-
       {/* TODO: remove this stack navigator */}
       <Stack.Navigator initialRouteName="CreateCycle">
         <Stack.Screen name="CreateCycle" component={CreateCycle} options={{ headerShown: false }} />
