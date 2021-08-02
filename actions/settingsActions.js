@@ -5,21 +5,21 @@ const initializeSettings = (userSettings) => {
    return {
       type: UPDATE_USER_SETTINGS,
       newUserSettings: userSettings,
-   }
-}
+   };
+};
 
 const updateSettings = (newUserSettings) => {
    return (dispatch) => {
-      updateUserSettings(newUserSettings)
+      updateUserSettings(newUserSettings);
 
       dispatch({
          type: UPDATE_USER_SETTINGS,
          newUserSettings,
       });
-   }
-}
+   };
+};
 
 export default {
    initializeSettings,
    updateSettings,
-} 
+};

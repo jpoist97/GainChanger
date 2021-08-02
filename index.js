@@ -8,9 +8,9 @@ import configureStore from './store/configureStore';
 const store = configureStore();
 
 const RNRedux = () => (
-  <Provider store = { store }>
-    <App />
-  </Provider>
-)
+   <Provider store={store}>
+      <App />
+   </Provider>
+);
 
 registerRootComponent(RNRedux);

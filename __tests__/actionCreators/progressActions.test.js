@@ -1,15 +1,15 @@
 import progressActions from '../../actions/progressActions';
 import api from '../../api';
-import { 
-   UPDATE_USER_PROGRESS, 
-   SET_EXERCISE_RECORDS, 
-   START_LOADING_EXERCISE_RECORDS, 
-   ADD_NEW_EXERCISE_RECORDS 
+import {
+   UPDATE_USER_PROGRESS,
+   SET_EXERCISE_RECORDS,
+   START_LOADING_EXERCISE_RECORDS,
+   ADD_NEW_EXERCISE_RECORDS,
 } from '../../constants/index';
 
 jest.mock('../../api.js', () => ({
-   updateUserProgress: jest.fn(), 
-   retrieveExerciseRecords: jest.fn(), 
+   updateUserProgress: jest.fn(),
+   retrieveExerciseRecords: jest.fn(),
    postExerciseRecords: jest.fn(),
 }));
 
@@ -26,7 +26,7 @@ const exerciseRecords = [
 ];
 
 afterEach(() => {
-  jest.clearAllMocks();
+   jest.clearAllMocks();
 });
 
 describe('progressActions tests', () => {
@@ -35,7 +35,11 @@ describe('progressActions tests', () => {
          // Arrange
 
          // Act
-         const action = progressActions.initalizeProgressStore(totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord);
+         const action = progressActions.initalizeProgressStore(
+            totalWeightLifted,
+            totalWorkoutsPerformed,
+            weightPersonalRecord
+         );
 
          // Assert
          expect(action).toEqual({
@@ -52,7 +56,11 @@ describe('progressActions tests', () => {
          // Arrange
 
          // Act
-         const thunkFunction = progressActions.updateProgressStats(totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord);
+         const thunkFunction = progressActions.updateProgressStats(
+            totalWeightLifted,
+            totalWorkoutsPerformed,
+            weightPersonalRecord
+         );
          thunkFunction(mockDispatch);
 
          // Assert
@@ -61,32 +69,37 @@ describe('progressActions tests', () => {
             totalWeightLifted,
             totalWorkoutsPerformed,
             weightPersonalRecord,
-         })
+         });
       });
 
       it('should dispatch update values in firestore', () => {
          // Arrange
 
          // Act
-         const thunkFunction = progressActions.updateProgressStats(totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord);
+         const thunkFunction = progressActions.updateProgressStats(
+            totalWeightLifted,
+            totalWorkoutsPerformed,
+            weightPersonalRecord
+         );
          thunkFunction(mockDispatch);
 
          // Assert
          expect(api.updateUserProgress).toHaveBeenCalledWith(
             totalWeightLifted,
             totalWorkoutsPerformed,
-            weightPersonalRecord,
-         )
+            weightPersonalRecord
+         );
       });
    });
 
    describe('fetchExerciseRecords tests', () => {
       it('should dispatch START_LOADING_EXERCISE_RECORDS', async () => {
-         // Arrange 
+         // Arrange
          api.retrieveExerciseRecords.mockResolvedValue(exerciseRecords);
 
          // Act
-         const thunkFunction = progressActions.fetchExerciseRecords(testExerciseId);
+         const thunkFunction =
+            progressActions.fetchExerciseRecords(testExerciseId);
          await thunkFunction(mockDispatch);
 
          // Assert
@@ -96,11 +109,12 @@ describe('progressActions tests', () => {
       });
 
       it('should dispatch SET_EXERCISE_RECORDS with records from firestore', async () => {
-         // Arrange 
+         // Arrange
          api.retrieveExerciseRecords.mockResolvedValue(exerciseRecords);
 
          // Act
-         const thunkFunction = progressActions.fetchExerciseRecords(testExerciseId);
+         const thunkFunction =
+            progressActions.fetchExerciseRecords(testExerciseId);
          await thunkFunction(mockDispatch);
 
          // Assert
@@ -114,10 +128,11 @@ describe('progressActions tests', () => {
 
    describe('postNewExerciseRecords tests', () => {
       it('should dispatch ADD_NEW_EXERCISE_RECORDS', () => {
-         // Arrange 
+         // Arrange
 
          // Act
-         const thunkFunction = progressActions.postNewExerciseRecords(exerciseRecords);
+         const thunkFunction =
+            progressActions.postNewExerciseRecords(exerciseRecords);
          thunkFunction(mockDispatch);
 
          // Assert
@@ -128,10 +143,11 @@ describe('progressActions tests', () => {
       });
 
       it('should update the information in firestore', () => {
-         // Arrange 
+         // Arrange
 
          // Act
-         const thunkFunction = progressActions.postNewExerciseRecords(exerciseRecords);
+         const thunkFunction =
+            progressActions.postNewExerciseRecords(exerciseRecords);
          thunkFunction(mockDispatch);
 
          // Assert

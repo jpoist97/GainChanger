@@ -1,20 +1,17 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { AntDesign } from '@expo/vector-icons';
 
 const NameText = styled.Text`
-   color: #EFEFEF;
+   color: #efefef;
    font-size: 24px;
    font-family: 'Montserrat_500Medium';
 `;
 
 const Subtext = styled.Text`
-   color: #EFEFEF;
+   color: #efefef;
    font-size: 20px;
    position: absolute;
    bottom: 15px;
@@ -32,11 +29,9 @@ const AddButton = styled(AntDesign)`
 `;
 
 const SelectableWorkoutCard = (props) => {
-  const {
-    color, subtext, name, onPress, selected, displayAddButton,
-  } = props;
+   const { color, subtext, name, onPress, selected, displayAddButton } = props;
 
-  const StyledView = styled(TouchableOpacity)`
+   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
       width: 40%;
       height: 180px;
@@ -48,36 +43,37 @@ const SelectableWorkoutCard = (props) => {
       box-shadow: 3px 5px 2px #00000050;
    `;
 
-  return (
-    <StyledView onPress={onPress}>
-      <NameText>{name}</NameText>
-      {displayAddButton ? (
-        <AddButton
-          name={selected ? 'checkcircle' : 'checkcircleo'}
-          size={28}
-          color={color}
-        />
-      ) : <View />}
-      <Subtext>{subtext}</Subtext>
-    </StyledView>
-  );
+   return (
+      <StyledView onPress={onPress}>
+         <NameText>{name}</NameText>
+         {displayAddButton ? (
+            <AddButton
+               name={selected ? 'checkcircle' : 'checkcircleo'}
+               size={28}
+               color={color}
+            />
+         ) : (
+            <View />
+         )}
+         <Subtext>{subtext}</Subtext>
+      </StyledView>
+   );
 };
 
 SelectableWorkoutCard.propTypes = {
-  color: PropTypes.string,
-  subtext: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  displayAddButton: PropTypes.bool,
-  selected: PropTypes.bool,
-  onPress: PropTypes.func.isRequired,
-
+   color: PropTypes.string,
+   subtext: PropTypes.string,
+   name: PropTypes.string.isRequired,
+   displayAddButton: PropTypes.bool,
+   selected: PropTypes.bool,
+   onPress: PropTypes.func.isRequired,
 };
 
 SelectableWorkoutCard.defaultProps = {
-  color: '#CAB0FF',
-  subtext: '',
-  selected: false,
-  displayAddButton: true,
+   color: '#CAB0FF',
+   subtext: '',
+   selected: false,
+   displayAddButton: true,
 };
 
 export default SelectableWorkoutCard;

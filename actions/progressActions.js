@@ -1,18 +1,39 @@
-import { UPDATE_USER_PROGRESS, SET_EXERCISE_RECORDS, START_LOADING_EXERCISE_RECORDS, ADD_NEW_EXERCISE_RECORDS } from '../constants/index';
-import { updateUserProgress, retrieveExerciseRecords, postExerciseRecords, } from '../api';
+import {
+   UPDATE_USER_PROGRESS,
+   SET_EXERCISE_RECORDS,
+   START_LOADING_EXERCISE_RECORDS,
+   ADD_NEW_EXERCISE_RECORDS,
+} from '../constants/index';
+import {
+   updateUserProgress,
+   retrieveExerciseRecords,
+   postExerciseRecords,
+} from '../api';
 
-const initalizeProgressStore = (totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord) => {
+const initalizeProgressStore = (
+   totalWeightLifted,
+   totalWorkoutsPerformed,
+   weightPersonalRecord
+) => {
    return {
       type: UPDATE_USER_PROGRESS,
       totalWeightLifted,
       totalWorkoutsPerformed,
       weightPersonalRecord,
-   }
+   };
 };
 
-const updateProgressStats = (totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord) => {
+const updateProgressStats = (
+   totalWeightLifted,
+   totalWorkoutsPerformed,
+   weightPersonalRecord
+) => {
    return async (dispatch) => {
-      updateUserProgress(totalWeightLifted, totalWorkoutsPerformed, weightPersonalRecord);
+      updateUserProgress(
+         totalWeightLifted,
+         totalWorkoutsPerformed,
+         weightPersonalRecord
+      );
 
       dispatch({
          type: UPDATE_USER_PROGRESS,
@@ -20,7 +41,7 @@ const updateProgressStats = (totalWeightLifted, totalWorkoutsPerformed, weightPe
          totalWorkoutsPerformed,
          weightPersonalRecord,
       });
-   } 
+   };
 };
 
 const fetchExerciseRecords = (exerciseId) => {
@@ -33,11 +54,11 @@ const fetchExerciseRecords = (exerciseId) => {
 
       dispatch({
          type: SET_EXERCISE_RECORDS,
-         exerciseId, 
+         exerciseId,
          exerciseRecords,
-      })
-   }
-}
+      });
+   };
+};
 
 const postNewExerciseRecords = (exerciseRecords) => {
    return async (dispatch) => {
@@ -46,9 +67,9 @@ const postNewExerciseRecords = (exerciseRecords) => {
       dispatch({
          type: ADD_NEW_EXERCISE_RECORDS,
          exerciseRecords,
-      })
-   }
-}
+      });
+   };
+};
 
 export default {
    initalizeProgressStore,

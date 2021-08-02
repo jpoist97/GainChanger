@@ -1,6 +1,10 @@
 import exerciseActions from '../../actions/exerciseActions';
 import api from '../../api';
-import { INITIALIZE_EXERCISES, ADD_CUSTOM_EXERCISE, COMPLETE_EXERCISE_LOAD } from '../../constants/index';
+import {
+   INITIALIZE_EXERCISES,
+   ADD_CUSTOM_EXERCISE,
+   COMPLETE_EXERCISE_LOAD,
+} from '../../constants/index';
 
 jest.mock('../../api.js', () => ({
    fetchExercises: jest.fn(),
@@ -58,7 +62,7 @@ describe('exerciseAction tests', () => {
             name: 'Custom Exercse',
             id: 'custom-exercise-id',
             muscleGroups: 'Back',
-         }
+         };
 
          // Act
          const thunkFunction = exerciseActions.addCustomExercise(newExercise);
@@ -69,6 +73,6 @@ describe('exerciseAction tests', () => {
             type: ADD_CUSTOM_EXERCISE,
             exercise: newExercise,
          });
-      })
-   })
+      });
+   });
 });

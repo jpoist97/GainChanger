@@ -1,11 +1,17 @@
-import { ADD_WORKOUT, INITIALIZE_WORKOUTS, DELETE_WORKOUT, UPDATE_WORKOUT, UPDATE_WORKOUT_EXERCISES } from '../constants/index';
+import {
+   ADD_WORKOUT,
+   INITIALIZE_WORKOUTS,
+   DELETE_WORKOUT,
+   UPDATE_WORKOUT,
+   UPDATE_WORKOUT_EXERCISES,
+} from '../constants/index';
 
 const initialState = {
    workouts: [],
-}
+};
 
 const workoutReducer = (state = initialState, action) => {
-   switch(action.type) {
+   switch (action.type) {
       case INITIALIZE_WORKOUTS:
          console.log('Initializing workouts store');
          return {
@@ -20,15 +26,17 @@ const workoutReducer = (state = initialState, action) => {
          };
       case DELETE_WORKOUT:
          console.log(`Deleting workout with ID ${action.workoutId}`);
-         const postDeleteWorkout = state.workouts.filter((workout) => workout.id !== action.workoutId);
+         const postDeleteWorkout = state.workouts.filter(
+            (workout) => workout.id !== action.workoutId
+         );
          return {
             workouts: postDeleteWorkout,
-         }
+         };
       case UPDATE_WORKOUT:
          console.log(`Updating workout with ID ${action.workoutId}`);
 
          const updatedWorkouts = state.workouts.map((workout) => {
-            if(workout.id === action.workoutId) {
+            if (workout.id === action.workoutId) {
                return {
                   ...action.newWorkoutContent,
                   id: action.workoutId,
@@ -38,10 +46,12 @@ const workoutReducer = (state = initialState, action) => {
             }
          });
          return {
-            workouts: updatedWorkouts
+            workouts: updatedWorkouts,
          };
       case UPDATE_WORKOUT_EXERCISES:
-         console.log(`Updating workout's prev details in store ${action.workoutId}`);
+         console.log(
+            `Updating workout's prev details in store ${action.workoutId}`
+         );
          const updatedWorkoutList = state.workouts.map((workoutEle) => {
             if (workoutEle.id == action.workoutId) {
                return {
@@ -49,18 +59,17 @@ const workoutReducer = (state = initialState, action) => {
                   exercises: action.updatedExercises,
                   lastPerformed: 0,
                };
-            } 
-            else {
+            } else {
                return workoutEle;
             }
          });
          return {
-            workouts: updatedWorkoutList
-         }
-         
+            workouts: updatedWorkoutList,
+         };
+
       default:
          return state;
    }
-}
+};
 
 export default workoutReducer;

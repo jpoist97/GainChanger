@@ -6,41 +6,39 @@ import ExpandableWorkoutCard from './ExpandableWorkoutCard';
 import { COLORS } from '../../constants';
 
 const DraggableWorkoutList = (props) => {
-  const {
-    workouts, passWorkoutList, removeWorkout,
-  } = props;
+   const { workouts, passWorkoutList, removeWorkout } = props;
 
-  const [workoutList, setWorkoutList] = React.useState(workouts);
-  const colorTheme = useSelector((state) => state.settings.colorTheme);
+   const [workoutList, setWorkoutList] = React.useState(workouts);
+   const colorTheme = useSelector((state) => state.settings.colorTheme);
 
-  React.useEffect(() => {
-    passWorkoutList(workoutList);
-  }, [workoutList]);
+   React.useEffect(() => {
+      passWorkoutList(workoutList);
+   }, [workoutList]);
 
-  const renderCard = ({ item, index, drag }) => (
-    <ExpandableWorkoutCard
-      drag={drag}
-      removeWorkout={removeWorkout(index)}
-      name={item.name}
-      muscleGroups={item.muscleGroups}
-      color={COLORS[colorTheme][index % (COLORS[colorTheme].length - 1)]}
-      exercises={item.exercises}
-    />
-  );
+   const renderCard = ({ item, index, drag }) => (
+      <ExpandableWorkoutCard
+         drag={drag}
+         removeWorkout={removeWorkout(index)}
+         name={item.name}
+         muscleGroups={item.muscleGroups}
+         color={COLORS[colorTheme][index % (COLORS[colorTheme].length - 1)]}
+         exercises={item.exercises}
+      />
+   );
 
-  return (
-    <DraggableFlatList
-      data={workoutList}
-      keyExtractor={(item, index) => item.id.toString() + index}
-      onDragEnd={({ data }) => setWorkoutList(data)}
-      renderItem={renderCard}
-    />
-  );
+   return (
+      <DraggableFlatList
+         data={workoutList}
+         keyExtractor={(item, index) => item.id.toString() + index}
+         onDragEnd={({ data }) => setWorkoutList(data)}
+         renderItem={renderCard}
+      />
+   );
 };
 
 DraggableWorkoutList.propTypes = {
-  workouts: PropTypes.array.isRequired,
-  passWorkoutList: PropTypes.func.isRequired,
+   workouts: PropTypes.array.isRequired,
+   passWorkoutList: PropTypes.func.isRequired,
 };
 
 export default DraggableWorkoutList;
