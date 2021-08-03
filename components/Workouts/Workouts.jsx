@@ -13,7 +13,7 @@ const AddWorkoutButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default ({ navigation }) => {
+const Workouts = ({ navigation }) => {
    const workouts = useSelector((state) => state.workouts.workouts);
 
    const items = workouts.map((workout) => ({
@@ -61,3 +61,5 @@ export default ({ navigation }) => {
       </SafeAreaView>
    );
 };
+
+export default Workouts;

@@ -12,7 +12,7 @@ const TopBar = styled.View`
    height: 5px;
 `;
 
-export default (props) => {
+const ModalScreenWrapper = (props) => {
    const { children } = props;
    // Normal safe area view is buggy with animation for modal, used this instead
    const insets = useSafeAreaInsets();
@@ -30,3 +30,5 @@ export default (props) => {
       </View>
    );
 };
+
+export default ModalScreenWrapper;

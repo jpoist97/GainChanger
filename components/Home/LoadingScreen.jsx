@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import 'firebase/firestore';
 import actions from '../../actions/index';
 
-export default ({ navigation }) => {
+const LoadingScreen = ({ navigation }) => {
    const dispatch = useDispatch();
    const loadingStore = useSelector((state) => state.loading);
    const { workoutsLoaded, cyclesLoaded, exercisesLoaded } = loadingStore;
@@ -27,6 +27,7 @@ export default ({ navigation }) => {
       <View style={{ flex: 1, alignItems: 'center', marginTop: 255 }}>
          <Animatable.View animation="rotate" iterationCount="infinite">
             <Image
+               // eslint-disable-next-line no-undef
                source={require('../../assets/logo.png')}
                style={{
                   width: 310,
@@ -37,3 +38,5 @@ export default ({ navigation }) => {
       </View>
    );
 };
+
+export default LoadingScreen;

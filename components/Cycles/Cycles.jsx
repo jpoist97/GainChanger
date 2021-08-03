@@ -15,7 +15,7 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default () => {
+const Cycles = () => {
    const navigation = useNavigation();
    const cycles = useSelector((state) => state.cycles);
    const workouts = useSelector((state) => state.workouts.workouts);
@@ -81,3 +81,5 @@ export default () => {
       </SafeAreaView>
    );
 };
+
+export default Cycles;

@@ -69,7 +69,6 @@ ExerciseItem.propTypes = {
 ExerciseItem.defaultProps = {
    subtext: '',
    selected: false,
-   onPress: () => {},
 };
 
 export default ExerciseItem;

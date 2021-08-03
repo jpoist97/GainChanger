@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import * as React from 'react';
 import { View, Image, Alert, Dimensions } from 'react-native';
 import { Button } from 'react-native-paper';
@@ -68,7 +69,6 @@ const Login = ({ navigation }) => {
    const imgDimension = Dimensions.get('window').width * 0.6;
 
    function ValidateEmail(mail) {
-      // eslint-disable-next-line
       const re =
          /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (re.test(mail)) {
@@ -135,6 +135,7 @@ const Login = ({ navigation }) => {
          <SubTitle>Login</SubTitle>
          <Image
             style={{ width: imgDimension, height: imgDimension }}
+            // eslint-disable-next-line no-undef
             source={require('../../assets/logo.png')}
          />
          <InputLine

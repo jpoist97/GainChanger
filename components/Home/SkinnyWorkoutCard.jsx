@@ -53,7 +53,6 @@ SkinnyWorkoutCard.propTypes = {
 SkinnyWorkoutCard.defaultProps = {
    color: '#CAB0FF',
    subtext: '',
-   onPress: () => {},
 };
 
 export default SkinnyWorkoutCard;

@@ -67,7 +67,7 @@ const parseItemStateToWorkout = (itemState) => {
    };
 };
 
-export default ({ navigation, route }) => {
+const CreateWorkout = ({ navigation, route }) => {
    const isEditing = _.get(route, ['params', 'editing'], false);
    const editWorkout = _.get(route, ['params', 'editWorkout'], undefined);
 
@@ -237,3 +237,5 @@ export default ({ navigation, route }) => {
       </View>
    );
 };
+
+export default CreateWorkout;

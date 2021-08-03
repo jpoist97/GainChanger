@@ -18,7 +18,7 @@ const TopRow = styled(View)`
    justify-content: space-between;
 `;
 
-export default () => (
+const Profile = () => (
    <SafeAreaView>
       <TopRow>
          <Title>Profile</Title>
@@ -28,3 +28,5 @@ export default () => (
       <ExerciseChart />
    </SafeAreaView>
 );
+
+export default Profile;

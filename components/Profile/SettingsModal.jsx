@@ -265,6 +265,7 @@ const SettingsModal = (props) => {
                         }}
                      >
                         <Image
+                           // eslint-disable-next-line no-undef
                            source={require('../../assets/blue.png')}
                            style={{ width: '100%', height: '100%' }}
                         />
@@ -279,6 +280,7 @@ const SettingsModal = (props) => {
                         }}
                      >
                         <Image
+                           // eslint-disable-next-line no-undef
                            source={require('../../assets/purple.png')}
                            style={{ width: '100%', height: '100%' }}
                         />
@@ -296,6 +298,7 @@ const SettingsModal = (props) => {
                         }}
                      >
                         <Image
+                           // eslint-disable-next-line no-undef
                            source={require('../../assets/red.png')}
                            style={{ width: '100%', height: '100%' }}
                         />
@@ -310,6 +313,7 @@ const SettingsModal = (props) => {
                         }}
                      >
                         <Image
+                           // eslint-disable-next-line no-undef
                            source={require('../../assets/multi.png')}
                            style={{ width: '100%', height: '100%' }}
                         />

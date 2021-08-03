@@ -37,7 +37,7 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default ({ navigation, route }) => {
+const CreateCycle = ({ navigation, route }) => {
    const { cycleName, cycleDetails, isNewCycle, cycleID } = route.params;
    const [name, setName] = React.useState(cycleName);
    const [workouts, setWorkouts] = React.useState(cycleDetails);
@@ -156,3 +156,5 @@ export default ({ navigation, route }) => {
       </SafeAreaView>
    );
 };
+
+export default CreateCycle;

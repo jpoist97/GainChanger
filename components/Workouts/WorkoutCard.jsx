@@ -105,9 +105,6 @@ WorkoutCard.defaultProps = {
    color: '#CAB0FF',
    subtext: '',
    displayEllipses: true,
-   onPress: () => {},
-   deleteWorkout: () => {},
-   editWorkout: () => {},
 };
 
 export default WorkoutCard;
