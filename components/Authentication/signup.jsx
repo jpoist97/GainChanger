@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import * as React from 'react';
 import { View, Image, Alert, Dimensions } from 'react-native';
 import { Button } from 'react-native-paper';
@@ -231,6 +232,7 @@ const Signup = ({ navigation }) => {
          <SubTitle>Signup</SubTitle>
          <Image
             style={{ width: imgDimension, height: imgDimension }}
+            // eslint-disable-next-line no-undef
             source={require('../../assets/logo.png')}
          />
          <InputLine

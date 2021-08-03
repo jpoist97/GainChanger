@@ -19,7 +19,7 @@ const WelcomeTitle = styled.Text`
    width: 50%;
 `;
 
-export default () => {
+const Home = () => {
    const dispatch = useDispatch();
    const welcomeName = firebase.auth().currentUser.displayName;
 
@@ -150,3 +150,5 @@ export default () => {
       </SafeAreaView>
    );
 };
+
+export default Home;

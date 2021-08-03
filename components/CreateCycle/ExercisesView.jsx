@@ -12,13 +12,13 @@ const ExercisesView = (props) => {
       font-family: 'Montserrat_500Medium';
       font-size: 12px;
       paddingtop: 2px;
-      paddingbottom: 4px;
+      padding-bottom: 4px;
       width: 33%;
       textalign: center;
    `;
 
    const RowHeader = styled.View`
-      flexdirection: row;
+      flex-direction: row;
       aligncontent: center;
       font-family: 'Montserrat_500Medium';
       justifycontent: space-evenly;
@@ -26,7 +26,7 @@ const ExercisesView = (props) => {
    `;
 
    const RowContent = styled.View`
-      flexdirection: row;
+      flex-direction: row;
       aligncontent: center;
       alignitems: center;
       justifycontent: space-evenly;
@@ -43,7 +43,7 @@ const ExercisesView = (props) => {
 
    const SubTitle = styled(CycleTitle)`
       font-size: 16px;
-      paddingbottom: 5px;
+      padding-bottom: 5px;
       font-family: 'Montserrat_600SemiBold';
    `;
 

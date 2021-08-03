@@ -15,7 +15,7 @@ const CycleTitle = styled.Text`
 
 const SubTitle = styled(CycleTitle)`
    font-size: 16px;
-   paddingbottom: 5px;
+   padding-bottom: 5px;
    font-family: 'Montserrat_600SemiBold';
 `;
 
@@ -29,10 +29,10 @@ const ExpandableWorkoutCard = (props) => {
       width: 90%;
       margin: auto;
       background-color: ${color};
-      borderradius: 10px;
+      border-radius: 10px;
       box-shadow: 1px 5px 2px gray;
-      marginbottom: 10px;
-      margintop: 10px;
+      margin-bottom: 10px;
+      margin-top: 10px;
       padding: 10px;
    `;
 

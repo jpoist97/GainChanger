@@ -48,8 +48,8 @@ const CompletedText = styled.Text`
 `;
 
 const CompleteButton = styled(TouchableOpacity)`
-   backgroundcolor: #ffffff;
-   borderradius: 5px;
+   background-color: #ffffff;
+   border-radius: 5px;
    width: 25px;
    height: 25px;
 `;

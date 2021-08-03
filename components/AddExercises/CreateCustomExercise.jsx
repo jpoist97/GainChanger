@@ -37,7 +37,7 @@ const Container = styled.View`
 
 const WorkoutNameInput = styled.TextInput`
    font-size: 14px;
-   borderbottomwidth: 1px;
+   border-bottom-width: 1px;
    width: 40%;
    padding: 6px;
 `;
@@ -45,7 +45,7 @@ const WorkoutNameInput = styled.TextInput`
 const SelectWrapper = styled.View`
    font-family: 'Montserrat_600SemiBold';
    font-size: 24px;
-   borderbottomwidth: 1px;
+   border-bottom-width: 1px;
    width: 40%;
    padding: 6px;
 `;

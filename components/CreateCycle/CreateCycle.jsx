@@ -16,7 +16,7 @@ const TitleTextInput = styled.TextInput`
    font-size: 24px;
    margin: 15px 12%;
    width: 46%;
-   borderbottomwidth: 1px;
+   border-bottom-width: 1px;
    padding: 2px;
 `;
 
@@ -37,7 +37,7 @@ const AddCycleButton = styled(PlusButton)`
    right: 25px;
 `;
 
-export default ({ navigation, route }) => {
+const CreateCycle = ({ navigation, route }) => {
    const { cycleName, cycleDetails, isNewCycle, cycleID } = route.params;
    const [name, setName] = React.useState(cycleName);
    const [workouts, setWorkouts] = React.useState(cycleDetails);
@@ -156,3 +156,5 @@ export default ({ navigation, route }) => {
       </SafeAreaView>
    );
 };
+
+export default CreateCycle;
