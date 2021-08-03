@@ -24,7 +24,7 @@ const StyledIcon = styled(AntDesign)`
 `;
 
 const ContentWrapper = styled.View`
-   flexdirection: row;
+   flex-direction: row;
 `;
 const StyledInput = styled.TextInput`
    width: 70px;

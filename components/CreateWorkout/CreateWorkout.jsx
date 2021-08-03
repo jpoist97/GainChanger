@@ -17,7 +17,7 @@ const TitleTextInput = styled.TextInput`
    font-size: 24px;
    margin: 15px 12%;
    width: 46%;
-   borderbottomwidth: 1px;
+   border-bottom-width: 1px;
    padding: 2px;
 `;
 

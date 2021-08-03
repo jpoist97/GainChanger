@@ -17,7 +17,7 @@ const Title = styled.Text`
    font-family: 'Montserrat_600SemiBold';
    font-size: 24px;
    margin: 0px 6%;
-   paddingbottom: 15px;
+   padding-bottom: 15px;
 `;
 
 const Subtext = styled.Text`
