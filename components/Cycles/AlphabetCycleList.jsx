@@ -11,109 +11,123 @@ import { COLORS } from '../../constants/index';
 import 'firebase/firestore';
 
 const Title = styled.Text`
-  font-family: 'Montserrat_600SemiBold';
-  font-size: 24px;
-  margin: 15px 5%;
+   font-family: 'Montserrat_600SemiBold';
+   font-size: 24px;
+   margin: 15px 5%;
 `;
 
 const SectionHeader = styled.Text`
-  font-family: 'Montserrat_600SemiBold';
-  font-size: 20px;
-  margin-bottom: 15px;
-  padding-left: 5%;
-  background-color: rgb(242, 242, 242);
+   font-family: 'Montserrat_600SemiBold';
+   font-size: 20px;
+   margin-bottom: 15px;
+   padding-left: 5%;
+   background-color: rgb(242, 242, 242);
 `;
 
 const renderHeader = ({ section }) => (
-  <SectionHeader>{section.title}</SectionHeader>
+   <SectionHeader>{section.title}</SectionHeader>
 );
 
 const parseItems = (items, selectedCycle, colorTheme) => {
-  // Sort names alphabetically
-  items.sort((a, b) => a.name.localeCompare(b.name));
+   // Sort names alphabetically
+   items.sort((a, b) => a.name.localeCompare(b.name));
 
-  // The second argument here is the initial accumulator, if there is a
-  // selected cycle we want that to be in the initial accumulator, if not
-  // we want an empty object as the initial accumulator
-  return items.reduce((accumulator, item, index) => {
-    const bucket = item.name[0].toUpperCase();
-    const newItem = {
-      ...item,
-      index,
-    };
+   // The second argument here is the initial accumulator, if there is a
+   // selected cycle we want that to be in the initial accumulator, if not
+   // we want an empty object as the initial accumulator
+   return items.reduce(
+      (accumulator, item, index) => {
+         const bucket = item.name[0].toUpperCase();
+         const newItem = {
+            ...item,
+            index,
+         };
 
-    // If this is the first time we've seen this letter, create a bucket
-    if (!accumulator[bucket]) {
-      accumulator[bucket] = [newItem];
-    } else {
-      accumulator[bucket].push(newItem);
-    }
+         // If this is the first time we've seen this letter, create a bucket
+         if (!accumulator[bucket]) {
+            accumulator[bucket] = [newItem];
+         } else {
+            accumulator[bucket].push(newItem);
+         }
 
-    return accumulator;
-  }, (selectedCycle ? { 'Selected Cycle': [{ ...selectedCycle, color: colorTheme }] } : {}));
+         return accumulator;
+      },
+      selectedCycle
+         ? { 'Selected Cycle': [{ ...selectedCycle, color: colorTheme }] }
+         : {}
+   );
 };
 
 const AlphabetCycleList = (props) => {
-  const dispatch = useDispatch();
-  const { items, selectedCycle } = props;
+   const dispatch = useDispatch();
+   const { items, selectedCycle } = props;
 
-  const colorTheme = useSelector((state) => state.settings.colorTheme);
-  const parsedItems = parseItems(items, selectedCycle, COLORS[colorTheme][3]);
+   const colorTheme = useSelector((state) => state.settings.colorTheme);
+   const parsedItems = parseItems(items, selectedCycle, COLORS[colorTheme][3]);
 
-  const renderCard = ({ item }) => (
-    <CycleCard
-      name={item.name}
-      subtext={item.subtext}
-      selectCycle={() => {
-        const currentUser = firebase.auth().currentUser.uid;
-        firebase.firestore().collection('users').doc(currentUser).update({
-          selectedCycleId: item.id,
-          selectedCycleIndex: 0,
-        });
-        dispatch(actions.cycles.selectCycle(item.id));
-      }}
-      deleteCycle={() => {
-        dispatch(actions.cycles.deleteCycle(item.id));
-        const currentUser = firebase.auth().currentUser.uid;
+   const renderCard = ({ item }) => (
+      <CycleCard
+         name={item.name}
+         subtext={item.subtext}
+         selectCycle={() => {
+            const currentUser = firebase.auth().currentUser.uid;
+            firebase.firestore().collection('users').doc(currentUser).update({
+               selectedCycleId: item.id,
+               selectedCycleIndex: 0,
+            });
+            dispatch(actions.cycles.selectCycle(item.id));
+         }}
+         deleteCycle={() => {
+            dispatch(actions.cycles.deleteCycle(item.id));
+            const currentUser = firebase.auth().currentUser.uid;
 
-        const cycleRef = firebase.firestore()
-          .collection('users')
-          .doc(currentUser)
-          .collection('cycles')
-          .doc(item.id);
+            const cycleRef = firebase
+               .firestore()
+               .collection('users')
+               .doc(currentUser)
+               .collection('cycles')
+               .doc(item.id);
 
-        cycleRef.delete().then(() => {
-          console.log('Document successfully deleted!');
-        }).catch((error) => {
-          console.error('Error removing document: ', error);
-        });
-      }}
-      onPress={item.onPress}
-      color={item.color || COLORS[colorTheme][item.index % (COLORS[colorTheme].length - 1)]}
-      isSelectedCycle={item.id === selectedCycle.id}
-    />
-  );
-
-  return (
-    <View style={{ height: '100%' }}>
-      <Title>Cycles</Title>
-      <AlphabetSectionList
-        data={parsedItems}
-        renderItem={renderCard}
-        renderSectionHeader={renderHeader}
-        getRightSectionListTitle={(title) => (title === 'Selected Cycle' ? '' : title)}
+            cycleRef
+               .delete()
+               .then(() => {
+                  console.log('Document successfully deleted!');
+               })
+               .catch((error) => {
+                  console.error('Error removing document: ', error);
+               });
+         }}
+         onPress={item.onPress}
+         color={
+            item.color ||
+            COLORS[colorTheme][item.index % (COLORS[colorTheme].length - 1)]
+         }
+         isSelectedCycle={item.id === selectedCycle.id}
       />
-    </View>
-  );
+   );
+
+   return (
+      <View style={{ height: '100%' }}>
+         <Title>Cycles</Title>
+         <AlphabetSectionList
+            data={parsedItems}
+            renderItem={renderCard}
+            renderSectionHeader={renderHeader}
+            getRightSectionListTitle={(title) =>
+               title === 'Selected Cycle' ? '' : title
+            }
+         />
+      </View>
+   );
 };
 
 AlphabetCycleList.propTypes = {
-  items: PropTypes.array.isRequired,
-  selectedCycle: PropTypes.object,
+   items: PropTypes.array.isRequired,
+   selectedCycle: PropTypes.object,
 };
 
 AlphabetCycleList.defaultProps = {
-  selectedCycle: undefined,
+   selectedCycle: undefined,
 };
 
 export default AlphabetCycleList;

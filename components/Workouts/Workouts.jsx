@@ -14,33 +14,50 @@ const AddWorkoutButton = styled(PlusButton)`
 `;
 
 export default ({ navigation }) => {
-  const workouts = useSelector((state) => state.workouts.workouts);
+   const workouts = useSelector((state) => state.workouts.workouts);
 
-  const items = workouts.map((workout) => ({
-    name: workout.name,
-    subtext: workout.muscleGroups,
-    color: workout.color,
-    id: workout.id,
-  }));
+   const items = workouts.map((workout) => ({
+      name: workout.name,
+      subtext: workout.muscleGroups,
+      color: workout.color,
+      id: workout.id,
+   }));
 
-  const Stack = createStackNavigator();
+   const Stack = createStackNavigator();
 
-  function Workouts() {
-    return (
+   function Workouts() {
+      return (
+         <SafeAreaView style={{ height: '100%' }}>
+            <AlphabetWorkoutList items={items} />
+            <AddWorkoutButton
+               title="Workout"
+               size={18}
+               onPress={() => navigation.navigate('Create Workout')}
+            />
+         </SafeAreaView>
+      );
+   }
+
+   return (
+      // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
       <SafeAreaView style={{ height: '100%' }}>
-        <AlphabetWorkoutList items={items} />
-        <AddWorkoutButton title="Workout" size={18} onPress={() => navigation.navigate('Create Workout')} />
+         <Stack.Navigator initialRouteName="Workouts">
+            <Stack.Screen
+               name="Workouts"
+               component={Workouts}
+               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+               name="Create Workout"
+               component={CreateWorkout}
+               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+               name="Edit Workout"
+               component={CreateWorkout}
+               options={{ headerShown: false }}
+            />
+         </Stack.Navigator>
       </SafeAreaView>
-    );
-  }
-
-  return ( // This allows you to access 2 different pages on same navigation tab. (i.e. Workouts)
-    <SafeAreaView style={{ height: '100%' }}>
-      <Stack.Navigator initialRouteName="Workouts">
-        <Stack.Screen name="Workouts" component={Workouts} options={{ headerShown: false }} />
-        <Stack.Screen name="Create Workout" component={CreateWorkout} options={{ headerShown: false }} />
-        <Stack.Screen name="Edit Workout" component={CreateWorkout} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </SafeAreaView>
-  );
+   );
 };

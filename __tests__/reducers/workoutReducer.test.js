@@ -1,197 +1,181 @@
 import workoutReducer from '../../reducers/workoutReducer';
-import { 
-    INITIALIZE_WORKOUTS, 
-    ADD_WORKOUT, 
-    DELETE_WORKOUT, 
-    UPDATE_WORKOUT, 
-    UPDATE_WORKOUT_EXERCISES,
-    pushWorkout, 
-    pullWorkout, 
-    legsWorkout
+import {
+   INITIALIZE_WORKOUTS,
+   ADD_WORKOUT,
+   DELETE_WORKOUT,
+   UPDATE_WORKOUT,
+   UPDATE_WORKOUT_EXERCISES,
+   pushWorkout,
+   pullWorkout,
+   legsWorkout,
 } from '../../constants/index';
 
 describe('workoutReducer tests', () => {
+   describe('INITIALIZE_WORKOUTS tests', () => {
+      it('should test initial store without action', () => {
+         const expectedInitialState = {
+            workouts: [],
+         };
 
-    describe('INITIALIZE_WORKOUTS tests', () => {
+         const workoutState = workoutReducer(undefined, {});
 
-        it('should test initial store without action', () => {
+         expect(expectedInitialState).toEqual(workoutState);
+      });
 
-            const expectedInitialState = {
-                workouts: [],
-            }
+      it('should test intial workout store with action', () => {
+         const action = {
+            type: INITIALIZE_WORKOUTS,
+            workouts: [pushWorkout, pullWorkout, legsWorkout],
+         };
 
-            const workoutState = workoutReducer(undefined, {});
+         const expectedState = {
+            workouts: [pushWorkout, pullWorkout, legsWorkout],
+         };
 
-            expect(expectedInitialState).toEqual(workoutState);
-        });
+         const workoutState = workoutReducer(undefined, action);
 
-        it('should test intial workout store with action', () => {
-            
-            const action = {
-                type: INITIALIZE_WORKOUTS,
-                workouts: [pushWorkout, pullWorkout, legsWorkout],
-            };
+         expect(workoutState).toEqual(expectedState);
+      });
+   });
 
-            const expectedState = {
-                workouts: [pushWorkout, pullWorkout, legsWorkout],
-            };
+   describe('ADD_WORKOUT tests', () => {
+      const action = {
+         type: ADD_WORKOUT,
+         workout: pushWorkout,
+      };
 
-            const workoutState = workoutReducer(undefined, action);
+      it('should add workout to empty state', () => {
+         const expectedState = {
+            workouts: [pushWorkout],
+         };
 
-            expect(workoutState).toEqual(expectedState);
-        });
-    });
+         const workoutState = workoutReducer(undefined, action);
 
-    describe('ADD_WORKOUT tests', () => {
+         expect(workoutState).toEqual(expectedState);
+      });
 
-        const action = {
-            type: ADD_WORKOUT,
-            workout: pushWorkout,
-        };
-        
-        it('should add workout to empty state', () => {
-            
-            const expectedState = {
-                workouts: [pushWorkout],
-            };
+      it('should add workout to existing state', () => {
+         const expectedState = {
+            workouts: [pullWorkout, pushWorkout],
+         };
 
-            const workoutState = workoutReducer(undefined, action);
+         const workoutState = workoutReducer(
+            {
+               workouts: [pullWorkout],
+            },
+            action
+         );
 
-            expect(workoutState).toEqual(expectedState);
-        });
+         expect(workoutState).toEqual(expectedState);
+      });
+   });
 
-        it('should add workout to existing state', () => {
+   describe('DELETE_WORKOUT tests', () => {
+      const fakestate = {
+         workouts: [
+            { workout: pullWorkout, id: 'a' },
+            { workout: pushWorkout, id: 'b' },
+            { workout: legsWorkout, id: 'c' },
+         ],
+      };
 
-            const expectedState = {
-                workouts: [pullWorkout, pushWorkout],
-            };
-
-            const workoutState = workoutReducer({
-                workouts: [pullWorkout]
-            }, action);
-
-            expect(workoutState).toEqual(expectedState);
-        });
-    });
-
-    describe('DELETE_WORKOUT tests', () => {
-
-        const fakestate = {
+      it('should delete a workout', () => {
+         const expectedState = {
             workouts: [
-                {workout: pullWorkout, id: 'a'}, 
-                {workout: pushWorkout, id: 'b'},
-                {workout: legsWorkout, id: 'c'},
+               { workout: pullWorkout, id: 'a' },
+               { workout: pushWorkout, id: 'b' },
             ],
-        };
+         };
 
-        it('should delete a workout', () => {
+         const action = {
+            type: DELETE_WORKOUT,
+            workoutId: 'c',
+         };
 
-            const expectedState = {
-                workouts: [
-                    {workout: pullWorkout, id: 'a'},
-                    {workout: pushWorkout, id: 'b'},
-                ],
-            };
+         const workoutState = workoutReducer(fakestate, action);
 
-            const action = {
-                type: DELETE_WORKOUT,
-                workoutId: 'c',
-            };
+         expect(workoutState).toEqual(expectedState);
+      });
+   });
 
-            const workoutState = workoutReducer(fakestate, action);
+   describe('UPDATE_WORKOUT tests', () => {
+      const fakestate = {
+         workouts: [{ workout: pullWorkout, id: 'a' }],
+      };
 
-            expect(workoutState).toEqual(expectedState);
-        });
-    });
+      const action = {
+         type: UPDATE_WORKOUT,
+         workoutId: 'a',
+         newWorkoutContent: pushWorkout,
+      };
 
-    describe('UPDATE_WORKOUT tests', () => {
-
-        const fakestate = {
+      it('should update a workout', () => {
+         const expectedState = {
             workouts: [
-                { workout: pullWorkout, id: 'a'}, 
+               {
+                  ...pushWorkout,
+                  id: 'a',
+               },
             ],
-        };
+         };
 
-        const action = {
+         const workoutState = workoutReducer(fakestate, action);
+
+         expect(workoutState).toEqual(expectedState);
+      });
+
+      it('should attempt to update a non-existing workout', () => {
+         const updateAction = {
             type: UPDATE_WORKOUT,
-            workoutId: 'a',
+            workoutId: 'z',
             newWorkoutContent: pushWorkout,
-        };
-        
-        it('should update a workout', () => {
+         };
 
-            const expectedState = {
-                workouts: [
-                    {
-                        ...pushWorkout,
-                        id: 'a',
-                    }
-                ]
-            };
+         const workoutState = workoutReducer(fakestate, updateAction);
 
-            const workoutState = workoutReducer(fakestate, action);
+         expect(workoutState).toEqual(fakestate);
+      });
+   });
 
-            expect(workoutState).toEqual(expectedState);
-        });
+   describe('UPDATE_WORKOUT_EXERCISES tests', () => {
+      const fakestate = {
+         workouts: [{ ...pullWorkout, id: 'a' }],
+      };
 
-        it('should attempt to update a non-existing workout', () => {
-            
-            const updateAction = {
-                type: UPDATE_WORKOUT, 
-                workoutId: 'z',
-                newWorkoutContent: pushWorkout,
-            };
+      it('should update the exercises of an existing workout', () => {
+         const action = {
+            type: UPDATE_WORKOUT_EXERCISES,
+            workoutId: 'a',
+            updatedExercises: pushWorkout.exercises,
+         };
 
-            const workoutState = workoutReducer(fakestate, updateAction);
-
-            expect(workoutState).toEqual(fakestate);
-        });
-    });
-
-    describe('UPDATE_WORKOUT_EXERCISES tests', () => {
-        
-        const fakestate = {
+         const expectedState = {
             workouts: [
-                { ...pullWorkout, id: 'a'}, 
+               {
+                  name: pullWorkout.name,
+                  muscleGroups: pullWorkout.muscleGroups,
+                  lastPerformed: 0,
+                  id: 'a',
+                  exercises: pushWorkout.exercises,
+               },
             ],
-        };
+         };
 
-        it('should update the exercises of an existing workout', () => {
-            
-            const action = {
-                type: UPDATE_WORKOUT_EXERCISES,
-                workoutId: 'a',
-                updatedExercises: pushWorkout.exercises,
-            };
+         const workoutState = workoutReducer(fakestate, action);
 
-            const expectedState ={
-                workouts: [
-                    {
-                        name: pullWorkout.name,
-                        muscleGroups: pullWorkout.muscleGroups,
-                        lastPerformed: 0,
-                        id: 'a',
-                        exercises: pushWorkout.exercises
-                    }
-                ]
-            };
+         expect(workoutState).toEqual(expectedState);
+      });
 
-            const workoutState = workoutReducer(fakestate, action);
+      it('should attempt to update a non-existing workout', () => {
+         const action = {
+            type: UPDATE_WORKOUT_EXERCISES,
+            workoutId: 'z',
+            updatedExercises: pushWorkout.exercises,
+         };
 
-            expect(workoutState).toEqual(expectedState);
-        });
+         const workoutState = workoutReducer(fakestate, action);
 
-        it('should attempt to update a non-existing workout', () => {
-            
-            const action = {
-                type: UPDATE_WORKOUT_EXERCISES,
-                workoutId: 'z',
-                updatedExercises: pushWorkout.exercises,
-            }
-
-            const workoutState = workoutReducer(fakestate, action);
-
-            expect(workoutState).toEqual(fakestate);
-        });
-    });
+         expect(workoutState).toEqual(fakestate);
+      });
+   });
 });

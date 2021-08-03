@@ -1,26 +1,24 @@
 {
-  "expo": {
-    "name": "GainChanger",
-    "slug": "GainChanger",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/dark-icon.png",
-    "splash": {
-      "image": "./assets/splash-screen.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+   "expo": {
+      "name": "GainChanger",
+      "slug": "GainChanger",
+      "version": "1.0.0",
+      "orientation": "portrait",
+      "icon": "./assets/dark-icon.png",
+      "splash": {
+         "image": "./assets/splash-screen.png",
+         "resizeMode": "contain",
+         "backgroundColor": "#ffffff"
+      },
+      "updates": {
+         "fallbackToCacheTimeout": 0
+      },
+      "assetBundlePatterns": ["**/*"],
+      "ios": {
+         "supportsTablet": true
+      },
+      "web": {
+         "favicon": "./assets/favicon.png"
+      }
+   }
 }

@@ -1,13 +1,18 @@
-import { COMPLETE_WORKOUT_LOAD, COMPLETE_CYCLE_LOAD, COMPLETE_EXERCISE_LOAD, RESET_LOAD_STORE, } from '../constants/index';
+import {
+   COMPLETE_WORKOUT_LOAD,
+   COMPLETE_CYCLE_LOAD,
+   COMPLETE_EXERCISE_LOAD,
+   RESET_LOAD_STORE,
+} from '../constants/index';
 
 const initialState = {
    cyclesLoaded: false,
    workoutsLoaded: false,
    exercisesLoaded: false,
-}
+};
 
 const loadingReducer = (state = initialState, action) => {
-   switch(action.type) {
+   switch (action.type) {
       case COMPLETE_CYCLE_LOAD:
          return {
             ...state,
@@ -22,12 +27,12 @@ const loadingReducer = (state = initialState, action) => {
          return {
             ...state,
             exercisesLoaded: true,
-         }
+         };
       case RESET_LOAD_STORE:
          return initialState;
       default:
          return state;
    }
-}
+};
 
 export default loadingReducer;

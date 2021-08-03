@@ -6,8 +6,7 @@ import workoutRecordActions from './workoutRecordActions';
 import progressActions from './progressActions';
 import settingsActions from './settingsActions';
 import loadingActions from './loadingActions';
-import { fetchUserDoc, } from '../api';
-
+import { fetchUserDoc } from '../api';
 
 const initializeAppData = () => {
    return async (dispatch) => {
@@ -15,19 +14,29 @@ const initializeAppData = () => {
 
       dispatch(workoutActions.initializeWorkouts());
 
-      dispatch(cycleActions.initializeCycles(
-         userDoc.selectedCycleId,
-         userDoc.selectedCycleIndex,
-      ));
+      dispatch(
+         cycleActions.initializeCycles(
+            userDoc.selectedCycleId,
+            userDoc.selectedCycleIndex
+         )
+      );
 
       dispatch(exerciseActions.initalizeExercises());
 
-      dispatch(pastWorkoutDatesActions.initializeRecordDates(userDoc.pastWorkoutDates));
+      dispatch(
+         pastWorkoutDatesActions.initializeRecordDates(userDoc.pastWorkoutDates)
+      );
 
-      dispatch(progressActions.initalizeProgressStore(userDoc.totalWeightLifted, userDoc.totalWorkoutsPerformed, userDoc.weightPersonalRecord));
+      dispatch(
+         progressActions.initalizeProgressStore(
+            userDoc.totalWeightLifted,
+            userDoc.totalWorkoutsPerformed,
+            userDoc.weightPersonalRecord
+         )
+      );
 
       dispatch(settingsActions.initializeSettings(userDoc.settings));
-   }
+   };
 };
 
 export default {

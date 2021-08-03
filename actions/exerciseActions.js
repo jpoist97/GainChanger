@@ -1,4 +1,8 @@
-import { INITIALIZE_EXERCISES, ADD_CUSTOM_EXERCISE, COMPLETE_EXERCISE_LOAD } from '../constants/index';
+import {
+   INITIALIZE_EXERCISES,
+   ADD_CUSTOM_EXERCISE,
+   COMPLETE_EXERCISE_LOAD,
+} from '../constants/index';
 import * as api from '../api';
 
 const initalizeExercises = () => {
@@ -12,23 +16,22 @@ const initalizeExercises = () => {
 
       dispatch({
          type: COMPLETE_EXERCISE_LOAD,
-      })
-   }
-
-}
+      });
+   };
+};
 
 const addCustomExercise = (exercise) => {
-  return (dispatch) => {
-    console.log('Adding custom Exercise')
+   return (dispatch) => {
+      console.log('Adding custom Exercise');
 
-    dispatch({
-     type: ADD_CUSTOM_EXERCISE,
-     exercise,
-    });
-  }
-}
+      dispatch({
+         type: ADD_CUSTOM_EXERCISE,
+         exercise,
+      });
+   };
+};
 
 export default {
    initalizeExercises,
-   addCustomExercise
+   addCustomExercise,
 };

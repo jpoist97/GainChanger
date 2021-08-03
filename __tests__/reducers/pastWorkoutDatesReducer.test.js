@@ -1,58 +1,60 @@
-import { 
-    INITIALIZE_DATES, 
-    ADD_WORKOUT_RECORD_DATE 
+import {
+   INITIALIZE_DATES,
+   ADD_WORKOUT_RECORD_DATE,
 } from '../../constants/index';
 import pastWorkoutDateReducer from '../../reducers/pastWorkoutDatesReducer';
 
 describe('pastWorkoutDatesReducer tests', () => {
+   describe('should test initial state of pastWorkoutDates', () => {
+      const expectedInitialState = {
+         dates: [],
+      };
 
-    describe('should test initial state of pastWorkoutDates', () => {
-    
-        const expectedInitialState = {
-            dates: [],
-        };
+      it('should initialize past workout dates', () => {
+         const initialState = pastWorkoutDateReducer(undefined, {});
 
-        it('should initialize past workout dates', () => {
+         expect(expectedInitialState).toEqual(initialState);
+      });
 
-            const initialState = pastWorkoutDateReducer(undefined, {});
-    
-            expect(expectedInitialState).toEqual(initialState);
-        });
+      it('should initialize past workout dates with action', () => {
+         const initialize_action = {
+            type: INITIALIZE_DATES,
+            dates: ['2021-01-01', '2021-01-02'],
+         };
 
-        it('should initialize past workout dates with action', () => {
+         const datesState = pastWorkoutDateReducer(
+            undefined,
+            initialize_action
+         );
 
-            const initialize_action = {
-                type: INITIALIZE_DATES,
-                dates: ['2021-01-01', '2021-01-02'],
-            };
+         expect(datesState).toEqual({ dates: ['2021-01-01', '2021-01-02'] });
+      });
+   });
 
-            const datesState = pastWorkoutDateReducer(undefined, initialize_action);
+   describe('should test adding dates', () => {
+      const action = {
+         type: ADD_WORKOUT_RECORD_DATE,
+         date: '2021-01-01',
+      };
 
-            expect(datesState).toEqual({dates: ['2021-01-01', '2021-01-02']});
-        });
-    });
+      it('should test adding a new date', () => {
+         const pastWorkoutDatesState = pastWorkoutDateReducer(
+            undefined,
+            action
+         );
 
-    describe('should test adding dates', () => {
+         expect(pastWorkoutDatesState).toEqual({
+            dates: ['2021-01-01'],
+         });
+      });
 
-        const action = {
-            type: ADD_WORKOUT_RECORD_DATE,
-            date: '2021-01-01',
-        };
+      it('should test adding an already existing date', () => {
+         const pastWorkoutDatesState = pastWorkoutDateReducer(
+            { dates: ['2021-01-01'] },
+            action
+         );
 
-        it('should test adding a new date', () => {
-    
-            const pastWorkoutDatesState = pastWorkoutDateReducer(undefined, action);
-    
-            expect(pastWorkoutDatesState).toEqual({
-                dates: ['2021-01-01'],
-            });
-        });
-
-        it('should test adding an already existing date', () => {
-
-            const pastWorkoutDatesState = pastWorkoutDateReducer({dates: ['2021-01-01']}, action);
-
-            expect(pastWorkoutDatesState).toEqual({dates: ['2021-01-01']});
-        });
-    });
+         expect(pastWorkoutDatesState).toEqual({ dates: ['2021-01-01'] });
+      });
+   });
 });

@@ -1,20 +1,20 @@
 import cycleReducer from '../../reducers/cycleReducer';
-import { 
-   INITIALIZE_CYCLES, 
-   SET_SELECTED_CYCLE_INDEX, 
-   ADD_CYCLE, 
-   UPDATE_CYCLE, 
-   DELETE_CYCLE, 
-   SELECT_NEW_CYCLE, 
-   PURGE_WORKOUT 
+import {
+   INITIALIZE_CYCLES,
+   SET_SELECTED_CYCLE_INDEX,
+   ADD_CYCLE,
+   UPDATE_CYCLE,
+   DELETE_CYCLE,
+   SELECT_NEW_CYCLE,
+   PURGE_WORKOUT,
 } from '../../constants/index';
 import _ from 'lodash';
 
 const testCycles = [
-   { name: 'cycle a', id: 'cycle-a', workouts: ['workout-a', 'workout-b'], },
-   { name: 'cycle b', id: 'cycle-b', workouts: ['workout-a', 'workout-c'], },
-   { name: 'cycle c', id: 'cycle-c', workouts: ['workout-c', 'workout-d'], },
-]
+   { name: 'cycle a', id: 'cycle-a', workouts: ['workout-a', 'workout-b'] },
+   { name: 'cycle b', id: 'cycle-b', workouts: ['workout-a', 'workout-c'] },
+   { name: 'cycle c', id: 'cycle-c', workouts: ['workout-c', 'workout-d'] },
+];
 
 describe('cycleReducer tests', () => {
    it('should have proper initial state', () => {
@@ -24,7 +24,7 @@ describe('cycleReducer tests', () => {
          selectedCycleId: undefined,
          selectedCycleIndex: undefined,
          selectedCycle: undefined,
-      }
+      };
 
       // Act
       const initialState = cycleReducer(undefined, {});
@@ -51,10 +51,10 @@ describe('cycleReducer tests', () => {
             cycles: testCycles,
             selectedCycleId: 'cycle-a',
             selectedCycleIndex: 0,
-            selectedCycle: { 
-               name: 'cycle a', 
-               id: 'cycle-a', 
-               workouts: ['workout-a', 'workout-b'], 
+            selectedCycle: {
+               name: 'cycle a',
+               id: 'cycle-a',
+               workouts: ['workout-a', 'workout-b'],
             },
          });
       });
@@ -87,12 +87,12 @@ describe('cycleReducer tests', () => {
             cycles: testCycles,
             selectedCycleId: 'cycle-a',
             selectedCycleIndex: 0,
-            selectedCycle: { 
-               name: 'cycle a', 
-               id: 'cycle-a', 
-               workouts: ['workout-a', 'workout-b'], 
+            selectedCycle: {
+               name: 'cycle a',
+               id: 'cycle-a',
+               workouts: ['workout-a', 'workout-b'],
             },
-         }
+         };
 
          // Act
          const cycleState = cycleReducer(prevStore, action);
@@ -112,14 +112,14 @@ describe('cycleReducer tests', () => {
             name: 'new cycle',
             id: 'new-cycle-id',
             workouts: ['workout-id-a'],
-         }
+         };
          const action = {
             type: ADD_CYCLE,
             cycle: newCycle,
          };
          const prevStore = {
             cycles: testCycles,
-         }
+         };
 
          // Act
          const cycleState = cycleReducer(prevStore, action);
@@ -138,7 +138,7 @@ describe('cycleReducer tests', () => {
          const newCycleContent = {
             name: 'new cycle',
             workouts: ['workout-id-a'],
-         }
+         };
          const editCycleId = 'cycle-a';
 
          const action = {
@@ -148,14 +148,15 @@ describe('cycleReducer tests', () => {
          };
          const prevStore = {
             cycles: testCycles,
-         }
+         };
 
          // Act
          const cycleState = cycleReducer(prevStore, action);
 
          // Assert
-         expect(_.find(cycleState.cycles, (cycle) => cycle.id === editCycleId))
-            .toEqual({ ...newCycleContent, id: editCycleId });
+         expect(
+            _.find(cycleState.cycles, (cycle) => cycle.id === editCycleId)
+         ).toEqual({ ...newCycleContent, id: editCycleId });
       });
 
       it('should not modify the store if the cycle does not exist', () => {
@@ -163,7 +164,7 @@ describe('cycleReducer tests', () => {
          const newCycleContent = {
             name: 'new cycle',
             workouts: ['workout-id-a'],
-         }
+         };
          const editCycleId = 'i-dont-exist';
 
          const action = {
@@ -173,7 +174,7 @@ describe('cycleReducer tests', () => {
          };
          const prevStore = {
             cycles: testCycles,
-         }
+         };
 
          // Act
          const cycleState = cycleReducer(prevStore, action);
@@ -194,13 +195,15 @@ describe('cycleReducer tests', () => {
          };
          const prevStore = {
             cycles: testCycles,
-         }
+         };
 
          // Act
          const cycleState = cycleReducer(prevStore, action);
 
          // Assert
-         expect(cycleState.cycles).toEqual(testCycles.slice(1, testCycles.length));
+         expect(cycleState.cycles).toEqual(
+            testCycles.slice(1, testCycles.length)
+         );
       });
 
       it('should not modify the store if the cycle does not exist', () => {
@@ -213,7 +216,7 @@ describe('cycleReducer tests', () => {
          };
          const prevStore = {
             cycles: testCycles,
-         }
+         };
 
          // Act
          const cycleState = cycleReducer(prevStore, action);
@@ -227,7 +230,10 @@ describe('cycleReducer tests', () => {
       it('should set selectedCycleId, selectedCycleIndex, and selectedCycle appropriately', () => {
          // Arrange
          const newSelectedCycleId = 'cycle-c';
-         const selectedCycle = _.find(testCycles, (cycle) => cycle.id === newSelectedCycleId);
+         const selectedCycle = _.find(
+            testCycles,
+            (cycle) => cycle.id === newSelectedCycleId
+         );
 
          const action = {
             type: SELECT_NEW_CYCLE,
@@ -237,12 +243,12 @@ describe('cycleReducer tests', () => {
             cycles: testCycles,
             selectedCycleId: 'cycle-a',
             selectedCycleIndex: 1,
-            selectedCycle: { 
-               name: 'cycle a', 
-               id: 'cycle-a', 
-               workouts: ['workout-a', 'workout-b'], 
+            selectedCycle: {
+               name: 'cycle a',
+               id: 'cycle-a',
+               workouts: ['workout-a', 'workout-b'],
             },
-         }
+         };
 
          // Act
          const cycleState = cycleReducer(prevStore, action);
@@ -269,20 +275,23 @@ describe('cycleReducer tests', () => {
             cycles: testCycles,
             selectedCycleId: 'cycle-a',
             selectedCycleIndex: 1,
-            selectedCycle: { 
-               name: 'cycle a', 
-               id: 'cycle-a', 
-               workouts: ['workout-a', 'workout-b'], 
+            selectedCycle: {
+               name: 'cycle a',
+               id: 'cycle-a',
+               workouts: ['workout-a', 'workout-b'],
             },
-         }
+         };
 
          // Act
          const cycleState = cycleReducer(prevStore, action);
 
          // Assert
-         expect(cycleState.cycles[1].workouts.includes('workout-c')).toBe(false);
-         expect(cycleState.cycles[2].workouts.includes('workout-c')).toBe(false);
+         expect(cycleState.cycles[1].workouts.includes('workout-c')).toBe(
+            false
+         );
+         expect(cycleState.cycles[2].workouts.includes('workout-c')).toBe(
+            false
+         );
       });
    });
-
-}) 
+});

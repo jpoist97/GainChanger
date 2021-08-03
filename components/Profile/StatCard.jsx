@@ -34,40 +34,47 @@ const SubTitle = styled(Text)`
 `;
 
 const StatCard = (props) => {
-  const {
-    text, subtext, color, width, height, textSize, subtextSize, titleUnits,
-  } = props;
+   const {
+      text,
+      subtext,
+      color,
+      width,
+      height,
+      textSize,
+      subtextSize,
+      titleUnits,
+   } = props;
 
-  return (
-    <StatCardContainer height={height} width={width} color={color}>
-      <Text>
-        <Title size={textSize}>{text}</Title>
-        <Units>{titleUnits}</Units>
-      </Text>
-      <SubTitle size={subtextSize}>{subtext}</SubTitle>
-    </StatCardContainer>
-  );
+   return (
+      <StatCardContainer height={height} width={width} color={color}>
+         <Text>
+            <Title size={textSize}>{text}</Title>
+            <Units>{titleUnits}</Units>
+         </Text>
+         <SubTitle size={subtextSize}>{subtext}</SubTitle>
+      </StatCardContainer>
+   );
 };
 
 StatCard.propTypes = {
-  width: PropTypes.string,
-  height: PropTypes.string,
-  color: PropTypes.string,
-  text: PropTypes.string.isRequired,
-  subtext: PropTypes.string,
-  textSize: PropTypes.number,
-  subtextSize: PropTypes.number,
-  titleUnits: PropTypes.string,
+   width: PropTypes.string,
+   height: PropTypes.string,
+   color: PropTypes.string,
+   text: PropTypes.string.isRequired,
+   subtext: PropTypes.string,
+   textSize: PropTypes.number,
+   subtextSize: PropTypes.number,
+   titleUnits: PropTypes.string,
 };
 
 StatCard.defaultProps = {
-  width: '45%',
-  height: '110px',
-  color: COLORS.default[0],
-  subtext: '',
-  textSize: 30,
-  subtextSize: 15,
-  titleUnits: '',
+   width: '45%',
+   height: '110px',
+   color: COLORS.default[0],
+   subtext: '',
+   textSize: 30,
+   subtextSize: 15,
+   titleUnits: '',
 };
 
 export default StatCard;

@@ -8,13 +8,13 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
 const NameText = styled.Text`
-   color: #EFEFEF;
+   color: #efefef;
    font-size: 24px;
    font-family: 'Montserrat_500Medium';
 `;
 
 const Subtext = styled.Text`
-   color: #EFEFEF;
+   color: #efefef;
    font-size: 16px;
    position: absolute;
    bottom: 15px;
@@ -23,11 +23,9 @@ const Subtext = styled.Text`
 `;
 
 const SkinnyWorkoutCard = (props) => {
-  const {
-    color, subtext, name, onPress,
-  } = props;
+   const { color, subtext, name, onPress } = props;
 
-  const StyledView = styled(TouchableOpacity)`
+   const StyledView = styled(TouchableOpacity)`
       background-color: ${color};
       width: 135px;
       height: 165px;
@@ -37,27 +35,25 @@ const SkinnyWorkoutCard = (props) => {
       box-shadow: 3px 5px 2px #00000050;
    `;
 
-  return (
-    <StyledView onPress={onPress}>
-      <NameText numberOfLines={2}>{name}</NameText>
-      <Subtext>
-        {subtext}
-      </Subtext>
-    </StyledView>
-  );
+   return (
+      <StyledView onPress={onPress}>
+         <NameText numberOfLines={2}>{name}</NameText>
+         <Subtext>{subtext}</Subtext>
+      </StyledView>
+   );
 };
 
 SkinnyWorkoutCard.propTypes = {
-  color: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  subtext: PropTypes.string,
-  onPress: PropTypes.func,
+   color: PropTypes.string,
+   name: PropTypes.string.isRequired,
+   subtext: PropTypes.string,
+   onPress: PropTypes.func,
 };
 
 SkinnyWorkoutCard.defaultProps = {
-  color: '#CAB0FF',
-  subtext: '',
-  onPress: () => {},
+   color: '#CAB0FF',
+   subtext: '',
+   onPress: () => {},
 };
 
 export default SkinnyWorkoutCard;
