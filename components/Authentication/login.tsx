@@ -111,14 +111,14 @@ const Login = ({ navigation }) => {
             .auth()
             .sendPasswordResetEmail(email)
             .then(() => {
-               alert('Password reset link sent.');
+               Alert.alert('Password reset link sent.');
             })
             .catch((error) => {
-               alert('Password reset failed.');
+               Alert.alert('Password reset failed.');
                console.log(error);
             });
       } else {
-         alert('Please input account email.');
+         Alert.alert('Please input account email.');
       }
    }
 

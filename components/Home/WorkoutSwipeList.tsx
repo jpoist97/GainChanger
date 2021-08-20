@@ -24,7 +24,7 @@ const WorkoutSwipeList = (props) => {
       <SkinnyWorkoutCard
          name={item.name}
          subtext={item.subtext}
-         onIconPress={item.onIconPress}
+         // onIconPress={item.onIconPress}
          onPress={() =>
             navigation.navigate('Log Workout', { workoutId: item.id })
          }

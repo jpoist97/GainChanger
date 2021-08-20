@@ -209,6 +209,16 @@ AdjustExerciseCard.propTypes = {
    color: PropTypes.string,
    name: PropTypes.string.isRequired,
    displayEllipses: PropTypes.bool,
+   drag: PropTypes.func,
+   sets: PropTypes.string,
+   reps: PropTypes.string,
+   seconds: PropTypes.string,
+   isReps: PropTypes.bool,
+   setReps: PropTypes.func,
+   setSets: PropTypes.func,
+   setSeconds: PropTypes.func,
+   toggleType: PropTypes.func,
+   removeExercise: PropTypes.func,
 };
 
 AdjustExerciseCard.defaultProps = {

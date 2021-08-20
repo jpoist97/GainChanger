@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { RefObject, useRef } from 'react';
 import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
@@ -61,7 +61,7 @@ const PulloutButton = styled(TouchableOpacity)`
 `;
 
 const SetDetails = (props) => {
-   const swipeRef = useRef();
+   const swipeRef = useRef<Swipeable>();
 
    const {
       completed,
@@ -86,7 +86,7 @@ const SetDetails = (props) => {
       return (
          <PulloutButton
             onPress={() => {
-               swipeRef.current.close();
+               swipeRef?.current?.close();
                onSetDelete();
             }}
          >

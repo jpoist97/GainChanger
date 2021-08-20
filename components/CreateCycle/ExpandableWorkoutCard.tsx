@@ -8,9 +8,9 @@ const CycleTitle = styled.Text`
    color: #ffffff;
    font-size: 24px;
    font-family: 'Montserrat_500Medium';
-   textalign: left;
-   paddingleft: 15px;
-   paddingtop: 5px;
+   text-align: left;
+   padding-left: 15px;
+   padding-top: 5px;
 `;
 
 const SubTitle = styled(CycleTitle)`
@@ -77,6 +77,8 @@ ExpandableWorkoutCard.propTypes = {
    muscleGroups: PropTypes.string,
    color: PropTypes.string,
    exercises: PropTypes.array,
+   drag: PropTypes.func,
+   removeWorkout: PropTypes.func,
 };
 
 ExpandableWorkoutCard.defaultProps = {

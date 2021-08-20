@@ -3,6 +3,15 @@ import { FlatList } from 'react-native-gesture-handler';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+// TODO: Remove this and update this component to use the common definition
+// of an exercise
+interface CalendarExercise {
+   exerciseID: string;
+   weight: string;
+   reps?: number;
+   time?: number;
+}
+
 const RowText = styled.View`
    width: 100%;
    flex-direction: row;
@@ -79,7 +88,7 @@ const CalendarWorkoutCard = (props) => {
             <SubHeader>Weight</SubHeader>
             <SubHeader>{isReps ? 'Reps' : 'Time'}</SubHeader>
          </RowText>
-         <FlatList
+         <FlatList<CalendarExercise>
             data={sets}
             keyExtractor={(item, index) => item.exerciseID + index.toString()}
             renderItem={({ item, index }) => (

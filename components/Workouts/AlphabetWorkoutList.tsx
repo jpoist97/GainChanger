@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import AlphabetSectionList from 'react-native-alphabet-sectionlist';
@@ -88,7 +88,7 @@ const AlphabetWorkoutList = (props) => {
             displayEllipses={left.displayEllipses}
             deleteWorkout={() => {
                if (selectedCycle.workouts.includes(left.id)) {
-                  alert(
+                  Alert.alert(
                      'This workout is included in the selected cycle. Please select another cycle before deleting this workout.'
                   );
                } else {
@@ -104,7 +104,6 @@ const AlphabetWorkoutList = (props) => {
                   editing: true,
                });
             }}
-            id={left.id}
             color={
                COLORS[colorTheme][left.index % (COLORS[colorTheme].length - 1)]
             }
@@ -120,7 +119,7 @@ const AlphabetWorkoutList = (props) => {
                displayEllipses={right.displayEllipses}
                deleteWorkout={() => {
                   if (selectedCycle.workouts.includes(right.id)) {
-                     alert(
+                     Alert.alert(
                         'This workout is included in the selected cycle. Please select another cycle before deleting this workout.'
                      );
                   } else {
@@ -136,7 +135,6 @@ const AlphabetWorkoutList = (props) => {
                      editing: true,
                   });
                }}
-               id={right.id}
                color={
                   COLORS[colorTheme][
                      right.index % (COLORS[colorTheme].length - 1)

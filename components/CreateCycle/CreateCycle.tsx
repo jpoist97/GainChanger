@@ -1,6 +1,6 @@
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,9 +52,9 @@ const CreateCycle = ({ navigation, route }) => {
 
    function removeWorkout(index) {
       if (workouts.length === 1) {
-         alert('Cannot delete last workout');
+         Alert.alert('Cannot delete last workout');
       } else if (cycleID === cycles.selectedCycle.id) {
-         alert('Cannot delete workout from currently selected cycle');
+         Alert.alert('Cannot delete workout from currently selected cycle');
       } else {
          workouts.splice(index, 1);
          updateOrder(workouts);
@@ -133,9 +133,9 @@ const CreateCycle = ({ navigation, route }) => {
          <AddFinishButton
             onPress={() => {
                if (!name) {
-                  alert('Please enter a cycle name');
+                  Alert.alert('Please enter a cycle name');
                } else if (workouts.length === 0) {
-                  alert('Please add at least one workout');
+                  Alert.alert('Please add at least one workout');
                } else {
                   const newCycle = {
                      name,

@@ -211,7 +211,7 @@ const Signup = ({ navigation }) => {
                Alert.alert('Error:', errorMessage);
             });
       } else {
-         alert('Please enter your name.');
+         Alert.alert('Please enter your name.');
       }
    }
 

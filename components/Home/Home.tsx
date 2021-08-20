@@ -144,7 +144,7 @@ const Home = () => {
             />
             <WorkoutSwipeList
                items={filterWorkoutListForDisplay()}
-               style={{ marginLeft: '10%' }}
+               // style={{ marginLeft: '10%' }}
             />
          </View>
       </SafeAreaView>

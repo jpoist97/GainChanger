@@ -113,6 +113,7 @@ CurrentCycle.propTypes = {
    rightPress: PropTypes.func.isRequired,
    id: PropTypes.string,
    isCycleSelected: PropTypes.bool.isRequired,
+   cycleLength: PropTypes.number.isRequired,
 };
 
 CurrentCycle.defaultProps = {

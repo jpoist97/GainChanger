@@ -39,7 +39,6 @@ const ExerciseItem = (props) => {
             paddingVertical: 10,
             borderBottomColor: 'lightgray',
             borderBottomWidth: 0.5,
-            background: '#FFFFFF',
          }}
          onPress={onPress}
       >
