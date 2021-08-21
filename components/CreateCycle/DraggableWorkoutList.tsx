@@ -15,7 +15,7 @@ const DraggableWorkoutList = (props) => {
       passWorkoutList(workoutList);
    }, [workoutList]);
 
-   const renderCard = ({ item, index, drag }) => (
+   const renderCard = ({ item, index, drag, isActive }) => (
       <ExpandableWorkoutCard
          drag={drag}
          removeWorkout={removeWorkout(index)}
@@ -39,6 +39,7 @@ const DraggableWorkoutList = (props) => {
 DraggableWorkoutList.propTypes = {
    workouts: PropTypes.array.isRequired,
    passWorkoutList: PropTypes.func.isRequired,
+   removeWorkout: PropTypes.func,
 };
 
 export default DraggableWorkoutList;

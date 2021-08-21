@@ -1,17 +1,18 @@
 {
   "main": "index.js",
   "scripts": {
-    "start": "expo start",
+    "start": "npx tsc --skipLibCheck && expo start",
     "android": "expo start --android",
     "ios": "expo start --ios --simulator=\"iPhone 11 Pro Max\"",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint --ext .js,.jsx ./components --quiet",
-    "lint-autofix": "eslint --ext .js,.jsx ./components --quiet --fix",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./components --quiet",
+    "lint-autofix": "eslint --ext .js,.jsx,.ts,.tsx ./components --quiet --fix",
     "test": "jest --collect-coverage",
     "format": "prettier --write \"**/*.+(js|jsx|json|ts|tsx)\"",
     "format-check": "prettier --check \"**/*.+(js|jsx|json|ts|tsx)\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "tsc": "npx tsc --skipLibCheck"
   },
   "dependencies": {
     "@expo-google-fonts/montserrat": "^0.1.0",
@@ -23,6 +24,7 @@
     "@react-navigation/core": "^5.15.1",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.12.4",
+    "@types/react-native-draggable-flatlist": "^2.0.0",
     "date-fns": "^2.16.1",
     "expo": "^39.0.3",
     "expo-font": "~8.3.0",
@@ -67,6 +69,10 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@types/jest": "^26.0.24",
+    "@types/react": "^17.0.15",
+    "@types/react-native": "^0.64.12",
+    "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "eslint": "^7.11.0",
@@ -79,7 +85,8 @@
     "jest-expo": "^40.0.1",
     "lint-staged": "^11.1.1",
     "prettier": "2.3.2",
-    "react-test-renderer": "^17.0.1"
+    "react-test-renderer": "^17.0.1",
+    "typescript": "^4.3.5"
   },
   "jest": {
     "preset": "jest-expo",

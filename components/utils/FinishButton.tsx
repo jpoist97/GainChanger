@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
@@ -30,7 +30,7 @@ FinishButton.propTypes = {
 };
 
 FinishButton.defaultProps = {
-   onPress: () => alert('Unimplemented Finish Button'),
+   onPress: () => Alert.alert('Unimplemented Finish Button'),
    style: [],
 };
 

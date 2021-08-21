@@ -15,6 +15,7 @@ import FinishButton from '../utils/FinishButton';
 import ModalWapper from '../utils/ModalScreenWrapper';
 import { COLORS } from '../../constants/index';
 import actions from '../../actions/index';
+import { Alert } from 'react-native';
 
 const StyledFinishButton = styled(FinishButton)`
    position: absolute;
@@ -84,7 +85,7 @@ const LogWorkout = (props) => {
       (workout) => workout.id === workoutId
    );
 
-   const confettiRef = useRef();
+   const confettiRef = useRef<ConfettiCannon>();
 
    const { name } = selectedWorkout;
 
@@ -252,7 +253,7 @@ const LogWorkout = (props) => {
 
       // Check if this is the last set left
       if (selectedExercise.sets.length === 1) {
-         alert('You cannot delete the last set of a workout');
+         Alert.alert('You cannot delete the last set of a workout');
       } else {
          _.remove(
             newExercise[exerciseIndex].sets,
@@ -311,7 +312,7 @@ const LogWorkout = (props) => {
                   }
                }
                if (!completed) {
-                  alert('All sets must be completed to Finish');
+                  Alert.alert('All sets must be completed to Finish');
                } else {
                   triggerConfetti();
                   Notifications.cancelAllScheduledNotificationsAsync();

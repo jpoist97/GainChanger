@@ -29,7 +29,7 @@ const AdjustExercisesList = (props) => {
       updateOrder(exerciseList);
    }, [exerciseList]);
 
-   const renderCard = ({ item, index, drag }) => (
+   const renderCard = ({ item, index, drag, isActive }) => (
       <AdjustExerciseCard
          drag={drag}
          name={item.name}
@@ -64,6 +64,12 @@ const AdjustExercisesList = (props) => {
 
 AdjustExercisesList.propTypes = {
    items: PropTypes.array.isRequired,
+   setSets: PropTypes.func.isRequired,
+   setReps: PropTypes.func.isRequired,
+   setSeconds: PropTypes.func.isRequired,
+   toggleType: PropTypes.func.isRequired,
+   removeExercise: PropTypes.func.isRequired,
+   updateOrder: PropTypes.func.isRequired,
 };
 
 export default AdjustExercisesList;

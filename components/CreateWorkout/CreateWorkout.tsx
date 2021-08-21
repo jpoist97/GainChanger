@@ -1,6 +1,6 @@
 import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import * as firebase from 'firebase';
@@ -182,9 +182,9 @@ const CreateWorkout = ({ navigation, route }) => {
          <AddFinishButton
             onPress={() => {
                if (!name) {
-                  alert('Please enter a workout name.');
+                  Alert.alert('Please enter a workout name.');
                } else if (itemState.length === 0) {
-                  alert('Please add at least one exercise.');
+                  Alert.alert('Please add at least one exercise.');
                } else if (
                   !itemState.every((exercise) => {
                      // If sets is defined make sure it's greater than 0, otherwise if
@@ -195,7 +195,7 @@ const CreateWorkout = ({ navigation, route }) => {
                      return true;
                   })
                ) {
-                  alert('Exercises must have at least 1 set.');
+                  Alert.alert('Exercises must have at least 1 set.');
                } else {
                   const parsedItemState = parseItemStateToWorkout(itemState);
 

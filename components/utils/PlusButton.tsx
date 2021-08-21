@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import { Entypo } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
@@ -40,7 +40,7 @@ PlusButton.defaultProps = {
    title: '',
    size: 18,
    font: 'Montserrat_500Medium',
-   onPress: () => alert('Unimplemented Plus Button'),
+   onPress: () => Alert.alert('Unimplemented Plus Button'),
    style: [],
 };
 

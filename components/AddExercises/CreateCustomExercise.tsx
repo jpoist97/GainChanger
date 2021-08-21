@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Alert } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -138,9 +138,9 @@ const CreateCustomExercise = () => {
                color={COLORS[colorTheme][0]}
                onPress={() => {
                   if (!workoutName) {
-                     alert('Please enter a workout name');
+                     Alert.alert('Please enter a workout name');
                   } else if (!muscleGroup) {
-                     alert('Please select a muscle group');
+                     Alert.alert('Please select a muscle group');
                   } else {
                      const exercise = {
                         name: workoutName,

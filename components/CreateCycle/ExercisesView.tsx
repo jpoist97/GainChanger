@@ -4,6 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import React from 'react';
 import _ from 'lodash';
+import { Exercise } from '../../types/common';
 
 const ExercisesView = (props) => {
    const { exercises } = props;
@@ -11,34 +12,34 @@ const ExercisesView = (props) => {
       color: #ffffff;
       font-family: 'Montserrat_500Medium';
       font-size: 12px;
-      paddingtop: 2px;
+      padding-top: 2px;
       padding-bottom: 4px;
       width: 33%;
-      textalign: center;
+      text-align: center;
    `;
 
    const RowHeader = styled.View`
       flex-direction: row;
-      aligncontent: center;
+      align-content: center;
       font-family: 'Montserrat_500Medium';
-      justifycontent: space-evenly;
+      justify-content: space-evenly;
       width: 100%;
    `;
 
    const RowContent = styled.View`
       flex-direction: row;
-      aligncontent: center;
-      alignitems: center;
-      justifycontent: space-evenly;
+      align-content: center;
+      align-items: center;
+      justify-content: space-evenly;
    `;
 
    const CycleTitle = styled.Text`
       color: #ffffff;
       font-size: 24px;
       font-family: 'Montserrat_500Medium';
-      textalign: left;
-      paddingleft: 15px;
-      paddingtop: 5px;
+      text-align: left;
+      padding-left: 15px;
+      padding-top: 5px;
    `;
 
    const SubTitle = styled(CycleTitle)`
@@ -71,7 +72,7 @@ const ExercisesView = (props) => {
             <SubTitle>Sets x Reps</SubTitle>
             <SubTitle>Previous</SubTitle>
          </RowHeader>
-         <FlatList
+         <FlatList<Exercise>
             data={parsedExercises}
             keyExtractor={(item, index) => item.id + index.toString()}
             renderItem={({ item }) => (
