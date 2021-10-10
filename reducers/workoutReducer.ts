@@ -5,12 +5,26 @@ import {
    UPDATE_WORKOUT,
    UPDATE_WORKOUT_EXERCISES,
 } from '../constants/index';
+import { Exercise, Workout } from '../types/common';
 
-const initialState = {
+interface WorkoutAction {
+   type: string;
+   workouts?: Array<Workout>;
+   workout?: Workout;
+   workoutId?: string;
+   newWorkoutContent?: Workout;
+   updatedExercises?: Array<Exercise>;
+}
+
+interface WorkoutState {
+   workouts: Array<Workout>;
+}
+
+const initialState: WorkoutState = {
    workouts: [],
 };
 
-const workoutReducer = (state = initialState, action) => {
+const workoutReducer = (state = initialState, action: WorkoutAction) => {
    switch (action.type) {
       case INITIALIZE_WORKOUTS:
          console.log('Initializing workouts store');

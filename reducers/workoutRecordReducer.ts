@@ -1,4 +1,15 @@
 import { ADD_WORKOUT_RECORD } from '../constants/index';
+import { WorkoutRecord } from '../types/common';
+
+// interface WorkoutRecordAction {
+//    type:
+// }
+
+interface WorkoutRecordState {
+   records: {
+      [key: string]: WorkoutRecord;
+   };
+}
 
 const initialState = {
    records: {},

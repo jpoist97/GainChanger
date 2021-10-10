@@ -9,3 +9,11 @@ export interface Exercise {
    sets: Array<ExerciseSet>;
    id: string;
 }
+
+export interface Workout {
+   id: string;
+   lastPerformed: number;
+   exercises: Array<Exercise>;
+}
+
+export interface WorkoutRecord {}
