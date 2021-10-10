@@ -10,7 +10,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - npm ci
+      - npm install
       - npm run lint
       - npm run test
   post_build:
