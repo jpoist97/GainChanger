@@ -5,7 +5,7 @@ import {
    DefaultTheme,
    Provider as PaperProvider,
 } from 'react-native-paper';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 import { MenuProvider } from 'react-native-popup-menu';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
