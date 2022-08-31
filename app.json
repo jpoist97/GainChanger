@@ -15,10 +15,14 @@
       },
       "assetBundlePatterns": ["**/*"],
       "ios": {
-         "supportsTablet": true
+         "supportsTablet": true,
+         "bundleIdentifier": "com.jpoist.GainChanger"
       },
       "web": {
          "favicon": "./assets/favicon.png"
+      },
+      "android": {
+         "package": "com.jpoist.GainChanger"
       }
    }
 }
